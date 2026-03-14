@@ -86,6 +86,31 @@ export default function UsersManagementPage() {
     }
   });
 
+  const assignCaMutation = useMutation({
+    mutationFn: async ({ userId, caId }: { userId: string; caId: string | null }) => {
+      const res = await apiRequest(`/api/admin/users/${userId}/assign-ca`, {
+        method: "PATCH",
+        body: JSON.stringify({ caId })
+      });
+      return res.json();
+    },
+    onSuccess: (data: any) => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/users"] });
+      toast({ title: "Success", description: data.message || "CA assignment updated" });
+    },
+    onError: (error: any) => {
+      toast({ 
+        title: "Error", 
+        description: error.message || "Failed to assign CA",
+        variant: "destructive"
+      });
+    }
+  });
+
+  // Get list of CAs for assignment dropdown
+  const caUsers = users.filter((u: User) => u.role === 'ca');
+
+
   // Filter users based on search and filters
   const filteredUsers = users.filter((user: User) => {
     const matchesSearch = 
@@ -114,10 +139,21 @@ export default function UsersManagementPage() {
   const getRoleBadge = (role: string) => {
     const colors = {
       admin: "bg-red-100 text-red-800 border-red-200",
-      ca: "bg-blue-100 text-blue-800 border-blue-200",
+      team_member: "bg-blue-100 text-blue-800 border-blue-200",
+      ca: "bg-emerald-100 text-emerald-800 border-emerald-200",
       user: "bg-gray-100 text-gray-800 border-gray-200"
     };
     return colors[role as keyof typeof colors] || colors.user;
+  };
+
+  const getRoleLabel = (role: string) => {
+    const labels: Record<string, string> = {
+      admin: 'Admin',
+      team_member: 'Team Member', 
+      ca: 'CA Expert',
+      user: 'User'
+    };
+    return labels[role] || role;
   };
 
   // Count users by status and role
@@ -127,6 +163,7 @@ export default function UsersManagementPage() {
     pending: users.filter((u: User) => u.status === 'pending').length,
     suspended: users.filter((u: User) => u.status === 'suspended').length,
     admin: users.filter((u: User) => u.role === 'admin').length,
+    team_member: users.filter((u: User) => u.role === 'team_member').length,
     ca: users.filter((u: User) => u.role === 'ca').length,
     user: users.filter((u: User) => u.role === 'user').length,
   };
@@ -253,6 +290,7 @@ export default function UsersManagementPage() {
                 <SelectContent>
                   <SelectItem value="all">All Roles</SelectItem>
                   <SelectItem value="admin">Admin</SelectItem>
+                  <SelectItem value="team_member">Team Member</SelectItem>
                   <SelectItem value="ca">CA Expert</SelectItem>
                   <SelectItem value="user">User</SelectItem>
                 </SelectContent>
@@ -302,7 +340,7 @@ export default function UsersManagementPage() {
                       </TableCell>
                       <TableCell>
                         <Badge className={getRoleBadge(user.role)}>
-                          {user.role.toUpperCase()}
+                          {getRoleLabel(user.role)}
                         </Badge>
                       </TableCell>
                       <TableCell>
@@ -330,10 +368,36 @@ export default function UsersManagementPage() {
                             </SelectTrigger>
                             <SelectContent>
                               <SelectItem value="user">User</SelectItem>
+                              <SelectItem value="team_member">Team Member</SelectItem>
                               <SelectItem value="ca">CA Expert</SelectItem>
                               <SelectItem value="admin">Admin</SelectItem>
                             </SelectContent>
                           </Select>
+
+                          {user.role === 'user' && (
+                            <Select
+                              defaultValue={(user as any).assignedCaId || 'none'}
+                              onValueChange={(caId) => {
+                                assignCaMutation.mutate({ 
+                                  userId: user.id, 
+                                  caId: caId === 'none' ? null : caId 
+                                });
+                              }}
+                              disabled={assignCaMutation.isPending}
+                            >
+                              <SelectTrigger className="w-[120px] h-8 text-xs">
+                                <SelectValue placeholder="Assign CA" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="none">No CA</SelectItem>
+                                {caUsers.map((ca: User) => (
+                                  <SelectItem key={ca.id} value={ca.id}>
+                                    {ca.firstName} {ca.lastName}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          )}
 
                           <Button 
                             size="sm" 

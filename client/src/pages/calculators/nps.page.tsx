@@ -27,8 +27,10 @@ import {
   Percent,
   IndianRupee,
   Clock,
-  Gift
+  Gift,
+  ShieldCheck
 } from "lucide-react";
+import MetaSEO from "@/components/seo/MetaSEO";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import {
   LineChart,
@@ -141,7 +143,28 @@ export default function NPSCalculatorPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <>
+      <MetaSEO
+        title="NPS Calculator 2025 | National Pension System Tax Benefits"
+        description="Calculate your NPS retirement corpus and tax savings under Section 80CCD(1B). Professional NPS investment planner with Tier I and Tier II comparison."
+        keywords={[
+          "NPS calculator India", "80CCD tax benefit", "National Pension System", 
+          "retirement planning calculator", "NPS Tier 1 vs Tier 2", "pension calculator"
+        ]}
+        type="calculator"
+        calculatorData={{
+          type: "NPS Calculator",
+          features: ["Tax benefit analysis", "Corpus projection", "Annuity vs Lump sum calculation", "Comparison with PPF/ELSS"],
+          accuracy: "99.9%",
+          updates: "Current PFRDA guidelines"
+        }}
+        breadcrumbs={[
+          { name: "Home", url: "/" },
+          { name: "Calculators", url: "/calculators" },
+          { name: "NPS Calculator", url: "/calculators/nps" }
+        ]}
+      />
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Header */}
       <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -806,6 +829,7 @@ colorTheme="purple"                     value={[annuityPercentage]}
         </div>
       </div>
     </div>
+    </>
   );
 }
 

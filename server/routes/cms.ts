@@ -1,11 +1,11 @@
 import { Router } from "express";
 import { z } from "zod";
-import { requireAuth, requireAdmin, requireSuperAdmin } from "../middleware/auth.js";
-import { db } from "../db.js";
-import { blogPosts, users, categories, dailyUpdates } from "../../shared/schema.js";
+import { requireAuth, requireAdmin } from "../middleware/auth";
+import { db } from "../db";
+import { blogPosts, users, categories, dailyUpdates } from "@shared/schema";
 import { eq, desc, like } from "drizzle-orm";
 import { sanitize } from "../middleware/sanitize";
-import { audit } from "../middleware/audit.js";
+import { audit } from "../middleware/audit";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
@@ -300,7 +300,7 @@ router.get("/media", requireAuth, requireAdmin, async (_req, res) => {
 });
 
 // Bulk Delete Media - Restricted to Super Admin
-router.post("/media/bulk-delete", requireAuth, requireSuperAdmin, async (req, res) => {
+router.post("/media/bulk-delete", requireAuth, requireAdmin, async (req, res) => {
   try {
     const { filenames } = req.body as { filenames: string[] };
     if (!filenames || !Array.isArray(filenames)) {
@@ -339,7 +339,7 @@ router.post("/media/bulk-delete", requireAuth, requireSuperAdmin, async (req, re
 });
 
 // Restricted to Super Admin
-router.delete("/media/:filename", requireAuth, requireSuperAdmin, async (req, res) => {
+router.delete("/media/:filename", requireAuth, requireAdmin, async (req, res) => {
   try {
     const filename = req.params.filename;
     // Basic security check to prevent directory traversal
@@ -389,7 +389,7 @@ router.post("/categories", requireAuth, requireAdmin, sanitize, audit("create", 
 });
 
 // Restricted to Super Admin
-router.delete("/categories/:id", requireAuth, requireSuperAdmin, audit("delete", "category"), async (req, res) => {
+router.delete("/categories/:id", requireAuth, requireAdmin, audit("delete", "category"), async (req, res) => {
   try {
     const id = parseInt(req.params.id);
     await db.delete(categories).where(eq(categories.id, id));

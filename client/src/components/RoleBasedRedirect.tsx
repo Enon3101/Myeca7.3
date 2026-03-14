@@ -12,6 +12,10 @@ export default function RoleBasedRedirect() {
     if (!isLoading && isAuthenticated && user) {
       if (user.role === "admin") {
         setLocation("/admin/dashboard");
+      } else if (user.role === "team_member") {
+        setLocation("/admin/blog-management");
+      } else if (user.role === "ca") {
+        setLocation("/ca/dashboard");
       } else {
         setLocation("/dashboard");
       }

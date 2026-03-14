@@ -125,10 +125,10 @@ export default function ProfessionalServicesSection() {
                       ))}
                     </ul>
 
-                    <Link href={service.href} className="inline-block mt-auto">
-                      <Button className="w-32 bg-[#2563eb] hover:bg-blue-700 text-white rounded-xl h-11 text-[15px] font-semibold shadow-sm shadow-blue-500/20 group">
+                    <Link href={service.href} className="w-full flex justify-center mt-auto">
+                      <Button className="w-full max-w-[160px] bg-[#2563eb] hover:bg-blue-700 text-white rounded-xl h-11 text-[15px] font-semibold shadow-md shadow-blue-500/20 group">
                         Explore
-                        <ArrowRight className="w-4 h-4 ml-1.5 group-hover:translate-x-1 transition-transform" />
+                        <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                       </Button>
                     </Link>
 

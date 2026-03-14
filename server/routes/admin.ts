@@ -1,8 +1,8 @@
 import { Router, Request, Response } from 'express';
-import { db as drizzleDb } from "../db.js";
-import { users, blogPosts, categories, dailyUpdates } from "../../shared/schema.js";
+import { db as drizzleDb } from "../db";
+import { users, blogPosts, categories, dailyUpdates } from "@shared/schema";
 import { sql, eq } from "drizzle-orm";
-import { requireAuth, requireAdmin } from "../middleware/auth.js";
+import { requireAuth, requireAdmin } from "../middleware/auth";
 import { getAuth } from "@clerk/express";
 
 const API_CONFIG = {
@@ -81,8 +81,8 @@ router.patch('/users/:id/role', requireAuth, requireAdmin, async (req, res) => {
     const { id } = req.params;
     const { role } = req.body;
 
-    if (!['user', 'admin', 'ca', 'super_admin'].includes(role)) {
-      return res.status(400).json({ success: false, message: 'Invalid role' });
+    if (!['user', 'admin', 'ca', 'team_member'].includes(role)) {
+      return res.status(400).json({ success: false, message: 'Invalid role. Must be one of: admin, team_member, ca, user' });
     }
 
     const updatedUser = await drizzleDb.update(users)
@@ -102,6 +102,40 @@ router.patch('/users/:id/role', requireAuth, requireAdmin, async (req, res) => {
   } catch (error: any) {
     console.error('Update role error:', error);
     res.status(500).json({ success: false, message: 'Failed to update role', error: error.message });
+  }
+});
+
+// Assign a CA to a user
+router.patch('/users/:id/assign-ca', requireAuth, requireAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { caId } = req.body; // caId can be null to unassign
+
+    if (caId) {
+      // Verify the CA exists and has role 'ca'
+      const [caUser] = await drizzleDb.select().from(users).where(eq(users.id, caId));
+      if (!caUser || (caUser.role !== 'ca' && caUser.role !== 'admin')) {
+        return res.status(400).json({ success: false, message: 'Invalid CA. The specified user is not a CA.' });
+      }
+    }
+
+    const updatedUser = await drizzleDb.update(users)
+      .set({ assignedCaId: caId || null, updatedAt: new Date() })
+      .where(eq(users.id, id))
+      .returning();
+
+    if (updatedUser.length === 0) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    res.json({
+      success: true,
+      message: caId ? 'CA assigned successfully' : 'CA unassigned successfully',
+      user: updatedUser[0]
+    });
+  } catch (error: any) {
+    console.error('Assign CA error:', error);
+    res.status(500).json({ success: false, message: 'Failed to assign CA', error: error.message });
   }
 });
 

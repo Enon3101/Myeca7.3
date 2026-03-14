@@ -28,6 +28,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { allServices, serviceCounts, categoryBreakdown, Service } from "@/data/all-services";
+import MetaSEO from "@/components/seo/MetaSEO";
 
 const iconMap = {
   Building2, FileText, Calculator, Receipt, PiggyBank, Shield, 
@@ -116,6 +117,11 @@ export default function AllServicesPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <MetaSEO 
+        title="Browse All CA & Professional Services | MyeCA.in"
+        description="Explore our full range of 30+ professional CA services including ITR filing, GST returns, company registration, and financial advisory. Transparent pricing and expert support."
+        keywords={["CA services", "tax services", "business registration", "GST filing", "ITR filing"]}
+      />
       {/* Header */}
       <div className="bg-gradient-to-br from-blue-50 to-emerald-50 py-16">
         <div className="container mx-auto px-6">

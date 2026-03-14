@@ -291,7 +291,7 @@ export default function BlogManagementPage() {
     return matchesStatus && matchesSearch;
   });
 
-  const adminRoles = ['super_admin', 'admin', 'editor', 'author'];
+  const adminRoles = ['admin', 'team_member'];
   if (!user || !adminRoles.includes(user.role)) {
     return (
       <div className="max-w-4xl mx-auto p-6 text-center">

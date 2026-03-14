@@ -7,7 +7,8 @@ interface LazyImageProps extends ImgHTMLAttributes<HTMLImageElement> {
   src: string;
   alt: string;
   fallback?: string;
-  className?: string;
+  className?: string; // This will now apply to the container
+  imgClassName?: string; // This will apply to the image
   loadingClassName?: string;
   errorClassName?: string;
   onLoad?: () => void;
@@ -20,6 +21,7 @@ export function LazyImage({
   alt,
   fallback = '/placeholder-image.svg',
   className,
+  imgClassName,
   loadingClassName = 'animate-pulse bg-gray-200',
   errorClassName = 'bg-gray-100',
   onLoad,
@@ -68,7 +70,7 @@ export function LazyImage({
     <div
       ref={targetRef}
       className={cn(
-        'relative overflow-hidden',
+        'relative',
         imageStatus === 'loading' && loadingClassName,
         imageStatus === 'error' && errorClassName,
         className
@@ -88,7 +90,7 @@ export function LazyImage({
           className={cn(
             'transition-opacity duration-300',
             imageStatus === 'loaded' ? 'opacity-100' : 'opacity-0',
-            className
+            imgClassName
           )}
           loading={priority ? 'eager' : 'lazy'}
           decoding="async"

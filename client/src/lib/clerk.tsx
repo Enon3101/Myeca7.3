@@ -1,10 +1,92 @@
-import { ReactNode } from "react";
-import { useAuth, SignInButton, SignUpButton, UserButton, ClerkProvider } from "@clerk/clerk-react";
+import { ReactNode, createContext, useContext, useState, useEffect } from "react";
+
+// Types for Mock Auth
+export type UserRole = 'user' | 'ca' | 'admin' | 'team_member';
+
+interface MockAuthContextType {
+  role: UserRole;
+  setRole: (role: UserRole) => void;
+  isSignedIn: boolean;
+}
+
+const MockAuthContext = createContext<MockAuthContextType | undefined>(undefined);
+
+// Define default users for each role
+const MOCK_USERS = {
+  user: { 
+    id: "user_mock_1", 
+    firstName: "Jane", 
+    lastName: "Doe", 
+    role: "user", 
+    email: "jane@example.com",
+    assignedCaName: "CA Ankit Sharma",
+    assignedCaEmail: "ankit@myeca.in"
+  },
+  ca: { id: "ca_mock_1", firstName: "Expert", lastName: "CA", role: "ca", email: "ca@myeca.in" },
+  admin: { id: "admin_mock_1", firstName: "System", lastName: "Admin", role: "admin", email: "admin@myeca.in" },
+  team_member: { id: "team_mock_1", firstName: "Support", lastName: "Team", role: "team_member", email: "support@myeca.in" }
+};
+
+export function ClerkProvider({ children }: { children: ReactNode }) {
+  const [role, setRole] = useState<UserRole>(() => {
+    return (localStorage.getItem('mock_role') as UserRole) || 'user';
+  });
+
+  useEffect(() => {
+    localStorage.setItem('mock_role', role);
+    // Force reload on role change to ensure all components update
+    // window.location.reload(); 
+  }, [role]);
+
+  return (
+    <MockAuthContext.Provider value={{ role, setRole, isSignedIn: true }}>
+      {children}
+      <RoleSelector currentRole={role} onRoleChange={setRole} />
+    </MockAuthContext.Provider>
+  );
+}
+
+function RoleSelector({ currentRole, onRoleChange }: { currentRole: UserRole, onRoleChange: (role: UserRole) => void }) {
+  return (
+    <div className="fixed bottom-6 left-6 z-[9999] bg-white/80 backdrop-blur-xl border border-white/20 rounded-[22px] shadow-[0_20px_50px_rgba(0,0,0,0.1)] p-1.5 flex items-center gap-1.5 ring-1 ring-black/[0.03]">
+      <div className="px-3 py-2 border-r border-slate-200/50 mr-1 hidden sm:block">
+        <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Environment</span>
+      </div>
+      {(['user', 'ca', 'admin', 'team_member'] as UserRole[]).map((r) => (
+        <button
+          key={r}
+          onClick={() => onRoleChange(r)}
+          className={`px-4 py-2 rounded-[16px] text-[11px] font-bold tracking-wide transition-all duration-300 ${
+            currentRole === r 
+              ? 'bg-blue-600 text-white shadow-[0_4px_12px_rgba(37,99,235,0.3)] scale-105' 
+              : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100/50'
+          }`}
+        >
+          {r.toUpperCase()}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+export function useAuth() {
+  const context = useContext(MockAuthContext);
+  if (!context) return { isSignedIn: true, isLoaded: true, role: 'user' as UserRole };
+  return { ...context, isLoaded: true };
+}
+
+export function useUser() {
+  const context = useContext(MockAuthContext);
+  const role = context?.role || 'user';
+  return {
+    isSignedIn: true,
+    isLoaded: true,
+    user: MOCK_USERS[role as keyof typeof MOCK_USERS],
+  };
+}
 
 export function Show({ when, children }: { when: 'signed-in' | 'signed-out', children: ReactNode }) {
-  const { isSignedIn, isLoaded } = useAuth();
-  
-  if (!isLoaded) return null;
+  const { isSignedIn } = useAuth();
   
   if (when === 'signed-in' && isSignedIn) {
     return <>{children}</>;
@@ -17,4 +99,22 @@ export function Show({ when, children }: { when: 'signed-in' | 'signed-out', chi
   return null;
 }
 
-export { SignInButton, SignUpButton, UserButton, ClerkProvider, useAuth };
+export function SignInButton({ children, mode }: { children?: ReactNode, mode?: string }) {
+  return <>{children || <button>Sign In</button>}</>;
+}
+
+export function SignUpButton({ children, mode }: { children?: ReactNode, mode?: string }) {
+  return <>{children || <button>Sign Up</button>}</>;
+}
+
+export function UserButton() {
+  const { user } = useUser();
+  return (
+    <div className="flex items-center gap-2 px-3 py-1 bg-gray-100 rounded-full">
+      <div className="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-[10px] text-white">
+        {user.firstName[0]}
+      </div>
+      <span className="text-xs font-medium">{user.firstName}</span>
+    </div>
+  );
+}

@@ -16,7 +16,7 @@ export const storage = {
   async createUser(data: InsertUser): Promise<User> {
     const result = await db.insert(users).values({
       ...data,
-      email: data.email.toLowerCase(),
+      email: data.email ? data.email.toLowerCase() : data.email,
     }).returning();
     return result[0];
   },

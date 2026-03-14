@@ -54,5 +54,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Admin routes
   app.use("/api/admin", adminRouter);
 
+  // CA routes
+  const caRouter = (await import("./routes/ca")).default;
+  app.use("/api/ca", caRouter);
+
   return httpServer;
 }

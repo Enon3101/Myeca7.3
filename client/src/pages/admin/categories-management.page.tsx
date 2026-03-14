@@ -93,7 +93,7 @@ export default function CategoriesManagementPage() {
     }
   };
 
-  if (user?.role !== 'admin' && user?.role !== 'super_admin' && user?.role !== 'editor') {
+  if (user?.role !== 'admin' && user?.role !== 'team_member') {
     return (
       <Layout>
         <div className="text-center py-12">

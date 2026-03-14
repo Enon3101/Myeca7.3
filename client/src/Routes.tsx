@@ -108,7 +108,10 @@ const ServerErrorPage = lazyWithRetry(() => import("@/pages/server-error.page"))
 const BlogManagementPage = lazyWithRetry(() => import("@/pages/admin/blog-management.page"));
 const AdminDashboard = lazyWithRetry(() => import("@/pages/admin/index.page"));
 const ForbiddenPage = lazyWithRetry(() => import("@/pages/forbidden.page"));
+const RoleBasedRedirect = lazyWithRetry(() => import("@/components/RoleBasedRedirect").then(m => ({ default: m.default })));
 const RequireAdmin = lazyWithRetry(() => import("@/components/auth/RequireAdmin").then(m => ({ default: m.RequireAdmin })));
+const RequireRole = lazyWithRetry(() => import("@/components/auth/RequireRole").then(m => ({ default: m.RequireRole })));
+const CADashboard = lazyWithRetry(() => import("@/pages/ca/dashboard.page"));
 const AdminServices = lazyWithRetry(() => import("@/pages/admin/services.page"));
 const AdminBlog = lazyWithRetry(() => import("@/pages/admin/blog.page"));
 const AdminAnalytics = lazyWithRetry(() => import("@/pages/admin/analytics.page"));
@@ -250,29 +253,30 @@ export default function Routes() {
         <Route path="/auth/admin-login" component={AdminLoginPage} />
         <Route path="/auth/register" component={RegisterPage} />
         <Route path="/register" component={RegisterPage} />
+        <Route path="/auth/callback" component={RoleBasedRedirect} />
         <Route path="/dashboard" component={UserDashboard} />
         <Route path="/settings/account" component={AccountSettingsPage} />
         <Route path="/profiles" component={ProfilesPage} />
         <Route path="/documents" component={DocumentsPage} />
         <Route path="/admin/blog-management" component={() => (
-          <RequireAdmin>
+          <RequireRole roles={['admin', 'team_member']}>
             <BlogManagementPage />
-          </RequireAdmin>
+          </RequireRole>
         )} />
         <Route path="/admin/categories-management" component={() => (
-          <RequireAdmin>
+          <RequireRole roles={['admin', 'team_member']}>
             <CategoriesManagementPage />
-          </RequireAdmin>
+          </RequireRole>
         )} />
         <Route path="/admin/updates-management" component={() => (
-          <RequireAdmin>
+          <RequireRole roles={['admin', 'team_member']}>
             <UpdatesManagementPage />
-          </RequireAdmin>
+          </RequireRole>
         )} />
         <Route path="/admin/media-management" component={() => (
-          <RequireAdmin>
+          <RequireRole roles={['admin', 'team_member']}>
             <MediaManagementPage />
-          </RequireAdmin>
+          </RequireRole>
         )} />
         <Route path="/403" component={ForbiddenPage} />
         <Route path="/admin/dashboard" component={() => (
@@ -303,8 +307,8 @@ export default function Routes() {
             </RequireAdmin>
           )
         }} />
-        <Route path="/admin/users" component={() => {
-          const AdminUsers = lazyWithRetry(() => import("@/pages/admin/users/index.page"))
+         <Route path="/admin/users" component={() => {
+          const AdminUsers = lazyWithRetry(() => import("@/pages/admin/users.page"))
           return (
             <RequireAdmin>
               <AdminUsers />
@@ -330,6 +334,17 @@ export default function Routes() {
           <RequireAdmin>
             <AdminSettings />
           </RequireAdmin>
+        )} />
+        {/* CA Routes */}
+        <Route path="/ca/dashboard" component={() => (
+          <RequireRole roles={['admin', 'ca']}>
+            <CADashboard />
+          </RequireRole>
+        )} />
+        <Route path="/ca" component={() => (
+          <RequireRole roles={['admin', 'ca']}>
+            <CADashboard />
+          </RequireRole>
         )} />
         <Route path="/itr/form-selector" component={ITRFormSelectorPage} />
         <Route path="/itr/filing" component={ITRFilingPage} />

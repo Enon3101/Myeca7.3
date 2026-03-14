@@ -34,7 +34,7 @@ import {
   Calculator, TrendingUp, Building2, Coins,
   Search, ArrowRight, Shield, HelpCircle, Home, Grid, Bot, Sparkles, X, Menu,
   Phone, Mail, ChevronRight, Briefcase, FileCheck, Scale, Zap, Target, PieChart,
-  Landmark, Receipt, Stamp, Umbrella, Rocket
+  Landmark, Receipt, Stamp, Umbrella, Rocket, Lock, LayoutDashboard
 } from "lucide-react";
 import Logo from "@/components/ui/logo";
 import { useAuth } from "@/components/AuthProvider";
@@ -196,18 +196,43 @@ export default function Header() {
               <NavigationMenu className="hidden lg:flex">
                 <NavigationMenuList className="gap-4">
                   
-                  <NavigationMenuItem>
-                    <Link href="/">
-                      <span className={cn(
-                        "inline-flex items-center justify-center px-4 py-2 font-bold transition-all duration-300 cursor-pointer rounded-xl",
-                        isActive('/') 
-                          ? "text-blue-600 bg-blue-50/80 text-[15.5px]" 
-                          : "text-slate-600 hover:text-blue-600 hover:bg-slate-50 text-sm"
-                      )}>
-                        Home
-                      </span>
-                    </Link>
-                  </NavigationMenuItem>
+                  {!isAuthenticated && (
+                    <NavigationMenuItem>
+                      <Link href="/">
+                        <span className={cn(
+                          "inline-flex items-center justify-center px-4 py-2 font-bold transition-all duration-300 cursor-pointer rounded-xl",
+                          isActive('/') 
+                            ? "text-blue-600 bg-blue-50/80 text-[15.5px]" 
+                            : "text-slate-600 hover:text-blue-600 hover:bg-slate-50 text-sm"
+                        )}>
+                          Home
+                        </span>
+                      </Link>
+                    </NavigationMenuItem>
+                  )}
+
+                  {isAuthenticated && (
+                    <NavigationMenuItem>
+                      <Link href={
+                        user?.role === 'admin' ? "/admin/users" : 
+                        user?.role === 'ca' ? "/ca/dashboard" : 
+                        user?.role === 'team_member' ? "/admin/blog-management" : 
+                        "/dashboard"
+                      }>
+                        <span className={cn(
+                          "inline-flex items-center justify-center px-4 py-2 font-bold transition-all duration-300 cursor-pointer rounded-xl",
+                          (location.startsWith('/admin') || location.startsWith('/ca') || location === '/dashboard')
+                            ? "text-blue-600 bg-blue-50/80 text-[15.5px]" 
+                            : "text-slate-600 hover:text-blue-600 hover:bg-slate-50 text-sm"
+                        )}>
+                           {user?.role === 'admin' ? "Admin Panel" : 
+                           user?.role === 'ca' ? "CA Experts" : 
+                           user?.role === 'team_member' ? "Staff Panel" : 
+                           "My Dashboard"}
+                        </span>
+                      </Link>
+                    </NavigationMenuItem>
+                  )}
 
                   {/* Services Mega Menu */}
                   <NavigationMenuItem>
@@ -221,9 +246,9 @@ export default function Header() {
                       <span>Services</span>
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
-                      <div className="w-[720px] p-0 bg-white rounded-2xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)] border border-slate-200/60 overflow-hidden flex">
+                      <div className="w-[1024px] p-0 bg-white rounded-2xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)] border border-slate-200/60 overflow-hidden flex">
                         {/* Main Categories */}
-                        <div className="flex-1 p-6 grid grid-cols-2 gap-8 bg-white">
+                        <div className="flex-1 p-6 grid grid-cols-3 gap-8 bg-white">
                            <div>
                              <div className="flex items-center gap-3 mb-6">
                                <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600">
@@ -239,7 +264,7 @@ export default function Header() {
                                  { href: "/services/tds-filing", icon: Receipt, title: "TDS Filing", desc: "Quarterly returns & certificates", color: "blue" },
                                  { href: "/services/gst-returns", icon: Calculator, title: "GST Returns", desc: "GSTR-1, 3B & Annual filing", color: "emerald" },
                                  { href: "/services/notice-compliance", icon: Shield, title: "Notice Management", desc: "Expert reply drafting", color: "orange" },
-                                 { href: "/services/document-vault", icon: Lock, title: "Secure Vault", desc: "Bank-grade storage", color: "indigo" }
+                                 { href: "/services/reliable-storage", icon: Lock, title: "Secure Vault", desc: "Bank-grade storage", color: "indigo" }
                                ].map((item, idx) => {
                                  const Icon = item.icon as any;
                                  return (
@@ -295,6 +320,45 @@ export default function Header() {
                                        </div>
                                        <div>
                                          <span className="block text-sm font-bold text-slate-800 group-hover:text-indigo-600 transition-colors">{item.title}</span>
+                                         <span className="block text-[11px] text-slate-500 font-medium">{item.desc}</span>
+                                       </div>
+                                     </Link>
+                                   </li>
+                                 );
+                               })}
+                             </ul>
+                           </div>
+
+                           <div>
+                             <div className="flex items-center gap-3 mb-6">
+                               <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600">
+                                 <BarChart3 className="w-5 h-5" />
+                               </div>
+                               <div>
+                                 <h4 className="font-extrabold text-slate-900 tracking-tight">Business Intel</h4>
+                                 <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Growth Analytics</p>
+                               </div>
+                             </div>
+                             <ul className="space-y-4">
+                               {[
+                                 { href: "/business/dashboard", icon: LayoutDashboard, title: "Business HQ", desc: "Compliance & deadines", color: "emerald" },
+                                 { href: "/business/virtual-cfo", icon: BarChart3, title: "Virtual CFO", desc: "P&L & Runway tracking", color: "blue" },
+                                 { href: "/services/tax-planning", icon: TrendingUp, title: "Tax Planning", desc: "Expert advisory", color: "orange" }
+                               ].map((item, idx) => {
+                                 const Icon = item.icon as any;
+                                 return (
+                                   <li key={idx}>
+                                     <Link href={item.href} className="group flex items-center gap-4 p-2.5 -ml-2 rounded-xl hover:bg-slate-50 transition-all duration-300">
+                                       <div className={cn(
+                                         "w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-300 group-hover:scale-110 shadow-sm",
+                                         item.color === "emerald" && "bg-emerald-50 text-emerald-500",
+                                         item.color === "blue" && "bg-blue-50 text-blue-500",
+                                         item.color === "orange" && "bg-orange-50 text-orange-500"
+                                       )}>
+                                         <Icon className="w-5 h-5" />
+                                       </div>
+                                       <div>
+                                         <span className="block text-sm font-bold text-slate-800 group-hover:text-emerald-600 transition-colors">{item.title}</span>
                                          <span className="block text-[11px] text-slate-500 font-medium">{item.desc}</span>
                                        </div>
                                      </Link>
@@ -756,6 +820,20 @@ export default function Header() {
                        <Link href="/" className="px-6 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors border-l-4 border-transparent hover:border-blue-600">
                           Home
                        </Link>
+                       
+                       {isAuthenticated && (
+                         <Link href={
+                           user?.role === 'admin' ? "/admin/users" : 
+                           user?.role === 'ca' ? "/ca/dashboard" : 
+                           user?.role === 'team_member' ? "/admin/blog-management" : 
+                           "/dashboard"
+                         } className="px-6 py-3 text-sm font-bold text-blue-600 hover:bg-blue-50 transition-colors border-l-4 border-blue-600 bg-blue-50/30">
+                           {user?.role === 'admin' ? "Admin Panel" : 
+                            user?.role === 'ca' ? "CA Experts" : 
+                            user?.role === 'team_member' ? "Staff Panel" : 
+                            "My Dashboard"}
+                         </Link>
+                       )}
                        
                        <Accordion type="single" collapsible className="w-full">
                           <AccordionItem value="services" className="border-none">

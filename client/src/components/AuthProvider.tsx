@@ -1,72 +1,65 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { useUser, useAuth as useClerkAuth } from "@clerk/clerk-react";
+import { useUser, useAuth as useMockAuth } from "@/lib/clerk";
 import { type User as AppUser } from "@shared/schema";
 
 interface AuthContextType {
   user: AppUser | null;
-  clerkUser: any | null; // Clerk User object
+  clerkUser: any | null; // Mock Clerk User object
   token: string | null;
   isLoading: boolean;
   isAuthenticated: boolean;
   logout: () => void;
+  role: string;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const { user: clerkUser, isLoaded: isClerkLoaded, isSignedIn } = useUser();
-  const { signOut, getToken } = useClerkAuth();
+  const { user: clerkUser } = useUser();
+  const { role } = useMockAuth();
   
   const [appUser, setAppUser] = useState<AppUser | null>(null);
-  const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchUser = async () => {
-      if (!isClerkLoaded) return;
-      
-      if (isSignedIn && clerkUser) {
-        try {
-          const currentToken = await getToken();
-          setToken(currentToken);
-          
-          const response = await fetch("/api/v1/auth/me", {
-            headers: {
-              Authorization: `Bearer ${currentToken}`,
-              "Content-Type": "application/json",
-            },
-          });
+    if (clerkUser) {
+      // Mock an AppUser based on the clerkUser role
+      setAppUser({
+        id: clerkUser.id,
+        email: clerkUser.email,
+        firstName: clerkUser.firstName,
+        lastName: clerkUser.lastName,
+        role: clerkUser.role,
+        status: 'active',
+        isVerified: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        phoneNumber: null,
+        assignedCaId: null,
+        assignedCaName: (clerkUser as any).assignedCaName,
+        assignedCaEmail: (clerkUser as any).assignedCaEmail,
+        approvedBy: null,
+        approvedAt: null,
+        rejectedReason: null
+      } as AppUser);
+    } else {
+      setAppUser(null);
+    }
+    setIsLoading(false);
+  }, [clerkUser]);
 
-          if (!response.ok) {
-            throw new Error("Failed to fetch user profile");
-          }
-          const data = await response.json();
-          setAppUser(data.user);
-        } catch (error) {
-          console.error("Error fetching app user profile:", error);
-          setAppUser(null);
-        }
-      } else {
-        setToken(null);
-        setAppUser(null);
-      }
-      setIsLoading(false);
-    };
-
-    fetchUser();
-  }, [isClerkLoaded, isSignedIn, clerkUser, getToken]);
-
-  const isAuthenticated = !!clerkUser && !!appUser;
+  const isAuthenticated = true; // Always authenticated in mock mode
 
   return (
     <AuthContext.Provider
       value={{
         user: appUser,
         clerkUser,
-        token,
+        token: "mock_token",
         isLoading,
         isAuthenticated,
-        logout: () => signOut(),
+        logout: () => console.log("Mock logout"),
+        role: clerkUser?.role || 'user'
       }}
     >
       {children}

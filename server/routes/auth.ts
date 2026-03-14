@@ -16,28 +16,43 @@ router.get("/me", requireAuth, async (req: Request, res: Response) => {
     }
 
     const userId = auth.userId;
-    console.log(`CLERK_ID: ${userId}`);
     const localUsers = await (db as any).select().from(users).where(eq(users.id, userId));
 
     if (localUsers.length === 0) {
-      // Auto-sync for convenience (especially for first admin)
-      const isFirstAdmin = userId.includes('user_3AngKKKnYMPnSkOSWVG50tq1B') || true; // Force for now to help the user
-      
+      // Auto-create user on first visit with default 'user' role
+      // Special case: first user in the system gets admin role
+      const allUsers = await (db as any).select().from(users);
+      const isFirstUser = allUsers.length === 0;
+
       const newUser = await (db as any).insert(users).values({
         id: userId,
-        email: "cajsuthar@gmail.com", // Hardcoded for this specific user
-        firstName: "CA",
-        lastName: "J Suthar",
-        role: "admin", // GIVE ADMIN DIRECTLY
+        email: null,
+        firstName: "User",
+        lastName: "",
+        role: isFirstUser ? "admin" : "user",
         status: "active",
         isVerified: true,
       }).returning();
-      
-      console.log(`Auto-synced and promoted user: ${userId}`);
+
+      console.log(`Auto-synced user: ${userId} (role: ${isFirstUser ? 'admin' : 'user'})`);
       return res.json({ user: newUser[0] });
     }
 
-    return res.json({ user: localUsers[0] });
+    // If user has an assigned CA, also return the CA's name
+    const localUser = localUsers[0];
+    if (localUser.assignedCaId) {
+      const [assignedCA] = await (db as any)
+        .select()
+        .from(users)
+        .where(eq(users.id, localUser.assignedCaId));
+
+      if (assignedCA) {
+        localUser.assignedCaName = `${assignedCA.firstName} ${assignedCA.lastName}`;
+        localUser.assignedCaEmail = assignedCA.email;
+      }
+    }
+
+    return res.json({ user: localUser });
   } catch (error) {
     console.error("Error in /auth/me:", error);
     return res.status(500).json({ error: "Internal server error" });
@@ -53,26 +68,33 @@ router.post("/sync", requireAuth, async (req: Request, res: Response) => {
     }
 
     const userId = auth.userId;
-    const { email, firstName, lastName, phoneNumber, role } = req.body;
+    const { email, firstName, lastName, phoneNumber } = req.body;
 
     // Check if user already exists
     const existingUsers = await (db as any).select().from(users).where(eq(users.id, userId));
     
     if (existingUsers.length > 0) {
-      // User already synced
-      return res.json({ message: "User already synced", user: existingUsers[0] });
+      // User already synced — update email/name if changed
+      const updated = await (db as any).update(users).set({
+        email: email || existingUsers[0].email,
+        firstName: firstName || existingUsers[0].firstName,
+        lastName: lastName || existingUsers[0].lastName,
+        updatedAt: new Date(),
+      }).where(eq(users.id, userId)).returning();
+
+      return res.json({ message: "User synced", user: updated[0] });
     }
 
-    // Create the new user record
+    // Create the new user record — always default to 'user' role
     const newUser = await (db as any).insert(users).values({
       id: userId,
-      email: email || "unknown@example.com",
-      firstName: firstName || "Unknown",
-      lastName: lastName || "Unknown",
+      email: email || null,
+      firstName: firstName || "User",
+      lastName: lastName || "",
       phoneNumber: phoneNumber || null,
-      role: role || "user",
-      status: role === "ca" ? "pending" : "active",
-      isVerified: true, // Assuming Clerk handles verification
+      role: "user",
+      status: "active",
+      isVerified: true,
     }).returning();
 
     return res.status(201).json({ 

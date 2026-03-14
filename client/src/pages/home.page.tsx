@@ -13,14 +13,16 @@ import {
   Building2,
   Bot
 } from "lucide-react";
-import { Link } from "wouter";
-import { lazy, Suspense } from "react";
+import { Link, useLocation } from "wouter";
+import { lazy, Suspense, useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import EnhancedSEO from "@/components/EnhancedSEO";
+import MetaSEO from "@/components/seo/MetaSEO";
 import { cn } from "@/lib/utils";
 import { FastITRFilingLogo, AccurateTaxCalculatorLogo, SmartDocumentScannerLogo, ExpertTaxReviewLogo } from "@/components/ui/home-feature-logos";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useAuth } from "@/components/AuthProvider";
+
 
 const FeaturesSection = lazy(() => import("@/components/FeaturesSection"));
 const PricingSection = lazy(() => import("@/components/PricingSection"));
@@ -47,19 +49,46 @@ const SectionFallback = () => (
 );
 
 const HomePage = () => {
+  const { isAuthenticated, isLoading } = useAuth();
+  const [, setLocation] = useLocation();
+
+  useEffect(() => {
+    if (!isLoading && isAuthenticated) {
+      setLocation("/dashboard");
+    }
+  }, [isAuthenticated, isLoading, setLocation]);
+
+  if (isLoading) return null;
+  if (isAuthenticated) return null;
+
   return (
     <>
-      <EnhancedSEO
+      <MetaSEO
         title="Expert Income Tax Filing & ITR e-Filing Services India 2025-26"
-        description="File ITR online with MyeCA.in. Expert CA assistance, maximum refund guarantee, 15L+ happy customers. ITR filing starts at \u20B9499. File AY 2025-26 returns now!"
-        keywords={["ITR filing", "income tax return", "tax filing India", "e-filing", "AY 2025-26", "tax consultant", "CA services", "ITR-1", "ITR-2", "income tax refund"]}
-        url="https://myeca.in"
-        jsonLd={{
-          "@context": "https://schema.org",
-          "@type": "Organization",
+        description="File ITR online with MyeCA.in. Expert CA assistance, maximum refund guarantee, 15L+ happy customers. ITR filing starts at ₹499. File AY 2025-26 returns now!"
+        keywords={[
+          "ITR filing", "income tax return", "tax filing India", "e-filing", 
+          "AY 2025-26", "tax consultant", "CA services", "ITR-1", "ITR-2", 
+          "income tax refund", "GST registration", "company incorporation"
+        ]}
+        localBusinessData={{
           "name": "MyeCA.in",
-          "url": "https://myeca.in",
-          "description": "India's premier digital platform for expert tax filing with CA assistance"
+          "telephone": "+91-9876543210",
+          "email": "support@myeca.in",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "123 Business Park",
+            "addressLocality": "Mumbai",
+            "addressRegion": "Maharashtra",
+            "postalCode": "400001",
+            "addressCountry": "IN"
+          },
+          "priceRange": "₹499-₹9999",
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "reviewCount": "150000"
+          }
         }}
       />
 

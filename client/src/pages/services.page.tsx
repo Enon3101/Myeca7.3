@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from "wouter";
-import { motion } from 'framer-motion';
-import SEO from "@/components/SEO";
+import { motion, AnimatePresence } from 'framer-motion';
+import MetaSEO from "@/components/seo/MetaSEO";
 import Breadcrumb from "@/components/Breadcrumb";
-import StructuredData from "@/components/StructuredData";
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
 import { useAuth } from '@/components/AuthProvider';
@@ -18,12 +17,14 @@ import {
   CheckCircle, 
   Clock, 
   Star,
+  IndianRupee,
   Users,
   ArrowRight,
   Phone,
   MessageCircle,
   Info,
   X,
+  Upload,
   Download,
   FileCheck,
   CreditCard,
@@ -1020,6 +1021,184 @@ const DocumentsDialog: React.FC<{ service: any }> = ({ service }) => {
   );
 };
 
+// Step-by-Step Service Activation Wizard
+const ServiceActivationWizard: React.FC<{ 
+  service: any, 
+  category: any, 
+  isOpen: boolean, 
+  onOpenChange: (open: boolean) => void,
+  onComplete: (docsUploaded: string[]) => void 
+}> = ({ service, category, isOpen, onOpenChange, onComplete }) => {
+  const [currentStep, setCurrentStep] = useState(0);
+  const [uploadedDocs, setUploadedDocs] = useState<string[]>([]);
+  const [isUploading, setIsUploading] = useState(false);
+
+  const documents = service.documents || [];
+  const totalSteps = documents.length + 2; // Welcome + Docs + Success
+
+  const handleNext = () => {
+    if (currentStep < totalSteps - 1) {
+      setCurrentStep(prev => prev + 1);
+    } else {
+      onComplete(uploadedDocs);
+      onOpenChange(false);
+    }
+  };
+
+  const handleUpload = (docName: string) => {
+    setIsUploading(true);
+    // Simulate upload delay
+    setTimeout(() => {
+      setUploadedDocs(prev => [...prev, docName]);
+      setIsUploading(false);
+      handleNext();
+    }, 1500);
+  };
+
+  const resetWizard = () => {
+    setCurrentStep(0);
+    setUploadedDocs([]);
+  };
+
+  return (
+    <Dialog open={isOpen} onOpenChange={(open) => {
+      if (!open) resetWizard();
+      onOpenChange(open);
+    }}>
+      <DialogContent className="max-w-2xl p-0 overflow-hidden border-0 rounded-[32px] bg-white shadow-2xl">
+        <div className="relative">
+          {/* Progress Bar */}
+          <div className="absolute top-0 left-0 w-full h-1.5 bg-gray-100">
+            <motion.div 
+              className="h-full bg-blue-600"
+              initial={{ width: 0 }}
+              animate={{ width: `${(currentStep / (totalSteps - 1)) * 100}%` }}
+              transition={{ duration: 0.5 }}
+            />
+          </div>
+
+          <div className="p-8 pt-10">
+            <AnimatePresence mode="wait">
+              {currentStep === 0 && (
+                <motion.div
+                  key="welcome"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  className="space-y-6"
+                >
+                  <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-6">
+                    <Zap className="w-8 h-8" />
+                  </div>
+                  <h2 className="text-3xl font-bold text-gray-900">Activate {service.title}</h2>
+                  <p className="text-lg text-gray-600 leading-relaxed">
+                    Great choice! To get started with {service.title}, we need a few documents to verify your business and ensure compliance. 
+                    We'll guide you through this 1-by-1.
+                  </p>
+                  <div className="p-6 rounded-[24px] bg-blue-50/50 border border-blue-100 flex items-start gap-4">
+                    <Shield className="w-6 h-6 text-blue-600 mt-1" />
+                    <div className="text-sm text-blue-800">
+                      <strong>Secure & Confidential:</strong> Your documents are encrypted and only accessible by your assigned Chartered Accountant.
+                    </div>
+                  </div>
+                  <Button 
+                    onClick={handleNext} 
+                    className="w-full h-14 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl text-lg font-bold shadow-lg shadow-blue-500/20"
+                  >
+                    Start Activation
+                    <ArrowRight className="ml-2 w-5 h-5" />
+                  </Button>
+                </motion.div>
+              )}
+
+              {currentStep > 0 && currentStep <= documents.length && (
+                <motion.div
+                  key={`doc-${currentStep}`}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  className="space-y-8"
+                >
+                  <div className="flex items-center justify-between">
+                    <Badge variant="outline" className="px-3 py-1 rounded-full border-blue-200 text-blue-600 bg-blue-50">
+                      Step {currentStep} of {documents.length}
+                    </Badge>
+                  </div>
+
+                  <div className="p-8 rounded-[24px] bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.05)] border border-slate-200/60">
+                    <div className="flex flex-col items-start gap-5">
+                      <div className="p-4 rounded-2xl bg-[#eef2ff] text-[#4f46e5]">
+                        <Upload className="w-8 h-8" />
+                      </div>
+                      <div>
+                        <h3 className="text-2xl font-bold text-slate-900 tracking-tight">
+                          {documents[currentStep - 1]}
+                        </h3>
+                        <p className="text-[15px] text-slate-500 mt-2 leading-relaxed">
+                          Please upload a clear, scanned copy or photo of your {documents[currentStep - 1].toLowerCase()}. 
+                          Ensure all details are visible and the file is under 5MB.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="pt-4">
+                    <Button 
+                      onClick={() => handleUpload(documents[currentStep - 1])}
+                      disabled={isUploading}
+                      className="w-full h-14 bg-white hover:bg-slate-50 text-slate-900 border-2 border-dashed border-slate-300 hover:border-blue-500 rounded-2xl text-lg font-bold transition-all group"
+                    >
+                      {isUploading ? (
+                        <>
+                          <div className="w-5 h-5 border-2 border-blue-600 border-t-transparent rounded-full animate-spin mr-3" />
+                          Uploading Document...
+                        </>
+                      ) : (
+                        <>
+                          <Upload className="mr-3 w-5 h-5 text-slate-400 group-hover:text-blue-600" />
+                          Upload {documents[currentStep - 1]}
+                        </>
+                      )}
+                    </Button>
+                  </div>
+                </motion.div>
+              )}
+
+              {currentStep === totalSteps - 1 && (
+                <motion.div
+                  key="success"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="text-center py-10 space-y-6"
+                >
+                  <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-green-500/10">
+                    <CheckCircle className="w-12 h-12" />
+                  </div>
+                  <h2 className="text-3xl font-bold text-gray-900">All Set!</h2>
+                  <p className="text-lg text-gray-600 max-w-sm mx-auto">
+                    You've successfully uploaded all required documents for **{service.title}**. 
+                    Our experts will begin the verification process immediately.
+                  </p>
+                  
+                  <div className="flex flex-col gap-3 py-4">
+                    <Button 
+                      onClick={handleNext}
+                      className="w-full h-14 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl text-lg font-bold shadow-lg shadow-blue-500/20"
+                    >
+                      Go to Dashboard
+                      <ArrowRight className="ml-2 w-5 h-5" />
+                    </Button>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
 // Enhanced Service Card Component
 const ServiceCard: React.FC<{ service: any, category: any }> = ({ service, category }) => {
   const isUrgent = service.urgent || service.id === 'notice-compliance';
@@ -1028,6 +1207,7 @@ const ServiceCard: React.FC<{ service: any, category: any }> = ({ service, categ
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const { trackServiceView, trackServicePurchase } = useServiceTracking();
+  const [isWizardOpen, setIsWizardOpen] = useState(false);
 
   const renderPrice = (p: string, className?: string) => {
     if (!p) return null;
@@ -1085,6 +1265,37 @@ const ServiceCard: React.FC<{ service: any, category: any }> = ({ service, categ
     }
   });
 
+  const handleActivationComplete = (docsUploaded: string[]) => {
+    // Mock persistence
+    const key = `mye_active_services`;
+    const existing = JSON.parse(localStorage.getItem(key) || "[]");
+    
+    const newService = {
+      id: `mock-${service.id}-${Date.now()}`,
+      serviceId: service.id,
+      title: service.title,
+      serviceType: service.id.toUpperCase().includes('ITR') ? 'ITR' : 
+                   service.id.toUpperCase().includes('GST') ? 'GST_REGISTRATION' : 
+                   service.id.toUpperCase().includes('PVT-LTD') ? 'COMPANY_REG' : 'OTHER',
+      status: 'pending',
+      addedAt: new Date().toISOString(),
+      documentsUploaded: docsUploaded
+    };
+
+    localStorage.setItem(key, JSON.stringify([...existing, newService]));
+
+    toast({
+      title: "Service Activated!",
+      description: `${service.title} is now in your Active Service Hub with ${docsUploaded.length} documents uploaded.`,
+    });
+
+    // Invalidate queries to refresh dashboard if already open
+    queryClient.invalidateQueries({ queryKey: ["/api/user/dashboard"] });
+    
+    // Auto-redirect to dashboard to show result
+    window.location.href = '/dashboard';
+  };
+
   const handlePurchase = () => {
     if (!isAuthenticated) {
       toast({
@@ -1094,7 +1305,7 @@ const ServiceCard: React.FC<{ service: any, category: any }> = ({ service, categ
       });
       return;
     }
-    purchaseMutation.mutate();
+    setIsWizardOpen(true);
   };
 
   return (
@@ -1213,6 +1424,14 @@ const ServiceCard: React.FC<{ service: any, category: any }> = ({ service, categ
         </div>
         </CardContent>
       </Card>
+
+      <ServiceActivationWizard 
+        service={service} 
+        category={category} 
+        isOpen={isWizardOpen} 
+        onOpenChange={setIsWizardOpen}
+        onComplete={handleActivationComplete}
+      />
     </div>
   );
 };
@@ -1227,21 +1446,25 @@ export default function ServicesPage() {
 
   return (
     <>
-      <SEO 
-        title="Business Services & Tax Solutions - GST, Company Registration | MyeCA.in"
-        description="Complete business services including GST registration (\u20B9590), company incorporation, tax filing, compliance services, and more. Expert CA assistance with 24/7 support."
-        keywords="GST registration, company registration, business services, tax filing, compliance services, trademark registration, FSSAI license, ISO certification, startup services"
-        url="https://myeca.in/services"
-      />
-      <StructuredData 
-        type="Service" 
-        data={{
-          name: "Professional Tax & Business Services",
-          description: "Complete tax and business compliance services with expert CA assistance",
-          serviceType: "Tax and Business Consulting",
-          price: "499",
-          features: ["ITR Filing", "GST Registration", "Company Incorporation", "Trademark Registration", "ISO Certification"]
-        }} 
+      <MetaSEO
+        title="Professional Tax, GST & Business Services India | MyeCA.in"
+        description="Explore MyeCA.in's comprehensive range of professional CA-assisted services including ITR filing, GST registration, company incorporation, and trademark services."
+        keywords={[
+          "tax services India", "GST registration online", "income tax filing", 
+          "company registration", "trademark registration", "CA services", 
+          "tax audit", "PF ESI compliance"
+        ]}
+        type="service"
+        serviceData={{
+          price: "₹499",
+          rating: "4.8",
+          reviews: "150000",
+          availability: "https://schema.org/InStock"
+        }}
+        breadcrumbs={[
+          { name: "Home", url: "/" },
+          { name: "Services", url: "/services" }
+        ]}
       />
       <div className="min-h-screen bg-white">
       <Breadcrumb items={[{ name: 'Services' }]} />

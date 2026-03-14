@@ -143,7 +143,7 @@ export default function UpdatesManagementPage() {
     CRITICAL: "bg-red-100 text-red-800",
   };
 
-  if (user?.role !== 'admin' && user?.role !== 'super_admin' && user?.role !== 'editor') {
+  if (user?.role !== 'admin' && user?.role !== 'team_member') {
     return (
       <Layout>
         <div className="text-center py-12">

@@ -12,7 +12,7 @@ import { AccessibilityProvider } from "@/components/accessibility/AccessibilityP
 import { Suspense, lazy } from 'react';
 import { useRoutePreload } from '@/hooks/use-route-preload';
 import { PageSkeleton } from '@/components/ui/page-skeleton';
-import { ClerkProvider } from '@clerk/clerk-react';
+import { ClerkProvider } from '@/lib/clerk';
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import Routes from "./Routes";
@@ -124,7 +124,7 @@ function App() {
     <HelmetProvider>
       <LanguageProvider>
           <AccessibilityProvider>
-            <ClerkProvider publishableKey={import.meta.env.VITE_CLERK_PUBLISHABLE_KEY || ""}>
+            <ClerkProvider>
               <QueryClientProvider client={queryClient}>
               <AuthProvider>
                 <TooltipProvider>

@@ -9,7 +9,10 @@ export const users = sqliteTable("users", {
   phoneNumber: text("phone_number").unique(),
   firstName: text("first_name").notNull(),
   lastName: text("last_name").notNull(),
-  role: text("role").notNull().default("user"),
+  role: text("role").notNull().default("user"), // admin | team_member | ca | user
+  assignedCaId: text("assigned_ca_id"), // References users.id (CA assigned to this user)
+  assignedCaName: text("assigned_ca_name"),
+  assignedCaEmail: text("assigned_ca_email"),
   status: text("status").notNull().default("active"),
   isVerified: integer("is_verified", { mode: 'boolean' }).default(false),
   approvedBy: text("approved_by"),
@@ -100,6 +103,16 @@ export const dailyUpdates = sqliteTable("daily_updates", {
   createdAt: integer("created_at", { mode: 'timestamp' }).notNull().default(sql`CURRENT_TIMESTAMP`),
 });
 
+export const userServices = sqliteTable("user_services", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  userId: text("user_id").references(() => users.id).notNull(),
+  serviceType: text("service_type").notNull(), // e.g. "ITR", "GST_REGISTRATION", "COMPANY_REG"
+  status: text("status").notNull().default("active"), // "active", "completed", "cancelled"
+  metadata: text("metadata"), // JSON string for extra config
+  createdAt: integer("created_at", { mode: 'timestamp' }).notNull().default(sql`CURRENT_TIMESTAMP`),
+  updatedAt: integer("updated_at", { mode: 'timestamp' }).notNull().default(sql`CURRENT_TIMESTAMP`),
+});
+
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 export type Profile = typeof profiles.$inferSelect;
@@ -114,6 +127,8 @@ export type Category = typeof categories.$inferSelect;
 export type InsertCategory = typeof categories.$inferInsert;
 export type DailyUpdate = typeof dailyUpdates.$inferSelect;
 export type InsertDailyUpdate = typeof dailyUpdates.$inferInsert;
+export type UserService = typeof userServices.$inferSelect;
+export type InsertUserService = typeof userServices.$inferInsert;
 
 export const insertUserSchema = createInsertSchema(users);
 export const insertProfileSchema = createInsertSchema(profiles);
@@ -122,6 +137,7 @@ export const insertDocumentSchema = createInsertSchema(documents);
 export const insertBlogPostSchema = createInsertSchema(blogPosts);
 export const insertCategorySchema = createInsertSchema(categories);
 export const insertDailyUpdateSchema = createInsertSchema(dailyUpdates);
+export const insertUserServiceSchema = createInsertSchema(userServices);
 export const loginSchema = z.object({
   identifier: z.string().min(1, 'Email or Phone number is required').max(255),
   password: z.string().min(8, 'Password must be at least 8 characters'),
@@ -140,7 +156,7 @@ export const signupSchema = z.object({
     .regex(/[0-9]/, 'Password must contain at least one number')
     .regex(/[!@#$%^&*]/, 'Password must contain at least one special character'),
   confirmPassword: z.string().min(8, 'Confirm password must be at least 8 characters'),
-  role: z.enum(['user', 'admin', 'ca', 'super_admin', 'editor', 'author']).default('user'),
+  role: z.enum(['user', 'admin', 'ca', 'team_member']).default('user'),
 }).refine((data) => data.password === data.confirmPassword, {
   path: ['confirmPassword'],
   message: 'Passwords do not match',

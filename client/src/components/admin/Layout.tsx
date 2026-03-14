@@ -6,6 +6,7 @@ import { Menu, X, Home, Users, BarChart3, FileText, Settings, LogOut, Image as I
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
+import { useAuth } from '@/components/AuthProvider';
 
 interface LayoutProps {
   children: ReactNode;
@@ -13,34 +14,44 @@ interface LayoutProps {
 }
 
 const menuItems = [
-  { icon: Home, label: 'Dashboard', href: '/admin' },
-  { icon: Users, label: 'Users', href: '/admin/users' },
-  { icon: BarChart3, label: 'Analytics', href: '/admin/analytics' },
-  { icon: FileText, label: 'Blog Posts', href: '/admin/blog-management' },
-  { icon: FileText, label: 'Categories', href: '/admin/categories-management' },
-  { icon: FileText, label: 'Daily Updates', href: '/admin/updates-management' },
-  { icon: ImageIcon, label: 'Media Library', href: '/admin/media-management' },
-  { icon: Settings, label: 'Settings', href: '/admin/settings' },
+  { icon: Home, label: 'Dashboard', href: '/admin', roles: ['admin'] },
+  { icon: Users, label: 'Users', href: '/admin/users', roles: ['admin'] },
+  { icon: BarChart3, label: 'Analytics', href: '/admin/analytics', roles: ['admin'] },
+  { icon: FileText, label: 'Blog Posts', href: '/admin/blog-management', roles: ['admin', 'team_member'] },
+  { icon: FileText, label: 'Categories', href: '/admin/categories-management', roles: ['admin', 'team_member'] },
+  { icon: FileText, label: 'Daily Updates', href: '/admin/updates-management', roles: ['admin', 'team_member'] },
+  { icon: ImageIcon, label: 'Media Library', href: '/admin/media-management', roles: ['admin', 'team_member'] },
+  { icon: Settings, label: 'Settings', href: '/admin/settings', roles: ['admin'] },
 ];
 
-export function Layout({ children, title = 'Admin Dashboard' }: LayoutProps) {
+export function Layout({ children, title = 'Admin Panel' }: LayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [location] = useLocation();
+  const { user } = useAuth();
+  
+  const filteredMenuItems = menuItems.filter(item => 
+    user && item.roles.includes(user.role)
+  );
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
-      {/* Sidebar */}
+    <div className="min-h-screen bg-[#F8FAFC] flex font-sans">
+      {/* Sidebar - Premium Glassmorphism */}
       <aside
         className={cn(
-          'fixed left-0 top-0 h-full w-64 bg-white border-r border-gray-200 z-50 transform transition-transform duration-300',
+          'fixed left-0 top-0 h-full w-72 bg-white/70 backdrop-blur-2xl border-r border-slate-200/50 z-50 transform transition-all duration-500 ease-in-out shadow-[20px_0_40px_rgba(0,0,0,0.02)]',
           'lg:translate-x-0 lg:relative lg:z-auto',
           sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         )}
       >
         <div className="flex flex-col h-full">
           {/* Header */}
-          <div className="flex items-center justify-between p-4 border-b">
-            <h2 className="text-xl font-bold">Admin Panel</h2>
+          <div className="flex items-center justify-between p-8 border-b border-slate-100/50">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-200 font-bold text-white text-xl">
+                M
+              </div>
+              <h2 className="text-xl font-extrabold tracking-tight text-slate-800 uppercase">MyEca</h2>
+            </div>
             <Button
               variant="ghost"
               size="icon"
@@ -52,24 +63,30 @@ export function Layout({ children, title = 'Admin Dashboard' }: LayoutProps) {
           </div>
 
           {/* Navigation */}
-          <ScrollArea className="flex-1 py-4">
-            <nav className="space-y-1 px-3">
-              {menuItems.map((item) => {
+          <ScrollArea className="flex-1 px-4 py-8">
+            <div className="mb-4 px-4">
+              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Main Menu</span>
+            </div>
+            <nav className="space-y-1.5">
+              {filteredMenuItems.map((item) => {
                 const Icon = item.icon;
                 const isActive = location === item.href;
                 return (
                   <Link key={item.href} href={item.href}>
                     <div
                       className={cn(
-                        'flex items-center gap-3 px-3 py-2 rounded-lg transition-colors cursor-pointer',
+                        'flex items-center gap-3.5 px-4 py-3 rounded-[18px] transition-all duration-300 cursor-pointer group mb-1',
                         isActive
-                          ? 'bg-blue-50 text-blue-600 font-medium'
-                          : 'text-gray-600 hover:bg-gray-50'
+                          ? 'bg-blue-600 text-white shadow-lg shadow-blue-200 font-bold'
+                          : 'text-slate-500 hover:bg-white hover:text-slate-900 hover:shadow-xl hover:shadow-black/[0.02]'
                       )}
                       onClick={() => setSidebarOpen(false)}
                     >
-                      <Icon className="h-5 w-5" />
-                      <span>{item.label}</span>
+                      <Icon className={cn("h-[18px] w-[18px]", isActive ? "text-white" : "text-slate-400 group-hover:text-slate-600")} />
+                      <span className="text-[14px] tracking-wide">{item.label}</span>
+                      {isActive && (
+                        <div className="ml-auto w-1.5 h-1.5 bg-white rounded-full"></div>
+                      )}
                     </div>
                   </Link>
                 );
@@ -77,12 +94,19 @@ export function Layout({ children, title = 'Admin Dashboard' }: LayoutProps) {
             </nav>
           </ScrollArea>
 
-          {/* Footer */}
-          <div className="border-t p-4">
+          {/* Footer Card */}
+          <div className="p-6 border-t border-slate-100/50 bg-slate-50/50">
+             <div className="bg-white/80 backdrop-blur-xl border border-white p-4 rounded-2xl shadow-sm mb-4">
+               <p className="text-xs font-bold text-slate-400 mb-1 uppercase tracking-wider">Logged in as</p>
+               <p className="text-sm font-bold text-slate-800 truncate">{user?.firstName} {user?.lastName}</p>
+               <span className="inline-block px-2 py-0.5 rounded-full bg-blue-50 text-[10px] font-bold text-blue-600 border border-blue-100 mt-2 uppercase tracking-tight">
+                  {user?.role}
+               </span>
+             </div>
             <Link href="/">
-              <Button variant="ghost" className="w-full justify-start gap-2">
+              <Button variant="outline" className="w-full justify-center gap-2 rounded-xl h-11 border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-bold transition-all">
                 <LogOut className="h-4 w-4" />
-                Back to Site
+                Back to Portal
               </Button>
             </Link>
           </div>
@@ -92,32 +116,45 @@ export function Layout({ children, title = 'Admin Dashboard' }: LayoutProps) {
       {/* Overlay for mobile */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-40 lg:hidden transition-opacity duration-300"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
       {/* Main Content */}
-      <div className="flex-1 lg:ml-64">
-        {/* Header */}
-        <header className="bg-white border-b border-gray-200 sticky top-0 z-30">
-          <div className="flex items-center justify-between px-4 py-4">
-            <div className="flex items-center gap-4">
+      <div className="flex-1 lg:ml-0 overflow-hidden">
+        {/* Header - Modern Sticky */}
+        <header className="bg-white/70 backdrop-blur-md border-b border-slate-200/50 sticky top-0 z-30 h-20 flex items-center shadow-sm shadow-black/[0.01]">
+          <div className="flex items-center justify-between px-8 w-full">
+            <div className="flex items-center gap-6">
               <Button
                 variant="ghost"
                 size="icon"
-                className="lg:hidden"
+                className="lg:hidden bg-slate-100 hover:bg-slate-200 rounded-xl"
                 onClick={() => setSidebarOpen(true)}
               >
                 <Menu className="h-5 w-5" />
               </Button>
-              <h1 className="text-xl font-semibold">{title}</h1>
+              <div>
+                <h1 className="text-xl font-extrabold text-slate-900 tracking-tight">{title}</h1>
+                <p className="text-xs text-slate-400 font-medium hidden sm:block">Manage your professional dashboard and services</p>
+              </div>
+            </div>
+            
+            <div className="flex items-center gap-4">
+               <div className="h-10 w-10 rounded-xl bg-slate-100 flex items-center justify-center border border-slate-200 cursor-pointer hover:bg-slate-200 transition-colors">
+                  <span className="text-sm font-bold text-slate-600">JD</span>
+               </div>
             </div>
           </div>
         </header>
 
         {/* Page Content */}
-        <main className="p-4 lg:p-6">{children}</main>
+        <main className="p-8 max-h-[calc(100vh-80px)] overflow-y-auto">
+          <div className="max-w-[1600px] mx-auto">
+            {children}
+          </div>
+        </main>
       </div>
     </div>
   );

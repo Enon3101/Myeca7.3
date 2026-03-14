@@ -12,6 +12,7 @@ import {
   ChevronLeft, ChevronRight, Hash, BookOpen, PenTool,
   Palette, Layout, Target, Globe, TrendingUp
 } from "lucide-react";
+import { motion } from "framer-motion";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -908,172 +909,193 @@ export default function AdminBlog() {
   ];
 
   return (
-    <div className="admin-blog-page p-6 max-w-7xl mx-auto bg-gray-50 min-h-screen">
-      {/* Enhanced Header */}
-      <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-        <div className="flex justify-between items-start">
-          <div>
-            <h1 className="text-3xl font-bold flex items-center gap-3" style={{ color: '#000000' }}>
-              <BookOpen className="h-8 w-8 text-blue-600" />
-              Blog Management
-            </h1>
-            <p className="mt-1" style={{ color: '#333333' }}>Create engaging content for your audience</p>
-          </div>
-          <div className="flex gap-2">
-            <Button variant="outline" onClick={() => setSheetOpen(true)}>
-              <Sparkles className="h-4 w-4 mr-2" />
-              AI Writer
-            </Button>
-            <Button onClick={() => { setEditingPost(null); setDialogOpen(true); }}>
-              <Plus className="h-4 w-4 mr-2" />
-              Create Post
-            </Button>
-          </div>
+    <div className="admin-blog-page p-10 max-w-[1600px] mx-auto bg-slate-50/30 min-h-screen">
+      {/* Premium Header */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 mb-12">
+        <div>
+          <h1 className="text-4xl font-black text-slate-900 tracking-tight flex items-center gap-4">
+            <div className="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow-xl shadow-blue-500/20">
+              <BookOpen className="h-6 w-6" />
+            </div>
+            Editorial Suite
+          </h1>
+          <p className="mt-3 text-slate-500 font-medium text-[16px]">Curate and orchestrate your platform's content strategy</p>
+        </div>
+        <div className="flex items-center gap-3">
+          <Button variant="outline" onClick={() => setSheetOpen(true)} className="h-12 px-6 rounded-2xl border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-bold shadow-sm transition-all">
+            <Sparkles className="h-4 w-4 mr-2 text-blue-500" />
+            AI Content Forge
+          </Button>
+          <Button onClick={() => { setEditingPost(null); setDialogOpen(true); }} className="h-12 px-6 rounded-2xl bg-slate-900 hover:bg-blue-600 text-white font-bold shadow-lg shadow-black/10 transition-all">
+            <Plus className="h-4 w-4 mr-2" />
+            Draft New Article
+          </Button>
         </div>
       </div>
 
-      {/* Enhanced Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-        <Card className="border-l-4 border-l-blue-500">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">Total Posts</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center justify-between">
-              <div className="text-2xl font-bold">{stats.total}</div>
-              <FileText className="h-8 w-8 text-blue-100" />
+      {/* Premium Analytics Strip */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        <Card className="bg-white border-none shadow-[0_8px_30px_rgb(0,0,0,0.02)] rounded-[28px] overflow-hidden group hover:shadow-[0_20px_60px_rgb(0,0,0,0.05)] transition-all duration-500">
+          <CardContent className="p-8">
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-[13px] font-bold text-slate-400 uppercase tracking-widest">Total Articles</span>
+              <div className="p-3 bg-blue-50 rounded-2xl text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all duration-500">
+                <FileText className="h-5 w-5" />
+              </div>
             </div>
+            <div className="text-4xl font-black text-slate-900 tracking-tight">{stats.total}</div>
           </CardContent>
         </Card>
-        <Card className="border-l-4 border-l-green-500">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">Published</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center justify-between">
-              <div className="text-2xl font-bold text-green-600">{stats.published}</div>
-              <CheckCircle className="h-8 w-8 text-green-100" />
+
+        <Card className="bg-white border-none shadow-[0_8px_30px_rgb(0,0,0,0.02)] rounded-[28px] overflow-hidden group hover:shadow-[0_20px_60px_rgb(0,0,0,0.05)] transition-all duration-500">
+          <CardContent className="p-8">
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-[13px] font-bold text-slate-400 uppercase tracking-widest">Live Content</span>
+              <div className="p-3 bg-emerald-50 rounded-2xl text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-500">
+                <CheckCircle className="h-5 w-5" />
+              </div>
             </div>
+            <div className="text-4xl font-black text-slate-900 tracking-tight">{stats.published}</div>
           </CardContent>
         </Card>
-        <Card className="border-l-4 border-l-yellow-500">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">Drafts</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center justify-between">
-              <div className="text-2xl font-bold text-yellow-600">{stats.draft}</div>
-              <PenTool className="h-8 w-8 text-yellow-100" />
+
+        <Card className="bg-white border-none shadow-[0_8px_30px_rgb(0,0,0,0.02)] rounded-[28px] overflow-hidden group hover:shadow-[0_20px_60px_rgb(0,0,0,0.05)] transition-all duration-500">
+          <CardContent className="p-8">
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-[13px] font-bold text-slate-400 uppercase tracking-widest">Unfinished Drafts</span>
+              <div className="p-3 bg-orange-50 rounded-2xl text-orange-600 group-hover:bg-orange-600 group-hover:text-white transition-all duration-500">
+                <PenTool className="h-5 w-5" />
+              </div>
             </div>
+            <div className="text-4xl font-black text-slate-900 tracking-tight">{stats.draft}</div>
           </CardContent>
         </Card>
-        <Card className="border-l-4 border-l-purple-500">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">Under Review</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center justify-between">
-              <div className="text-2xl font-bold text-purple-600">{stats.review}</div>
-              <Clock className="h-8 w-8 text-purple-100" />
+
+        <Card className="bg-white border-none shadow-[0_8px_30px_rgb(0,0,0,0.02)] rounded-[28px] overflow-hidden group hover:shadow-[0_20px_60px_rgb(0,0,0,0.05)] transition-all duration-500">
+          <CardContent className="p-8">
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-[13px] font-bold text-slate-400 uppercase tracking-widest">Awaiting Review</span>
+              <div className="p-3 bg-purple-50 rounded-2xl text-purple-600 group-hover:bg-purple-600 group-hover:text-white transition-all duration-500">
+                <Clock className="h-5 w-5" />
+              </div>
             </div>
+            <div className="text-4xl font-black text-slate-900 tracking-tight">{stats.review}</div>
           </CardContent>
         </Card>
       </div>
-
-      {/* Enhanced Filters and Actions */}
-      <Card className="mb-6">
-        <CardContent className="p-6">
-          <div className="space-y-4">
-            {/* Search and View Toggle */}
-            <div className="flex flex-col lg:flex-row gap-4">
-              <div className="flex-1">
+      {/* Premium Filters and Actions */}
+      <Card className="mb-12 bg-white border-none shadow-[0_8px_40px_rgba(0,0,0,0.02)] rounded-[32px] overflow-hidden">
+        <CardContent className="p-10">
+          <div className="flex flex-col gap-8">
+            {/* Search and Primary Filters */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-end">
+              <div className="lg:col-span-6">
+                <Label className="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-3 block">Search Repository</Label>
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-4 w-4" />
+                  <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 h-5 w-5" />
                   <Input
-                    placeholder="Search posts by title, content..."
+                    placeholder="Query titles, narratives, or excerpts..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-9"
+                    className="pl-12 h-14 rounded-2xl border-slate-100 bg-slate-50/50 focus:bg-white transition-all shadow-none font-medium placeholder:text-slate-300"
                   />
                 </div>
               </div>
-              <div className="flex gap-2">
+
+              <div className="lg:col-span-3">
+                <Label className="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-3 block">Category</Label>
                 <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-                  <SelectTrigger className="w-40">
+                  <SelectTrigger className="h-14 rounded-2xl border-slate-100 bg-slate-50/50">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="rounded-2xl border-slate-100 shadow-xl">
                     {categories.map((category) => (
-                      <SelectItem key={category.value} value={category.value}>
+                      <SelectItem key={category.value} value={category.value} className="rounded-xl">
                         {category.label}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
-                <div className="flex rounded-md shadow-sm" role="group">
+              </div>
+
+              <div className="lg:col-span-3 flex justify-end">
+                <div className="p-1.5 bg-slate-100 rounded-2xl inline-flex shadow-inner">
                   <Button
                     type="button"
-                    variant={viewType === "list" ? "default" : "outline"}
+                    variant={viewType === "list" ? "default" : "ghost"}
                     onClick={() => setViewType("list")}
-                    className="rounded-r-none"
+                    className={cn(
+                      "rounded-xl h-11 px-4 transition-all duration-300",
+                      viewType === "list" ? "bg-white text-blue-600 shadow-sm" : "text-slate-500 hover:text-slate-900"
+                    )}
                   >
-                    <List className="h-4 w-4" />
+                    <List className="h-4 w-4 mr-2" />
+                    <span className="text-xs font-bold uppercase tracking-tight">List</span>
                   </Button>
                   <Button
                     type="button"
-                    variant={viewType === "grid" ? "default" : "outline"}
+                    variant={viewType === "grid" ? "default" : "ghost"}
                     onClick={() => setViewType("grid")}
-                    className="rounded-l-none"
+                    className={cn(
+                      "rounded-xl h-11 px-4 transition-all duration-300",
+                      viewType === "grid" ? "bg-white text-blue-600 shadow-sm" : "text-slate-500 hover:text-slate-900"
+                    )}
                   >
-                    <Layout className="h-4 w-4" />
+                    <Layout className="h-4 w-4 mr-2" />
+                    <span className="text-xs font-bold uppercase tracking-tight">Grid</span>
                   </Button>
                 </div>
               </div>
             </div>
 
-            {/* Status Tabs and Bulk Actions */}
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-              <Tabs value={statusFilter} onValueChange={setStatusFilter}>
-                <TabsList>
-                  <TabsTrigger value="all">
-                    All ({posts.length})
+            {/* Status Tabs and Selection Actions */}
+            <div className="flex flex-col sm:flex-row justify-between items-center gap-6 pt-6 border-t border-slate-50">
+              <Tabs value={statusFilter} onValueChange={setStatusFilter} className="w-full sm:w-auto">
+                <TabsList className="bg-slate-50/50 p-1 rounded-2xl border border-slate-100 h-auto">
+                  <TabsTrigger value="all" className="rounded-xl px-6 py-2.5 data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm font-bold text-xs uppercase tracking-tight">
+                    All Content ({posts.length})
                   </TabsTrigger>
-                  <TabsTrigger value="published">
+                  <TabsTrigger value="published" className="rounded-xl px-6 py-2.5 data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm font-bold text-xs uppercase tracking-tight">
                     Published ({stats.published})
                   </TabsTrigger>
-                  <TabsTrigger value="draft">
-                    Draft ({stats.draft})
+                  <TabsTrigger value="draft" className="rounded-xl px-6 py-2.5 data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm font-bold text-xs uppercase tracking-tight">
+                    Drafts ({stats.draft})
                   </TabsTrigger>
-                  <TabsTrigger value="review">
+                  <TabsTrigger value="review" className="rounded-xl px-6 py-2.5 data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm font-bold text-xs uppercase tracking-tight">
                     Review ({stats.review})
                   </TabsTrigger>
                 </TabsList>
               </Tabs>
 
               {selectedPosts.length > 0 && (
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-medium" style={{ color: '#000000' }}>
-                    {selectedPosts.length} selected
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="flex items-center gap-4 bg-blue-50/50 border border-blue-100 p-2 rounded-2xl w-full sm:w-auto"
+                >
+                  <span className="text-xs font-black text-blue-800 uppercase tracking-widest px-4">
+                    {selectedPosts.length} Items
                   </span>
                   <Select value={bulkAction} onValueChange={setBulkAction}>
-                    <SelectTrigger className="w-40">
-                      <SelectValue placeholder="Bulk Actions" />
+                    <SelectTrigger className="h-10 w-40 rounded-xl border-blue-200 bg-white shadow-sm ring-0 focus:ring-0">
+                      <SelectValue placeholder="Bulk Action" />
                     </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="publish">Publish</SelectItem>
-                      <SelectItem value="draft">Move to Draft</SelectItem>
-                      <SelectItem value="delete">Delete</SelectItem>
+                    <SelectContent className="rounded-xl border-blue-100">
+                      <SelectItem value="publish" className="rounded-lg">Publish</SelectItem>
+                      <SelectItem value="draft" className="rounded-lg">Move to Draft</SelectItem>
+                      <SelectItem value="delete" className="rounded-lg text-red-600">Delete</SelectItem>
                     </SelectContent>
                   </Select>
                   <Button
-                    variant="outline"
+                    variant="default"
                     size="sm"
                     onClick={handleBulkAction}
                     disabled={!bulkAction}
+                    className="h-10 px-6 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold transition-all shadow-md shadow-blue-500/20"
                   >
                     Apply
                   </Button>
-                </div>
+                </motion.div>
               )}
             </div>
           </div>

@@ -2,9 +2,9 @@ import { motion } from "framer-motion";
 import { Users, Award, Shield, Target, ArrowRight, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import SEO from "@/components/SEO";
 import Breadcrumb from "@/components/Breadcrumb";
 import { Link } from "wouter";
+import MetaSEO from "@/components/seo/MetaSEO";
 
 export default function AboutPage() {
   const stats = [
@@ -16,9 +16,10 @@ export default function AboutPage() {
 
   return (
     <>
-      <SEO 
+      <MetaSEO 
         title="About MyeCA - India's Trusted Tax & Business Partner"
         description="Learn about MyeCA's mission to simplify taxes and business compliance for millions of Indians. Meet our expert team of CAs and financial advisors."
+        keywords={["MyeCA", "about us", "tax experts", "CA firm India", "mission", "vision"]}
       />
       <div className="min-h-screen bg-white">
         <Breadcrumb items={[{ name: 'About Us' }]} />

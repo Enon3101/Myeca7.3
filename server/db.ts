@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { drizzle as drizzlePg } from "drizzle-orm/node-postgres";
 import { drizzle as drizzleSqlite } from "drizzle-orm/better-sqlite3";
 import pg from "pg";

@@ -15,8 +15,7 @@ import {
 import { CalculatorExport } from "@/components/ui/calculator-export";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useCalculatorTracking } from "@/hooks/use-analytics";
-import EnhancedSEO from "@/components/EnhancedSEO";
-import { getHowToSchema } from "@/utils/seo-defaults";
+import MetaSEO from "@/components/seo/MetaSEO";
 import TaxStepIndicator from "@/components/calculators/TaxStepIndicator";
 import TaxStickySidebar from "@/components/calculators/TaxStickySidebar";
 import { cn } from "@/lib/utils";
@@ -76,10 +75,25 @@ export default function IncomeTaxCalculator() {
 
   return (
     <>
-      <EnhancedSEO
-        title="Income Tax Calculator 2026-27 | Professional Tax Hub"
-        description="Premium income tax calculator with real-time comparison. Optimized for AY 2026-27 and 2025-26."
-        url="https://myeca.in/calculators/income-tax"
+      <MetaSEO
+        title="Income Tax Calculator 2025-26 | Professional Tax Hub"
+        description="Comprehensive income tax calculator with real-time comparison for AY 2025-26 and 2026-27. Maximize your tax savings with MyeCA.in expert recommendations."
+        keywords={[
+          "income tax calculator India", "AY 2025-26 income tax", "tax saving calculator", 
+          "old vs new tax regime", "income tax return AY 2026-27", "Section 80C calculator"
+        ]}
+        type="calculator"
+        calculatorData={{
+          type: "Income Tax Calculator",
+          features: ["Real-time calculation", "Old vs New Regime comparison", "Deduction optimization", "AY 2025-26 support"],
+          accuracy: "99.9%",
+          updates: "AY 2025-26 & 2026-27 compliance"
+        }}
+        breadcrumbs={[
+          { name: "Home", url: "/" },
+          { name: "Calculators", url: "/calculators" },
+          { name: "Income Tax", url: "/calculators/income-tax" }
+        ]}
       />
 
       <div className="min-h-screen bg-slate-50/50 py-12">
