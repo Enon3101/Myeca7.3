@@ -53,8 +53,8 @@ const FormComponent = ({ register, errors }: any) => {
       <h3 className="text-lg font-bold border-b pb-2 mt-6">Terms</h3>
       <div className="grid grid-cols-3 gap-4">
         <div><Label>Period (Months)</Label><Input type="number" {...register('licensePeriod', { valueAsNumber: true })} /></div>
-        <div><Label>Monthly License Fee (\u20B9)</Label><Input type="number" {...register('monthlyFee', { valueAsNumber: true })} /></div>
-        <div><Label>Security Deposit (\u20B9)</Label><Input type="number" {...register('depositAmount', { valueAsNumber: true })} /></div>
+        <div><Label>Monthly License Fee (₹)</Label><Input type="number" {...register('monthlyFee', { valueAsNumber: true })} /></div>
+        <div><Label>Security Deposit (₹)</Label><Input type="number" {...register('depositAmount', { valueAsNumber: true })} /></div>
       </div>
     </div>
   );
@@ -73,8 +73,8 @@ const generateHTML = (data: any) => `
     <h3 style="border-bottom: 1px solid #000; padding-bottom: 5px;">NOW IT IS AGREED AS FOLLOWS:</h3>
     <ol style="margin-left: 20px; margin-top: 15px;">
       <li style="margin-bottom: 10px;">The Licensor grants permission to the Licensee to occupy the Premises for a period of <strong>${data.licensePeriod} months</strong>. No tenancy rights are created.</li>
-      <li style="margin-bottom: 10px;">The Licensee shall pay a monthly License Fee of <strong>\u20B9 ${Number(data.monthlyFee).toLocaleString('en-IN')}/-</strong> in advance.</li>
-      <li style="margin-bottom: 10px;">An interest-free Security Deposit of <strong>\u20B9 ${Number(data.depositAmount).toLocaleString('en-IN')}/-</strong> has been paid, refundable upon vacant handover.</li>
+      <li style="margin-bottom: 10px;">The Licensee shall pay a monthly License Fee of <strong>₹ ${Number(data.monthlyFee).toLocaleString('en-IN')}/-</strong> in advance.</li>
+      <li style="margin-bottom: 10px;">An interest-free Security Deposit of <strong>₹ ${Number(data.depositAmount).toLocaleString('en-IN')}/-</strong> has been paid, refundable upon vacant handover.</li>
       <li style="margin-bottom: 10px;">The Licensee shall bear electricity and water charges during the period.</li>
     </ol>
     <div style="display: flex; justify-content: space-between; margin-top: 60px;">

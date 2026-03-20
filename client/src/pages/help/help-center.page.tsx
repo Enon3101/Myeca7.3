@@ -178,28 +178,32 @@ export default function HelpCenterPage() {
       
       <div className="min-h-screen bg-gray-50">
         {/* Hero Section */}
-        <section className="bg-gradient-to-r from-blue-600 to-blue-700 text-white py-16">
-          <div className="container mx-auto px-4">
+        <section className="bg-white border-b border-slate-100 py-16 relative overflow-hidden">
+          {/* Abstract background decorative element */}
+          <div className="absolute top-0 right-0 w-[40rem] h-[40rem] bg-blue-50/50 rounded-full blur-3xl -mr-64 -mt-64"></div>
+          <div className="absolute bottom-0 left-0 w-96 h-96 bg-indigo-50/50 rounded-full blur-3xl -ml-32 -mb-32"></div>
+          
+          <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-4xl mx-auto text-center">
-              <h1 className="text-4xl md:text-5xl font-bold mb-6">
-                How can we help you?
+              <h1 className="text-4xl md:text-5xl font-black mb-6 text-slate-900 tracking-tight">
+                How can we <span className="text-blue-600 italic">help you?</span>
               </h1>
-              <p className="text-xl mb-8 text-blue-100">
+              <p className="text-xl mb-10 text-slate-500 font-medium leading-relaxed">
                 Search our knowledge base or browse categories below
               </p>
               
               {/* Search Bar */}
               <div className="relative max-w-2xl mx-auto">
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <Search className="absolute left-6 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5" />
                 <Input
                   type="text"
-                  placeholder="Search for articles, guides, or topics..."
+                  placeholder="Explain your tax problem here..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-12 pr-4 py-6 text-lg bg-white text-gray-900 placeholder-gray-500 rounded-lg shadow-lg"
+                  className="pl-14 pr-4 py-8 text-lg bg-white text-slate-900 placeholder-slate-400 rounded-2xl border-2 border-slate-100 shadow-xl shadow-slate-200/20 focus:ring-4 focus:ring-blue-500/10 transition-all"
                 />
                 <Button 
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl px-8 h-12 font-bold shadow-lg shadow-blue-500/25"
                   size="lg"
                 >
                   Search
@@ -207,17 +211,17 @@ export default function HelpCenterPage() {
               </div>
               
               {/* Quick Links */}
-              <div className="flex flex-wrap justify-center gap-4 mt-6">
-                <Badge variant="secondary" className="bg-white/20 text-white hover:bg-white/30 cursor-pointer px-4 py-2">
+              <div className="flex flex-wrap justify-center gap-4 mt-8">
+                <Badge variant="secondary" className="bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-blue-600 cursor-pointer px-5 py-2.5 rounded-xl font-bold transition-all shadow-sm">
                   ITR Filing Guide
                 </Badge>
-                <Badge variant="secondary" className="bg-white/20 text-white hover:bg-white/30 cursor-pointer px-4 py-2">
+                <Badge variant="secondary" className="bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-blue-600 cursor-pointer px-5 py-2.5 rounded-xl font-bold transition-all shadow-sm">
                   Tax Calculator
                 </Badge>
-                <Badge variant="secondary" className="bg-white/20 text-white hover:bg-white/30 cursor-pointer px-4 py-2">
+                <Badge variant="secondary" className="bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-blue-600 cursor-pointer px-5 py-2.5 rounded-xl font-bold transition-all shadow-sm">
                   Document Checklist
                 </Badge>
-                <Badge variant="secondary" className="bg-white/20 text-white hover:bg-white/30 cursor-pointer px-4 py-2">
+                <Badge variant="secondary" className="bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-blue-600 cursor-pointer px-5 py-2.5 rounded-xl font-bold transition-all shadow-sm">
                   Refund Status
                 </Badge>
               </div>

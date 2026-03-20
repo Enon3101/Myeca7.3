@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Search, Calculator, FileText, BookOpen, Lightbulb, TrendingUp, ChevronRight, Clock, Star, ArrowRight, Bot, Zap } from "lucide-react";
 import { Link } from "wouter";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 
 const searchCategories = [
   {
@@ -66,12 +66,12 @@ const searchCategories = [
 ];
 
 const quickTips = [
-  { tip: "Save up to \u20B946,800 by choosing the right tax regime", category: "Tax Planning", path: "/calculators/tax-regime" },
+  { tip: "Save up to ₹46,800 by choosing the right tax regime", category: "Tax Planning", path: "/calculators/tax-regime" },
   { tip: "Upload Form 16 early to auto-fill ITR details", category: "ITR Filing", path: "/documents" },
   { tip: "Claim HRA exemption even with home loan", category: "Deductions", path: "/calculators/hra" },
-  { tip: "LTCG over \u20B91 lakh is taxable at 12.5%", category: "Capital Gains", path: "/calculators/capital-gains" },
+  { tip: "LTCG over ₹1 lakh is taxable at 12.5%", category: "Capital Gains", path: "/calculators/capital-gains" },
   { tip: "Use AI Assistant for instant tax guidance", category: "AI Help", path: "/advanced-features" },
-  { tip: "Standard deduction is \u20B950,000 for FY 2024-25", category: "Deductions", path: "/calculators/income-tax" },
+  { tip: "Standard deduction is ₹50,000 for FY 2024-25", category: "Deductions", path: "/calculators/income-tax" },
 ];
 
 const trendingSearches = [
@@ -147,7 +147,7 @@ export default function EnhancedSearchPage() {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-white dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
-        <motion.div 
+        <m.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
@@ -163,10 +163,10 @@ export default function EnhancedSearchPage() {
           <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
             Find calculators, guides, and tax resources instantly. Get personalized help with our AI assistant.
           </p>
-        </motion.div>
+        </m.div>
 
         {/* Enhanced Search Bar */}
-        <motion.div 
+        <m.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
@@ -208,7 +208,7 @@ export default function EnhancedSearchPage() {
               {/* Search Suggestions */}
               <AnimatePresence>
                 {showSuggestions && (recentQueries.length > 0 || trendingSearches.length > 0) && (
-                  <motion.div
+                  <m.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
@@ -251,16 +251,16 @@ export default function EnhancedSearchPage() {
                         ))}
                       </div>
                     </div>
-                  </motion.div>
+                  </m.div>
                 )}
               </AnimatePresence>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
         {searchTerm ? (
           /* Search Results */
-          <motion.div
+          <m.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
@@ -276,7 +276,7 @@ export default function EnhancedSearchPage() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {allMatchingItems.map((item, index) => (
-                <motion.div
+                <m.div
                   key={index}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -304,12 +304,12 @@ export default function EnhancedSearchPage() {
                       </CardContent>
                     </Card>
                   </Link>
-                </motion.div>
+                </m.div>
               ))}
             </div>
 
             {allMatchingItems.length === 0 && (
-              <motion.div
+              <m.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 className="text-center py-12"
@@ -327,12 +327,12 @@ export default function EnhancedSearchPage() {
                     Ask AI Assistant
                   </Button>
                 </Link>
-              </motion.div>
+              </m.div>
             )}
-          </motion.div>
+          </m.div>
         ) : (
           /* Browse Categories */
-          <motion.div
+          <m.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
@@ -349,7 +349,7 @@ export default function EnhancedSearchPage() {
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   {quickTips.map((tip, index) => (
-                    <motion.div
+                    <m.div
                       key={index}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
@@ -364,7 +364,7 @@ export default function EnhancedSearchPage() {
                           </p>
                         </div>
                       </Link>
-                    </motion.div>
+                    </m.div>
                   ))}
                 </div>
               </CardContent>
@@ -373,7 +373,7 @@ export default function EnhancedSearchPage() {
             {/* Categories */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {filteredCategories.map((category, index) => (
-                <motion.div
+                <m.div
                   key={category.id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -396,7 +396,7 @@ export default function EnhancedSearchPage() {
                     <CardContent>
                       <div className="space-y-3">
                         {category.items.slice(0, 3).map((item, itemIndex) => (
-                          <motion.div
+                          <m.div
                             key={itemIndex}
                             whileHover={{ x: 5 }}
                           >
@@ -413,7 +413,7 @@ export default function EnhancedSearchPage() {
                                 <ChevronRight className="h-4 w-4 text-gray-400 group-hover:text-blue-500 transition-colors" />
                               </div>
                             </Link>
-                          </motion.div>
+                          </m.div>
                         ))}
                         {category.items.length > 3 && (
                           <button
@@ -426,10 +426,10 @@ export default function EnhancedSearchPage() {
                       </div>
                     </CardContent>
                   </Card>
-                </motion.div>
+                </m.div>
               ))}
             </div>
-          </motion.div>
+          </m.div>
         )}
       </div>
     </div>

@@ -18,7 +18,7 @@ export interface NPSProjectionInput {
 
 export interface NPSTaxBenefit {
   section80CCD1: number; // Within 80C limit
-  section80CCD1B: number; // Additional \u20B950,000
+  section80CCD1B: number; // Additional ₹50,000
   section80CCD2: number; // Employer contribution
   totalDeduction: number;
   taxSaved: number;
@@ -84,7 +84,7 @@ export function calculateNPSTaxBenefits(
   const available80CLimit = Math.max(0, NPS_LIMITS.section80CCD1_limit - existing80CDeductions);
   const section80CCD1 = Math.min(employeeContribution, available80CLimit, annualIncome * 0.10);
   
-  // Section 80CCD(1B) - Additional \u20B950,000
+  // Section 80CCD(1B) - Additional ₹50,000
   const section80CCD1B = Math.min(additionalContribution, NPS_LIMITS.section80CCD1B_limit);
   
   // Section 80CCD(2) - Employer contribution
@@ -181,7 +181,7 @@ export function compareInvestments(
   const elssReturn = 0.12;
   const elssCorpus = calculateFutureValue(monthlyInvestment, elssReturn / 12, years * 12);
   const elssGains = elssCorpus - (yearlyInvestment * years);
-  const elssLTCG = Math.max(0, elssGains - 125000) * 0.125; // 12.5% LTCG above \u20B91.25L
+  const elssLTCG = Math.max(0, elssGains - 125000) * 0.125; // 12.5% LTCG above ₹1.25L
   const elssTaxBenefit = Math.min(yearlyInvestment, 150000) * getMarginalTaxRate(annualIncome) * years;
   
   return {
@@ -219,13 +219,13 @@ export const NPS_ASSET_CLASSES = {
 
 // NPS Fund Managers
 export const NPS_FUND_MANAGERS = [
-  { id: 'sbi', name: 'SBI Pension Funds', aum: '\u20B92.5L Cr' },
-  { id: 'lic', name: 'LIC Pension Fund', aum: '\u20B91.8L Cr' },
-  { id: 'uti', name: 'UTI Retirement Solutions', aum: '\u20B945K Cr' },
-  { id: 'hdfc', name: 'HDFC Pension Management', aum: '\u20B965K Cr' },
-  { id: 'icici', name: 'ICICI Prudential Pension', aum: '\u20B955K Cr' },
-  { id: 'kotak', name: 'Kotak Mahindra Pension', aum: '\u20B930K Cr' },
-  { id: 'aditya', name: 'Aditya Birla Sun Life', aum: '\u20B915K Cr' },
+  { id: 'sbi', name: 'SBI Pension Funds', aum: '₹2.5L Cr' },
+  { id: 'lic', name: 'LIC Pension Fund', aum: '₹1.8L Cr' },
+  { id: 'uti', name: 'UTI Retirement Solutions', aum: '₹45K Cr' },
+  { id: 'hdfc', name: 'HDFC Pension Management', aum: '₹65K Cr' },
+  { id: 'icici', name: 'ICICI Prudential Pension', aum: '₹55K Cr' },
+  { id: 'kotak', name: 'Kotak Mahindra Pension', aum: '₹30K Cr' },
+  { id: 'aditya', name: 'Aditya Birla Sun Life', aum: '₹15K Cr' },
 ];
 
 // Tier comparison

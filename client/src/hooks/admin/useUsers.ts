@@ -9,7 +9,7 @@ export function useUsers(params?: PaginationParams) {
     queryKey: ['admin', 'users', params],
     queryFn: async () => {
       const result = await adminApi.getUsers(params);
-      return result;
+      return result.data || { users: [], pagination: { total: 0, page: 1, limit: 10, totalPages: 0 } };
     },
     staleTime: 30000,
     retry: 1,

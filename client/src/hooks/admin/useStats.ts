@@ -5,12 +5,12 @@ import { adminApi } from '@/lib/admin/api';
 import type { DashboardStats } from '@/lib/admin/types';
 
 const defaultStats: DashboardStats = {
-  users: { total: 0, active: 0, inactive: 0, new_this_month: 0, growth_percent: 0 },
-  calculations: { total: 0, this_month: 0, saved: 0, trend: 'stable' },
-  revenue: { total: 0, this_month: 0, growth_percent: 0 },
+  users: { total: 0, active: 0, inactive: 0, newThisMonth: 0, growthPercent: 0 },
+  calculations: { total: 0, thisMonth: 0, saved: 0, trend: 'stable' },
+  revenue: { total: 0, thisMonth: 0, growthPercent: 0 },
   services: { total: 0, active: 0, popular: [] },
-  system_health: { status: 'healthy', database: 'unknown', uptime: 0, last_check: new Date().toISOString() },
-  recent_activity: [],
+  systemHealth: { status: 'healthy', database: 'unknown', uptime: 0, lastCheck: new Date().toISOString() },
+  recentActivity: [],
 };
 
 export function useStats() {

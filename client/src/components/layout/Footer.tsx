@@ -6,24 +6,24 @@ export default function Footer() {
   return (
     <footer className="w-full bg-white text-slate-800 border-t border-gray-200 mt-auto">
       {/* Trust Banner - Compact */}
-      <div className="bg-gradient-to-r from-slate-700 to-slate-800 text-white py-6">
+      <div className="bg-slate-100 text-slate-900 py-10 border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
             <div className="flex flex-col items-center">
-              <div className="text-2xl font-bold">ERI</div>
-              <div className="text-slate-300 text-xs font-medium">Govt. Registered Intermediary</div>
+              <div className="text-2xl font-black tracking-tight">ERI</div>
+              <div className="text-slate-500 text-[10px] font-bold uppercase tracking-wider mt-1">Govt. Registered Intermediary</div>
             </div>
             <div className="flex flex-col items-center">
-              <div className="text-2xl font-bold">ISO</div>
-              <div className="text-slate-300 text-xs font-medium">27001 Certified Security</div>
+              <div className="text-2xl font-black tracking-tight">ISO</div>
+              <div className="text-slate-500 text-[10px] font-bold uppercase tracking-wider mt-1">27001 Certified Security</div>
             </div>
             <div className="flex flex-col items-center">
-              <div className="text-2xl font-bold">100%</div>
-              <div className="text-slate-300 text-xs font-medium">CA-Reviewed Returns</div>
+              <div className="text-2xl font-black tracking-tight">100%</div>
+              <div className="text-slate-500 text-[10px] font-bold uppercase tracking-wider mt-1">CA-Reviewed Returns</div>
             </div>
             <div className="flex flex-col items-center">
-              <div className="text-2xl font-bold">4.8 ★</div>
-              <div className="text-slate-300 text-xs font-medium">User Rating</div>
+              <div className="text-2xl font-black tracking-tight">4.8 ★</div>
+              <div className="text-slate-500 text-[10px] font-bold uppercase tracking-wider mt-1">User Rating</div>
             </div>
           </div>
         </div>
@@ -36,13 +36,13 @@ export default function Footer() {
             
             {/* Company Info */}
             <div className="lg:col-span-1">
-              <div className="flex items-center gap-3 mb-4">
+              <a href="https://myeca.in" className="flex items-center gap-3 mb-4 hover:opacity-80 transition-opacity cursor-pointer">
                 <Logo size="sm" />
                 <div>
                   <div className="text-lg font-bold text-slate-800">MyeCA.in</div>
                   <div className="text-xs text-slate-600 font-medium">Expert Tax Filing Platform</div>
                 </div>
-              </div>
+              </a>
               <p className="text-slate-600 text-sm leading-relaxed mb-4">
                 India's most trusted platform for professional tax filing and business services.
               </p>
@@ -136,7 +136,9 @@ export default function Footer() {
                 Resources & Support
               </h3>
               <ul className="space-y-2 mb-4">
+                <li><Link href="/about" className="text-slate-600 text-sm hover:text-orange-600 transition-colors flex items-center gap-2 hover:translate-x-1 duration-200"><span className="text-orange-600">→</span>About MyeCA.in</Link></li>
                 <li><Link href="/blog" className="text-slate-600 text-sm hover:text-orange-600 transition-colors flex items-center gap-2 hover:translate-x-1 duration-200"><span className="text-orange-600">→</span>Tax Guides & Blog</Link></li>
+                <li><Link href="/experts" className="text-slate-600 text-sm hover:text-orange-600 transition-colors flex items-center gap-2 hover:translate-x-1 duration-200"><span className="text-orange-600">→</span>Meet our Experts</Link></li>
                 <li><Link href="/pricing" className="text-slate-600 text-sm hover:text-orange-600 transition-colors flex items-center gap-2 hover:translate-x-1 duration-200"><span className="text-orange-600">→</span>Pricing & Plans</Link></li>
                 <li><Link href="/search" className="text-slate-600 text-sm hover:text-orange-600 transition-colors flex items-center gap-2 hover:translate-x-1 duration-200"><span className="text-orange-600">→</span>Help Center</Link></li>
                 <li><Link href="/legal/privacy-policy" className="text-slate-600 text-sm hover:text-orange-600 transition-colors flex items-center gap-2 hover:translate-x-1 duration-200"><span className="text-orange-600">→</span>Privacy Policy</Link></li>
@@ -171,18 +173,21 @@ export default function Footer() {
           </div>
 
           {/* CTA Section */}
-          <div className="mt-8 pt-6 border-t border-slate-200">
-            <div className="bg-gradient-to-r from-slate-700 to-slate-800 rounded-xl p-6 text-white text-center">
-              <h3 className="text-lg font-bold mb-2">Ready to File Your ITR?</h3>
-              <p className="text-slate-300 mb-4 max-w-xl mx-auto text-sm">Start free. Your personal CA reviews every return before filing.</p>
-              <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
+          <div className="mt-8">
+            <div className="bg-slate-50 rounded-2xl p-8 text-center border border-slate-200 shadow-sm overflow-hidden relative group">
+              {/* Subtle background accent */}
+              <div className="absolute -top-24 -right-24 w-48 h-48 bg-blue-100 rounded-full blur-3xl opacity-50 group-hover:scale-110 transition-transform duration-500"></div>
+              
+              <h3 className="text-2xl font-black text-slate-900 mb-2 relative z-10">Ready to File Your ITR?</h3>
+              <p className="text-slate-500 mb-8 max-w-xl mx-auto text-base font-medium relative z-10">Start free. Your personal CA reviews every return before filing.</p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center relative z-10">
                 <Link href="/itr/form-selector">
-                  <button className="bg-white text-slate-800 px-6 py-2.5 rounded-lg hover:bg-slate-100 transition-all duration-200 font-semibold text-sm">
+                  <button className="bg-blue-600 text-white px-8 py-3 rounded-xl hover:bg-blue-500 transition-all duration-300 font-bold text-sm shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
                     Start Filing Now
                   </button>
                 </Link>
                 <Link href="/pricing">
-                  <button className="border border-white text-white px-6 py-2.5 rounded-lg hover:bg-white hover:text-slate-800 transition-all duration-200 font-semibold text-sm">
+                  <button className="bg-white border-2 border-slate-200 text-slate-700 px-8 py-3 rounded-xl hover:bg-slate-50 hover:border-slate-300 transition-all duration-300 font-bold text-sm">
                     View Pricing
                   </button>
                 </Link>

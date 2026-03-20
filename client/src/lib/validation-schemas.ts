@@ -138,10 +138,10 @@ export const incomeTaxInputSchema = z.object({
   rentalIncome: currencySchema.optional().default(0),
   interestIncome: currencySchema.optional().default(0),
   deductions: z.object({
-    section80C: currencySchema.max(150000, 'Max 80C limit is \u20B91.5 Lakh'),
-    section80D: currencySchema.max(100000, 'Max 80D limit is \u20B91 Lakh'),
-    section80CCD: currencySchema.max(50000, 'Max 80CCD(1B) limit is \u20B950,000'),
-    section24: currencySchema.max(200000, 'Max Section 24 limit is \u20B92 Lakh'),
+    section80C: currencySchema.max(150000, 'Max 80C limit is ₹1.5 Lakh'),
+    section80D: currencySchema.max(100000, 'Max 80D limit is ₹1 Lakh'),
+    section80CCD: currencySchema.max(50000, 'Max 80CCD(1B) limit is ₹50,000'),
+    section24: currencySchema.max(200000, 'Max Section 24 limit is ₹2 Lakh'),
     hra: currencySchema.optional().default(0),
     lta: currencySchema.optional().default(0),
     standardDeduction: currencySchema.default(75000),
@@ -175,7 +175,7 @@ export const capitalGainsInputSchema = z.object({
 
 // EMI Calculator Input
 export const emiInputSchema = z.object({
-  principal: currencySchema.min(10000, 'Minimum loan amount is \u20B910,000'),
+  principal: currencySchema.min(10000, 'Minimum loan amount is ₹10,000'),
   interestRate: interestRateSchema.min(1, 'Interest rate is required'),
   tenure: z.number().min(1, 'Tenure must be at least 1 month').max(360, 'Max tenure is 30 years'),
   tenureType: z.enum(['months', 'years']),
@@ -183,7 +183,7 @@ export const emiInputSchema = z.object({
 
 // SIP Calculator Input
 export const sipInputSchema = z.object({
-  monthlyInvestment: currencySchema.min(500, 'Minimum SIP is \u20B9500'),
+  monthlyInvestment: currencySchema.min(500, 'Minimum SIP is ₹500'),
   expectedReturn: percentageSchema.min(1, 'Expected return is required'),
   duration: z.number().min(1, 'Duration must be at least 1 year').max(40, 'Max duration is 40 years'),
 });
@@ -221,8 +221,8 @@ export const businessRegistrationSchema = z.object({
     .max(100)
     .regex(/^[a-zA-Z0-9\s\-\.]+$/, 'Company name contains invalid characters'),
   companyType: z.enum(['pvtLtd', 'llp', 'opc', 'partnership', 'proprietorship']),
-  authorizedCapital: currencySchema.min(100000, 'Minimum authorized capital is \u20B91 Lakh'),
-  paidUpCapital: currencySchema.min(100000, 'Minimum paid-up capital is \u20B91 Lakh'),
+  authorizedCapital: currencySchema.min(100000, 'Minimum authorized capital is ₹1 Lakh'),
+  paidUpCapital: currencySchema.min(100000, 'Minimum paid-up capital is ₹1 Lakh'),
   directors: z.array(z.object({
     name: z.string().min(1, 'Director name is required'),
     pan: panSchema,
@@ -325,6 +325,6 @@ export function formatINR(amount: number): string {
 
 // Parse Indian currency string to number
 export function parseINR(value: string): number {
-  return Number(value.replace(/[\u20B9,\s]/g, '')) || 0;
+  return Number(value.replace(/[₹,\s]/g, '')) || 0;
 }
 

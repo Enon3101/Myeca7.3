@@ -107,7 +107,7 @@ const FormComponent = ({ register, errors }: any) => {
 
       <div className="grid grid-cols-2 gap-8 mt-6">
         <div className="space-y-4">
-          <h3 className="font-semibold text-green-700">Earnings (\u20B9)</h3>
+          <h3 className="font-semibold text-green-700">Earnings (₹)</h3>
           <div>
             <Label>Basic</Label>
             <Input type="number" {...register('earnings.basic', { valueAsNumber: true })} />
@@ -131,7 +131,7 @@ const FormComponent = ({ register, errors }: any) => {
         </div>
 
         <div className="space-y-4">
-          <h3 className="font-semibold text-red-700">Deductions (\u20B9)</h3>
+          <h3 className="font-semibold text-red-700">Deductions (₹)</h3>
           <div>
             <Label>Provident Fund (EPF)</Label>
             <Input type="number" {...register('deductions.pf', { valueAsNumber: true })} />
@@ -219,9 +219,9 @@ const generateHTML = (data: any) => {
         <thead>
           <tr style="background-color: #f1f5f9; border-bottom: 1px solid #ccc;">
             <th style="padding: 10px; text-align: left; width: 35%; border-right: 1px solid #ccc;">Earnings</th>
-            <th style="padding: 10px; text-align: right; width: 15%; border-right: 1px solid #ccc;">Amount (\u20B9)</th>
+            <th style="padding: 10px; text-align: right; width: 15%; border-right: 1px solid #ccc;">Amount (₹)</th>
             <th style="padding: 10px; text-align: left; width: 35%; border-right: 1px solid #ccc;">Deductions</th>
-            <th style="padding: 10px; text-align: right; width: 15%;">Amount (\u20B9)</th>
+            <th style="padding: 10px; text-align: right; width: 15%;">Amount (₹)</th>
           </tr>
         </thead>
         <tbody>
@@ -257,15 +257,15 @@ const generateHTML = (data: any) => {
           </tr>
           <tr style="border-top: 1px solid #ccc; font-weight: bold; background-color: #f8fafc;">
             <td style="padding: 10px; border-right: 1px solid #ccc;">Total Earnings</td>
-            <td style="padding: 10px; border-right: 1px solid #ccc; text-align: right; color: #16a34a;">\u20B9${grossEarnings.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
+            <td style="padding: 10px; border-right: 1px solid #ccc; text-align: right; color: #16a34a;">₹${grossEarnings.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
             <td style="padding: 10px; border-right: 1px solid #ccc;">Total Deductions</td>
-            <td style="padding: 10px; text-align: right; color: #dc2626;">\u20B9${totalDeductions.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
+            <td style="padding: 10px; text-align: right; color: #dc2626;">₹${totalDeductions.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
           </tr>
         </tbody>
       </table>
 
       <div style="margin-top: 25px; padding: 15px; background-color: #e0f2fe; border: 1px solid #bae6fd; border-radius: 4px;">
-        <h2 style="margin: 0 0 5px 0; font-size: 20px; color: #0284c7; text-align: center;">Net Take-Home Pay: \u20B9${netPay.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</h2>
+        <h2 style="margin: 0 0 5px 0; font-size: 20px; color: #0284c7; text-align: center;">Net Take-Home Pay: ₹${netPay.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</h2>
         <p style="margin: 0; text-align: center; font-style: italic; font-size: 13px;">( ${numberToWords(netPay)} )</p>
       </div>
 

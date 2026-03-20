@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,6 +8,8 @@ import { Separator } from "@/components/ui/separator";
 import { Search, Calendar, User, ArrowRight, Clock, Tag, TrendingUp, FileText, Calculator, BookOpen, ArrowLeft } from "lucide-react";
 import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
+import MetaSEO from "@/components/seo/MetaSEO";
+import { cn } from "@/lib/utils";
 
 interface BlogPost {
   id: number;
@@ -70,7 +72,7 @@ const sampleBlogPosts: BlogPost[] = [
     id: 4,
     title: "Maximizing Section 80C Deductions: Smart Investment Strategies",
     content: "Investment strategies for tax saving...",
-    excerpt: "Discover the best investment options under Section 80C to save up to \u20B946,800 in taxes while building wealth.",
+    excerpt: "Discover the best investment options under Section 80C to save up to ₹46,800 in taxes while building wealth.",
     author: "CA Vikram Singh",
     publishedAt: "2025-01-03",
     status: "published",
@@ -108,11 +110,9 @@ export default function BlogIndexPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
-  // In a real app, this would fetch from the API
   const { data: blogPosts = sampleBlogPosts, isLoading } = useQuery({
     queryKey: ['/api/blog', searchTerm, selectedCategory],
     queryFn: async () => {
-      // Simulate API call - replace with actual API call
       await new Promise(resolve => setTimeout(resolve, 500));
       let filtered = sampleBlogPosts;
       
@@ -133,303 +133,176 @@ export default function BlogIndexPage() {
   });
 
   const featuredPost = blogPosts[0];
-  const regularPosts = blogPosts.slice(1);
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 mobile-safe-bottom">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Back Button */}
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5 }}
-          className="mb-8"
-        >
-          <Link href="/">
-            <Button variant="ghost" className="hover:bg-blue-50">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Home
-            </Button>
-          </Link>
-        </motion.div>
+    <div className="min-h-screen bg-white pb-20">
+      <MetaSEO
+        title="Knowledge Hub | Expert Tax Guides & Finance Insights MyeCA.in"
+        description="Master your finances with expert-led tax guides, ITR filing tips, and real-time regulatory updates."
+        keywords={["tax regime comparison", "ITR filing 2025", "income tax guide", "GST updates India"]}
+      />
 
-        {/* Header */}
-        <motion.div
-          className="text-center mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Tax Knowledge Hub
-          </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Stay updated with the latest tax news, filing guides, and expert insights from our certified Chartered Accountants
-          </p>
-        </motion.div>
-
-        {/* Search and Categories */}
-        <motion.div
-          className="mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          <div className="max-w-2xl mx-auto mb-8">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-              <Input
-                placeholder="Search articles, guides, tax tips..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 py-3 text-lg"
-              />
-            </div>
-          </div>
-
-          {/* Featured Categories */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-            {featuredCategories.map((category) => {
-              const IconComponent = category.icon;
-              return (
-                <Card 
-                  key={category.name}
-                  className={`cursor-pointer transition-all hover:shadow-md ${
-                    selectedCategory === category.name ? 'ring-2 ring-blue-500' : ''
-                  }`}
-                  onClick={() => setSelectedCategory(selectedCategory === category.name ? null : category.name)}
-                >
-                  <CardContent className="p-4 text-center">
-                    <div className={`inline-flex items-center justify-center w-12 h-12 rounded-lg mb-3 ${category.color}`}>
-                      <IconComponent className="h-6 w-6" />
-                    </div>
-                    <h3 className="font-semibold text-gray-900 mb-1">{category.name}</h3>
-                    <p className="text-sm text-gray-500">{category.count} articles</p>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
-
-          {/* Active Filters */}
-          {(searchTerm || selectedCategory) && (
-            <div className="flex flex-wrap gap-2 mb-6">
-              {searchTerm && (
-                <Badge variant="secondary" className="px-3 py-1">
-                  Search: "{searchTerm}"
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="ml-2 h-auto p-0"
-                    onClick={() => setSearchTerm("")}
-                  >
-                    ×
-                  </Button>
-                </Badge>
-              )}
-              {selectedCategory && (
-                <Badge variant="secondary" className="px-3 py-1">
-                  Category: {selectedCategory}
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="ml-2 h-auto p-0"
-                    onClick={() => setSelectedCategory(null)}
-                  >
-                    ×
-                  </Button>
-                </Badge>
-              )}
-            </div>
-          )}
-        </motion.div>
-
-        {/* Featured Article */}
-        {featuredPost && !searchTerm && !selectedCategory && (
-          <motion.div
-            className="mb-12"
-            initial={{ opacity: 0, y: 20 }}
+      {/* Simplistic Hero Section */}
+      <section className="pt-24 pb-20 border-b border-slate-50 bg-slate-50/30">
+        <div className="container mx-auto px-4 text-center">
+          <m.div
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
+            transition={{ duration: 0.6 }}
           >
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Featured Article</h2>
-            <Card className="overflow-hidden hover:shadow-lg transition-shadow">
-              <div className="md:flex">
-                <div className="md:w-2/3 p-8">
-                  <div className="flex items-center gap-2 mb-4">
-                    <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100">Featured</Badge>
-                    <Badge variant="outline">{featuredPost.category}</Badge>
-                  </div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4 leading-tight">
-                    {featuredPost.title}
-                  </h3>
-                  <p className="text-gray-600 mb-6 text-lg leading-relaxed">
-                    {featuredPost.excerpt}
-                  </p>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4 text-sm text-gray-500">
-                      <div className="flex items-center gap-1">
-                        <User className="h-4 w-4" />
-                        {featuredPost.author}
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Calendar className="h-4 w-4" />
-                        {new Date(featuredPost.publishedAt).toLocaleDateString()}
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Clock className="h-4 w-4" />
-                        {featuredPost.readTime} min read
-                      </div>
-                    </div>
-                    <Link href={`/blog/${featuredPost.id}`}>
-                      <Button className="group">
-                        Read Article
-                        <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                      </Button>
-                    </Link>
-                  </div>
-                </div>
-                <div className="md:w-1/3 bg-gradient-to-br from-blue-50 to-indigo-100 p-8 flex items-center justify-center">
-                  <div className="text-center">
-                    <FileText className="h-16 w-16 text-blue-600 mx-auto mb-4" />
-                    <p className="text-blue-800 font-medium">Latest Tax Insights</p>
-                  </div>
-                </div>
-              </div>
-            </Card>
-          </motion.div>
-        )}
-
-        {/* Blog Posts Grid */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-        >
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl font-bold text-gray-900">
-              {searchTerm || selectedCategory ? 'Search Results' : 'Latest Articles'}
-            </h2>
-            <p className="text-gray-500">
-              {blogPosts.length} article{blogPosts.length !== 1 ? 's' : ''} found
+            <h1 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 tracking-tight">
+              Knowledge Hub
+            </h1>
+            <p className="text-slate-500 text-lg max-w-2xl mx-auto mb-12 font-medium">
+              Simplifying Indian taxation and financial laws for everyone.
             </p>
+
+            <div className="max-w-xl mx-auto relative">
+              <div className="flex items-center bg-white border border-slate-200 rounded-2xl p-1.5 shadow-sm focus-within:ring-2 focus-within:ring-blue-600/10 focus-within:border-blue-600 transition-all">
+                <Search className="ml-4 h-5 w-5 text-slate-400" />
+                <Input
+                  placeholder="What are you looking for?"
+                  className="bg-transparent border-none text-slate-900 placeholder:text-slate-400 text-base focus-visible:ring-0 h-12"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
+            </div>
+          </m.div>
+        </div>
+      </section>
+
+      {/* Main Hub Layout */}
+      <div className="container mx-auto px-4 py-16">
+        <div className="grid lg:grid-cols-12 gap-16">
+          
+          {/* Main Feed */}
+          <div className="lg:col-span-8">
+            
+            {/* Category Filter Pills */}
+            <div className="flex flex-wrap gap-2 mb-12">
+              <button
+                onClick={() => setSelectedCategory(null)}
+                className={cn(
+                  "px-5 py-2.5 rounded-full text-xs font-black uppercase tracking-widest transition-all",
+                  !selectedCategory 
+                    ? "bg-slate-900 text-white shadow-lg shadow-slate-900/10" 
+                    : "bg-slate-50 text-slate-400 hover:bg-slate-100"
+                )}
+              >
+                All Guides
+              </button>
+              {featuredCategories.map((cat) => (
+                <button
+                  key={cat.name}
+                  onClick={() => setSelectedCategory(cat.name)}
+                  className={cn(
+                    "px-5 py-2.5 rounded-full text-xs font-black uppercase tracking-widest transition-all",
+                    selectedCategory === cat.name 
+                      ? "bg-blue-600 text-white shadow-lg shadow-blue-600/10" 
+                      : "bg-slate-50 text-slate-400 hover:bg-slate-100"
+                  )}
+                >
+                  {cat.name}
+                </button>
+              ))}
+            </div>
+
+            <div className="space-y-12">
+              {/* Featured / Results Header */}
+              <div className="flex items-center justify-between pb-6 border-b border-slate-100">
+                <h2 className="text-xl font-black text-slate-900 uppercase tracking-widest text-[13px]">
+                  {searchTerm || selectedCategory ? "Results Found" : "Latest Articles"}
+                </h2>
+                <span className="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em]">
+                  {blogPosts.length} Items Available
+                </span>
+              </div>
+
+              {/* Minimalist Cards Feed */}
+              <div className="grid gap-10">
+                {blogPosts.map((post, index) => (
+                  <m.div
+                    key={post.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: index * 0.05 }}
+                  >
+                    <Link href={`/blog/${post.id}`}>
+                      <div className="group cursor-pointer">
+                        <div className="flex flex-col md:flex-row md:items-center gap-6 md:gap-10">
+                          {/* Minimal Date/Category Block */}
+                          <div className="md:w-32 shrink-0">
+                            <div className="text-[10px] font-black text-blue-600 uppercase tracking-[0.2em] mb-1">
+                              {post.category}
+                            </div>
+                            <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                              {new Date(post.publishedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                            </div>
+                          </div>
+                          
+                          <div className="flex-1">
+                            <h3 className="text-2xl font-black text-slate-900 mb-3 group-hover:text-blue-600 transition-colors leading-tight">
+                              {post.title}
+                            </h3>
+                            <p className="text-slate-500 font-medium leading-relaxed mb-4 line-clamp-2">
+                              {post.excerpt}
+                            </p>
+                            <div className="flex items-center gap-4 text-[9px] font-black text-slate-400 uppercase tracking-widest">
+                              <span className="flex items-center gap-1.5"><User className="w-3.5 h-3.5" /> {post.author}</span>
+                              <span className="w-1 h-1 bg-slate-200 rounded-full" />
+                              <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5" /> {post.readTime} min read</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="mt-8 h-px bg-slate-50 w-full group-last:hidden" />
+                      </div>
+                    </Link>
+                  </m.div>
+                ))}
+              </div>
+
+              {blogPosts.length === 0 && (
+                <div className="py-20 text-center">
+                  <BookOpen className="w-12 h-12 text-slate-100 mx-auto mb-4" />
+                  <p className="text-slate-400 font-bold">No results found for your search.</p>
+                </div>
+              )}
+            </div>
           </div>
 
-          {isLoading ? (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[...Array(6)].map((_, i) => (
-                <Card key={i} className="animate-pulse">
-                  <CardContent className="p-6">
-                    <div className="h-4 bg-gray-200 rounded mb-4"></div>
-                    <div className="h-6 bg-gray-200 rounded mb-4"></div>
-                    <div className="h-20 bg-gray-200 rounded mb-4"></div>
-                    <div className="h-4 bg-gray-200 rounded"></div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          ) : blogPosts.length === 0 ? (
-            <Card className="text-center py-12">
-              <CardContent>
-                <Search className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">No articles found</h3>
-                <p className="text-gray-500 mb-4">
-                  Try adjusting your search terms or browse our categories
-                </p>
-                <Button onClick={() => { setSearchTerm(""); setSelectedCategory(null); }}>
-                  View All Articles
-                </Button>
-              </CardContent>
-            </Card>
-          ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {(searchTerm || selectedCategory ? blogPosts : regularPosts).map((post, index) => (
-                <motion.div
-                  key={post.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                >
-                  <Card className="h-full hover:shadow-lg transition-shadow group">
-                    <CardContent className="p-6 flex flex-col h-full">
-                      <div className="flex items-center gap-2 mb-4">
-                        <Badge variant="outline" className="text-xs">
-                          {post.category}
-                        </Badge>
-                        <div className="flex items-center gap-1 text-xs text-gray-500">
-                          <Clock className="h-3 w-3" />
-                          {post.readTime} min
-                        </div>
-                      </div>
-                      
-                      <h3 className="text-lg font-semibold text-gray-900 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors">
-                        {post.title}
-                      </h3>
-                      
-                      <p className="text-gray-600 mb-4 flex-grow line-clamp-3">
-                        {post.excerpt}
-                      </p>
-                      
-                      <div className="flex flex-wrap gap-1 mb-4">
-                        {post.tags.slice(0, 3).map((tag) => (
-                          <Badge key={tag} variant="secondary" className="text-xs">
-                            {tag}
-                          </Badge>
-                        ))}
-                      </div>
-                      
-                      <Separator className="mb-4" />
-                      
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2 text-sm text-gray-500">
-                          <User className="h-4 w-4" />
-                          <span className="font-medium">{post.author}</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-sm text-gray-500">
-                          <Calendar className="h-4 w-4" />
-                          {new Date(post.publishedAt).toLocaleDateString()}
-                        </div>
-                      </div>
-                      
-                      <Link href={`/blog/${post.id}`} className="mt-4">
-                        <Button variant="outline" className="w-full group-hover:bg-blue-50 group-hover:border-blue-200">
-                          Read More
-                          <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                        </Button>
-                      </Link>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
-            </div>
-          )}
-        </motion.div>
+          {/* Simplistic Sidebar */}
+          <aside className="lg:col-span-4">
+            <div className="sticky top-32 space-y-12">
+              
+              {/* Newsletter Block */}
+              <div className="bg-slate-50 rounded-[2rem] p-8 border border-slate-100">
+                <h4 className="text-sm font-black text-slate-900 uppercase tracking-widest mb-4">Stay Compliant</h4>
+                <p className="text-slate-500 text-sm font-medium mb-6 leading-relaxed">Join 5,000+ professionals receiving weekly tax insights.</p>
+                <div className="space-y-3">
+                  <Input 
+                    placeholder="Email Address" 
+                    className="bg-white border-slate-200 text-slate-900 placeholder:text-slate-400 rounded-xl h-11 focus-visible:ring-blue-600/10"
+                  />
+                  <Button className="w-full bg-slate-900 hover:bg-slate-800 text-white rounded-xl h-11 font-black text-xs uppercase tracking-widest transition-all active:scale-[0.98]">
+                    Join Newsletter
+                  </Button>
+                </div>
+              </div>
 
-        {/* Newsletter Subscription */}
-        <motion.div
-          className="mt-16"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.8 }}
-        >
-          <Card className="bg-gradient-to-r from-blue-600 to-blue-700 text-white">
-            <CardContent className="p-8 text-center">
-              <h3 className="text-2xl font-bold mb-4">Stay Updated with Tax News</h3>
-              <p className="mb-6 text-blue-100">
-                Get the latest tax updates, filing deadlines, and expert tips delivered to your inbox
-              </p>
-              <div className="max-w-md mx-auto flex gap-4">
-                <Input 
-                  placeholder="Enter your email" 
-                  className="bg-white text-gray-900"
-                />
-                <Button variant="secondary" className="whitespace-nowrap">
-                  Subscribe
+              {/* Quick Services Link */}
+              <div className="p-8 bg-blue-50 rounded-[2rem] border border-blue-100 group">
+                <h4 className="text-sm font-black text-blue-900 uppercase tracking-widest mb-3">Professional Help?</h4>
+                <p className="text-blue-700/70 text-sm font-medium mb-6">Schedule a 1-on-1 consultation with our senior CA team.</p>
+                <Button variant="ghost" className="p-0 h-auto text-blue-600 font-black text-xs uppercase tracking-widest hover:bg-transparent hover:text-blue-700 flex items-center gap-2 group-hover:gap-3 transition-all">
+                  Book Consultation <ArrowRight className="w-4 h-4" />
                 </Button>
               </div>
-            </CardContent>
-          </Card>
-        </motion.div>
+
+            </div>
+          </aside>
+
+        </div>
       </div>
     </div>
   );

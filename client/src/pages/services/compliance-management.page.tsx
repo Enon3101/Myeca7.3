@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { FileText, Calendar, Shield, AlertCircle, CheckCircle2, Clock, ArrowRight, Building2, Scale, Briefcase } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -17,7 +17,7 @@ const ComplianceManagementPage = () => {
         title: "ROC Compliance",
         description: "Annual filings, board resolutions, share transfers, and statutory registers",
         frequency: "Annual/Event-based",
-        penalty: "Up to \u20B91L + \u20B9100/day",
+        penalty: "Up to ₹1L + ₹100/day",
         icon: Building2,
         critical: true
       },
@@ -25,7 +25,7 @@ const ComplianceManagementPage = () => {
         title: "GST Compliance",
         description: "Monthly/quarterly returns, annual returns, e-way bills, and reconciliation",
         frequency: "Monthly/Quarterly",
-        penalty: "Up to \u20B910K + 18% interest",
+        penalty: "Up to ₹10K + 18% interest",
         icon: FileText,
         critical: true
       },
@@ -33,7 +33,7 @@ const ComplianceManagementPage = () => {
         title: "Income Tax Compliance",
         description: "TDS returns, advance tax, ITR filing, and tax audit",
         frequency: "Quarterly/Annual",
-        penalty: "Up to \u20B910K per default",
+        penalty: "Up to ₹10K per default",
         icon: Scale,
         critical: true
       },
@@ -77,7 +77,7 @@ const ComplianceManagementPage = () => {
   const compliancePackages = [
     {
       name: "Startup Essentials",
-      price: "\u20B99,999",
+      price: "₹9,999",
       period: "per month",
       features: [
         "ROC compliance management",
@@ -91,7 +91,7 @@ const ComplianceManagementPage = () => {
     },
     {
       name: "Growth Package",
-      price: "\u20B919,999",
+      price: "₹19,999",
       period: "per month",
       features: [
         "Everything in Essentials",
@@ -105,7 +105,7 @@ const ComplianceManagementPage = () => {
     },
     {
       name: "Enterprise",
-      price: "\u20B949,999",
+      price: "₹49,999",
       period: "per month",
       features: [
         "Everything in Growth",
@@ -217,7 +217,7 @@ const ComplianceManagementPage = () => {
             <TabsContent value="statutory">
               <div className="grid md:grid-cols-2 gap-6">
                 {complianceServices.statutory.map((service, index) => (
-                  <motion.div
+                  <m.div
                     key={index}
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
@@ -254,7 +254,7 @@ const ComplianceManagementPage = () => {
                         </div>
                       </CardContent>
                     </Card>
-                  </motion.div>
+                  </m.div>
                 ))}
               </div>
             </TabsContent>
@@ -262,7 +262,7 @@ const ComplianceManagementPage = () => {
             <TabsContent value="startup">
               <div className="grid md:grid-cols-2 gap-6">
                 {complianceServices.startup.map((service, index) => (
-                  <motion.div
+                  <m.div
                     key={index}
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -306,7 +306,7 @@ const ComplianceManagementPage = () => {
                         </div>
                       </CardContent>
                     </Card>
-                  </motion.div>
+                  </m.div>
                 ))}
               </div>
             </TabsContent>
@@ -372,7 +372,7 @@ const ComplianceManagementPage = () => {
 
           <div className="grid md:grid-cols-3 gap-8">
             {compliancePackages.map((pkg, index) => (
-              <motion.div
+              <m.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -388,7 +388,7 @@ const ComplianceManagementPage = () => {
                   <CardHeader>
                     <CardTitle className="text-2xl">{pkg.name}</CardTitle>
                     <div className="mt-4">
-                      <span className="text-3xl font-bold">\u20B9pkg.price.replace('\u20B9', '')</span>
+                      <span className="text-3xl font-bold">₹pkg.price.replace('₹', '')</span>
                       <span className="text-gray-600 ml-2">{pkg.period}</span>
                     </div>
                   </CardHeader>
@@ -412,7 +412,7 @@ const ComplianceManagementPage = () => {
                     </Button>
                   </CardContent>
                 </Card>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </section>

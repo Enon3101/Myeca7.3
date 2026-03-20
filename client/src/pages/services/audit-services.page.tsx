@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { FileSearch, Shield, Calculator, TrendingUp, CheckCircle, ArrowRight, FileText, AlertTriangle, Award, BarChart3, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -17,7 +17,7 @@ const AuditServicesPage = () => {
         title: "Statutory Audit",
         description: "Mandatory annual audit as per Companies Act 2013",
         scope: ["Financial statements audit", "Compliance verification", "Internal controls review", "Management letter"],
-        threshold: "Turnover > \u20B91 Cr or Paid-up capital > \u20B950L",
+        threshold: "Turnover > ₹1 Cr or Paid-up capital > ₹50L",
         icon: FileSearch,
         color: "blue"
       },
@@ -25,7 +25,7 @@ const AuditServicesPage = () => {
         title: "Tax Audit",
         description: "Section 44AB audit for businesses exceeding limits",
         scope: ["Books of accounts review", "Tax compliance check", "Form 3CA/3CD", "Tax planning advice"],
-        threshold: "Turnover > \u20B91 Cr (business) or \u20B950L (profession)",
+        threshold: "Turnover > ₹1 Cr (business) or ₹50L (profession)",
         icon: Calculator,
         color: "green"
       },
@@ -33,7 +33,7 @@ const AuditServicesPage = () => {
         title: "GST Audit",
         description: "Annual GST audit and reconciliation",
         scope: ["GSTR-9 preparation", "ITC reconciliation", "GSTR-9C certification", "GST compliance review"],
-        threshold: "Turnover > \u20B92 Cr",
+        threshold: "Turnover > ₹2 Cr",
         icon: FileText,
         color: "purple"
       },
@@ -213,7 +213,7 @@ const AuditServicesPage = () => {
             <TabsContent value="statutory">
               <div className="grid md:grid-cols-2 gap-6">
                 {auditServices.statutory.map((service, index) => (
-                  <motion.div
+                  <m.div
                     key={index}
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
@@ -257,7 +257,7 @@ const AuditServicesPage = () => {
                         </div>
                       </CardContent>
                     </Card>
-                  </motion.div>
+                  </m.div>
                 ))}
               </div>
             </TabsContent>
@@ -265,7 +265,7 @@ const AuditServicesPage = () => {
             <TabsContent value="specialized">
               <div className="grid md:grid-cols-2 gap-6">
                 {auditServices.specialized.map((service, index) => (
-                  <motion.div
+                  <m.div
                     key={index}
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -303,7 +303,7 @@ const AuditServicesPage = () => {
                         </div>
                       </CardContent>
                     </Card>
-                  </motion.div>
+                  </m.div>
                 ))}
               </div>
             </TabsContent>
@@ -323,7 +323,7 @@ const AuditServicesPage = () => {
 
           <div className="grid md:grid-cols-4 gap-6">
             {auditProcess.map((phase, index) => (
-              <motion.div
+              <m.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -350,7 +350,7 @@ const AuditServicesPage = () => {
                     <ArrowRight className="h-6 w-6 text-purple-400" />
                   </div>
                 )}
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </section>

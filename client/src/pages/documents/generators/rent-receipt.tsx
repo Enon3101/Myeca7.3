@@ -49,12 +49,12 @@ const FormComponent = ({ register, errors }: any) => {
         <div><Label>Received from (Tenant Name)</Label><Input {...register('tenantName')} /></div>
         <div><Label>Received by (Landlord Name)</Label><Input {...register('landlordName')} /></div>
         <div className="col-span-2"><Label>Property Address</Label><Textarea rows={2} {...register('propertyAddress')} /></div>
-        <div><Label>Landlord PAN (Required if Rent &gt; \u20B91L/yr)</Label><Input {...register('landlordPan')} placeholder="ABCDE1234F" /></div>
+        <div><Label>Landlord PAN (Required if Rent &gt; ₹1L/yr)</Label><Input {...register('landlordPan')} placeholder="ABCDE1234F" /></div>
       </div>
 
       <h3 className="text-lg font-bold border-b pb-2 mt-6">Payment Details</h3>
       <div className="grid grid-cols-3 gap-4">
-        <div><Label>Rent Amount (\u20B9)</Label><Input type="number" {...register('rentAmount', { valueAsNumber: true })} /></div>
+        <div><Label>Rent Amount (₹)</Label><Input type="number" {...register('rentAmount', { valueAsNumber: true })} /></div>
         <div><Label>Mode of Payment</Label><Input {...register('paymentMode')} placeholder="Cash/Cheque/UPI" /></div>
         <div><Label>Payment Reference</Label><Input {...register('paymentRef')} placeholder="Cheque No / UPI Ref" /></div>
       </div>
@@ -88,7 +88,7 @@ const generateHTML = (data: any) => {
 
           <p style="font-size: 16px; text-align: justify; line-height: 2;">
             Received with thanks from Mr./Ms. <strong style="border-bottom: 1px dotted #000; padding: 0 10px;">${data.tenantName || '__________________'}</strong>, 
-            a sum of <strong>\u20B9${Number(data.rentAmount || 0).toLocaleString('en-IN')}</strong> 
+            a sum of <strong>₹${Number(data.rentAmount || 0).toLocaleString('en-IN')}</strong> 
             ( <span style="font-style: italic; border-bottom: 1px dotted #000; padding: 0 10px;">${numberToWords(data.rentAmount || 0)}</span> )<br/>
             towards the rent for the period from <strong>${data.rentPeriodStart}</strong> to <strong>${data.rentPeriodEnd}</strong><br/>
             for the residential property situated at:

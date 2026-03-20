@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Link } from "wouter";
 import { 
   ShoppingBag, 
@@ -52,7 +52,7 @@ export default function TradeLicensePage() {
       color: "blue",
       businesses: ["Retail stores and shops", "Barber shops, laundry services", "Medical stores, clinics", "Computer shops", "Dangerous trades (fireworks, chemicals)"],
       processingTime: "7-10 days",
-      fees: "\u20B9500-2,000"
+      fees: "₹500-2,000"
     },
     {
       category: "Industries License",
@@ -60,7 +60,7 @@ export default function TradeLicensePage() {
       color: "green", 
       businesses: ["Small, medium, large-scale manufacturing", "Cyber cafes", "Industrial establishments", "Production units"],
       processingTime: "10-15 days",
-      fees: "\u20B91,000-5,000"
+      fees: "₹1,000-5,000"
     },
     {
       category: "Food Establishment",
@@ -68,7 +68,7 @@ export default function TradeLicensePage() {
       color: "orange",
       businesses: ["Restaurants, hotels, canteens", "Food stalls, bakeries", "Meat and vegetable sales", "Shopping malls, movie theaters"],
       processingTime: "7-12 days",
-      fees: "\u20B9750-3,000"
+      fees: "₹750-3,000"
     }
   ];
 
@@ -333,7 +333,7 @@ export default function TradeLicensePage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* License Categories */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -384,10 +384,10 @@ export default function TradeLicensePage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Eligibility Criteria */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
@@ -420,10 +420,10 @@ export default function TradeLicensePage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Required Documents */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
@@ -460,10 +460,10 @@ export default function TradeLicensePage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Registration Process */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
@@ -527,10 +527,10 @@ export default function TradeLicensePage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Major City Portals */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.8 }}
@@ -571,10 +571,10 @@ export default function TradeLicensePage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Additional Requirements */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.0 }}
@@ -611,10 +611,10 @@ export default function TradeLicensePage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Expert Assistance CTA */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.2 }}
@@ -632,7 +632,7 @@ export default function TradeLicensePage() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 shadow-lg">
                   <ShoppingBag className="w-5 h-5 mr-2" />
-                  Apply Now from {"\u20B9"}1,999
+                  Apply Now from {"₹"}1,999
                 </Button>
                 <Link href="/expert-consultation?service=trade-license">
                   <Button size="lg" className="bg-blue-700 hover:bg-blue-800 text-white border-0 px-8 shadow-lg font-semibold">
@@ -658,7 +658,7 @@ export default function TradeLicensePage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
       </div>
     </div>
   );

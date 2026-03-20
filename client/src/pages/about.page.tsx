@@ -1,208 +1,127 @@
-import { motion } from "framer-motion";
-import { Users, Award, Shield, Target, ArrowRight, CheckCircle } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import Breadcrumb from "@/components/Breadcrumb";
-import { Link } from "wouter";
+import React from "react";
+import { Shield, Award, Users, FileCheck, CheckCircle2 } from "lucide-react";
 import MetaSEO from "@/components/seo/MetaSEO";
 
 export default function AboutPage() {
-  const stats = [
-    { label: "Happy Clients", value: "15K+", icon: Users },
-    { label: "Tax Saved", value: "\u20B985Cr+", icon: Award },
-    { label: "Years Experience", value: "12+", icon: Clock },
-    { label: "Team Strength", value: "50+", icon: Shield },
-  ];
-
   return (
-    <>
+    <div className="bg-white min-h-screen">
       <MetaSEO 
-        title="About MyeCA - India's Trusted Tax & Business Partner"
-        description="Learn about MyeCA's mission to simplify taxes and business compliance for millions of Indians. Meet our expert team of CAs and financial advisors."
-        keywords={["MyeCA", "about us", "tax experts", "CA firm India", "mission", "vision"]}
+        title="About MyeCA.in - Our Story, Mission & Expert CA Team"
+        description="Learn about MyeCA.in, India's most trusted tax filing platform. Founded by CA Ankit S., our mission is to make tax filing simple, accurate, and expert-led for every Indian."
+        breadcrumbs={[
+          { name: "Home", url: "/" },
+          { name: "About Us", url: "/about" }
+        ]}
       />
-      <div className="min-h-screen bg-white">
-        <Breadcrumb items={[{ name: 'About Us' }]} />
 
-        {/* Hero Section */}
-        <section className="py-16 bg-white border-b soft-border">
-          <div className="max-w-6xl mx-auto px-4 text-center">
-            <motion.h1 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-4xl md:text-6xl font-bold text-gray-900 mb-6"
-            >
-              Simplifying Finances for <br/>
-              <span className="text-blue-600">Every Indian</span>
-            </motion.h1>
-            <motion.p 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="text-xl text-gray-600 max-w-3xl mx-auto"
-            >
-              We are on a mission to make tax filing and business compliance accessible, 
-              transparent, and affordable for everyone.
-            </motion.p>
-          </div>
-        </section>
+      {/* Hero Section */}
+      <section className="py-20 bg-slate-50 border-b">
+        <div className="container mx-auto px-4 text-center">
+          <h1 className="text-4xl md:text-6xl font-black text-slate-900 mb-6 tracking-tight">
+            We're on a mission to <br />
+            <span className="text-blue-600">Humanize Tax Filing</span>
+          </h1>
+          <p className="text-xl text-slate-600 max-w-2xl mx-auto font-medium leading-relaxed">
+            MyeCA.in was built to bridge the gap between complex government portals 
+            and the personalized expertise of a Chartered Accountant.
+          </p>
+        </div>
+      </section>
 
-        {/* Mission & Vision */}
-        <section className="py-16 bg-gray-50">
-          <div className="max-w-7xl mx-auto px-4">
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-              <motion.div 
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-              >
-                <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
-                  <Target className="w-6 h-6 text-blue-600" />
-                </div>
-                <h2 className="text-3xl font-bold text-gray-900 mb-4">Our Mission</h2>
-                <p className="text-lg text-gray-600 leading-relaxed mb-6">
-                  To empower individuals and businesses with smart, AI-driven financial tools 
-                  and expert guidance, eliminating the fear and complexity around taxes and compliance.
+      {/* Founder Story */}
+      <section className="py-20">
+        <div className="container mx-auto px-4 max-w-4xl">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className="text-3xl font-bold text-slate-900 mb-6">The Founder's Story</h2>
+              <div className="space-y-4 text-slate-600 leading-relaxed font-medium">
+                <p>
+                  MyeCA.in was founded in 2018 by <strong>CA Ankit S.</strong>, a practicing Chartered Accountant (ICAI Member) 
+                  who saw thousands of taxpayers struggling with confusing notices and missed refunds.
                 </p>
-                <ul className="space-y-3">
-                  {[
-                    "Simplify complex tax laws",
-                    "Provide affordable expert access",
-                    "Ensure 100% data security",
-                    "Deliver maximum tax savings"
-                  ].map((item, i) => (
-                    <li key={i} className="flex items-center text-gray-700">
-                      <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
-                      {item}
-                    </li>
-                  ))}
+                <p>
+                  While automated platforms became popular, they lacked the "human touch" and professional liability 
+                  that only a qualified CA can provide. We set out to build a platform that combines the speed of AI 
+                  with the accountability of a real expert.
+                </p>
+                <p>
+                  Today, MyeCA.in handles over 950+ active clients and has helped save over ₹15 Lakhs in legal penalties 
+                  and optimized refunds for freelancers, NRIs, and small businesses across India.
+                </p>
+              </div>
+            </div>
+            <div className="bg-blue-600 rounded-3xl p-8 text-white shadow-2xl relative overflow-hidden group">
+              <div className="relative z-10">
+                <Shield className="w-12 h-12 mb-6 opacity-80" />
+                <h3 className="text-2xl font-bold mb-4">Our Credentials</h3>
+                <ul className="space-y-3 opacity-90">
+                  <li className="flex items-center gap-3">
+                    <CheckCircle2 className="w-5 h-5 text-blue-200" />
+                    <span>ERI Registered Intermediary</span>
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <CheckCircle2 className="w-5 h-5 text-blue-200" />
+                    <span>ICAI Certified Professionals</span>
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <CheckCircle2 className="w-5 h-5 text-blue-200" />
+                    <span>ISO 27001 Data Security</span>
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <CheckCircle2 className="w-5 h-5 text-blue-200" />
+                    <span>100% Accuracy Guarantee</span>
+                  </li>
                 </ul>
-              </motion.div>
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                className="relative"
-              >
-                <div className="aspect-video bg-gradient-to-br from-blue-100 to-indigo-50 rounded-2xl border border-blue-200 flex items-center justify-center">
-                  <img 
-                    src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80" 
-                    alt="Team working" 
-                    className="rounded-2xl shadow-lg object-cover w-full h-full opacity-90"
-                  />
-                </div>
-              </motion.div>
+              </div>
+              <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Stats */}
-        <section className="py-16 bg-blue-600 text-white">
-          <div className="max-w-7xl mx-auto px-4">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-              {stats.map((stat, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                >
-                  <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4 backdrop-blur-sm">
-                    <stat.icon className="w-8 h-8 text-white" />
-                  </div>
-                  <div className="text-4xl font-bold mb-2">{stat.value}</div>
-                  <div className="text-blue-100">{stat.label}</div>
-                </motion.div>
-              ))}
-            </div>
+      {/* Core Values */}
+      <section className="py-20 bg-white border-2 border-slate-100 rounded-[3rem] mx-4 mb-20 overflow-hidden relative shadow-sm">
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold mb-4 italic text-slate-900">The MyeCA Way</h2>
+            <p className="text-slate-500 font-medium">Our four pillars of service excellence</p>
           </div>
-        </section>
+          <div className="grid md:grid-cols-4 gap-8">
+            {[
+              { icon: Award, title: "Expertise", desc: "No bots. Every return is signed off by a real CA with years of experience." },
+              { icon: FileCheck, title: "Transparency", desc: "Know exactly what you're paying for. No hidden convenience fees." },
+              { icon: Users, title: "Human-First", desc: "Your personal CA is available via WhatsApp, phone, or email whenever you need." },
+              { icon: Shield, title: "Security", desc: "Bank-grade encryption for your documents. We never sell your financial data." },
+            ].map((value, i) => (
+              <div key={i} className="p-6 rounded-2xl bg-slate-50 border border-slate-100 hover:bg-blue-50 hover:border-blue-200 transition-all group">
+                <value.icon className="w-8 h-8 text-blue-600 mb-4 group-hover:scale-110 transition-transform" />
+                <h4 className="font-bold text-lg mb-2 text-slate-900">{value.title}</h4>
+                <p className="text-slate-500 text-sm leading-relaxed font-medium">{value.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-gradient-to-b from-blue-600/5 to-transparent pointer-events-none"></div>
+      </section>
 
-        {/* Values */}
-        <section className="py-16 bg-white">
-          <div className="max-w-7xl mx-auto px-4">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Why Choose Us?</h2>
-              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                We combine technology with human expertise to deliver the best financial services experience.
-              </p>
-            </div>
-            <div className="grid md:grid-cols-3 gap-8">
-              {[
-                {
-                  title: "Expertise You Can Trust",
-                  desc: "Our team consists of qualified Chartered Accountants and tax experts with decades of combined experience.",
-                  icon: Award
-                },
-                {
-                  title: "Technology First",
-                  desc: "We use AI and automation to ensure zero-error filings and maximum efficiency in all processes.",
-                  icon: Shield
-                },
-                {
-                  title: "Customer Obsessed",
-                  desc: "Your satisfaction is our priority. We provide 24/7 support and handle all notices on your behalf.",
-                  icon: Users
-                }
-              ].map((feature, i) => (
-                <Card key={i} className="text-center hover:shadow-lg transition-all duration-300 border-t-4 border-t-blue-500">
-                  <CardContent className="p-8">
-                    <div className="w-14 h-14 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-6">
-                      <feature.icon className="w-7 h-7 text-blue-600" />
-                    </div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-3">{feature.title}</h3>
-                    <p className="text-gray-600 leading-relaxed">{feature.desc}</p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* CTA */}
-        <section className="py-16 bg-gray-50">
-          <div className="max-w-4xl mx-auto px-4 text-center">
-            <h2 className="text-3xl font-bold text-gray-900 mb-6">Ready to Get Started?</h2>
-            <p className="text-lg text-gray-600 mb-8">
-              Join thousands of happy customers who trust MyeCA for their financial needs.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/services">
-                <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-lg px-8">
-                  Explore Services <ArrowRight className="w-5 h-5 ml-2" />
-                </Button>
-              </Link>
-              <Link href="/contact">
-                <Button size="lg" variant="outline" className="text-lg px-8">
-                  Contact Support
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </section>
-      </div>
-    </>
+      {/* Contact Section */}
+      <section className="py-20 text-center container mx-auto px-4">
+        <h2 className="text-3xl font-bold text-slate-900 mb-6">Want to speak with the Founder?</h2>
+        <p className="text-slate-600 mb-8 max-w-xl mx-auto font-medium">
+          Have a complex case or a business inquiry? Ankit is happy to jump on a quick discovery call.
+        </p>
+        <div className="flex justify-center gap-4">
+          <a
+            href="https://wa.me/919876543210?text=Hi, I want to discuss a complex tax case"
+            className="px-8 py-4 bg-emerald-600 text-white font-bold rounded-2xl shadow-lg hover:shadow-emerald-500/20 hover:-translate-y-1 transition-all"
+          >
+            WhatsApp Direct
+          </a>
+          <button className="px-8 py-4 bg-white border border-slate-200 text-slate-700 font-bold rounded-2xl hover:bg-slate-50 transition-all">
+            Schedule a Call
+          </button>
+        </div>
+      </section>
+    </div>
   );
-}
-
-// Helper component for icon
-function Clock(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <circle cx="12" cy="12" r="10" />
-      <polyline points="12 6 12 12 16 14" />
-    </svg>
-  )
 }

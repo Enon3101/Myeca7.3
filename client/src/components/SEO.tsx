@@ -1,3 +1,4 @@
+import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useLocation } from 'wouter';
 
@@ -24,6 +25,14 @@ interface SEOProps {
     reviews: string;
     availability: string;
   };
+  faqData?: {
+    question: string;
+    answer: string;
+  }[];
+  breadcrumbData?: {
+    name: string;
+    item: string;
+  }[];
 }
 
 const SEO: React.FC<SEOProps> = ({
@@ -39,11 +48,25 @@ const SEO: React.FC<SEOProps> = ({
   tags = [],
   calculatorData,
   serviceData,
+  faqData,
+  breadcrumbData,
 }) => {
   const [location] = useLocation();
   const currentUrl = `https://myeca.in${location}`;
   const siteName = 'MyeCA.in - Expert Tax Filing Services';
   
+  // Track page view for Google Analytics
+  useEffect(() => {
+    const gtag = (window as any).gtag;
+    if (typeof gtag === 'function') {
+      gtag('event', 'page_view', {
+        page_location: currentUrl,
+        page_path: location,
+        page_title: title,
+      });
+    }
+  }, [location, title, currentUrl]);
+
   // Generate structured data based on type
   const generateStructuredData = () => {
     const baseData = {
@@ -132,6 +155,40 @@ const SEO: React.FC<SEOProps> = ({
         keywords: tags.join(', '),
         articleSection: 'Tax and Finance',
         wordCount: description.split(' ').length + 200
+      };
+    }
+
+    // New: FAQ Schema
+    if (faqData && faqData.length > 0) {
+      const faqSchema = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": faqData.map(faq => ({
+          "@type": "Question",
+          "name": faq.question,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": faq.answer
+          }
+        }))
+      };
+      
+      // If we have other specific data, we should probably return an array of schemas 
+      // but for simplicity here we merge or favor FAQ if requested on a generic page
+      return faqSchema;
+    }
+
+    // New: Breadcrumb Schema
+    if (breadcrumbData && breadcrumbData.length > 0) {
+      return {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": breadcrumbData.map((crumb, index) => ({
+          "@type": "ListItem",
+          "position": index + 1,
+          "name": crumb.name,
+          "item": `https://myeca.in${crumb.item}`
+        }))
       };
     }
 
@@ -232,7 +289,7 @@ const SEO: React.FC<SEOProps> = ({
               opens: "09:00",
               closes: "18:00"
             },
-            priceRange: "\u20B9499-\u20B94999",
+            priceRange: "₹499-₹4999",
             rating: {
               "@type": "AggregateRating",
               ratingValue: "4.8",

@@ -1,21 +1,22 @@
-import { Router, Request, Response } from "express";
-import { db } from "../db";
-import { users } from "@shared/schema";
-import { eq } from "drizzle-orm";
-import { requireAuth } from "../middleware/auth";
+import { Router, Response } from "express";
+import { adminDb } from "../firebase-admin";
+import { requireAuth, AuthRequest } from "../middleware/auth";
 import * as speakeasy from "speakeasy";
 import QRCode from "qrcode";
 
 const router = Router();
 
 // Enable 2FA - Generate secret and QR code
-router.post("/enable", requireAuth, async (req: Request, res: Response) => {
+router.post("/enable", requireAuth, async (req: AuthRequest, res: Response) => {
   try {
-    const userId = req.user!.id;
+    const auth = req.auth;
+    if (!auth || !auth.userId) return res.status(401).json({ error: "Unauthorized" });
+    
+    const userId = auth.userId;
     
     // Generate a new secret
     const secret = speakeasy.generateSecret({
-      name: `MyeCA.in (${req.user!.email})`,
+      name: `MyeCA.in (${auth.email || 'User'})`,
       issuer: 'MyeCA.in',
       length: 32
     });
@@ -24,13 +25,10 @@ router.post("/enable", requireAuth, async (req: Request, res: Response) => {
     const qrCodeUrl = await QRCode.toDataURL(secret.otpauth_url!);
     
     // Store the secret temporarily (in production, store encrypted)
-    await db
-      .update(users)
-      .set({ 
-        twoFactorSecret: secret.base32,
-        twoFactorEnabled: false // Not enabled until verified
-      })
-      .where(eq(users.id, userId));
+    await adminDb.collection("users").doc(userId).update({
+      twoFactorSecret: secret.base32,
+      twoFactorEnabled: false // Not enabled until verified
+    });
     
     res.json({
       secret: secret.base32,
@@ -45,9 +43,10 @@ router.post("/enable", requireAuth, async (req: Request, res: Response) => {
 });
 
 // Verify 2FA token and complete setup
-router.post("/verify", requireAuth, async (req: Request, res: Response) => {
+router.post("/verify", requireAuth, async (req: AuthRequest, res: Response) => {
   try {
-    const userId = req.user!.id;
+    const auth = req.auth;
+    if (!auth || !auth.userId) return res.status(401).json({ error: "Unauthorized" });
     const { token } = req.body;
     
     if (!token) {
@@ -55,19 +54,16 @@ router.post("/verify", requireAuth, async (req: Request, res: Response) => {
     }
     
     // Get user's secret
-    const user = await db
-      .select()
-      .from(users)
-      .where(eq(users.id, userId))
-      .limit(1);
+    const userDoc = await adminDb.collection("users").doc(auth.userId).get();
+    const userData = userDoc.data();
     
-    if (!user[0]?.twoFactorSecret) {
+    if (!userData?.twoFactorSecret) {
       return res.status(400).json({ error: "2FA not initialized" });
     }
     
     // Verify the token
     const verified = speakeasy.totp.verify({
-      secret: user[0].twoFactorSecret,
+      secret: userData.twoFactorSecret,
       encoding: 'base32',
       token: token,
       window: 2 // Allow some time drift
@@ -78,12 +74,9 @@ router.post("/verify", requireAuth, async (req: Request, res: Response) => {
     }
     
     // Enable 2FA
-    await db
-      .update(users)
-      .set({ 
-        twoFactorEnabled: true
-      })
-      .where(eq(users.id, userId));
+    await adminDb.collection("users").doc(auth.userId).update({
+      twoFactorEnabled: true
+    });
     
     res.json({ 
       success: true,
@@ -96,21 +89,15 @@ router.post("/verify", requireAuth, async (req: Request, res: Response) => {
 });
 
 // Disable 2FA
-router.post("/disable", requireAuth, async (req: Request, res: Response) => {
+router.post("/disable", requireAuth, async (req: AuthRequest, res: Response) => {
   try {
-    const userId = req.user!.id;
-    const { password, token } = req.body;
+    const auth = req.auth;
+    if (!auth || !auth.userId) return res.status(401).json({ error: "Unauthorized" });
     
-    // Verify password (in production, verify against hashed password)
-    // Verify token before disabling
-    
-    await db
-      .update(users)
-      .set({ 
-        twoFactorEnabled: false,
-        twoFactorSecret: null
-      })
-      .where(eq(users.id, userId));
+    await adminDb.collection("users").doc(auth.userId).update({
+      twoFactorEnabled: false,
+      twoFactorSecret: null
+    });
     
     res.json({ 
       success: true,
@@ -122,8 +109,8 @@ router.post("/disable", requireAuth, async (req: Request, res: Response) => {
   }
 });
 
-// Verify 2FA token during login
-router.post("/login-verify", async (req: Request, res: Response) => {
+// Verify 2FA token during login (Legacy logic, Firebase Auth handles MFA usually)
+router.post("/login-verify", async (req: AuthRequest, res: Response) => {
   try {
     const { email, token } = req.body;
     
@@ -131,20 +118,21 @@ router.post("/login-verify", async (req: Request, res: Response) => {
       return res.status(400).json({ error: "Email and token are required" });
     }
     
-    // Get user
-    const user = await db
-      .select()
-      .from(users)
-      .where(eq(users.email, email))
-      .limit(1);
+    // Get user by email
+    const snapshot = await adminDb.collection("users").where("email", "==", email).get();
+    if (snapshot.empty) {
+      return res.status(404).json({ error: "User not found" });
+    }
     
-    if (!user[0] || !user[0].twoFactorEnabled || !user[0].twoFactorSecret) {
+    const userData = snapshot.docs[0].data();
+    
+    if (!userData.twoFactorEnabled || !userData.twoFactorSecret) {
       return res.status(400).json({ error: "2FA not enabled for this user" });
     }
     
     // Verify the token
     const verified = speakeasy.totp.verify({
-      secret: user[0].twoFactorSecret,
+      secret: userData.twoFactorSecret,
       encoding: 'base32',
       token: token,
       window: 2

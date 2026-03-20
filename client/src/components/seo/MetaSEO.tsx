@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { useLocation } from "wouter";
 
@@ -15,6 +15,11 @@ interface MetaSEOProps {
   type?: "website" | "article" | "service" | "calculator" | string;
   breadcrumbs?: BreadcrumbItem[];
   faqPageData?: FAQItem[];
+  howToData?: {
+    name: string;
+    description: string;
+    steps: { name: string; text: string; image?: string }[];
+  };
   localBusinessData?: Record<string, any>;
   calculatorData?: {
     type: string;
@@ -44,11 +49,24 @@ export const MetaSEO: React.FC<MetaSEOProps> = ({
   localBusinessData,
   calculatorData,
   serviceData,
+  howToData,
   jsonLd: extraJsonLd,
 }) => {
   const [location] = useLocation();
   const currentUrl = canonicalUrl || `https://myeca.in${location}`;
   const siteName = "MyeCA.in - Expert Tax Filing Services";
+
+  // Track page view for Google Analytics
+  useEffect(() => {
+    const gtag = (window as any).gtag;
+    if (typeof gtag === 'function') {
+      gtag('event', 'page_view', {
+        page_location: currentUrl,
+        page_path: location,
+        page_title: title,
+      });
+    }
+  }, [location, title, currentUrl]);
 
   const keywordStr = Array.isArray(keywords) ? keywords.join(", ") : keywords;
 
@@ -82,30 +100,98 @@ export const MetaSEO: React.FC<MetaSEOProps> = ({
     });
   }
 
-  // 3. Local Business (usually for homepage)
+  // 3. How-to
+  if (howToData) {
+    jsonLdBlocks.push({
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      name: howToData.name,
+      description: howToData.description,
+      step: howToData.steps.map((s, i) => ({
+        "@type": "HowToStep",
+        position: i + 1,
+        name: s.name,
+        text: s.text,
+        image: s.image,
+      })),
+    });
+  }
+
+  // 4. Local Business (usually for homepage)
   if (localBusinessData) {
     jsonLdBlocks.push({
       "@context": "https://schema.org",
-      "@type": "LocalBusiness",
+      "@type": "TaxPreparationService",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Mumbai",
+        "addressRegion": "Maharashtra",
+        "addressCountry": "IN"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "19.0760",
+        "longitude": "72.8777"
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday"
+        ],
+        "opens": "09:00",
+        "closes": "20:00"
+      },
       ...localBusinessData,
     });
   }
 
   // 4. Main Entity (Organization, Service, or Application)
+  let mainEntityType = "WebSite";
+  if (type === "calculator") mainEntityType = "SoftwareApplication";
+  else if (type === "service") mainEntityType = "Service";
+  else if (type === "article" || type === "blog") mainEntityType = "BlogPosting";
+
   const mainEntity: any = {
     "@context": "https://schema.org",
-    "@type": type === "calculator" ? "SoftwareApplication" : type === "service" ? "Service" : "WebSite",
+    "@type": mainEntityType,
     name: title,
+    headline: title,
     description: description,
     url: currentUrl,
     image: ogImage,
-    provider: {
+    publisher: {
       "@type": "Organization",
       name: siteName,
-      url: "https://myeca.in",
-      logo: "https://myeca.in/logo.png",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://myeca.in/logo.png"
+      },
+      sameAs: [
+        "https://twitter.com/myecain",
+        "https://www.linkedin.com/company/myecain",
+        "https://www.facebook.com/myecain"
+      ]
     },
+    author: {
+      "@type": "Person",
+      name: "CA Ankit S.",
+      jobTitle: "Founder & Chief Auditor",
+      url: "https://myeca.in/about",
+      description: "CA Ankit is a practicing Chartered Accountant with 10+ years of experience in Indian taxation."
+    }
   };
+
+  if ((type === "article" || type === "blog") && extraJsonLd) {
+    // If it's an article and we have extra data (like date), merge it
+    if (!Array.isArray(extraJsonLd)) {
+       Object.assign(mainEntity, extraJsonLd);
+    }
+  }
 
   if (type === "calculator" && calculatorData) {
     Object.assign(mainEntity, {
@@ -136,10 +222,26 @@ export const MetaSEO: React.FC<MetaSEOProps> = ({
     });
   }
 
+  // 5. Site Navigation Element (for menu links)
+  if (breadcrumbs && breadcrumbs.length) {
+    jsonLdBlocks.push({
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "itemListElement": breadcrumbs.map((b, i) => ({
+        "@type": "SiteNavigationElement",
+        "position": i + 1,
+        "name": b.name,
+        "url": b.url.startsWith("http") ? b.url : `https://myeca.in${b.url}`
+      }))
+    });
+  }
+
+  // Only push mainEntity if it wasn't already handled in a more specific way
+  // For simplicity, we push it as the primary representation
   jsonLdBlocks.push(mainEntity);
 
-  // 5. Extra JSON-LD
-  if (extraJsonLd) {
+  // 5. Extra JSON-LD (if not already merged)
+  if (extraJsonLd && !((type === "article" || type === "blog") && !Array.isArray(extraJsonLd))) {
     if (Array.isArray(extraJsonLd)) {
       jsonLdBlocks.push(...extraJsonLd);
     } else {

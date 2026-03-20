@@ -53,10 +53,6 @@ export async function setupVite(app: Express, server: Server) {
 
       // always reload the index.html file from disk incase it changes
       let template = await fs.promises.readFile(clientTemplate, "utf-8");
-      template = template.replace(
-        `src="/src/main.tsx"`,
-        `src="/src/main.tsx?v=${nanoid()}"`,
-      );
       const page = await vite.transformIndexHtml(url, template);
       res.status(200).set({ "Content-Type": "text/html; charset=utf-8" }).end(page);
     } catch (e) {
@@ -116,8 +112,60 @@ export function serveStatic(app: Express) {
     }
   }));
 
-  // fall through to index.html if the file doesn't exist
-  app.use("*", (_req, res) => {
-    res.sendFile(path.resolve(distPath, "index.html"));
+  // Fall through to index.html if the file doesn't exist
+  app.use("*", async (req, res) => {
+    const distPath = path.resolve(process.cwd(), "dist", "public");
+    const indexPath = path.resolve(distPath, "index.html");
+    
+    if (!fs.existsSync(indexPath)) {
+      return res.status(404).send("Index file not found");
+    }
+
+    try {
+      let content = await fs.promises.readFile(indexPath, "utf-8");
+      const url = req.originalUrl;
+      const userAgent = req.headers["user-agent"] || "";
+      const isBot = /bot|googlebot|crawler|spider|robot|crawling|bingbot|duckduckbot|yandexbot|slurp|facebot|ia_archiver/i.test(userAgent);
+
+      // Simple SEO Injection for Bots
+      if (isBot) {
+        log(`Bot detected: ${userAgent} on ${url}`, "seo");
+        
+        let title = "MyeCA.in | Expert Tax & Business Solutions";
+        let description = "India's most trusted platform for professional tax filing, GST registration, company incorporation, and expert CA consultations.";
+        
+        if (url.includes("/about")) {
+          title = "About MyeCA.in | Our Mission & Credentials";
+          description = "Learn about MyeCA.in, founded by CA Priyanshu Jain. We provide expert-led tax solutions with ISO 27001 certified security and a 100% accuracy guarantee.";
+        } else if (url.includes("/pricing")) {
+          title = "Pricing & Plans | MyeCA.in";
+          description = "Affordable tax filing plans starting from ₹999. Professional CA-reviewed returns for individuals, freelancers, and businesses.";
+        } else if (url.includes("/calculators")) {
+          title = "Tax Calculators & Tools | MyeCA.in";
+          description = "Free income tax, SIP, HRA, and GST calculators. Plan your taxes and investments with our smart financial tools.";
+        } else if (url.includes("/blog")) {
+          title = "Tax Guides & Insights | MyeCA.in Blog";
+          description = "In-depth guides on ITR filing, GST compliance, startup registrations, and tax-saving strategies from expert CAs.";
+        }
+
+        content = content.replace("<title>MyeCA.in</title>", `<title>${title}</title>`);
+        content = content.replace('<meta name="description" content="" />', `<meta name="description" content="${description}" />`);
+        
+        // Inject Open Graph tags
+        const ogTags = `
+          <meta property="og:title" content="${title}" />
+          <meta property="og:description" content="${description}" />
+          <meta property="og:url" content="https://myeca.in${url}" />
+          <meta property="og:type" content="website" />
+          <meta name="twitter:card" content="summary_large_image" />
+        `;
+        content = content.replace("</head>", `${ogTags}</head>`);
+      }
+
+      res.status(200).set({ "Content-Type": "text/html; charset=utf-8" }).send(content);
+    } catch (err) {
+      log(`Error serving index.html: ${err}`, "express");
+      res.sendFile(indexPath);
+    }
   });
 }

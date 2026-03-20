@@ -56,10 +56,10 @@ export const TAX_CONFIG = {
   // Equity & Equity MF (Listed)
   equity: {
     ltcgThreshold: 365, // 1 year
-    ltcgExemption: 125000, // \u20B91.25 lakh
+    ltcgExemption: 125000, // ₹1.25 lakh
     ltcgRate: 0.125, // 12.5%
     stcgRate: 0.20, // 20%
-    dividendTDS: 0.10, // 10% TDS on dividend > \u20B95000
+    dividendTDS: 0.10, // 10% TDS on dividend > ₹5000
   },
   // Debt MF (new rules from April 2023)
   debt_mf: {
@@ -81,7 +81,7 @@ export const TAX_CONFIG = {
   // FD & Bonds
   fd: {
     interestTaxRate: 0.30, // As per slab
-    tdsRate: 0.10, // TDS on interest > \u20B940K
+    tdsRate: 0.10, // TDS on interest > ₹40K
   },
   bonds: {
     ltcgThreshold: 365, // 1 year
@@ -293,7 +293,7 @@ export function getTaxHarvestingSuggestions(holdings: Holding[]): TaxHarvestingS
           holding,
           action: 'sell',
           reason: isSTCG 
-            ? `Book STCG loss to offset gains. Can save up to \u20B9${Math.round(potentialSavings).toLocaleString()} in taxes.`
+            ? `Book STCG loss to offset gains. Can save up to ₹${Math.round(potentialSavings).toLocaleString()} in taxes.`
             : `Book LTCG loss to offset LTCG gains.`,
           potentialSavings: Math.round(potentialSavings),
           loss,

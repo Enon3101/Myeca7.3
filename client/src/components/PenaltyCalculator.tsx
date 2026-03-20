@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { 
   Calculator, 
   AlertTriangle, 
@@ -245,7 +245,7 @@ export default function PenaltyCalculator() {
                   {/* Amount Input for Percentage */}
                   {calculation.config.isPercentage && (
                     <div className="space-y-4 pt-4 border-t border-slate-100">
-                      <Label className="text-slate-900 font-black text-sm uppercase tracking-widest">Base Tax Amount (\u20B9)</Label>
+                      <Label className="text-slate-900 font-black text-sm uppercase tracking-widest">Base Tax Amount (₹)</Label>
                       <div className="relative">
                         <IndianRupee className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                         <Input 
@@ -275,7 +275,7 @@ export default function PenaltyCalculator() {
                 </div>
                 <h3 className="text-slate-400 font-medium mb-1">Estimated {calculation.label}</h3>
                 <div className="text-6xl font-black tracking-tighter mb-8 flex items-baseline gap-2">
-                  <span className="text-3xl text-slate-500">\u20B9</span>
+                  <span className="text-3xl text-slate-500">₹</span>
                   {calculation.penalty.toLocaleString('en-IN')}
                 </div>
 
@@ -283,7 +283,7 @@ export default function PenaltyCalculator() {
                   <div className="flex justify-between items-center text-sm">
                     <span className="text-slate-400">Regular Rate</span>
                     <span className="font-bold">
-                      {calculation.config.isPercentage ? `${calculation.config.rate}% / Mo` : `\u20B9${calculation.config.rate} / ${calculation.config.frequency.split(' ')[1] || 'Day'}`}
+                      {calculation.config.isPercentage ? `${calculation.config.rate}% / Mo` : `₹${calculation.config.rate} / ${calculation.config.frequency.split(' ')[1] || 'Day'}`}
                     </span>
                   </div>
                   <div className="flex justify-between items-center text-sm">

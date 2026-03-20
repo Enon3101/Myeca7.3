@@ -1,5 +1,5 @@
 import React, { useRef, useState, useCallback, useEffect } from "react";
-import { motion, useMotionValue, useTransform, animate, PanInfo } from "framer-motion";
+import { m, useMotionValue, useTransform, animate, PanInfo } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 interface Tab {
@@ -106,7 +106,7 @@ export function SwipeableTabs({
 
       {/* Tab indicator */}
       <div className="relative h-0.5 bg-gray-200 dark:bg-gray-700">
-        <motion.div
+        <m.div
           className="absolute h-full bg-blue-600 dark:bg-blue-400"
           style={{
             width: `${100 / tabs.length}%`,
@@ -123,7 +123,7 @@ export function SwipeableTabs({
         ref={containerRef}
         className="overflow-hidden touch-pan-y"
       >
-        <motion.div
+        <m.div
           className="flex"
           style={{ x }}
           drag="x"
@@ -143,7 +143,7 @@ export function SwipeableTabs({
               {tab.content}
             </div>
           ))}
-        </motion.div>
+        </m.div>
       </div>
     </div>
   );

@@ -19,7 +19,7 @@ import {
   Lightbulb,
   RefreshCw
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { Link } from "wouter";
 import { 
   ChatMessage, 
@@ -141,7 +141,7 @@ export function TaxChatbot({ isOpen = true, onClose, embedded = false }: TaxChat
       >
         <div className="space-y-4">
           {messages.map((message) => (
-            <motion.div
+            <m.div
               key={message.id}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -199,12 +199,12 @@ export function TaxChatbot({ isOpen = true, onClose, embedded = false }: TaxChat
                   )}
                 </div>
               </div>
-            </motion.div>
+            </m.div>
           ))}
 
           {/* Typing Indicator */}
           {isTyping && (
-            <motion.div
+            <m.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               className="flex items-center gap-2"
@@ -219,7 +219,7 @@ export function TaxChatbot({ isOpen = true, onClose, embedded = false }: TaxChat
                   <span className="w-2 h-2 bg-[var(--color-primary-400)] rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
                 </div>
               </div>
-            </motion.div>
+            </m.div>
           )}
         </div>
       </ScrollArea>
@@ -297,7 +297,7 @@ export function TaxChatbot({ isOpen = true, onClose, embedded = false }: TaxChat
   // Floating widget mode
   return (
     <AnimatePresence>
-      <motion.div
+      <m.div
         initial={{ opacity: 0, scale: 0.8, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.8, y: 20 }}
@@ -351,7 +351,7 @@ export function TaxChatbot({ isOpen = true, onClose, embedded = false }: TaxChat
           {/* Content */}
           {!isMinimized && chatContent}
         </Card>
-      </motion.div>
+      </m.div>
     </AnimatePresence>
   );
 }
@@ -359,7 +359,7 @@ export function TaxChatbot({ isOpen = true, onClose, embedded = false }: TaxChat
 // Floating chat button to trigger chatbot
 export function ChatbotTrigger({ onClick }: { onClick: () => void }) {
   return (
-    <motion.button
+    <m.button
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       onClick={onClick}
@@ -367,7 +367,7 @@ export function ChatbotTrigger({ onClick }: { onClick: () => void }) {
     >
       <MessageCircle className="h-7 w-7" />
       <span className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white" />
-    </motion.button>
+    </m.button>
   );
 }
 

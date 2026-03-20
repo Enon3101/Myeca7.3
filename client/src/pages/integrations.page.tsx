@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { 
   Plug, Check, X, ArrowRight, Zap, Shield, 
   Globe, Database, Mail, Phone, CreditCard, FileText,
@@ -15,6 +15,7 @@ import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import SEO from "@/components/SEO";
 import { useToast } from "@/hooks/use-toast";
+import OptimizedImage from "@/components/OptimizedImage";
 
 // Integration categories
 const integrationCategories = {
@@ -234,7 +235,7 @@ export default function IntegrationsPage() {
 
       {/* Header */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -310,7 +311,7 @@ export default function IntegrationsPage() {
               </CardContent>
             </Card>
           </div>
-        </motion.div>
+        </m.div>
       </div>
 
       {/* Main Content */}
@@ -354,10 +355,13 @@ export default function IntegrationsPage() {
                       <CardHeader>
                         <div className="flex items-start justify-between">
                           <div className="flex items-center gap-3">
-                            <img 
+                            <OptimizedImage 
                               src={integration.logo} 
                               alt={integration.name}
-                              className="w-12 h-12 rounded-lg bg-gray-100"
+                              width={48}
+                              height={48}
+                              className="rounded-lg bg-gray-100"
+                              objectFit="contain"
                             />
                             <div>
                               <CardTitle className="text-lg flex items-center gap-2">

@@ -13,14 +13,28 @@ export async function registerServiceWorker(config?: ServiceWorkerConfig) {
     return;
   }
 
-  // Only register in production or if explicitly enabled
+  // Register in production or if explicitly enabled (enabled for speed testing)
   if (process.env.NODE_ENV !== 'production' && !import.meta.env.VITE_ENABLE_SW) {
-    console.log('[SW] Skipping registration in development');
+    console.log('[SW] Skipping registration in development (auto-unregistering)');
+    try {
+      const regs = await navigator.serviceWorker.getRegistrations();
+      const hadAny = regs.length > 0;
+      await Promise.all(regs.map((r) => r.unregister().catch(() => false)));
+
+      // If an old SW was controlling the page, force a one-time reload to detach it.
+      if (hadAny && navigator.serviceWorker.controller && !sessionStorage.getItem('sw_dev_unregistered')) {
+        sessionStorage.setItem('sw_dev_unregistered', '1');
+        window.location.reload();
+        return;
+      }
+    } catch (e) {
+      console.warn('[SW] Dev unregister failed:', e);
+    }
     return;
   }
 
   try {
-    const registration = await navigator.serviceWorker.register('/sw.js', {
+    const registration = await navigator.serviceWorker.register('/service-worker.js', {
       scope: '/',
     });
 
@@ -183,7 +197,7 @@ export async function subscribeToPush(vapidPublicKey: string): Promise<PushSubsc
     
     const subscription = await registration.pushManager.subscribe({
       userVisibleOnly: true,
-      applicationServerKey: urlBase64ToUint8Array(vapidPublicKey),
+      applicationServerKey: urlBase64ToUint8Array(vapidPublicKey) as any,
     });
 
     console.log('[SW] Push subscription:', subscription);

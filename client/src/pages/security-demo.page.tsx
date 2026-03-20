@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -37,7 +37,7 @@ export default function SecurityDemoPage() {
       <ContentSecurityPolicy />
       
       <div className="container mx-auto px-4">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="max-w-4xl mx-auto"
@@ -57,7 +57,7 @@ export default function SecurityDemoPage() {
 
           {/* Session Security Warning */}
           {showWarning && (
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               className="mb-8"
@@ -78,7 +78,7 @@ export default function SecurityDemoPage() {
                   </Button>
                 </div>
               </Card>
-            </motion.div>
+            </m.div>
           )}
 
           {/* Security Features Grid */}
@@ -236,7 +236,7 @@ export default function SecurityDemoPage() {
               <li>• Log out when using shared computers</li>
             </ul>
           </Card>
-        </motion.div>
+        </m.div>
       </div>
     </div>
   );

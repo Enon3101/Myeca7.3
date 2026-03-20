@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -86,7 +86,7 @@ export default function AdvancedFeaturesPage() {
       {/* Hero Section */}
       <div className="bg-gradient-to-br from-blue-600 to-blue-800 text-white py-16">
         <div className="container mx-auto px-4">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-center"
@@ -98,7 +98,7 @@ export default function AdvancedFeaturesPage() {
             <p className="text-xl opacity-90 max-w-2xl mx-auto">
               Experience the cutting-edge features that push MyeCA.in beyond traditional tax platforms
             </p>
-          </motion.div>
+          </m.div>
         </div>
       </div>
 
@@ -106,7 +106,7 @@ export default function AdvancedFeaturesPage() {
       <div className="container mx-auto px-4 py-12">
         <div className="grid md:grid-cols-3 gap-6 mb-12">
           {features.map((feature, index) => (
-            <motion.div
+            <m.div
               key={feature.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -127,7 +127,7 @@ export default function AdvancedFeaturesPage() {
                   <CardDescription>{feature.description}</CardDescription>
                 </CardHeader>
               </Card>
-            </motion.div>
+            </m.div>
           ))}
         </div>
 
@@ -391,7 +391,7 @@ export default function AdvancedFeaturesPage() {
                         </div>
                         <div className="flex justify-between items-center">
                           <span className="text-sm">Potential Savings:</span>
-                          <span className="font-semibold text-green-600">\u20B945,000</span>
+                          <span className="font-semibold text-green-600">₹45,000</span>
                         </div>
                         <div className="flex justify-between items-center">
                           <span className="text-sm">Optimization Score:</span>

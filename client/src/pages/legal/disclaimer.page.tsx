@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { AlertTriangle, Info, Shield, Scale, FileText, ExternalLink } from "lucide-react";
 
 export default function DisclaimerPage() {
@@ -7,7 +7,7 @@ export default function DisclaimerPage() {
       {/* Header */}
       <section className="bg-gradient-to-r from-blue-600 to-blue-700 text-white py-16">
         <div className="container mx-auto px-6">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
@@ -23,14 +23,14 @@ export default function DisclaimerPage() {
               Important notices and limitations regarding our services and information.
             </p>
             <p className="text-sm text-blue-200 mt-4">Last updated: January 19, 2025</p>
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
       {/* Main Content */}
       <section className="py-16">
         <div className="container mx-auto px-6 max-w-4xl">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
@@ -239,7 +239,7 @@ export default function DisclaimerPage() {
                     <h3 className="font-semibold text-red-800 mb-3">Maximum Liability Limit</h3>
                     <p className="text-red-700 text-sm mb-3">
                       MyeCA's maximum liability for any claim arising from our services is limited 
-                      to the amount paid for that specific service, not exceeding \u20B950,000 in any case.
+                      to the amount paid for that specific service, not exceeding ₹50,000 in any case.
                     </p>
                     <div className="space-y-2">
                       <h4 className="font-medium text-red-800">We are not liable for:</h4>
@@ -307,7 +307,7 @@ export default function DisclaimerPage() {
                 changes constitutes acceptance of the updated disclaimer.
               </p>
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </section>
     </div>

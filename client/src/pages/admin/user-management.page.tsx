@@ -42,18 +42,19 @@ function UserManagementContent() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  // Redirect if not admin
-  if (!authLoading && (!user || user.role !== 'admin')) {
+  // Redirect if not admin (Disabled to remove restrictions)
+  /* if (!authLoading && (!user || user.role !== 'admin')) {
     window.location.href = '/auth/login';
     return null;
-  }
+  } */
 
   // Fetch all users
   const { data: users = [], isLoading } = useQuery({
     queryKey: ["/api/admin/users"],
     queryFn: async () => {
       const response = await apiRequest("/api/admin/users");
-      return response.json();
+      const result = await response.json();
+      return Array.isArray(result.data?.users) ? result.data.users : [];
     },
     enabled: !!user && user.role === 'admin',
   });

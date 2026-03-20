@@ -30,8 +30,7 @@ interface DashboardChartsProps {
 const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#ef4444', '#06b6d4'];
 
 export function RevenueChart({ data }: { data: DashboardStats }) {
-  // Transform recent calculations into chart data
-  const chartData = data.recent_calculations.map((item) => ({
+  const chartData = (data.recentCalculations || []).map((item: any) => ({
     date: new Date(item.date).toLocaleDateString('en-IN', { month: 'short', day: 'numeric' }),
     calculations: item.count,
   }));

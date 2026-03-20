@@ -1,14 +1,24 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Scale, FileText, Users, Shield, AlertTriangle, CheckCircle, Phone, Mail } from "lucide-react";
 import { Link } from "wouter";
+import MetaSEO from "@/components/seo/MetaSEO";
 
 export default function TermsOfServicePage() {
   return (
+    <>
+      <MetaSEO 
+        title="Terms of Service - MyeCA.in | Platform Rules & Guidelines"
+        description="Read the MyeCA.in Terms of Service. By using our platform and services, you agree to comply with our user responsibilities, payment terms, and legal guidelines."
+        breadcrumbs={[
+          { name: "Home", url: "/" },
+          { name: "Terms of Service", url: "/legal/terms-of-service" }
+        ]}
+      />
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <section className="bg-white border-b soft-border py-16">
         <div className="container mx-auto px-6">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
@@ -24,14 +34,14 @@ export default function TermsOfServicePage() {
               Please read these terms carefully before using our platform and services.
             </p>
             <p className="text-sm text-gray-500 mt-4">Last updated: January 19, 2025</p>
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
       {/* Main Content */}
       <section className="py-16">
         <div className="container mx-auto px-6 max-w-4xl">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
@@ -352,9 +362,10 @@ export default function TermsOfServicePage() {
                 </p>
               </div>
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </section>
     </div>
+    </>
   );
 }

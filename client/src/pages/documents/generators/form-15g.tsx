@@ -84,8 +84,8 @@ const FormComponent = ({ register, errors, control }: any) => {
       </div>
 
       <div className="grid grid-cols-2 gap-4 mt-4">
-        <div><Label>Est. Income for this Declaration (\u20B9)</Label><Input type="number" {...register('estIncomeDecl', { valueAsNumber: true })} /></div>
-        <div><Label>Total Est. Income (inc. this declaration) (\u20B9)</Label><Input type="number" {...register('estTotalIncome', { valueAsNumber: true })} /></div>
+        <div><Label>Est. Income for this Declaration (₹)</Label><Input type="number" {...register('estIncomeDecl', { valueAsNumber: true })} /></div>
+        <div><Label>Total Est. Income (inc. this declaration) (₹)</Label><Input type="number" {...register('estTotalIncome', { valueAsNumber: true })} /></div>
       </div>
 
       <h3 className="text-lg font-bold border-b pb-2 mt-6">Verification Details</h3>
@@ -163,11 +163,11 @@ const generateHTML = (data: any) => `
       <tr>
         <td colspan="2" style="border: 1px solid #000; padding: 5px;">
           16. Estimated income for which this declaration is made<br/>
-          <strong>\u20B9 ${Number(data.estIncomeDecl).toLocaleString('en-IN')}</strong>
+          <strong>₹ ${Number(data.estIncomeDecl).toLocaleString('en-IN')}</strong>
         </td>
         <td colspan="2" style="border: 1px solid #000; padding: 5px;">
           17. Estimated total income of the P.Y. in which income mentioned in column 16 to be included<br/>
-          <strong>\u20B9 ${Number(data.estTotalIncome).toLocaleString('en-IN')}</strong>
+          <strong>₹ ${Number(data.estTotalIncome).toLocaleString('en-IN')}</strong>
         </td>
       </tr>
       <tr>

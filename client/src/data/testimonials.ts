@@ -11,41 +11,41 @@ export interface Testimonial {
 export const testimonials: Testimonial[] = [
   {
     id: "1",
-    name: "Arjun Mehta",
-    role: "Senior Developer, Wipro",
-    content: "Switched jobs twice this year and had two Form 16s. MyeCA's CA handled both automatically — I didn't upload a single document. Got my refund in 9 days.",
+    name: "Arjun M., Mumbai",
+    role: "ITR-2 (Dual Salaries)",
+    content: "Switched jobs twice this year and had two Form 16s. MyeCA's CA handled both automatically — I didn't upload a single document. Got my ₹42,000 refund in just 9 days.",
     rating: 5,
     avatar: "AM"
   },
   {
     id: "2",
-    name: "Priya Krishnan",
-    role: "Crypto & Stock Trader",
-    content: "My Zerodha P&L was auto-imported and the CA calculated my capital gains to the rupee. Saved \u20B922,000 compared to filing alone. Genuinely impressed.",
+    name: "Priya K., Bangalore",
+    role: "Capital Gains Filing",
+    content: "My Zerodha P&L was auto-imported and the CA calculated my capital gains to the rupee. Saved ₹22,000 on taxes compared to filing alone. Genuinely impressed.",
     rating: 5,
     avatar: "PK"
   },
   {
     id: "3",
-    name: "Rajesh Iyer",
-    role: "NRI based in Dubai",
-    content: "Filed my Indian return sitting in Dubai. The CA called me on WhatsApp to clarify my DTAA claim. Never expected this level of personal attention from an online platform.",
+    name: "Rajesh I., Dubai/Chennai",
+    role: "NRI Tax Advisory",
+    content: "Filed my Indian return sitting in Dubai. The CA called me on WhatsApp to clarify my DTAA claim. Never expected this level of personal attention. Saved ₹1.2L in overseas tax credits.",
     rating: 5,
     avatar: "RI"
   },
   {
     id: "4",
-    name: "Sneha Agarwal",
-    role: "First-time ITR Filer",
-    content: "I was scared of filing taxes. MyeCA walked me through everything — the AI assistant answered all my questions, and the CA filed it in under a day. Got \u20B911,200 refund!",
+    name: "Sneha A., Delhi",
+    role: "First-time ITR-1",
+    content: "I was scared of filing taxes. MyeCA walked me through everything — the AI assistant answered all my questions, and the CA filed it in under a day. Got ₹11,200 refund!",
     rating: 5,
     avatar: "SA"
   },
   {
     id: "5",
-    name: "Vikram Gupta",
-    role: "F&O Trader, Pune",
-    content: "F&O filing is complicated and most CAs charge a fortune. MyeCA's team understood my speculative losses immediately and filed everything correctly. Highly recommend.",
+    name: "Vikram G., Pune",
+    role: "F&O & Business Audit",
+    content: "F&O filing is complicated and most CAs charge a fortune. MyeCA's team understood my speculative losses immediately and filed everything correctly. Saved ₹35k in penalty fees.",
     rating: 5,
     avatar: "VG"
   }

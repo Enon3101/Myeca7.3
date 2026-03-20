@@ -1,7 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import { AlertCircle, ArrowRight, X } from "lucide-react";
+import { AlertCircle, ArrowRight, X, Sparkles, Zap, ShieldAlert } from "lucide-react";
 import { useState } from "react";
 import { Link } from "wouter";
+import { m, AnimatePresence } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 export function DailyUpdatesBanner() {
   const [dismissed, setDismissed] = useState<number[]>([]);
@@ -31,44 +33,89 @@ export function DailyUpdatesBanner() {
     setDismissed(prev => [...prev, activeUpdate.id]);
   };
 
-  const getPriorityStyle = (priority: string) => {
-    switch (priority) {
-      case "CRITICAL": return "bg-red-600 text-white";
-      case "HIGH": return "bg-orange-500 text-white";
-      case "LOW": return "bg-gray-800 text-gray-100";
-      case "MEDIUM":
-      default: return "bg-blue-600 text-white";
-    }
-  };
+  const isCritical = activeUpdate.priority === "CRITICAL" || activeUpdate.priority === "HIGH";
 
   return (
-    <div className={`relative px-4 py-3 sm:px-6 lg:px-8 ${getPriorityStyle(activeUpdate.priority)}`}>
-      <div className="flex items-center justify-between flex-wrap gap-2 max-w-7xl mx-auto">
-        <div className="flex-1 flex items-center min-w-0">
-          <span className="flex p-2 rounded-lg bg-white/20 mr-3">
-            <AlertCircle className="h-5 w-5 text-white" aria-hidden="true" />
-          </span>
-          <p className="font-medium truncate">
-            <span className="md:hidden">{activeUpdate.title}</span>
-            <span className="hidden md:inline">{activeUpdate.title} - {activeUpdate.description.substring(0, 100)}{activeUpdate.description.length > 100 ? '...' : ''}</span>
-          </p>
-        </div>
-        
-        <div className="flex-shrink-0 flex items-center gap-2">
-          {/* If you wanted to link to a dedicated updates page, you could use this */}
-          {/* <Link href="/updates" className="flex items-center justify-center px-4 py-1.5 border border-transparent rounded-md shadow-sm text-sm font-medium bg-white text-gray-900 hover:bg-gray-50">
-            Read More
-          </Link> */}
-          <button
-            type="button"
-            className="flex p-1.5 rounded-md hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white transition"
-            onClick={handleDismiss}
+    <AnimatePresence>
+      <m.div 
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        exit={{ y: -100, opacity: 0 }}
+        className="fixed top-20 left-0 right-0 z-[100] px-4 pointer-events-none"
+      >
+        <div className="max-w-4xl mx-auto pointer-events-auto">
+          <m.div 
+            whileHover={{ scale: 1.01 }}
+            className={cn(
+              "relative overflow-hidden p-1 rounded-full shadow-[0_20px_50px_rgba(0,0,0,0.15)] backdrop-blur-2xl transition-all duration-500",
+              isCritical 
+                ? "bg-gradient-to-r from-red-600 to-orange-600 shadow-red-500/20" 
+                : "bg-white/10 border border-white/10 bg-slate-900 shadow-blue-500/10"
+            )}
           >
-            <span className="sr-only">Dismiss</span>
-            <X className="h-5 w-5 text-white" aria-hidden="true" />
-          </button>
+            {/* Animated Glow for Critical Updates */}
+            {isCritical && (
+              <m.div 
+                animate={{ opacity: [0.3, 0.6, 0.3] }}
+                transition={{ duration: 2, repeat: Infinity }}
+                className="absolute inset-0 bg-gradient-to-r from-red-400 to-orange-400 blur-xl opacity-20"
+              />
+            )}
+
+            <div className="relative flex items-center justify-between gap-4 py-2 px-6">
+              <div className="flex items-center gap-4 flex-1 min-w-0">
+                <div className={cn(
+                  "flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center shadow-lg",
+                  isCritical ? "bg-white text-red-600" : "bg-blue-600 text-white"
+                )}>
+                  {isCritical ? <ShieldAlert className="w-5 h-5 animate-pulse" /> : <Zap className="w-5 h-5" />}
+                </div>
+
+                <div className="flex flex-col min-w-0">
+                  <span className={cn(
+                    "text-[10px] font-black uppercase tracking-[0.2em] mb-0.5",
+                    isCritical ? "text-red-100" : "text-blue-400"
+                  )}>
+                    {activeUpdate.priority} Intelligence Update
+                  </span>
+                  <p className={cn(
+                    "font-bold truncate text-sm",
+                    isCritical ? "text-white" : "text-slate-100"
+                  )}>
+                    {activeUpdate.title}
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <Link href="/blog">
+                  <m.button 
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className={cn(
+                      "hidden sm:flex items-center gap-2 px-6 py-2 rounded-full text-[11px] font-black uppercase tracking-widest transition-all",
+                      isCritical 
+                        ? "bg-white text-red-600 hover:bg-red-50" 
+                        : "bg-white/10 text-white border border-white/10 hover:bg-white/20"
+                    )}
+                  >
+                    View Insight
+                    <ArrowRight className="w-4 h-4" />
+                  </m.button>
+                </Link>
+
+                <m.button
+                  whileHover={{ rotate: 90, scale: 1.1 }}
+                  onClick={handleDismiss}
+                  className="p-2 rounded-full hover:bg-white/10 text-white/60 hover:text-white transition-all"
+                >
+                  <X className="w-5 h-5" />
+                </m.button>
+              </div>
+            </div>
+          </m.div>
         </div>
-      </div>
-    </div>
+      </m.div>
+    </AnimatePresence>
   );
 }

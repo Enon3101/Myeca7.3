@@ -21,7 +21,7 @@ import {
   Shield
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { format } from "date-fns";
 import type { ChatSession, ChatMessage } from "@shared/schema";
 
@@ -181,7 +181,7 @@ export default function AIAssistantPage() {
                 <ScrollArea className="h-[500px]">
                   <div className="space-y-2">
                     {sessions.map((session: ChatSession) => (
-                      <motion.div
+                      <m.div
                         key={session.id}
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
@@ -204,7 +204,7 @@ export default function AIAssistantPage() {
                             </div>
                           </div>
                         </Button>
-                      </motion.div>
+                      </m.div>
                     ))}
                     
                     {sessions.length === 0 && (
@@ -255,7 +255,7 @@ export default function AIAssistantPage() {
                         {/* Quick Questions */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto">
                           {quickQuestions.map((question, index) => (
-                            <motion.div
+                            <m.div
                               key={index}
                               whileHover={{ scale: 1.05 }}
                               whileTap={{ scale: 0.95 }}
@@ -276,7 +276,7 @@ export default function AIAssistantPage() {
                                   </div>
                                 </div>
                               </Button>
-                            </motion.div>
+                            </m.div>
                           ))}
                         </div>
                       </div>
@@ -284,7 +284,7 @@ export default function AIAssistantPage() {
 
                     <AnimatePresence>
                       {messages.map((msg: ChatMessage) => (
-                        <motion.div
+                        <m.div
                           key={msg.id}
                           initial={{ opacity: 0, y: 20 }}
                           animate={{ opacity: 1, y: 0 }}
@@ -317,13 +317,13 @@ export default function AIAssistantPage() {
                               <User className="w-4 h-4" />
                             </div>
                           )}
-                        </motion.div>
+                        </m.div>
                       ))}
                     </AnimatePresence>
 
                     {/* Typing Indicator */}
                     {isTyping && (
-                      <motion.div
+                      <m.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         className="flex gap-3"
@@ -341,7 +341,7 @@ export default function AIAssistantPage() {
                             <span className="text-sm text-gray-500 ml-2">Thinking...</span>
                           </div>
                         </div>
-                      </motion.div>
+                      </m.div>
                     )}
 
                     <div ref={messagesEndRef} />

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -51,8 +51,9 @@ export default function ChatWidget() {
     setIsLoading(true);
     try {
       const response = await apiRequest("/api/chat/session");
-      if (response.messages) {
-        setMessages(response.messages);
+      const data = await response.json();
+      if (data.messages) {
+        setMessages(data.messages);
       }
     } catch (error) {
       console.error("Failed to load chat session:", error);
@@ -85,8 +86,9 @@ export default function ChatWidget() {
       // Simulate receiving agent response after a delay
       setTimeout(async () => {
         const response = await apiRequest("/api/chat/history");
-        if (response.messages) {
-          setMessages(response.messages);
+        const data = await response.json();
+        if (data.messages) {
+          setMessages(data.messages);
         }
       }, 1500);
     } catch (error) {
@@ -109,7 +111,7 @@ export default function ChatWidget() {
       {/* Chat Button */}
       <AnimatePresence>
         {!isOpen && (
-          <motion.div
+          <m.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             exit={{ scale: 0 }}
@@ -122,14 +124,14 @@ export default function ChatWidget() {
             >
               <MessageCircle className="h-6 w-6" />
             </Button>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
 
       {/* Chat Widget */}
       <AnimatePresence>
         {isOpen && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
@@ -269,7 +271,7 @@ export default function ChatWidget() {
                 </form>
               </div>
             </Card>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </>

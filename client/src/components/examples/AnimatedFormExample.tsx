@@ -2,7 +2,7 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
-import { motion } from "framer-motion"
+import { m } from "framer-motion"
 import { User, Mail, Phone, Calendar, Building, MapPin } from "lucide-react"
 
 import { AnimatedForm, AnimatedFormField } from "@/components/ui/animated-form"
@@ -62,7 +62,7 @@ export function AnimatedFormExample() {
 
   return (
     <div className="max-w-2xl mx-auto p-6">
-      <motion.div
+      <m.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
@@ -253,7 +253,7 @@ export function AnimatedFormExample() {
                 />
 
                 {/* Submit Button */}
-                <motion.div
+                <m.div
                   className="pt-4"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -268,12 +268,12 @@ export function AnimatedFormExample() {
                   >
                     {isSuccess ? "Message Sent!" : "Send Message"}
                   </AnimatedButton>
-                </motion.div>
+                </m.div>
               </AnimatedForm>
             </Form>
           </CardContent>
         </Card>
-      </motion.div>
+      </m.div>
     </div>
   )
 }

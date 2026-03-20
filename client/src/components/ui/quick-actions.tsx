@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -98,7 +98,7 @@ export default function QuickActions() {
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {quickActions.map((action, index) => (
-          <motion.div
+          <m.div
             key={action.id}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -134,12 +134,12 @@ export default function QuickActions() {
                 </CardContent>
               </Card>
             </Link>
-          </motion.div>
+          </m.div>
         ))}
       </div>
       
       {/* Smart Suggestions */}
-      <motion.div
+      <m.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
@@ -154,7 +154,7 @@ export default function QuickActions() {
               </h4>
             </div>
             <p className="text-sm text-gray-700 dark:text-gray-300 mb-3">
-              Based on your profile, you could save \u20B915,600 by optimizing deductions under Section 80C and 80D.
+              Based on your profile, you could save ₹15,600 by optimizing deductions under Section 80C and 80D.
             </p>
             <Link href="/calculators/tax-regime">
               <Button size="sm" className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700">
@@ -163,7 +163,7 @@ export default function QuickActions() {
             </Link>
           </CardContent>
         </Card>
-      </motion.div>
+      </m.div>
     </div>
   );
 }

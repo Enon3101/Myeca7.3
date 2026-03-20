@@ -8,7 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { BarChart3, TrendingUp, Coins, Target, FileText, Download, Calendar, Users } from "lucide-react";
 import { useAuth } from "@/components/AuthProvider";
-import TaxSummaryDashboard from "@/components/itr/TaxSummaryDashboard";
+import TaxSummaryDashboard from "@/features/itr/components/TaxSummaryDashboard";
 
 interface Profile {
   id: number;
@@ -115,7 +115,7 @@ export default function AnalyticsPage() {
   const analytics = calculateAnalytics();
   
   const formatCurrency = (amount: number) => {
-    return `\u20B9${amount.toLocaleString('en-IN')}`;
+    return `₹${amount.toLocaleString('en-IN')}`;
   };
 
   const years = ['2024-25', '2023-24', '2022-23', 'all'];

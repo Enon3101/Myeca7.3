@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 
 type BreadcrumbItem = { name: string; url: string };
@@ -33,6 +33,17 @@ export const EnhancedSEO: React.FC<EnhancedSEOProps> = ({
   faqPageData,
   localBusinessData,
 }) => {
+  // Track page view for Google Analytics
+  useEffect(() => {
+    const gtag = (window as any).gtag;
+    if (typeof gtag === 'function') {
+      gtag('event', 'page_view', {
+        page_location: canonicalUrl || (typeof window !== 'undefined' ? window.location.href : ''),
+        page_title: title,
+      });
+    }
+  }, [title, canonicalUrl]);
+
   const jsonLd: any[] = [];
 
   if (breadcrumbs && breadcrumbs.length) {

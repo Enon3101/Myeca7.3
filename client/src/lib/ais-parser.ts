@@ -87,7 +87,7 @@ export interface ParsedAIS {
 function parseAmount(value: any): number {
   if (typeof value === 'number') return value;
   if (!value || value === '-' || value === 'NA') return 0;
-  const cleaned = String(value).replace(/[\u20B9,\s]/g, '');
+  const cleaned = String(value).replace(/[₹,\s]/g, '');
   return parseFloat(cleaned) || 0;
 }
 
@@ -347,35 +347,35 @@ export function exportAISForITR(data: ParsedAIS): string {
   output += `# Generated on: ${new Date().toLocaleDateString()}\n\n`;
   
   output += `## Income Summary (as per AIS)\n`;
-  output += `- Salary Income: \u20B9${data.incomeSummary.salary.toLocaleString('en-IN')}\n`;
-  output += `- Interest Income: \u20B9${data.incomeSummary.interestIncome.toLocaleString('en-IN')}\n`;
-  output += `- Dividend Income: \u20B9${data.incomeSummary.dividendIncome.toLocaleString('en-IN')}\n`;
-  output += `- Capital Gains: \u20B9${data.incomeSummary.capitalGains.toLocaleString('en-IN')}\n`;
-  output += `- Rental Income: \u20B9${data.incomeSummary.rentIncome.toLocaleString('en-IN')}\n`;
-  output += `- Professional Income: \u20B9${data.incomeSummary.professionalIncome.toLocaleString('en-IN')}\n`;
-  output += `- Other Income: \u20B9${data.incomeSummary.otherIncome.toLocaleString('en-IN')}\n`;
-  output += `- **Total Reported Income: \u20B9${data.incomeSummary.totalReportedIncome.toLocaleString('en-IN')}**\n\n`;
+  output += `- Salary Income: ₹${data.incomeSummary.salary.toLocaleString('en-IN')}\n`;
+  output += `- Interest Income: ₹${data.incomeSummary.interestIncome.toLocaleString('en-IN')}\n`;
+  output += `- Dividend Income: ₹${data.incomeSummary.dividendIncome.toLocaleString('en-IN')}\n`;
+  output += `- Capital Gains: ₹${data.incomeSummary.capitalGains.toLocaleString('en-IN')}\n`;
+  output += `- Rental Income: ₹${data.incomeSummary.rentIncome.toLocaleString('en-IN')}\n`;
+  output += `- Professional Income: ₹${data.incomeSummary.professionalIncome.toLocaleString('en-IN')}\n`;
+  output += `- Other Income: ₹${data.incomeSummary.otherIncome.toLocaleString('en-IN')}\n`;
+  output += `- **Total Reported Income: ₹${data.incomeSummary.totalReportedIncome.toLocaleString('en-IN')}**\n\n`;
   
   output += `## TDS/TCS Credits\n`;
-  output += `- TDS on Salary: \u20B9${data.tdsSummary.tdsOnSalary.toLocaleString('en-IN')}\n`;
-  output += `- TDS on Other Income: \u20B9${data.tdsSummary.tdsOnOtherIncome.toLocaleString('en-IN')}\n`;
-  output += `- TCS Collected: \u20B9${data.tdsSummary.tcsCollected.toLocaleString('en-IN')}\n`;
-  output += `- **Total TDS Credit: \u20B9${data.tdsSummary.totalTDSCredit.toLocaleString('en-IN')}**\n\n`;
+  output += `- TDS on Salary: ₹${data.tdsSummary.tdsOnSalary.toLocaleString('en-IN')}\n`;
+  output += `- TDS on Other Income: ₹${data.tdsSummary.tdsOnOtherIncome.toLocaleString('en-IN')}\n`;
+  output += `- TCS Collected: ₹${data.tdsSummary.tcsCollected.toLocaleString('en-IN')}\n`;
+  output += `- **Total TDS Credit: ₹${data.tdsSummary.totalTDSCredit.toLocaleString('en-IN')}**\n\n`;
   
   if (data.discrepancies.count > 0) {
     output += `## ⚠️ Discrepancies Found (${data.discrepancies.count})\n`;
     data.discrepancies.entries.forEach((entry, i) => {
       output += `${i + 1}. ${entry.informationDescription}\n`;
-      output += `   Reported: \u20B9${entry.reportedValue.toLocaleString('en-IN')} | Modified: \u20B9${(entry.modifiedValue || 0).toLocaleString('en-IN')}\n`;
+      output += `   Reported: ₹${entry.reportedValue.toLocaleString('en-IN')} | Modified: ₹${(entry.modifiedValue || 0).toLocaleString('en-IN')}\n`;
       output += `   Source: ${entry.reportingEntity}\n\n`;
     });
-    output += `Potential Tax Impact: \u20B9${data.discrepancies.potentialTaxImpact.toLocaleString('en-IN')}\n\n`;
+    output += `Potential Tax Impact: ₹${data.discrepancies.potentialTaxImpact.toLocaleString('en-IN')}\n\n`;
   }
   
   output += `## Detailed Entries\n\n`;
   data.aisEntries.forEach((entry, i) => {
     output += `${i + 1}. [${entry.category.toUpperCase()}] ${entry.informationDescription}\n`;
-    output += `   Amount: \u20B9${entry.reportedValue.toLocaleString('en-IN')}\n`;
+    output += `   Amount: ₹${entry.reportedValue.toLocaleString('en-IN')}\n`;
     output += `   Source: ${entry.reportingEntity}\n\n`;
   });
   

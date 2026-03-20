@@ -115,7 +115,7 @@ export const routeComponents = {
   
   // Main app routes
   Dashboard: lazyWithPreload(() => import('@/pages/user-dashboard.page'), 'DashboardPage'),
-  TaxCalculator: lazyWithPreload(() => import('@/pages/calculators/income-tax.page'), 'TaxCalculatorPage'),
+  TaxCalculator: lazyWithPreload(() => import('@/features/calculators/pages/income-tax.page'), 'TaxCalculatorPage'),
   Reports: lazyWithPreload(() => import('@/pages/reports.page'), 'ReportsPage'),
   Settings: lazyWithPreload(() => import('@/pages/settings.page'), 'SettingsPage'),
   

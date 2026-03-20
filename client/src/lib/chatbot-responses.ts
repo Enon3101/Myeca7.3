@@ -35,7 +35,7 @@ export const TAX_INTENTS: ChatIntent[] = [
   {
     id: 'deadline',
     patterns: ['deadline', 'due date', 'last date', 'when to file', 'itr deadline', 'filing date'],
-    response: "📅 **ITR Filing Deadlines for FY 2024-25 (AY 2025-26):**\n\n• **Individual/HUF (no audit):** July 31, 2025\n• **Businesses (audit required):** October 31, 2025\n• **Transfer Pricing cases:** November 30, 2025\n• **Revised/Belated Return:** December 31, 2025\n\n⚠️ Late filing attracts penalty of \u20B91,000 to \u20B910,000 plus interest under Section 234A.",
+    response: "📅 **ITR Filing Deadlines for FY 2024-25 (AY 2025-26):**\n\n• **Individual/HUF (no audit):** July 31, 2025\n• **Businesses (audit required):** October 31, 2025\n• **Transfer Pricing cases:** November 30, 2025\n• **Revised/Belated Return:** December 31, 2025\n\n⚠️ Late filing attracts penalty of ₹1,000 to ₹10,000 plus interest under Section 234A.",
     quickActions: [
       { label: 'Start Filing Now', action: 'file_itr', href: '/itr/form-selector' },
       { label: 'Set Reminder', action: 'set_reminder' },
@@ -46,7 +46,7 @@ export const TAX_INTENTS: ChatIntent[] = [
   {
     id: 'regime',
     patterns: ['old regime', 'new regime', 'which regime', 'better regime', 'regime comparison', 'tax regime'],
-    response: "🔄 **Old vs New Tax Regime Comparison:**\n\n**New Regime (Default from FY 24-25):**\n• Lower tax rates (5%-30%)\n• Standard deduction: \u20B975,000\n• No other deductions allowed\n• Rebate up to \u20B97 lakh income\n\n**Old Regime:**\n• Higher rates but more deductions\n• 80C (\u20B91.5L), 80D, HRA, LTA allowed\n• Good if deductions > \u20B93.75 lakh\n\nWant me to help you compare based on your income?",
+    response: "🔄 **Old vs New Tax Regime Comparison:**\n\n**New Regime (Default from FY 24-25):**\n• Lower tax rates (5%-30%)\n• Standard deduction: ₹75,000\n• No other deductions allowed\n• Rebate up to ₹7 lakh income\n\n**Old Regime:**\n• Higher rates but more deductions\n• 80C (₹1.5L), 80D, HRA, LTA allowed\n• Good if deductions > ₹3.75 lakh\n\nWant me to help you compare based on your income?",
     quickActions: [
       { label: 'Compare My Tax', action: 'compare_regimes', href: '/calculators/regime-comparator' },
       { label: 'Tax Optimizer', action: 'optimize', href: '/tax-optimizer' },
@@ -57,7 +57,7 @@ export const TAX_INTENTS: ChatIntent[] = [
   {
     id: '80c',
     patterns: ['80c', 'section 80c', 'tax saving', 'elss', 'ppf', 'nsc', 'tax deduction'],
-    response: "💰 **Section 80C Tax Saving Options (Max \u20B91.5 Lakh):**\n\n• **ELSS Funds:** 3-year lock-in, best returns\n• **PPF:** 15-year lock-in, 7.1% interest, tax-free\n• **NSC:** 5-year, 7.7% interest\n• **Tax Saver FD:** 5-year lock-in\n• **Life Insurance Premium**\n• **Children's Tuition Fees**\n• **Home Loan Principal**\n• **Sukanya Samriddhi:** For girl child\n\n💡 Tip: Invest early in the year for maximum benefit!",
+    response: "💰 **Section 80C Tax Saving Options (Max ₹1.5 Lakh):**\n\n• **ELSS Funds:** 3-year lock-in, best returns\n• **PPF:** 15-year lock-in, 7.1% interest, tax-free\n• **NSC:** 5-year, 7.7% interest\n• **Tax Saver FD:** 5-year lock-in\n• **Life Insurance Premium**\n• **Children's Tuition Fees**\n• **Home Loan Principal**\n• **Sukanya Samriddhi:** For girl child\n\n💡 Tip: Invest early in the year for maximum benefit!",
     quickActions: [
       { label: 'PPF Calculator', action: 'ppf_calc', href: '/calculators/ppf' },
       { label: 'SIP Calculator', action: 'sip_calc', href: '/calculators/sip' },
@@ -68,14 +68,14 @@ export const TAX_INTENTS: ChatIntent[] = [
   {
     id: '80d',
     patterns: ['80d', 'health insurance', 'medical', 'mediclaim'],
-    response: "🏥 **Section 80D - Health Insurance Deduction:**\n\n**For Self & Family:**\n• Below 60 years: \u20B925,000\n• Senior citizen: \u20B950,000\n\n**For Parents (additional):**\n• Below 60 years: \u20B925,000\n• Senior citizen: \u20B950,000\n\n**Preventive Health Checkup:** \u20B95,000 (within overall limit)\n\n📌 Maximum deduction: \u20B91,00,000 (if all are senior citizens)",
+    response: "🏥 **Section 80D - Health Insurance Deduction:**\n\n**For Self & Family:**\n• Below 60 years: ₹25,000\n• Senior citizen: ₹50,000\n\n**For Parents (additional):**\n• Below 60 years: ₹25,000\n• Senior citizen: ₹50,000\n\n**Preventive Health Checkup:** ₹5,000 (within overall limit)\n\n📌 Maximum deduction: ₹1,00,000 (if all are senior citizens)",
   },
 
   // HRA Exemption
   {
     id: 'hra',
     patterns: ['hra', 'house rent', 'rent allowance', 'hra exemption', 'hra calculator'],
-    response: "🏠 **HRA Exemption Calculation:**\n\nHRA exemption is the **minimum** of:\n1. Actual HRA received\n2. 50% of salary (metro) or 40% (non-metro)\n3. Rent paid - 10% of salary\n\n📌 **Requirements:**\n• Must pay rent actually\n• Need rent receipts for claims > \u20B91 lakh/year\n• Landlord PAN required if rent > \u20B91 lakh/year\n\n⚠️ HRA exemption is NOT available in New Tax Regime!",
+    response: "🏠 **HRA Exemption Calculation:**\n\nHRA exemption is the **minimum** of:\n1. Actual HRA received\n2. 50% of salary (metro) or 40% (non-metro)\n3. Rent paid - 10% of salary\n\n📌 **Requirements:**\n• Must pay rent actually\n• Need rent receipts for claims > ₹1 lakh/year\n• Landlord PAN required if rent > ₹1 lakh/year\n\n⚠️ HRA exemption is NOT available in New Tax Regime!",
     quickActions: [
       { label: 'Calculate HRA', action: 'hra_calc', href: '/calculators/hra' },
     ],
@@ -85,7 +85,7 @@ export const TAX_INTENTS: ChatIntent[] = [
   {
     id: 'itr_form',
     patterns: ['which itr', 'itr form', 'itr-1', 'itr-2', 'itr-3', 'itr-4', 'form selection'],
-    response: "📋 **Which ITR Form to File?**\n\n• **ITR-1 (Sahaj):** Salary income up to \u20B950L, one house property, interest income\n\n• **ITR-2:** Salary + Capital gains, multiple properties, foreign income\n\n• **ITR-3:** Business/profession income + salary\n\n• **ITR-4 (Sugam):** Presumptive business income (44AD/44ADA)\n\n🔍 Let me help you select the right form!",
+    response: "📋 **Which ITR Form to File?**\n\n• **ITR-1 (Sahaj):** Salary income up to ₹50L, one house property, interest income\n\n• **ITR-2:** Salary + Capital gains, multiple properties, foreign income\n\n• **ITR-3:** Business/profession income + salary\n\n• **ITR-4 (Sugam):** Presumptive business income (44AD/44ADA)\n\n🔍 Let me help you select the right form!",
     quickActions: [
       { label: 'Find My ITR Form', action: 'form_selector', href: '/itr/form-selector' },
     ],
@@ -95,7 +95,7 @@ export const TAX_INTENTS: ChatIntent[] = [
   {
     id: 'capital_gains',
     patterns: ['capital gain', 'stcg', 'ltcg', 'stock tax', 'share tax', 'mutual fund tax'],
-    response: "📈 **Capital Gains Tax (FY 2024-25):**\n\n**Equity (Stocks, Equity MF):**\n• STCG (< 1 year): 20%\n• LTCG (> 1 year): 12.5% above \u20B91.25 lakh\n\n**Debt MF, Gold, Property:**\n• STCG: As per income slab\n• LTCG (> 2 years): 12.5% without indexation\n\n💡 Tip: Use Tax Loss Harvesting to offset gains with losses!",
+    response: "📈 **Capital Gains Tax (FY 2024-25):**\n\n**Equity (Stocks, Equity MF):**\n• STCG (< 1 year): 20%\n• LTCG (> 1 year): 12.5% above ₹1.25 lakh\n\n**Debt MF, Gold, Property:**\n• STCG: As per income slab\n• LTCG (> 2 years): 12.5% without indexation\n\n💡 Tip: Use Tax Loss Harvesting to offset gains with losses!",
     quickActions: [
       { label: 'Capital Gains Calculator', action: 'cg_calc', href: '/calculators/capital-gains' },
       { label: 'Loss Harvesting', action: 'harvest', href: '/tax-loss-harvesting' },
@@ -106,7 +106,7 @@ export const TAX_INTENTS: ChatIntent[] = [
   {
     id: 'advance_tax',
     patterns: ['advance tax', 'quarterly tax', '234b', '234c', 'advance payment'],
-    response: "📆 **Advance Tax Due Dates (FY 2024-25):**\n\n• **June 15:** 15% of total tax\n• **September 15:** 45% of total tax\n• **December 15:** 75% of total tax\n• **March 15:** 100% of total tax\n\n⚠️ **Who must pay?**\nTax liability > \u20B910,000 after TDS\n\n💸 **Interest:** 1% per month under 234B & 234C for delays",
+    response: "📆 **Advance Tax Due Dates (FY 2024-25):**\n\n• **June 15:** 15% of total tax\n• **September 15:** 45% of total tax\n• **December 15:** 75% of total tax\n• **March 15:** 100% of total tax\n\n⚠️ **Who must pay?**\nTax liability > ₹10,000 after TDS\n\n💸 **Interest:** 1% per month under 234B & 234C for delays",
     quickActions: [
       { label: 'Calculate Advance Tax', action: 'advance_calc', href: '/calculators/advance-tax' },
     ],
@@ -116,7 +116,7 @@ export const TAX_INTENTS: ChatIntent[] = [
   {
     id: 'tds',
     patterns: ['tds', 'tax deducted', '26as', 'form 16', 'tds refund'],
-    response: "🧾 **TDS (Tax Deducted at Source):**\n\n**Common TDS Rates:**\n• Salary: As per slab\n• Bank Interest: 10% (above \u20B940K/\u20B950K for seniors)\n• Rent: 10% (above \u20B92.4 lakh/year)\n• Professional fees: 10%\n\n**To Claim TDS Credit:**\n1. Check Form 26AS on IT portal\n2. Verify TDS matches your records\n3. Report in ITR for refund/adjustment\n\n💡 Submit Form 15G/15H to avoid TDS if income is below taxable limit.",
+    response: "🧾 **TDS (Tax Deducted at Source):**\n\n**Common TDS Rates:**\n• Salary: As per slab\n• Bank Interest: 10% (above ₹40K/₹50K for seniors)\n• Rent: 10% (above ₹2.4 lakh/year)\n• Professional fees: 10%\n\n**To Claim TDS Credit:**\n1. Check Form 26AS on IT portal\n2. Verify TDS matches your records\n3. Report in ITR for refund/adjustment\n\n💡 Submit Form 15G/15H to avoid TDS if income is below taxable limit.",
     quickActions: [
       { label: 'TDS Calculator', action: 'tds_calc', href: '/calculators/tds' },
       { label: 'Check Refund Status', action: 'refund', href: '/tds-refund-tracker' },
@@ -127,7 +127,7 @@ export const TAX_INTENTS: ChatIntent[] = [
   {
     id: 'nps',
     patterns: ['nps', 'national pension', 'pension', '80ccd', 'retirement'],
-    response: "🏦 **NPS Tax Benefits:**\n\n**Section 80CCD(1):** Part of 80C limit (\u20B91.5L)\n\n**Section 80CCD(1B):** Additional \u20B950,000 deduction! 🎯\n\n**Section 80CCD(2):** Employer contribution up to 10% of salary (14% for govt.)\n\n**At Maturity:**\n• 60% withdrawal: Tax-free\n• 40% annuity: Taxable as per slab\n\n💡 NPS gives extra \u20B950K deduction over 80C limit - don't miss it!",
+    response: "🏦 **NPS Tax Benefits:**\n\n**Section 80CCD(1):** Part of 80C limit (₹1.5L)\n\n**Section 80CCD(1B):** Additional ₹50,000 deduction! 🎯\n\n**Section 80CCD(2):** Employer contribution up to 10% of salary (14% for govt.)\n\n**At Maturity:**\n• 60% withdrawal: Tax-free\n• 40% annuity: Taxable as per slab\n\n💡 NPS gives extra ₹50K deduction over 80C limit - don't miss it!",
     quickActions: [
       { label: 'Tax Optimizer', action: 'optimize', href: '/tax-optimizer' },
     ],
@@ -229,8 +229,8 @@ export const SUGGESTED_QUESTIONS = [
 // Quick tips for display
 export const TAX_TIPS = [
   "💡 New regime is default from FY 24-25. Opt out explicitly for old regime.",
-  "💡 Don't forget the additional \u20B950,000 NPS deduction under 80CCD(1B)!",
-  "💡 Health insurance for parents can give you up to \u20B950,000 extra deduction.",
+  "💡 Don't forget the additional ₹50,000 NPS deduction under 80CCD(1B)!",
+  "💡 Health insurance for parents can give you up to ₹50,000 extra deduction.",
   "💡 Complete e-verification within 30 days of filing your ITR.",
   "💡 Pre-validate your bank account for faster refund processing.",
 ];

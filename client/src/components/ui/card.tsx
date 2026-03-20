@@ -9,7 +9,7 @@ const Card = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "rounded-2xl border border-gray-100 bg-white text-gray-900 shadow-lg shadow-gray-500/5 transition-all duration-300 hover:shadow-xl hover:shadow-gray-500/10 hover:-translate-y-1",
+      "rounded-card border border-gray-100 bg-white text-gray-900 shadow-lg shadow-gray-500/5 transition-all duration-300 hover:shadow-xl hover:shadow-gray-500/10 hover:-translate-y-1",
       className
     )}
     {...props}
@@ -84,7 +84,7 @@ const CardPremium = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "rounded-2xl border border-gray-100 bg-white text-gray-900 shadow-xl shadow-gray-500/10 transition-all duration-300 hover:shadow-2xl hover:shadow-gray-500/15 hover:-translate-y-2 relative overflow-hidden",
+      "rounded-card border border-gray-100 bg-white text-gray-900 shadow-xl shadow-gray-500/10 transition-all duration-300 hover:shadow-2xl hover:shadow-gray-500/15 hover:-translate-y-2 relative overflow-hidden",
       className
     )}
     {...props}
@@ -99,7 +99,7 @@ const CardGlass = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "rounded-2xl bg-white/70 backdrop-blur-lg border border-white/50 text-gray-900 shadow-xl shadow-gray-500/10 transition-all duration-300 hover:bg-white/80 hover:-translate-y-1",
+      "rounded-card bg-white/70 backdrop-blur-lg border border-white/50 text-gray-900 shadow-xl shadow-gray-500/10 transition-all duration-300 hover:bg-white/80 hover:-translate-y-1",
       className
     )}
     {...props}
@@ -114,7 +114,7 @@ const CardPopular = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "rounded-2xl border-2 border-indigo-200 bg-white text-gray-900 shadow-xl shadow-indigo-500/20 transition-all duration-300 hover:shadow-2xl hover:shadow-indigo-500/30 hover:-translate-y-2 relative overflow-hidden",
+      "rounded-card border-2 border-indigo-200 bg-white text-gray-900 shadow-xl shadow-indigo-500/20 transition-all duration-300 hover:shadow-2xl hover:shadow-indigo-500/30 hover:-translate-y-2 relative overflow-hidden",
       "before:absolute before:inset-0 before:bg-gradient-to-br before:from-indigo-50/50 before:to-purple-50/50 before:pointer-events-none",
       className
     )}

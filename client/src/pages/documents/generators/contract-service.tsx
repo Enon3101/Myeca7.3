@@ -51,7 +51,7 @@ const FormComponent = ({ register, errors }: any) => {
       <div className="grid grid-cols-1 gap-4">
         <div><Label>Scope of Services</Label><Textarea rows={3} {...register('servicesDetails')} /></div>
         <div className="grid grid-cols-2 gap-4">
-          <div><Label>Total Fee (\u20B9)</Label><Input type="number" {...register('feeAmount', { valueAsNumber: true })} /></div>
+          <div><Label>Total Fee (₹)</Label><Input type="number" {...register('feeAmount', { valueAsNumber: true })} /></div>
           <div><Label>Timeline / Deadline</Label><Input {...register('timelineDeadline')} placeholder="e.g. 2 months" /></div>
         </div>
       </div>
@@ -87,7 +87,7 @@ const generateHTML = (data: any) => `
 
     <h3 style="border-bottom: 1px solid #000; padding-bottom: 5px; margin-top: 20px;">2. COMPENSATION</h3>
     <p style="margin-left: 20px;">
-      In consideration for the full, satisfactory performance of the Services, the Client shall pay the Contractor a total fee of <strong>\u20B9 ${Number(data.feeAmount).toLocaleString('en-IN')}/-</strong>. Payment shall be subject to applicable tax deductions at source (TDS).
+      In consideration for the full, satisfactory performance of the Services, the Client shall pay the Contractor a total fee of <strong>₹ ${Number(data.feeAmount).toLocaleString('en-IN')}/-</strong>. Payment shall be subject to applicable tax deductions at source (TDS).
     </p>
 
     <h3 style="border-bottom: 1px solid #000; padding-bottom: 5px; margin-top: 20px;">3. TIMELINE</h3>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Link } from "wouter";
 import { 
   Award, 
@@ -52,8 +52,8 @@ export default function ISOCertificationPage() {
     {
       standard: "ISO 9001:2015",
       name: "Quality Management System",
-      smallBusinessCost: "\u20B92,00,000 - \u20B96,00,000",
-      mediumBusinessCost: "\u20B96,00,000 - \u20B915,00,000", 
+      smallBusinessCost: "₹2,00,000 - ₹6,00,000",
+      mediumBusinessCost: "₹6,00,000 - ₹15,00,000", 
       timeline: "3-6 months",
       color: "blue",
       icon: Award,
@@ -63,8 +63,8 @@ export default function ISOCertificationPage() {
     {
       standard: "ISO 14001:2015",
       name: "Environmental Management System",
-      smallBusinessCost: "\u20B93,00,000 - \u20B98,00,000",
-      mediumBusinessCost: "\u20B98,00,000 - \u20B920,00,000",
+      smallBusinessCost: "₹3,00,000 - ₹8,00,000",
+      mediumBusinessCost: "₹8,00,000 - ₹20,00,000",
       timeline: "4-8 months",
       color: "green",
       icon: Leaf,
@@ -74,8 +74,8 @@ export default function ISOCertificationPage() {
     {
       standard: "ISO 27001:2022",
       name: "Information Security Management",
-      smallBusinessCost: "\u20B95,00,000 - \u20B98,00,000",
-      mediumBusinessCost: "\u20B93,00,000 - \u20B915,00,000",
+      smallBusinessCost: "₹5,00,000 - ₹8,00,000",
+      mediumBusinessCost: "₹3,00,000 - ₹15,00,000",
       timeline: "6-12 months",
       color: "purple",
       icon: Lock,
@@ -85,8 +85,8 @@ export default function ISOCertificationPage() {
     {
       standard: "ISO 45001:2018",
       name: "Occupational Health & Safety",
-      smallBusinessCost: "\u20B93,00,000 - \u20B97,00,000",
-      mediumBusinessCost: "\u20B97,00,000 - \u20B918,00,000",
+      smallBusinessCost: "₹3,00,000 - ₹7,00,000",
+      mediumBusinessCost: "₹7,00,000 - ₹18,00,000",
       timeline: "4-8 months",
       color: "orange",
       icon: HardHat,
@@ -100,35 +100,35 @@ export default function ISOCertificationPage() {
       phase: "Gap Analysis",
       duration: "2-4 weeks",
       activities: "Current state assessment and requirement mapping",
-      costComponent: "\u20B950,000 - \u20B91,50,000",
+      costComponent: "₹50,000 - ₹1,50,000",
       icon: Calculator
     },
     {
       phase: "Documentation",
       duration: "4-8 weeks", 
       activities: "Policy creation, procedure development, manual preparation",
-      costComponent: "\u20B91,00,000 - \u20B94,00,000",
+      costComponent: "₹1,00,000 - ₹4,00,000",
       icon: FileText
     },
     {
       phase: "Implementation",
       duration: "8-16 weeks",
       activities: "System deployment, training, process integration",
-      costComponent: "\u20B91,00,000 - \u20B93,00,000",
+      costComponent: "₹1,00,000 - ₹3,00,000",
       icon: Settings
     },
     {
       phase: "Internal Audit",
       duration: "2-3 weeks",
       activities: "Pre-certification review and compliance check",
-      costComponent: "\u20B925,000 - \u20B975,000",
+      costComponent: "₹25,000 - ₹75,000",
       icon: CheckCircle
     },
     {
       phase: "External Audit",
       duration: "3-5 days",
       activities: "Certification body assessment and evaluation",
-      costComponent: "\u20B975,000 - \u20B92,50,000",
+      costComponent: "₹75,000 - ₹2,50,000",
       icon: Shield
     },
     {
@@ -198,7 +198,7 @@ export default function ISOCertificationPage() {
       impact: "Premium charges",
       details: [
         "High-risk sectors (pharma, medical): +25-40%",
-        "Multi-site operations: +\u20B950,000-\u20B92,00,000 per site",
+        "Multi-site operations: +₹50,000-₹2,00,000 per site",
         "Complex processes: +15-30% for design/development",
         "International certification bodies: +20-30%"
       ]
@@ -207,8 +207,8 @@ export default function ISOCertificationPage() {
       factor: "Additional Services",
       impact: "Variable costs",
       details: [
-        "Consultant fees: \u20B91,500-\u20B95,000 per day",
-        "Employee training: \u20B910,000-\u20B925,000 per person",
+        "Consultant fees: ₹1,500-₹5,000 per day",
+        "Employee training: ₹10,000-₹25,000 per person",
         "Annual surveillance: 30-50% of certification cost",
         "3-year recertification: 60-80% of initial cost"
       ]
@@ -268,7 +268,7 @@ export default function ISOCertificationPage() {
     {
       activity: "Annual Surveillance Audit",
       frequency: "Yearly",
-      cost: "\u20B91,00,000 - \u20B93,00,000",
+      cost: "₹1,00,000 - ₹3,00,000",
       description: "Mandatory annual compliance review"
     },
     {
@@ -280,7 +280,7 @@ export default function ISOCertificationPage() {
     {
       activity: "Consultant Support",
       frequency: "As needed",
-      cost: "\u20B950,000 - \u20B92,00,000",
+      cost: "₹50,000 - ₹2,00,000",
       description: "Ongoing compliance support and updates"
     }
   ];
@@ -365,7 +365,7 @@ export default function ISOCertificationPage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* ISO Standards & Costs */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -431,10 +431,10 @@ export default function ISOCertificationPage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Certification Process */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
@@ -476,10 +476,10 @@ export default function ISOCertificationPage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Required Documents */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
@@ -516,10 +516,10 @@ export default function ISOCertificationPage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Cost Factors */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
@@ -555,10 +555,10 @@ export default function ISOCertificationPage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Business Benefits */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.8 }}
@@ -595,10 +595,10 @@ export default function ISOCertificationPage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Certification Body Selection */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.0 }}
@@ -639,10 +639,10 @@ export default function ISOCertificationPage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Maintenance Costs */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.2 }}
@@ -679,10 +679,10 @@ export default function ISOCertificationPage() {
               </tbody>
             </table>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Expert Assistance CTA */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.4 }}
@@ -700,7 +700,7 @@ export default function ISOCertificationPage() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 shadow-lg">
                   <Award className="w-5 h-5 mr-2" />
-                  Start from {"\u20B9"}2,00,000
+                  Start from {"₹"}2,00,000
                 </Button>
                 <Link href="/expert-consultation?service=iso-certification">
                   <Button size="lg" className="bg-blue-700 hover:bg-blue-800 text-white border-0 px-8 shadow-lg font-semibold">
@@ -726,7 +726,7 @@ export default function ISOCertificationPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
       </div>
     </div>
   );

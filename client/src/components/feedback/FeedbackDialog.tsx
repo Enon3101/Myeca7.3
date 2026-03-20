@@ -33,7 +33,7 @@ import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { useAuth } from "@/components/AuthProvider";
 import { Loader2, Star, CheckCircle } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 
 const feedbackSchema = z.object({
   type: z.enum(["bug", "feature", "general", "complaint"]),
@@ -132,7 +132,7 @@ export function FeedbackDialog({ open, onOpenChange }: FeedbackDialogProps) {
       <DialogContent className="sm:max-w-[500px] bg-white text-gray-900 border-gray-200">
         <AnimatePresence mode="wait">
           {!submitted ? (
-            <motion.div
+            <m.div
               key="form"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -319,26 +319,26 @@ export function FeedbackDialog({ open, onOpenChange }: FeedbackDialogProps) {
                   </div>
                 </form>
               </Form>
-            </motion.div>
+            </m.div>
           ) : (
-            <motion.div
+            <m.div
               key="success"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               className="text-center py-8"
             >
-              <motion.div
+              <m.div
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ type: "spring", delay: 0.2 }}
               >
                 <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
-              </motion.div>
+              </m.div>
               <h3 className="text-lg font-semibold mb-2 text-gray-900">Thank You!</h3>
               <p className="text-gray-600">
                 Your feedback has been received. We appreciate you taking the time to help us improve.
               </p>
-            </motion.div>
+            </m.div>
           )}
         </AnimatePresence>
       </DialogContent>

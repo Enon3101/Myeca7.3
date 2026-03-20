@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Link } from "wouter";
 import { 
   Receipt, 
@@ -38,6 +38,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import MetaSEO from "@/components/seo/MetaSEO";
 
 export default function GstRegistrationPage() {
   const [businessType, setBusinessType] = useState<string>("");
@@ -46,25 +47,25 @@ export default function GstRegistrationPage() {
   const gstThresholds = [
     {
       state: "Regular States",
-      threshold: "\u20B940 lakhs",
+      threshold: "₹40 lakhs",
       description: "For supply of goods in most states",
       mandatory: "Above threshold"
     },
     {
       state: "Special Category States",
-      threshold: "\u20B920 lakhs", 
+      threshold: "₹20 lakhs", 
       description: "NE states, Himachal Pradesh, Uttarakhand, J&K",
       mandatory: "Above threshold"
     },
     {
       state: "Services",
-      threshold: "\u20B920 lakhs",
+      threshold: "₹20 lakhs",
       description: "For service providers across India",
       mandatory: "Above threshold"
     },
     {
       state: "E-commerce",
-      threshold: "\u20B90",
+      threshold: "₹0",
       description: "Mandatory for all e-commerce operators",
       mandatory: "Compulsory"
     }
@@ -235,8 +236,8 @@ export default function GstRegistrationPage() {
   const pricingPlans = [
     {
       type: "Basic GST Registration",
-      price: "\u20B92,999",
-      originalPrice: "\u20B94,999",
+      price: "₹2,999",
+      originalPrice: "₹4,999",
       features: [
         "Complete documentation",
         "Online application filing",
@@ -247,8 +248,8 @@ export default function GstRegistrationPage() {
     },
     {
       type: "Premium GST Package",
-      price: "\u20B94,999", 
-      originalPrice: "\u20B97,999",
+      price: "₹4,999", 
+      originalPrice: "₹7,999",
       features: [
         "Everything in Basic",
         "First 3 months returns filing",
@@ -259,8 +260,8 @@ export default function GstRegistrationPage() {
     },
     {
       type: "Complete Business Setup",
-      price: "\u20B98,999",
-      originalPrice: "\u20B912,999",
+      price: "₹8,999",
+      originalPrice: "₹12,999",
       features: [
         "Company registration + GST",
         "Bank account opening",
@@ -273,6 +274,41 @@ export default function GstRegistrationPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-white to-emerald-50 service-page">
+      <MetaSEO
+        title="GST Registration Online India | Fast & Accurate GST Application"
+        description="Get your GST registration online in India. Expert CA assistance, transparent pricing, and 100% success rate. GST registration starts at ₹2,999. Apply now!"
+        keywords={[
+          "GST registration", "apply for GST online India", "GST registration cost", 
+          "GST threshold", "GST registration documents", "business registration India",
+          "voluntary GST registration", "composition scheme", "input tax credit", "GSTIN search"
+        ]}
+        type="service"
+        serviceData={{
+          price: "2999",
+          rating: "4.9",
+          reviews: "50000",
+          availability: "https://schema.org/InStock"
+        }}
+        breadcrumbs={[
+          { name: "Home", url: "/" },
+          { name: "Services", url: "/services" },
+          { name: "GST Registration", url: "/services/gst-registration" }
+        ]}
+        faqPageData={[
+          {
+            question: "What is the threshold for mandatory GST registration?",
+            answer: "Mandatory GST registration is required if your annual turnover exceeds ₹40 lakhs for goods or ₹20 lakhs for services (₹20L/₹10L for special category states)."
+          },
+          {
+            question: "How long does it take to get a GST certificate?",
+            answer: "Typically, it takes 7–10 working days to get a GST registration certificate, depending on the department's verification process."
+          },
+          {
+            question: "What documents are required for GST registration?",
+            answer: "Key documents include PAN card, Aadhaar card, business address proof (like electricity bill/rent agreement), and bank account details."
+          }
+        ]}
+      />
       {/* Header */}
       <section className="bg-white border-b border-gray-200 py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -314,7 +350,7 @@ export default function GstRegistrationPage() {
                 <ul className="space-y-2.5 text-sm text-gray-700">
                   <li className="flex items-start">
                     <Clock className="w-4 h-4 mr-2 text-green-600 mt-0.5" />
-                    Check turnover threshold: \u20B940L goods, \u20B920L services.
+                    Check turnover threshold: ₹40L goods, ₹20L services.
                   </li>
                   <li className="flex items-start">
                     <FileText className="w-4 h-4 mr-2 text-emerald-600 mt-0.5" />
@@ -337,7 +373,7 @@ export default function GstRegistrationPage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* GST Threshold & Mandatory Registration */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -377,10 +413,10 @@ export default function GstRegistrationPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* GST Registration Types */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
@@ -458,10 +494,10 @@ export default function GstRegistrationPage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Required Documents */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
@@ -500,10 +536,10 @@ export default function GstRegistrationPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* Registration Process */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
@@ -539,10 +575,10 @@ export default function GstRegistrationPage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Benefits of GST Registration */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.8 }}
@@ -574,10 +610,10 @@ export default function GstRegistrationPage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Registration Form */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.0 }}
@@ -630,10 +666,10 @@ export default function GstRegistrationPage() {
                       <SelectValue placeholder="Select turnover" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="below-20">Below \u20B920 Lakhs</SelectItem>
-                      <SelectItem value="20-40">\u20B920-40 Lakhs</SelectItem>
-                      <SelectItem value="40-100">\u20B940 Lakhs - 1 Crore</SelectItem>
-                      <SelectItem value="above-100">Above \u20B91 Crore</SelectItem>
+                      <SelectItem value="below-20">Below ₹20 Lakhs</SelectItem>
+                      <SelectItem value="20-40">₹20-40 Lakhs</SelectItem>
+                      <SelectItem value="40-100">₹40 Lakhs - 1 Crore</SelectItem>
+                      <SelectItem value="above-100">Above ₹1 Crore</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -685,10 +721,10 @@ export default function GstRegistrationPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* Pricing Plans */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.2 }}
@@ -749,7 +785,97 @@ export default function GstRegistrationPage() {
           <p className="text-sm text-gray-600 mt-8">
             Trusted by 50,000+ businesses • 99.9% success rate • Expert CA team
           </p>
-        </motion.div>
+        </m.div>
+
+        {/* SEO Depth Section: Expert Guide on GST */}
+        <div className="mt-24 space-y-16 border-t pt-16">
+          <div className="max-w-4xl mx-auto text-left">
+            <h2 className="text-3xl font-black text-slate-900 mb-6 tracking-tight">Expert Guide: Mastering GST Compliance in India</h2>
+            <p className="text-lg text-slate-600 leading-relaxed mb-8">
+              Goods and Services Tax (GST) is more than just a legal requirement—it's a gateway to <span className="text-green-600 font-bold">input tax credit</span> and national market access. 
+              Understanding the nuances of the <span className="font-bold">GST registration process</span> is crucial for any growing business in India.
+            </p>
+
+            <div className="grid md:grid-cols-2 gap-12">
+               <div className="space-y-4">
+                  <h3 className="text-xl font-bold text-slate-900">Mandatory vs Voluntary Registration</h3>
+                  <p className="text-sm text-slate-500 leading-relaxed">
+                    While businesses with turnover above ₹40L (goods) or ₹20L (services) MUST register, many small startups opt for <span className="font-bold">Voluntary GST Registration</span>. 
+                    Why? Because it allows you to claim credit for taxes paid on business expenses like laptops, office rent, and professional services, effectively reducing your costs.
+                  </p>
+               </div>
+               <div className="space-y-4">
+                  <h3 className="text-xl font-bold text-slate-900">Composition Scheme Benefits</h3>
+                  <p className="text-sm text-slate-500 leading-relaxed">
+                    Small dealers with turnover up to ₹1.5 Crore can opt for the <span className="font-bold">GST Composition Scheme</span>. 
+                    This simplifies returns to a quarterly frequency and reduces the tax rate (1% for manufacturers/traders), though you lose the ability to claim input tax credit.
+                  </p>
+               </div>
+            </div>
+          </div>
+
+          {/* Comparison Table */}
+          <Card className="rounded-[2rem] border-emerald-100 overflow-hidden shadow-sm">
+             <CardHeader className="bg-emerald-900 text-white p-8">
+                <CardTitle className="text-2xl font-black italic">GST Registration Comparison</CardTitle>
+             </CardHeader>
+             <CardContent className="p-0">
+                <table className="w-full text-left border-collapse">
+                   <thead>
+                      <tr className="bg-emerald-50 border-b border-emerald-100">
+                         <th className="p-6 text-xs font-black text-emerald-900 uppercase tracking-widest">Feature</th>
+                         <th className="p-6 text-xs font-black text-emerald-900 uppercase tracking-widest">Regular Registration</th>
+                         <th className="p-6 text-xs font-black text-emerald-900 uppercase tracking-widest">Composition Scheme</th>
+                      </tr>
+                   </thead>
+                   <tbody className="text-sm font-medium text-slate-600">
+                      <tr className="border-b border-emerald-50 hover:bg-emerald-50/30 transition-colors">
+                         <td className="p-6 font-bold">Tax Collection</td>
+                         <td className="p-6">Can collect GST from customers</td>
+                         <td className="p-6">Cannot collect GST</td>
+                      </tr>
+                      <tr className="border-b border-emerald-50 hover:bg-emerald-50/30 transition-colors">
+                         <td className="p-6 font-bold">Input Tax Credit</td>
+                         <td className="p-6 text-green-600">Available on all purchases</td>
+                         <td className="p-6 text-red-500">Not Available</td>
+                      </tr>
+                      <tr className="border-b border-emerald-50 hover:bg-emerald-50/30 transition-colors">
+                         <td className="p-6 font-bold">Returns Filing</td>
+                         <td className="p-6">Monthly / Quarterly (IFF)</td>
+                         <td className="p-6">Quarterly (CMP-08)</td>
+                      </tr>
+                      <tr className="hover:bg-emerald-50/30 transition-colors">
+                         <td className="p-6 font-bold">Inter-state Supply</td>
+                         <td className="p-6">Allowed across India</td>
+                         <td className="p-6">Restricted to within State</td>
+                      </tr>
+                   </tbody>
+                </table>
+             </CardContent>
+          </Card>
+
+          {/* Penalty & Compliance Section */}
+          <div className="bg-red-50 rounded-[2.5rem] p-10 border border-red-100">
+             <div className="flex items-start gap-6">
+                <div className="w-16 h-16 rounded-3xl bg-red-600 flex items-center justify-center text-white shrink-0 shadow-lg shadow-red-200">
+                   <AlertCircle className="w-8 h-8" />
+                </div>
+                <div>
+                   <h3 className="text-2xl font-black text-slate-900 mb-3 tracking-tight">Warning: GST Non-Compliance Penalties</h3>
+                   <p className="text-slate-600 leading-relaxed mb-6 font-medium">
+                      Operating without a mandatory GSTIN can lead to a penalty of <span className="text-red-600 font-bold">₹10,000 or 10% of the tax due</span> (whichever is higher). 
+                      Additionally, late filing of returns (GSTR-1 or GSTR-3B) attracts a late fee of up to ₹50 per day. Our experts ensure you never miss a deadline.
+                   </p>
+                   <div className="flex flex-wrap gap-4">
+                      <Button className="bg-red-600 hover:bg-red-700 text-white rounded-xl font-bold px-6 h-12 shadow-md">Fix GST Notices Now</Button>
+                      <Link href="/services/notice-compliance">
+                        <Button variant="ghost" className="text-red-700 font-bold">Learn about Notice Management →</Button>
+                      </Link>
+                   </div>
+                </div>
+             </div>
+          </div>
+        </div>
       </div>
     </div>
   );

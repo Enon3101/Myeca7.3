@@ -1,13 +1,23 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { RefreshCw, Coins, Clock, AlertTriangle, CheckCircle, XCircle, Phone, Mail } from "lucide-react";
+import MetaSEO from "@/components/seo/MetaSEO";
 
 export default function RefundPolicyPage() {
   return (
+    <>
+      <MetaSEO 
+        title="Refund Policy - MyeCA.in | Transparent Service Terms"
+        description="Read the MyeCA.in Refund Policy. We offer transparent refund terms for our tax filing and business registration services, ensuring customer satisfaction."
+        breadcrumbs={[
+          { name: "Home", url: "/" },
+          { name: "Refund Policy", url: "/legal/refund-policy" }
+        ]}
+      />
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <section className="bg-white border-b soft-border py-16">
         <div className="container mx-auto px-6">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
@@ -23,14 +33,14 @@ export default function RefundPolicyPage() {
               Transparent refund terms for our tax and business services.
             </p>
             <p className="text-sm text-gray-500 mt-4">Last updated: January 19, 2025</p>
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
       {/* Main Content */}
       <section className="py-16">
         <div className="container mx-auto px-6 max-w-4xl">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
@@ -347,9 +357,10 @@ export default function RefundPolicyPage() {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </section>
     </div>
+    </>
   );
 }

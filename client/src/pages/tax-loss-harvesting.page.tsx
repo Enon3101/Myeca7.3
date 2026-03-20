@@ -24,10 +24,10 @@ import {
   Sparkles,
   Target
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { PieChart as RechartsPieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend } from "recharts";
 import { CalculatorExport } from "@/components/ui/calculator-export";
-import EnhancedSEO from "@/components/EnhancedSEO";
+import MetaSEO from "@/components/seo/MetaSEO";
 
 interface Investment {
   id: string;
@@ -202,10 +202,22 @@ export default function TaxLossHarvestingPage() {
 
   return (
     <>
-      <EnhancedSEO
+      <MetaSEO
         title="Tax Loss Harvesting Calculator - Optimize Your Capital Gains Tax | MyeCA"
         description="Analyze your investment portfolio for tax loss harvesting opportunities. Offset capital gains with losses and reduce your tax liability legally."
         keywords={["tax loss harvesting", "capital gains tax", "offset capital gains", "investment tax planning", "STCG LTCG calculator", "portfolio tax analysis"]}
+        type="calculator"
+        calculatorData={{
+          type: "Tax Management",
+          features: ["Portfolio analysis", "STCG/LTCG offset", "Tax savings estimation", "Wash sale alerts"],
+          accuracy: "99.9%",
+          updates: "FY 2024-25"
+        }}
+        breadcrumbs={[
+          { name: "Home", url: "/" },
+          { name: "Calculators", url: "/calculators" },
+          { name: "Tax Loss Harvesting", url: "/tax-loss-harvesting" }
+        ]}
       />
 
       <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-8">
@@ -350,7 +362,7 @@ export default function TaxLossHarvestingPage() {
                           type="number"
                           value={newInvestment.purchasePrice || ''}
                           onChange={(e) => setNewInvestment({ ...newInvestment, purchasePrice: Number(e.target.value) })}
-                          placeholder={"\u20B9"}
+                          placeholder={"₹"}
                           className="h-9"
                         />
                       </div>
@@ -360,7 +372,7 @@ export default function TaxLossHarvestingPage() {
                           type="number"
                           value={newInvestment.currentPrice || ''}
                           onChange={(e) => setNewInvestment({ ...newInvestment, currentPrice: Number(e.target.value) })}
-                          placeholder={"\u20B9"}
+                          placeholder={"₹"}
                           className="h-9"
                         />
                       </div>
@@ -383,7 +395,7 @@ export default function TaxLossHarvestingPage() {
                   {/* Investment List */}
                   <AnimatePresence>
                     {analysis.investments.map((inv, index) => (
-                      <motion.div
+                      <m.div
                         key={inv.id}
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -449,7 +461,7 @@ export default function TaxLossHarvestingPage() {
                             <Trash2 className="h-4 w-4" />
                           </Button>
                         </div>
-                      </motion.div>
+                      </m.div>
                     ))}
                   </AnimatePresence>
 

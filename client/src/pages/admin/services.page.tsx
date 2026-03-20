@@ -421,7 +421,7 @@ export default function ServicesManagementPage() {
                       name="price"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Price (\u20B9)</FormLabel>
+                          <FormLabel>Price (₹)</FormLabel>
                           <FormControl>
                             <Input 
                               type="number" 
@@ -609,7 +609,7 @@ export default function ServicesManagementPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-gray-600">Avg Price</p>
-                  <p className="text-2xl font-bold text-orange-600">\u20B9{Math.round(serviceStats.avgPrice)}</p>
+                  <p className="text-2xl font-bold text-orange-600">₹{Math.round(serviceStats.avgPrice)}</p>
                 </div>
                 <DollarSign className="h-8 w-8 text-orange-600" />
               </div>
@@ -710,7 +710,7 @@ export default function ServicesManagementPage() {
                         </Badge>
                       </TableCell>
                       <TableCell>
-                        <span className="font-medium">\u20B9{service.price.toLocaleString()}</span>
+                        <span className="font-medium">₹{service.price.toLocaleString()}</span>
                       </TableCell>
                       <TableCell>
                         <div className="flex items-center gap-3">
@@ -920,7 +920,7 @@ export default function ServicesManagementPage() {
                     <span className="text-muted-foreground">Category:</span> {viewService.category}
                   </div>
                   <div>
-                    <span className="text-muted-foreground">Price:</span> \u20B9{viewService.price.toLocaleString()}
+                    <span className="text-muted-foreground">Price:</span> ₹{viewService.price.toLocaleString()}
                   </div>
                   <div>
                     <span className="text-muted-foreground">Status:</span> {viewService.isActive ? "Active" : "Inactive"}

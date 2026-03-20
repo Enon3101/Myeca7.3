@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Link } from "wouter";
 import { 
   PiggyBank, 
@@ -46,7 +46,7 @@ export default function TdsFilingPage() {
       subtitle: "TDS on Salary",
       description: "Quarterly TDS return for salary payments to employees",
       dueDate: "31st of the month following quarter end",
-      penalty: "\u20B9200/day",
+      penalty: "₹200/day",
       color: "blue",
       features: [
         "Salary TDS deduction details",
@@ -61,7 +61,7 @@ export default function TdsFilingPage() {
       subtitle: "TDS on Non-Salary (Domestic)",
       description: "Quarterly TDS return for payments other than salary to residents",
       dueDate: "15th of the month following quarter end",
-      penalty: "\u20B9200/day",
+      penalty: "₹200/day",
       color: "green",
       features: [
         "Professional fees TDS (194J)",
@@ -76,7 +76,7 @@ export default function TdsFilingPage() {
       subtitle: "TDS on Non-Salary (NRI/Foreign)",
       description: "Quarterly TDS return for payments to non-residents",
       dueDate: "15th of the month following quarter end", 
-      penalty: "\u20B9200/day",
+      penalty: "₹200/day",
       color: "purple",
       features: [
         "NRI payments",
@@ -91,7 +91,7 @@ export default function TdsFilingPage() {
       subtitle: "TCS Returns",
       description: "Quarterly TCS (Tax Collected at Source) returns",
       dueDate: "15th of the month following quarter end",
-      penalty: "\u20B9200/day", 
+      penalty: "₹200/day", 
       color: "orange",
       features: [
         "E-commerce TCS (194O)",
@@ -107,35 +107,35 @@ export default function TdsFilingPage() {
       section: "194A",
       type: "Interest",
       rate: "10%",
-      threshold: "\u20B940,000 - \u20B91,00,000",
+      threshold: "₹40,000 - ₹1,00,000",
       description: "Interest on bank deposits, bonds, debentures"
     },
     {
       section: "194C", 
       type: "Contractor Payments",
       rate: "1% (Individual/HUF), 2% (Others)",
-      threshold: "\u20B930,000 per transaction / \u20B91,00,000 per year",
+      threshold: "₹30,000 per transaction / ₹1,00,000 per year",
       description: "Payments to contractors and sub-contractors"
     },
     {
       section: "194H",
       type: "Commission/Brokerage", 
       rate: "5%",
-      threshold: "\u20B915,000 per year",
+      threshold: "₹15,000 per year",
       description: "Commission, brokerage, discount payments"
     },
     {
       section: "194I",
       type: "Rent",
       rate: "2% (Plant/Machinery), 10% (Land/Building)",
-      threshold: "\u20B92,40,000 per year",
+      threshold: "₹2,40,000 per year",
       description: "Rent payments for property, plant, machinery"
     },
     {
       section: "194J",
       type: "Professional Fees",
       rate: "10% (Professional), 2% (Technical)",
-      threshold: "\u20B930,000 per year", 
+      threshold: "₹30,000 per year", 
       description: "Fees to professionals, technical consultants"
     },
     {
@@ -293,7 +293,7 @@ export default function TdsFilingPage() {
                   </li>
                   <li className="flex items-start">
                     <AlertCircle className="w-4 h-4 mr-2 text-orange-600 mt-0.5" />
-                    Late filing fee is {"\u20B9"}200/day; avoid penalties by timely filing.
+                    Late filing fee is {"₹"}200/day; avoid penalties by timely filing.
                   </li>
                 </ul>
               </CardContent>
@@ -304,7 +304,7 @@ export default function TdsFilingPage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Who Must File TDS/TCS Returns */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -351,14 +351,14 @@ export default function TdsFilingPage() {
                     <CheckCircle className="w-4 h-4 mr-3 text-red-500 flex-shrink-0 mt-1" />
                     <div>
                       <div className="font-medium">Banks & Financial Institutions</div>
-                      <div className="text-sm text-gray-600">On interest payments exceeding {"\u20B9"}40,000 annually</div>
+                      <div className="text-sm text-gray-600">On interest payments exceeding {"₹"}40,000 annually</div>
                     </div>
                   </li>
                   <li className="flex items-start">
                     <CheckCircle className="w-4 h-4 mr-3 text-red-500 flex-shrink-0 mt-1" />
                     <div>
                       <div className="font-medium">Property Buyers</div>
-                      <div className="text-sm text-gray-600">1% TDS on property purchases above {"\u20B9"}50 lakhs</div>
+                      <div className="text-sm text-gray-600">1% TDS on property purchases above {"₹"}50 lakhs</div>
                     </div>
                   </li>
                   <li className="flex items-start">
@@ -372,7 +372,7 @@ export default function TdsFilingPage() {
                     <CheckCircle className="w-4 h-4 mr-3 text-red-500 flex-shrink-0 mt-1" />
                     <div>
                       <div className="font-medium">High-Value Individual/HUF</div>
-                      <div className="text-sm text-gray-600">Business turnover &gt;{"\u20B9"}1 crore or profession &gt;{"\u20B9"}50 lakhs</div>
+                      <div className="text-sm text-gray-600">Business turnover &gt;{"₹"}1 crore or profession &gt;{"₹"}50 lakhs</div>
                     </div>
                   </li>
                 </ul>
@@ -396,28 +396,28 @@ export default function TdsFilingPage() {
                     <CheckCircle className="w-4 h-4 mr-3 text-orange-500 flex-shrink-0 mt-1" />
                     <div>
                       <div className="font-medium">Overseas Remittance Services</div>
-                      <div className="text-sm text-gray-600">5% TCS on foreign remittances via LRS above \u20B97 lakhs</div>
+                      <div className="text-sm text-gray-600">5% TCS on foreign remittances via LRS above ₹7 lakhs</div>
                     </div>
                   </li>
                   <li className="flex items-start">
                     <CheckCircle className="w-4 h-4 mr-3 text-orange-500 flex-shrink-0 mt-1" />
                     <div>
                       <div className="font-medium">Motor Vehicle Dealers</div>
-                      <div className="text-sm text-gray-600">1% TCS on vehicle sales above \u20B910 lakhs</div>
+                      <div className="text-sm text-gray-600">1% TCS on vehicle sales above ₹10 lakhs</div>
                     </div>
                   </li>
                   <li className="flex items-start">
                     <CheckCircle className="w-4 h-4 mr-3 text-orange-500 flex-shrink-0 mt-1" />
                     <div>
                       <div className="font-medium">Goods/Services Sellers</div>
-                      <div className="text-sm text-gray-600">0.1% TCS on receipts above \u20B950 lakhs (Section 206C(1H))</div>
+                      <div className="text-sm text-gray-600">0.1% TCS on receipts above ₹50 lakhs (Section 206C(1H))</div>
                     </div>
                   </li>
                   <li className="flex items-start">
                     <CheckCircle className="w-4 h-4 mr-3 text-orange-500 flex-shrink-0 mt-1" />
                     <div>
                       <div className="font-medium">Overseas Tour Packages</div>
-                      <div className="text-sm text-gray-600">5% TCS on tour packages above \u20B92 lakhs</div>
+                      <div className="text-sm text-gray-600">5% TCS on tour packages above ₹2 lakhs</div>
                     </div>
                   </li>
                   <li className="flex items-start">
@@ -538,10 +538,10 @@ export default function TdsFilingPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* TDS Forms Overview */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -610,10 +610,10 @@ export default function TdsFilingPage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* TDS Rates Section */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
@@ -663,10 +663,10 @@ export default function TdsFilingPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* Quarterly Due Dates */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
@@ -718,10 +718,10 @@ export default function TdsFilingPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* Filing Process */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
@@ -757,10 +757,10 @@ export default function TdsFilingPage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Features & Benefits */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.8 }}
@@ -792,10 +792,10 @@ export default function TdsFilingPage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Quick Filing Form */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.0 }}
@@ -898,10 +898,10 @@ export default function TdsFilingPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* Pricing & CTA */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.2 }}
@@ -911,7 +911,7 @@ export default function TdsFilingPage() {
             <div className="text-center mb-6">
               <h3 className="text-2xl font-bold text-gray-900 mb-2">TDS Filing Service Pricing</h3>
               <div className="flex justify-center items-baseline gap-2 mb-2">
-                <span className="text-4xl font-bold text-indigo-600">\u20B9799</span>
+                <span className="text-4xl font-bold text-indigo-600">₹799</span>
                 <span className="text-lg text-gray-600">per quarter</span>
                 <Badge className="bg-green-100 text-green-800">Starting Price</Badge>
               </div>
@@ -952,7 +952,7 @@ export default function TdsFilingPage() {
               Trusted by 10,000+ businesses • 99.9% filing accuracy • Expert CA team
             </p>
           </Card>
-        </motion.div>
+        </m.div>
       </div>
     </div>
   );

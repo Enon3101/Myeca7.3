@@ -1,20 +1,43 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Link } from "wouter";
-import { Calendar, User, ArrowRight, Search, Tag, Clock } from "lucide-react";
+import { Calendar, User, ArrowRight, Search, Tag, Clock, Rocket, Sparkles, TrendingUp, Filter, ChevronRight, BookOpen, Landmark, Receipt, Building2, Calculator } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import ShareButtons from "@/components/ShareButtons";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Loader2 } from "lucide-react";
+import MetaSEO from "@/components/seo/MetaSEO";
+import { cn } from "@/lib/utils";
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2
+    }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 30, scale: 0.95 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    scale: 1,
+    transition: { type: "spring", stiffness: 100, damping: 15 }
+  }
+};
 
 export default function BlogPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
 
-  const { data: postsData, isLoading: isLoadingPosts, error: postsError } = useQuery({
+  const { data: postsData, isLoading: isLoadingPosts } = useQuery({
     queryKey: ["public-blogs"],
     queryFn: async () => {
       const res = await fetch("/api/public/blogs");
@@ -33,236 +56,233 @@ export default function BlogPage() {
   });
 
   const dbPosts = postsData?.posts || [];
-  const dbCategories = ["All", ...(categoriesData?.categories?.map((c: any) => c.name) || [])];
+  const dbCategories = ["All", "Direct Tax", "GST", "New", "Updates", "Others"];
 
-  const filteredPosts = dbPosts.filter((post: any) => {
-    const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (post.excerpt || "").toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory = selectedCategory === "All" || post.category === selectedCategory;
-    return matchesSearch && matchesCategory;
-  });
+  const filteredPosts = useMemo(() => {
+    return dbPosts.filter((post: any) => {
+      const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (post.excerpt || "").toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesCategory = selectedCategory === "All" || post.category === selectedCategory;
+      return matchesSearch && matchesCategory;
+    });
+  }, [dbPosts, searchQuery, selectedCategory]);
+
+  const featuredPost = filteredPosts[0];
+  const regularPosts = filteredPosts.slice(1);
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-      className="min-h-screen bg-gray-50"
-    >
-      {/* Hero Section */}
-      <div className="relative bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white py-24 overflow-hidden">
-        {/* Abstract Background Shapes */}
-        <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl mix-blend-overlay animate-pulse" />
-          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl mix-blend-overlay animate-pulse delay-1000" />
+    <div className="min-h-screen bg-white pb-32">
+      <MetaSEO
+        title="Knowledge Hub | Expert Tax Guides & Finance Insights MyeCA.in"
+        description="Daily tax insights, compliance deep-dives, and financial growth hacks curated by India's top experts."
+        keywords={[
+          "tax blog India", "income tax updates", "ITR filing guide", "tax planning tips", 
+          "GST news", "investment advice India"
+        ]}
+        breadcrumbs={[
+          { name: "Home", url: "/" },
+          { name: "Knowledge Hub", url: "/blog" }
+        ]}
+      />
+
+      {/* ─── Compact Hero Section (Light Grey) ─── */}
+      <section className="relative pt-16 pb-12 bg-slate-50 overflow-hidden border-b border-slate-200">
+        <div className="absolute inset-0 z-0">
+          <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-blue-500/5 rounded-full blur-[100px] -mr-48 -mt-48" />
+          <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-indigo-500/5 rounded-full blur-[100px] -ml-24 -mb-24" />
         </div>
 
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="text-center max-w-4xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              <SectionHeader
-                title="Tax Insights & Resources"
-                highlight="Expert Knowledge"
-                subtitle="Stay ahead with the latest tax updates, filing guides, and financial planning strategies."
-                align="center"
-                className="mb-10"
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+          <m.h1 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-2xl md:text-3xl font-black text-slate-900 mb-6 uppercase tracking-wider"
+          >
+            Master Your <span className="text-blue-600">Financial Destiny</span>
+          </m.h1>
+          
+          <m.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="max-w-xl mx-auto relative group"
+          >
+            <div className="relative group flex items-center bg-white border border-slate-200 p-1.5 rounded-2xl shadow-sm focus-within:ring-2 focus-within:ring-blue-500/20 focus-within:border-blue-500 transition-all duration-500">
+              <Search className="ml-5 w-5 h-5 text-slate-400 group-focus-within:text-blue-500 transition-colors" />
+              <Input
+                className="bg-transparent border-none text-slate-900 text-base h-12 focus-visible:ring-0 placeholder:text-slate-400 px-4 font-medium"
+                placeholder="Search financial intelligence..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
-            </motion.div>
-
-            {/* Search Bar */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="max-w-2xl mx-auto relative group"
-            >
-              <div className="absolute -inset-1 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full blur opacity-25 group-hover:opacity-50 transition duration-200"></div>
-              <div className="relative">
-                <Search className="absolute left-5 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5 group-focus-within:text-blue-500 transition-colors" />
-                <Input
-                  type="text"
-                  placeholder="Search articles, topics, or tags..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-14 pr-6 py-7 text-lg rounded-full text-gray-900 bg-white/95 backdrop-blur-sm shadow-xl border-0 focus-visible:ring-2 focus-visible:ring-blue-400 placeholder:text-gray-400"
-                />
-              </div>
-            </motion.div>
-          </div>
+              <Button 
+                onClick={() => {
+                  document.getElementById('blog-content')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="bg-blue-600 hover:bg-blue-500 text-white rounded-xl h-10 px-6 font-black text-[10px] uppercase tracking-widest transition-all"
+              >
+                Search
+              </Button>
+            </div>
+          </m.div>
         </div>
-      </div>
+      </section>
 
-      {/* Category Filter */}
-      <div className="sticky top-16 z-40 bg-white/80 backdrop-blur-md border-b border-gray-100 shadow-sm">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-center space-x-2 py-4 overflow-x-auto no-scrollbar">
+
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 border-b border-slate-100 pb-8">
+          <div>
+            <h2 className="text-3xl font-black text-slate-900 tracking-tight">Latest <span className="text-blue-600">Blogs</span></h2>
+            <p className="text-slate-500 font-medium text-sm mt-1">Daily insights, compliance deep-dives, and financial updates.</p>
+          </div>
+          
+          <div className="flex items-center gap-2">
             {dbCategories.map((category) => (
-              <button
+              <m.button
                 key={category}
+                whileTap={{ scale: 0.95 }}
                 onClick={() => setSelectedCategory(category)}
-                className={`px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-300 transform hover:scale-105 ${selectedCategory === category
-                  ? "bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-md shadow-blue-200"
-                  : "bg-gray-100/80 text-gray-600 hover:bg-gray-200 hover:text-gray-900"
-                  }`}
+                className={cn(
+                  "px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-wider transition-all duration-300 border whitespace-nowrap",
+                  selectedCategory === category
+                    ? "bg-blue-600 text-white border-blue-600"
+                    : "bg-white text-slate-500 border-slate-200 hover:border-blue-200 hover:text-blue-600"
+                )}
               >
                 {category}
-              </button>
+              </m.button>
             ))}
           </div>
         </div>
-      </div>
 
-      {/* Main Content */}
-      <div className="container mx-auto px-4 py-12">
         {isLoadingPosts ? (
           <div className="flex flex-col items-center justify-center py-20">
-            <Loader2 className="h-10 w-10 text-blue-500 animate-spin mb-4" />
-            <p className="text-gray-500">Loading interesting articles for you...</p>
+            <m.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+              className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full mb-4"
+            />
+            <p className="text-slate-400 font-bold text-[10px] uppercase tracking-widest">Loading...</p>
           </div>
         ) : filteredPosts.length === 0 ? (
-          <motion.div
+          <m.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-center py-20"
+            className="text-center py-20 bg-slate-50 rounded-3xl border border-slate-100"
           >
-            <div className="inline-block p-6 rounded-full bg-blue-50 mb-4">
-              <Search className="h-10 w-10 text-blue-400" />
-            </div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-2">No articles found</h3>
-            <p className="text-gray-500 max-w-md mx-auto">
-              We couldn't find any articles matching your search. Try using different keywords or clear the filters.
-            </p>
-            <Button
-              variant="outline"
-              className="mt-6"
+            <Search className="w-10 h-10 text-slate-300 mx-auto mb-4" />
+            <h3 className="text-xl font-bold text-slate-900 mb-2">No Insights Found</h3>
+            <Button 
+              variant="outline" 
               onClick={() => { setSearchQuery(""); setSelectedCategory("All"); }}
+              className="mt-4 h-10 rounded-xl"
             >
-              Clear all filters
+              Reset Filters
             </Button>
-          </motion.div>
+          </m.div>
         ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredPosts.map((post, index) => (
-              <motion.div
-                key={post.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="group h-full"
-              >
+          <m.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+          >
+            {filteredPosts.map((post) => (
+              <m.div key={post.id} variants={itemVariants} className="group">
                 <Link href={`/blog/${post.slug}`}>
-                  <div className="h-full bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col relative cursor-pointer">
-                    {/* Card Header / Image Area */}
-                    <div className="h-48 bg-gradient-to-br from-blue-50 to-indigo-50 flex items-center justify-center relative overflow-hidden group-hover:from-blue-100 group-hover:to-indigo-100 transition-colors duration-500">
-                      <div className="absolute top-0 right-0 p-4 z-10">
-                        <span className="bg-white/90 backdrop-blur-sm text-blue-700 text-xs font-bold px-3 py-1 rounded-full shadow-sm border border-blue-100">
+                  <Card className="h-full bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-200 transition-all duration-500 cursor-pointer flex flex-col">
+                    <div className="h-44 relative overflow-hidden bg-slate-50">
+                      <div className="absolute inset-0 flex items-center justify-center text-5xl opacity-40 group-hover:scale-110 transition-transform duration-500">
+                        {post.featuredImage || post.image || "📄"}
+                      </div>
+                      <div className="absolute top-4 right-4 z-10">
+                        <span className="bg-white/90 backdrop-blur-md text-slate-900 text-[8px] font-black px-3 py-1 rounded-lg border border-slate-200 uppercase tracking-wider">
                           {post.category}
                         </span>
                       </div>
-                      <div className="text-6xl transform group-hover:scale-110 transition-transform duration-500 drop-shadow-lg filter">
-                        {post.image}
-                      </div>
-                      {/* Decorative circles */}
-                      <div className="absolute -bottom-4 -left-4 w-24 h-24 bg-blue-200/20 rounded-full blur-xl" />
-                      <div className="absolute top-4 right-1/4 w-16 h-16 bg-purple-200/20 rounded-full blur-lg" />
                     </div>
-
-                    <div className="p-6 flex flex-col flex-grow">
-                      {/* Meta Info Top */}
-                      <div className="flex items-center gap-3 text-xs text-gray-500 mb-3 font-medium">
-                        <span className="flex items-center gap-1 bg-gray-50 px-2 py-1 rounded-md">
-                          <Calendar className="h-3 w-3" />
-                          {new Date(post.createdAt).toLocaleDateString()}
+                    
+                    <CardContent className="p-5 flex-grow flex flex-col">
+                      <div className="flex items-center gap-3 text-[9px] font-bold text-slate-400 uppercase tracking-wider mb-4">
+                        <span className="flex items-center gap-1.5">
+                          <Clock className="w-3 h-3 text-blue-500" />
+                          {post.readTime}
                         </span>
-                        {post.readTime && (
-                          <span className="flex items-center gap-1 bg-gray-50 px-2 py-1 rounded-md">
-                            <Clock className="h-3 w-3" />
-                            {post.readTime}
-                          </span>
-                        )}
                       </div>
-
-                      {/* Title */}
-                      <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors leading-tight">
+                      
+                      <h3 className="text-lg font-black text-slate-900 mb-3 leading-tight group-hover:text-blue-600 transition-colors line-clamp-2">
                         {post.title}
                       </h3>
-
-                      {/* Excerpt */}
-                      <p className="text-gray-600 mb-4 line-clamp-3 text-sm leading-relaxed flex-grow">
+                      
+                      <p className="text-xs text-slate-500 font-medium leading-relaxed mb-6 line-clamp-2">
                         {post.excerpt}
                       </p>
-
-                       {/* Tags */}
-                       <div className="flex flex-wrap gap-2 mb-6">
-                        {(JSON.parse(post.tags) || []).slice(0, 2).map((tag: string) => (
-                          <span
-                            key={tag}
-                            className="text-[10px] uppercase tracking-wider font-semibold text-gray-500 bg-gray-50 px-2 py-1 rounded-sm border border-gray-100"
-                          >
-                            #{tag}
-                          </span>
-                        ))}
+                      
+                      <div className="mt-auto pt-4 border-t border-slate-50 flex items-center justify-between">
+                         <div className="flex items-center gap-2">
+                            <div className="w-6 h-6 rounded-lg bg-slate-100 flex items-center justify-center text-slate-600 font-black text-[8px] border border-slate-200">
+                              {post.author?.firstName?.charAt(0) || "A"}
+                            </div>
+                            <span className="text-[10px] font-bold text-slate-600">{post.author?.firstName || "Admin"}</span>
+                         </div>
+                         <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-blue-600 group-hover:translate-x-1 transition-all" />
                       </div>
-
-                       {/* Footer / Author */}
-                       <div className="pt-4 border-t border-gray-100 flex items-center justify-between mt-auto">
-                        <div className="flex items-center gap-2">
-                          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center text-xs font-bold text-gray-600 border border-white shadow-sm">
-                            {(post.author?.firstName || "A").charAt(0)}
-                          </div>
-                          <span className="text-xs font-medium text-gray-700">{post.author?.firstName || "Admin"}</span>
-                        </div>
-                        <span className="text-blue-600 text-sm font-semibold flex items-center gap-1 group-hover:gap-2 transition-all">
-                          Read <ArrowRight className="h-4 w-4" />
-                        </span>
-                      </div>
-                    </div>
-                  </div>
+                    </CardContent>
+                  </Card>
                 </Link>
-              </motion.div>
+              </m.div>
             ))}
-          </div>
+          </m.div>
         )}
-
-        {/* Newsletter Signup */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="mt-24 relative overflow-hidden rounded-3xl"
-        >
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-700"></div>
-          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
-          <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-400/30 rounded-full blur-3xl"></div>
-          <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-purple-500/30 rounded-full blur-3xl"></div>
-
-          <div className="relative z-10 p-10 md:p-16 text-center text-white">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 tracking-tight">Stay Ahead of the Curve</h2>
-            <p className="text-lg md:text-xl mb-8 text-blue-100 max-w-2xl mx-auto leading-relaxed">
-              Join 50,000+ subscribers getting the latest tax updates, money-saving tips, and financial insights delivered straight to their inbox.
-            </p>
-
-            <div className="max-w-md mx-auto flex flex-col sm:flex-row gap-3">
-              <Input
-                type="email"
-                placeholder="Enter your email address"
-                className="bg-white/10 border-white/20 text-white placeholder:text-blue-200/70 h-12 rounded-xl focus-visible:ring-white/50"
-              />
-              <Button className="bg-white text-blue-600 hover:bg-blue-50 font-bold h-12 px-8 rounded-xl shadow-lg transition-transform hover:scale-105">
-                Subscribe Now
-              </Button>
-            </div>
-            <p className="mt-4 text-xs text-blue-200/80">
-              No spam, ever. Unsubscribe at any time.
-            </p>
-          </div>
-        </motion.div>
       </div>
-    </motion.div>
+
+        {/* ─── CTA: The Vault (Light Grey) ─── */}
+        <m.div
+          initial={{ opacity: 0, scale: 0.98 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          className="mt-20 px-4 sm:px-6 lg:px-8"
+        >
+          <div className="relative p-10 md:p-16 rounded-[2.5rem] bg-slate-100 overflow-hidden text-center group border border-slate-200">
+            <div className="absolute inset-0 opacity-40">
+               <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-blue-500/10 rounded-full blur-[120px] -ml-24 -mt-24 animate-pulse" />
+               <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-indigo-500/10 rounded-full blur-[120px] -mr-24 -mb-24" />
+            </div>
+            
+            <div className="relative z-10 max-w-3xl mx-auto">
+              <m.div 
+                animate={{ rotate: [0, 5, -5, 0] }}
+                transition={{ duration: 6, repeat: Infinity }}
+                className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-blue-600 mx-auto mb-8 border border-slate-200 shadow-sm"
+              >
+                <Rocket className="w-8 h-8" />
+              </m.div>
+              <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-6 leading-tight">
+                Secure Your <span className="text-blue-600 italic">Financial Sovereignty</span>
+              </h2>
+              <p className="text-lg text-slate-500 mb-10 font-medium leading-relaxed max-w-xl mx-auto">
+                Join 50k+ elite taxpayers who receive high-signal intelligence and 
+                wealth preservation strategies directly from our senior CAs.
+              </p>
+              
+              <div className="max-w-xl mx-auto">
+                <div className="flex flex-col sm:flex-row gap-3 p-1.5 bg-white border border-slate-200 rounded-2xl shadow-sm">
+                  <Input 
+                    className="bg-transparent border-none text-slate-900 text-base h-12 rounded-xl px-6 focus-visible:ring-0 placeholder:text-slate-400 flex-1"
+                    placeholder="Email Address"
+                  />
+                  <Button className="bg-blue-600 hover:bg-blue-500 text-white h-12 rounded-xl px-10 font-black text-[10px] uppercase tracking-widest transition-all">
+                    Subscribe
+                  </Button>
+                </div>
+              </div>
+              <p className="mt-8 text-[9px] text-slate-400 font-bold uppercase tracking-[0.3em]">
+                Zero Noise · Peerless Accuracy · Absolute Privacy
+              </p>
+            </div>
+          </div>
+        </m.div>
+    </div>
   );
 }

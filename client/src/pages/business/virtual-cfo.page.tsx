@@ -118,9 +118,9 @@ export default function VirtualCFOPage() {
   
   // Format currency
   const formatCurrency = (amount: number) => {
-    if (amount >= 10000000) return `\u20B9${(amount / 10000000).toFixed(2)} Cr`;
-    if (amount >= 100000) return `\u20B9${(amount / 100000).toFixed(2)} L`;
-    return `\u20B9${amount.toLocaleString('en-IN')}`;
+    if (amount >= 10000000) return `₹${(amount / 10000000).toFixed(2)} Cr`;
+    if (amount >= 100000) return `₹${(amount / 100000).toFixed(2)} L`;
+    return `₹${amount.toLocaleString('en-IN')}`;
   };
 
   return (

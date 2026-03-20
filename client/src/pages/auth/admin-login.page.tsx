@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -68,7 +68,7 @@ export default function AdminLoginPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <motion.div
+      <m.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
@@ -76,14 +76,14 @@ export default function AdminLoginPage() {
       >
         {/* Header */}
         <div className="text-center">
-          <motion.div
+          <m.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
             className="mx-auto h-16 w-16 bg-blue-600 rounded-full flex items-center justify-center mb-6"
           >
             <Shield className="h-8 w-8 text-white" />
-          </motion.div>
+          </m.div>
           <h2 className="text-3xl font-bold text-gray-900 mb-2">
             Admin Sign In
           </h2>
@@ -206,7 +206,7 @@ export default function AdminLoginPage() {
             </span>
           </div>
         </div>
-      </motion.div>
+      </m.div>
     </div>
   );
 }

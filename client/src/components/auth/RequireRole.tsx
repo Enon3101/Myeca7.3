@@ -1,5 +1,7 @@
 import { useAuth } from "@/components/AuthProvider";
 import { Loader2 } from "lucide-react";
+import { logAuditEvent } from "@/lib/audit";
+import { useLocation } from "wouter";
 
 interface RequireRoleProps {
   roles: string[];
@@ -8,6 +10,7 @@ interface RequireRoleProps {
 
 export function RequireRole({ roles, children }: RequireRoleProps) {
   const { user, isLoading, isAuthenticated } = useAuth();
+  const [location] = useLocation();
 
   if (isLoading) {
     return (
@@ -41,6 +44,17 @@ export function RequireRole({ roles, children }: RequireRoleProps) {
 
   const userRole = user.role || "user";
   if (!roles.includes(userRole)) {
+    logAuditEvent({
+      action: 'unauthorized_access_attempt',
+      category: 'access',
+      metadata: { 
+        path: location,
+        requiredRoles: roles,
+        userRole: userRole
+      },
+      status: 'failure'
+    });
+
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 max-w-md text-center border border-gray-200 dark:border-gray-700">

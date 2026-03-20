@@ -23,7 +23,7 @@ export const allServices: Service[] = [
     section: "Services",
     icon: "FileText",
     path: "/services/itr-filing",
-    price: "\u20B9499 - \u20B92,999",
+    price: "₹499 - ₹2,999",
     popular: true
   },
   {
@@ -34,7 +34,7 @@ export const allServices: Service[] = [
     section: "Services",
     icon: "Receipt",
     path: "/services/gst-registration",
-    price: "\u20B9999"
+    price: "₹999"
   },
   {
     id: "tds-filing",
@@ -44,7 +44,7 @@ export const allServices: Service[] = [
     section: "Services", 
     icon: "PiggyBank",
     path: "/services/tds-filing",
-    price: "\u20B9799"
+    price: "₹799"
   },
   {
     id: "tax-audit",
@@ -54,7 +54,7 @@ export const allServices: Service[] = [
     section: "Services",
     icon: "Shield",
     path: "/services/tax-audit",
-    price: "\u20B94,999"
+    price: "₹4,999"
   },
   {
     id: "advance-tax",
@@ -64,7 +64,7 @@ export const allServices: Service[] = [
     section: "Services",
     icon: "CreditCard",
     path: "/services/advance-tax",
-    price: "\u20B9299"
+    price: "₹299"
   },
   {
     id: "notice-compliance",
@@ -74,7 +74,7 @@ export const allServices: Service[] = [
     section: "Services",
     icon: "AlertTriangle",
     path: "/services/notice-compliance",
-    price: "\u20B91,999",
+    price: "₹1,999",
     popular: true
   },
 
@@ -87,7 +87,7 @@ export const allServices: Service[] = [
     section: "Services",
     icon: "Building2",
     path: "/services/company-registration", 
-    price: "\u20B96,999",
+    price: "₹6,999",
     popular: true
   },
   {
@@ -98,7 +98,7 @@ export const allServices: Service[] = [
     section: "Services",
     icon: "Award",
     path: "/services/trademark-registration",
-    price: "\u20B93,999"
+    price: "₹3,999"
   },
   {
     id: "msme-registration",
@@ -108,7 +108,7 @@ export const allServices: Service[] = [
     section: "Services",
     icon: "Award",
     path: "/services/msme-registration",
-    price: "\u20B9999"
+    price: "₹999"
   },
   {
     id: "partnership-deed",
@@ -118,7 +118,7 @@ export const allServices: Service[] = [
     section: "Services",
     icon: "FileText",
     path: "/services/partnership-deed",
-    price: "\u20B92,999"
+    price: "₹2,999"
   },
   {
     id: "annual-compliance",
@@ -128,7 +128,7 @@ export const allServices: Service[] = [
     section: "Services", 
     icon: "Shield",
     path: "/services/annual-compliance",
-    price: "\u20B98,999"
+    price: "₹8,999"
   },
 
   // SERVICES SECTION - Tools & Calculators
@@ -255,7 +255,7 @@ export const allServices: Service[] = [
     section: "Startup",
     icon: "Building2", 
     path: "/startup/company-registration",
-    price: "\u20B96,999",
+    price: "₹6,999",
     popular: true
   },
   {
@@ -266,7 +266,7 @@ export const allServices: Service[] = [
     section: "Startup",
     icon: "FileText",
     path: "/startup/legal-docs",
-    price: "\u20B92,999"
+    price: "₹2,999"
   },
   {
     id: "compliance-setup",
@@ -276,7 +276,7 @@ export const allServices: Service[] = [
     section: "Startup",
     icon: "Shield",
     path: "/startup/compliance",
-    price: "\u20B94,999"
+    price: "₹4,999"
   },
 
   // STARTUP SECTION - Financial Services
@@ -288,7 +288,7 @@ export const allServices: Service[] = [
     section: "Startup",
     icon: "Calculator",
     path: "/startup/accounting",
-    price: "\u20B93,999"
+    price: "₹3,999"
   },
   {
     id: "banking-solutions",
@@ -298,7 +298,7 @@ export const allServices: Service[] = [
     section: "Startup", 
     icon: "CreditCard",
     path: "/startup/banking",
-    price: "\u20B91,999"
+    price: "₹1,999"
   },
   {
     id: "investment-guidance",
@@ -308,7 +308,7 @@ export const allServices: Service[] = [
     section: "Startup",
     icon: "TrendingUp",
     path: "/startup/investment",
-    price: "\u20B95,999"
+    price: "₹5,999"
   },
 
   // STARTUP SECTION - Support & Growth
@@ -320,7 +320,7 @@ export const allServices: Service[] = [
     section: "Startup",
     icon: "MessageCircle",
     path: "/startup/consultation",
-    price: "\u20B92,999"
+    price: "₹2,999"
   },
   {
     id: "business-planning",
@@ -330,7 +330,7 @@ export const allServices: Service[] = [
     section: "Startup",
     icon: "BookOpen",
     path: "/startup/planning",
-    price: "\u20B94,999"
+    price: "₹4,999"
   },
   {
     id: "growth-strategies",
@@ -340,7 +340,7 @@ export const allServices: Service[] = [
     section: "Startup",
     icon: "Award",
     path: "/startup/growth",
-    price: "\u20B97,999"
+    price: "₹7,999"
   },
 
   // CALCULATORS SECTION - Tax Calculators

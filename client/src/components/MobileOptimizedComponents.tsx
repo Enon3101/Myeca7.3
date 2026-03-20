@@ -231,7 +231,7 @@ export const OptimizedInput: React.FC<OptimizedInputProps> = ({
       <div className="relative">
         {currency && (
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <span className="text-gray-500 sm:text-sm">\u20B9</span>
+            <span className="text-gray-500 sm:text-sm">₹</span>
           </div>
         )}
         <input
@@ -705,7 +705,7 @@ export const useFormValidation = () => {
 export const formatCurrency = (amount: number | string, currency: string = 'INR'): string => {
   const numAmount = typeof amount === 'string' ? parseFloat(amount) : amount;
   
-  if (isNaN(numAmount)) return '\u20B90';
+  if (isNaN(numAmount)) return '₹0';
   
   return new Intl.NumberFormat('en-IN', {
     style: 'currency',

@@ -11,28 +11,29 @@ const AIAssistantPage = lazyWithRetry(() => import("@/pages/ai-assistant.page"))
 // Route components loaded lazily to reduce initial bundle size
 const NotFound = lazyWithRetry(() => import("@/pages/not-found"));
 const HomePage = lazyWithRetry(() => import("@/pages/home.page"));
-const IncomeTaxCalculator = lazyWithRetry(() => import("@/pages/calculators/income-tax.page"));
-const TaxRegimeCalculator = lazyWithRetry(() => import("@/pages/calculators/tax-regime.page"));
-const HRACalculator = lazyWithRetry(() => import("@/pages/calculators/hra.page"));
-const SIPCalculator = lazyWithRetry(() => import("@/pages/calculators/sip.page"));
-const EnhancedSIPCalculatorPage = lazyWithRetry(() => import("@/pages/calculators/sip-enhanced.page"));
-const EMICalculator = lazyWithRetry(() => import("@/pages/calculators/emi.page"));
-const TDSCalculator = lazyWithRetry(() => import("@/pages/calculators/tds.page"));
-const FDCalculator = lazyWithRetry(() => import("@/pages/calculators/fd.page"));
-const EnhancedFDCalculatorPage = lazyWithRetry(() => import("@/pages/calculators/fd-enhanced.page"));
-const PPFCalculator = lazyWithRetry(() => import("@/pages/calculators/ppf.page"));
-const WithdrawalPlannerPage = lazyWithRetry(() => import("@/pages/calculators/withdrawal-planner.page"));
-const CapitalGainsCalculator = lazyWithRetry(() => import("@/pages/calculators/capital-gains.page"));
-const HomeLoanCalculator = lazyWithRetry(() => import("@/pages/calculators/home-loan.page"));
-const CarLoanCalculator = lazyWithRetry(() => import("@/pages/calculators/car-loan.page"));
-const PersonalLoanCalculator = lazyWithRetry(() => import("@/pages/calculators/personal-loan.page"));
-const EducationLoanCalculator = lazyWithRetry(() => import("@/pages/calculators/education-loan.page"));
-const CalculatorsPage = lazyWithRetry(() => import("@/pages/calculators.page"));
+const IncomeTaxCalculator = lazyWithRetry(() => import("@/features/calculators/pages/income-tax.page"));
+const TaxRegimeCalculator = lazyWithRetry(() => import("@/features/calculators/pages/tax-regime.page"));
+const HRACalculator = lazyWithRetry(() => import("@/features/calculators/pages/hra.page"));
+const SIPCalculator = lazyWithRetry(() => import("@/features/calculators/pages/sip.page"));
+const EnhancedSIPCalculatorPage = lazyWithRetry(() => import("@/features/calculators/pages/sip-enhanced.page"));
+const EMICalculator = lazyWithRetry(() => import("@/features/calculators/pages/emi.page"));
+const TDSCalculator = lazyWithRetry(() => import("@/features/calculators/pages/tds.page"));
+const FDCalculator = lazyWithRetry(() => import("@/features/calculators/pages/fd.page"));
+const EnhancedFDCalculatorPage = lazyWithRetry(() => import("@/features/calculators/pages/fd-enhanced.page"));
+const PPFCalculator = lazyWithRetry(() => import("@/features/calculators/pages/ppf.page"));
+const WithdrawalPlannerPage = lazyWithRetry(() => import("@/features/calculators/pages/withdrawal-planner.page"));
+const CapitalGainsCalculator = lazyWithRetry(() => import("@/features/calculators/pages/capital-gains.page"));
+const HomeLoanCalculator = lazyWithRetry(() => import("@/features/calculators/pages/home-loan.page"));
+const CarLoanCalculator = lazyWithRetry(() => import("@/features/calculators/pages/car-loan.page"));
+const PersonalLoanCalculator = lazyWithRetry(() => import("@/features/calculators/pages/personal-loan.page"));
+const EducationLoanCalculator = lazyWithRetry(() => import("@/features/calculators/pages/education-loan.page"));
+const CalculatorsPage = lazyWithRetry(() => import("@/features/calculators/pages/index.page"));
 const TaxOptimizerPage = lazyWithRetry(() => import("@/pages/tax-optimizer.page"));
-const RegimeComparatorPage = lazyWithRetry(() => import("@/pages/calculators/regime-comparator.page"));
-const AdvanceTaxCalculatorPage = lazyWithRetry(() => import("@/pages/calculators/advance-tax.page"));
-const GeneralCalculatorPage = lazyWithRetry(() => import("@/pages/calculators/general.page"));
-const ITRStatusTrackerPage = lazyWithRetry(() => import("@/pages/itr/status-tracker.page"));
+const RegimeComparatorPage = lazyWithRetry(() => import("@/features/calculators/pages/regime-comparator.page"));
+const AdvanceTaxCalculatorPage = lazyWithRetry(() => import("@/features/calculators/pages/advance-tax.page"));
+const GeneralCalculatorPage = lazyWithRetry(() => import("@/features/calculators/pages/general.page"));
+const HSNFinderPage = lazyWithRetry(() => import("@/features/calculators/pages/hsn-finder.page"));
+const ITRStatusTrackerPage = lazyWithRetry(() => import("@/features/itr/pages/status-tracker.page"));
 const TDSRefundTrackerPage = lazyWithRetry(() => import("@/pages/tds-refund-tracker.page"));
 const TaxLossHarvestingPage = lazyWithRetry(() => import("@/pages/tax-loss-harvesting.page"));
 
@@ -44,19 +45,11 @@ const AISViewerPage = lazyWithRetry(() => import("@/pages/ais-viewer.page"));
 const CapitalGainsImportPage = lazyWithRetry(() => import("@/pages/capital-gains-import.page"));
 
 // Investment Integration Features
-const NPSCalculatorPage = lazyWithRetry(() => import("@/pages/calculators/nps.page"));
+const NPSCalculatorPage = lazyWithRetry(() => import("@/features/calculators/pages/nps.page"));
 const ELSSComparatorPage = lazyWithRetry(() => import("@/pages/elss-comparator.page"));
-const PortfolioDashboardPage = lazyWithRetry(() => import("@/pages/portfolio-dashboard.page"));
-const InvestmentDashboardPage = lazyWithRetry(() => import("@/pages/investment/dashboard.page"));
-const StockDetailsPage = lazyWithRetry(() => import("@/pages/investment/stock-details.page"));
-const WatchlistPage = lazyWithRetry(() => import("@/pages/investment/watchlist.page"));
-const RiskAssessmentPage = lazyWithRetry(() => import("@/pages/investment/risk-assessment.page"));
-const PortfolioSimulatorPage = lazyWithRetry(() => import("@/pages/investment/portfolio-simulator.page"));
-const InvestmentEducationPage = lazyWithRetry(() => import("@/pages/learn/investment-basics.page"));
-const GlossaryPage = lazyWithRetry(() => import("@/pages/learn/glossary.page"));
-
 // Educational Content Features
 const LearnPage = lazyWithRetry(() => import("@/pages/learn/index.page"));
+const GlossaryPage = lazyWithRetry(() => import("@/pages/learn/glossary.page"));
 const VideoTutorialsPage = lazyWithRetry(() => import("@/pages/learn/videos.page"));
 const TaxGuidesPage = lazyWithRetry(() => import("@/pages/learn/guides.page"));
 const TaxGuidePage = lazyWithRetry(() => import("@/pages/learn/guide/[slug].page"));
@@ -64,6 +57,7 @@ const ConsultationsPage = lazyWithRetry(() => import("@/pages/learn/consultation
 
 // Professional Services Platform
 const ServicesMarketplacePage = lazyWithRetry(() => import("@/pages/services/marketplace.page"));
+const ServiceSelectionPage = lazyWithRetry(() => import("@/pages/services/selection.page"));
 const DocumentGeneratorPage = lazyWithRetry(() => import("@/pages/documents/generator.page"));
 const DocumentGeneratorRegistry = lazyWithRetry(() => import("@/pages/documents/registry.page"));
 const BusinessDashboardPage = lazyWithRetry(() => import("@/pages/business/dashboard.page"));
@@ -82,6 +76,7 @@ const TrademarkRegistrationPage = lazyWithRetry(() => import("@/pages/services/t
 const ISOCertificationPage = lazyWithRetry(() => import("@/pages/services/iso-certification.page"));
 const LabourLawCompliancePage = lazyWithRetry(() => import("@/pages/services/labour-law-compliance.page"));
 const StartupServicesPage = lazyWithRetry(() => import("@/pages/startup-services.page"));
+const CityLandingPage = lazyWithRetry(() => import("@/pages/services/city-landing.page"));
 const FundingPage = lazyWithRetry(() => import("@/pages/startup/funding.page"));
 const StartupRegistrationPage = lazyWithRetry(() => import("@/pages/startup/registration.page"));
 const TaxPlanningPage = lazyWithRetry(() => import("@/pages/services/tax-planning.page"));
@@ -96,7 +91,10 @@ const RegisterPage = lazyWithRetry(() => import("@/pages/auth/register.page"));
 const AdminLoginPage = lazyWithRetry(() => import("@/pages/auth/admin-login.page"));
 const UserDashboard = lazyWithRetry(() => import("@/pages/user-dashboard.page"));
 const AccountSettingsPage = lazyWithRetry(() => import("@/pages/settings/account.page"));
+const ProfilePage = lazyWithRetry(() => import("@/pages/profile.page"));
 const ProfilesPage = lazyWithRetry(() => import("@/pages/profiles.page"));
+const ExpertsIndexPage = lazyWithRetry(() => import("@/pages/experts/index.page"));
+const ExpertProfilePage = lazyWithRetry(() => import("@/pages/experts/profile.page"));
 const DocumentsPage = lazyWithRetry(() => import("@/pages/documents.page"));
 const ReportsPage = lazyWithRetry(() => import("@/pages/reports.page"));
 const WorkflowsPage = lazyWithRetry(() => import("@/pages/workflows.page"));
@@ -105,12 +103,13 @@ const ReferralsPage = lazyWithRetry(() => import("@/pages/referrals.page"));
 const ComparisonToolsPage = lazyWithRetry(() => import("@/components/comparison/ComparisonToolsPage"));
 const ServerErrorPage = lazyWithRetry(() => import("@/pages/server-error.page"));
 
-const BlogManagementPage = lazyWithRetry(() => import("@/pages/admin/blog-management.page"));
+// Blog management is handled via AdminBlog below
 const AdminDashboard = lazyWithRetry(() => import("@/pages/admin/index.page"));
 const ForbiddenPage = lazyWithRetry(() => import("@/pages/forbidden.page"));
 const RoleBasedRedirect = lazyWithRetry(() => import("@/components/RoleBasedRedirect").then(m => ({ default: m.default })));
 const RequireAdmin = lazyWithRetry(() => import("@/components/auth/RequireAdmin").then(m => ({ default: m.RequireAdmin })));
 const RequireRole = lazyWithRetry(() => import("@/components/auth/RequireRole").then(m => ({ default: m.RequireRole })));
+const RequireAuth = lazyWithRetry(() => import("@/components/auth/RequireAuth").then(m => ({ default: m.RequireAuth })));
 const CADashboard = lazyWithRetry(() => import("@/pages/ca/dashboard.page"));
 const AdminServices = lazyWithRetry(() => import("@/pages/admin/services.page"));
 const AdminBlog = lazyWithRetry(() => import("@/pages/admin/blog.page"));
@@ -123,11 +122,12 @@ const AdminSettings = lazyWithRetry(() => import("@/pages/admin/settings.page"))
 const CategoriesManagementPage = lazyWithRetry(() => import("@/pages/admin/categories-management.page"));
 const UpdatesManagementPage = lazyWithRetry(() => import("@/pages/admin/updates-management.page"));
 const MediaManagementPage = lazyWithRetry(() => import("@/pages/admin/media-management.page"));
-const ITRFilingPage = lazyWithRetry(() => import("@/pages/itr/filing.page"));
-const ITRFormSelectorPage = lazyWithRetry(() => import("@/pages/itr/form-selector.page"));
-const ITRSuccessPage = lazyWithRetry(() => import("@/pages/itr/success.page"));
-const ITRStepByStepGuide = lazyWithRetry(() => import("@/pages/itr/step-by-step-guide.page"));
-const CompactFilingGuidePage = lazyWithRetry(() => import("@/pages/itr/compact-filing-guide.page").then(mod => ({ default: mod.CompactFilingGuidePage })));
+const ITRFilingPage = lazyWithRetry(() => import("@/features/itr/pages/filing.page"));
+const ITRFormSelectorPage = lazyWithRetry(() => import("@/features/itr/pages/form-selector.page"));
+const ITRFormRecommenderPage = lazyWithRetry(() => import("@/features/itr/pages/form-recommender.page"));
+const ITRSuccessPage = lazyWithRetry(() => import("@/features/itr/pages/success.page"));
+const ITRStepByStepGuide = lazyWithRetry(() => import("@/features/itr/pages/step-by-step-guide.page"));
+const CompactFilingGuidePage = lazyWithRetry(() => import("@/features/itr/pages/compact-filing-guide.page").then(mod => ({ default: mod.CompactFilingGuidePage })));
 const SearchPage = lazyWithRetry(() => import("@/pages/search.page"));
 const AnalyticsPage = lazyWithRetry(() => import("@/pages/analytics.page"));
 const AnalyticsDashboardPage = lazyWithRetry(() => import("@/pages/analytics-dashboard.page"));
@@ -183,6 +183,7 @@ export default function Routes() {
         <Route path="/calculators/regime-comparator" component={RegimeComparatorPage} />
         <Route path="/calculators/advance-tax" component={AdvanceTaxCalculatorPage} />
         <Route path="/calculators/general" component={GeneralCalculatorPage} />
+        <Route path="/calculators/hsn-finder" component={HSNFinderPage} />
         <Route path="/tax-optimizer" component={TaxOptimizerPage} />
         <Route path="/itr/status-tracker" component={ITRStatusTrackerPage} />
         <Route path="/tds-refund-tracker" component={TDSRefundTrackerPage} />
@@ -198,13 +199,7 @@ export default function Routes() {
         {/* Investment Integration Features */}
         <Route path="/calculators/nps" component={NPSCalculatorPage} />
         <Route path="/elss-comparator" component={ELSSComparatorPage} />
-        <Route path="/portfolio-dashboard" component={PortfolioDashboardPage} />
-        <Route path="/investment/dashboard" component={InvestmentDashboardPage} />
-        <Route path="/investment/stocks" component={StockDetailsPage} />
-        <Route path="/investment/watchlist" component={WatchlistPage} />
-        <Route path="/investment/risk-assessment" component={RiskAssessmentPage} />
-        <Route path="/investment/portfolio-simulation" component={PortfolioSimulatorPage} />
-        <Route path="/learn/investment-basics" component={InvestmentEducationPage} />
+        <Route path="/learn/investment-basics" component={LearnPage} />
 
         {/* Educational Content */}
         <Route path="/learn" component={LearnPage} />
@@ -215,6 +210,8 @@ export default function Routes() {
         <Route path="/learn/consultations" component={ConsultationsPage} />
 
         {/* Professional Services Platform */}
+        <Route path="/services/selection" component={ServiceSelectionPage} />
+        <Route path="/services/activate/:serviceId" component={lazyWithRetry(() => import("@/pages/services/activation.page"))} />
         <Route path="/services/marketplace" component={ServicesMarketplacePage} />
         <Route path="/documents/generator" component={DocumentGeneratorRegistry} />
         <Route path="/documents/generator_page" component={DocumentGeneratorRegistry} />
@@ -243,6 +240,7 @@ export default function Routes() {
         <Route path="/services/compliance-management" component={ComplianceManagementPage} />
         <Route path="/services/audit-services" component={AuditServicesPage} />
         <Route path="/services/document-vault" component={DocumentVaultServicePage} />
+        <Route path="/services/:service/:city" component={CityLandingPage} />
         <Route path="/services" component={ServicesPage} />
         <Route path="/all-services" component={AllServicesPage} />
         <Route path="/pricing" component={PricingPage} />
@@ -254,13 +252,16 @@ export default function Routes() {
         <Route path="/auth/register" component={RegisterPage} />
         <Route path="/register" component={RegisterPage} />
         <Route path="/auth/callback" component={RoleBasedRedirect} />
-        <Route path="/dashboard" component={UserDashboard} />
-        <Route path="/settings/account" component={AccountSettingsPage} />
+        <Route path="/dashboard" component={() => <RequireAuth><UserDashboard /></RequireAuth>} />
+        <Route path="/profile" component={() => <RequireAuth><ProfilePage /></RequireAuth>} />
+        <Route path="/settings/account" component={() => <RequireAuth><AccountSettingsPage /></RequireAuth>} />
+        <Route path="/experts" component={ExpertsIndexPage} />
+        <Route path="/experts/:id" component={ExpertProfilePage} />
         <Route path="/profiles" component={ProfilesPage} />
-        <Route path="/documents" component={DocumentsPage} />
+        <Route path="/documents" component={() => <RequireAuth><DocumentsPage /></RequireAuth>} />
         <Route path="/admin/blog-management" component={() => (
           <RequireRole roles={['admin', 'team_member']}>
-            <BlogManagementPage />
+            <AdminBlog />
           </RequireRole>
         )} />
         <Route path="/admin/categories-management" component={() => (
@@ -307,7 +308,7 @@ export default function Routes() {
             </RequireAdmin>
           )
         }} />
-         <Route path="/admin/users" component={() => {
+        <Route path="/admin/users" component={() => {
           const AdminUsers = lazyWithRetry(() => import("@/pages/admin/users.page"))
           return (
             <RequireAdmin>
@@ -315,11 +316,14 @@ export default function Routes() {
             </RequireAdmin>
           )
         }} />
-        <Route path="/admin/user-management" component={() => (
-          <RequireAdmin>
-            <AdminUserManagement />
-          </RequireAdmin>
-        )} />
+        <Route path="/admin/user-management" component={() => {
+          const AdminUsers = lazyWithRetry(() => import("@/pages/admin/users.page"))
+          return (
+            <RequireAdmin>
+              <AdminUsers />
+            </RequireAdmin>
+          )
+        }} />
         <Route path="/admin/create-admin" component={() => (
           <RequireAdmin>
             <AdminCreateAdmin />
@@ -347,6 +351,7 @@ export default function Routes() {
           </RequireRole>
         )} />
         <Route path="/itr/form-selector" component={ITRFormSelectorPage} />
+        <Route path="/itr/form-recommender" component={ITRFormRecommenderPage} />
         <Route path="/itr/filing" component={ITRFilingPage} />
         <Route path="/itr/success" component={ITRSuccessPage} />
         <Route path="/itr/step-by-step-guide" component={ITRStepByStepGuide} />

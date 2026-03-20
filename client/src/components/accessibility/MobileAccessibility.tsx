@@ -92,7 +92,7 @@ export const MobileAccessibleButton: React.FC<TouchTargetProps & {
     <button
       ref={buttonRef}
       className={`mobile-accessible-button ${variant} ${className}`}
-      style={getVariantStyles()}
+      style={getVariantStyles() as any}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
       onTouchMove={onTouchMove}
@@ -207,7 +207,7 @@ export const MobileAccessibleInput: React.FC<{
         aria-describedby={error ? errorId : helperText ? helperId : undefined}
         aria-required={required}
         aria-disabled={disabled}
-        style={inputStyles}
+        style={inputStyles as any}
         {...props}
       />
       
@@ -300,7 +300,7 @@ export const MobileAccessibleCheckbox: React.FC<{
         aria-checked={indeterminate ? 'mixed' : checked}
         aria-disabled={disabled}
         aria-required={required}
-        style={checkboxStyles}
+        style={checkboxStyles as any}
       />
       <span className="checkbox-label-text">{label}</span>
     </label>
@@ -377,7 +377,7 @@ export const MobileAccessibleRadio: React.FC<{
         aria-checked={checked}
         aria-disabled={disabled}
         aria-required={required}
-        style={radioStyles}
+        style={radioStyles as any}
       />
       <span className="radio-label-text">{label}</span>
     </label>
@@ -456,7 +456,7 @@ export const MobileAccessibleSelect: React.FC<{
         aria-describedby={error ? errorId : helperText ? helperId : undefined}
         aria-required={required}
         aria-disabled={disabled}
-        style={selectStyles}
+        style={selectStyles as any}
       >
         {placeholder && (
           <option value="" disabled>

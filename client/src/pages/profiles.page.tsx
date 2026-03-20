@@ -20,7 +20,10 @@ import {
   Trash2, 
   UserCheck,
   Users,
-  Settings
+  Settings,
+  Upload,
+  FileCheck,
+  AlertCircle
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -37,6 +40,7 @@ export default function ProfilesPage() {
   const queryClient = useQueryClient();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingProfile, setEditingProfile] = useState<any>(null);
+  const [uploadingDoc, setUploadingDoc] = useState(false);
 
   const form = useForm<ProfileFormData>({
     resolver: zodResolver(profileFormSchema),
@@ -53,12 +57,9 @@ export default function ProfilesPage() {
   const { data: profiles = [], isLoading } = useQuery({
     queryKey: ["profiles"],
     queryFn: async () => {
-      const response = await apiRequest("/api/profiles", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      return response;
+      const response = await apiRequest("/api/profiles");
+      const data = await response.json();
+      return Array.isArray(data) ? data : data.profiles || [];
     },
   });
 
@@ -66,9 +67,6 @@ export default function ProfilesPage() {
     mutationFn: async (data: ProfileFormData) => {
       return await apiRequest("/api/profiles", {
         method: "POST",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
         body: JSON.stringify(data),
       });
     },
@@ -94,9 +92,6 @@ export default function ProfilesPage() {
     mutationFn: async ({ id, data }: { id: number; data: Partial<ProfileFormData> }) => {
       return await apiRequest(`/api/profiles/${id}`, {
         method: "PATCH",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
         body: JSON.stringify(data),
       });
     },
@@ -163,6 +158,38 @@ export default function ProfilesPage() {
         return <UserCheck className="w-4 h-4" />;
       default:
         return <User className="w-4 h-4" />;
+    }
+  };
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, profileId: number) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingDoc(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("profileId", profileId.toString());
+
+      await fetch("/api/documents/upload", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: formData,
+      });
+
+      toast({
+        title: "Success",
+        description: "Document uploaded successfully",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to upload document",
+        variant: "destructive",
+      });
+    } finally {
+      setUploadingDoc(false);
     }
   };
 
@@ -274,7 +301,7 @@ export default function ProfilesPage() {
                     <FormItem>
                       <FormLabel>Date of Birth (Optional)</FormLabel>
                       <FormControl>
-                        <Input type="date" {...field} />
+                        <Input type="date" {...field} value={field.value || ''} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

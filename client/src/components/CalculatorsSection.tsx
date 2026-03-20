@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { 
@@ -75,7 +75,7 @@ export default function CalculatorsSection({ searchTerm = "", selectedCategory =
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
         {/* Show results count when searching */}
         {(searchTerm || selectedCategory !== "all") && (
-          <motion.div
+          <m.div
             className="text-center mb-8"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -87,12 +87,12 @@ export default function CalculatorsSection({ searchTerm = "", selectedCategory =
               {searchTerm && ` for "${searchTerm}"`}
               {selectedCategory !== "all" && ` in ${selectedCategory} category`}
             </p>
-          </motion.div>
+          </m.div>
         )}
 
         {/* Tax Calculators */}
         {taxCalculators.length > 0 && (
-          <motion.div
+          <m.div
             className="mb-12"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -117,7 +117,7 @@ export default function CalculatorsSection({ searchTerm = "", selectedCategory =
                 const Icon = iconMap[calculator.icon as keyof typeof iconMap];
                 
                 return (
-                  <motion.div
+                  <m.div
                     key={calculator.id}
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -151,16 +151,16 @@ export default function CalculatorsSection({ searchTerm = "", selectedCategory =
                         </div>
                       </Link>
                     </Card>
-                  </motion.div>
+                  </m.div>
                 );
               })}
             </div>
-          </motion.div>
+          </m.div>
         )}
 
         {/* Investment Calculators */}
         {investmentCalculators.length > 0 && (
-          <motion.div
+          <m.div
             className="mb-12"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -185,7 +185,7 @@ export default function CalculatorsSection({ searchTerm = "", selectedCategory =
                 const Icon = iconMap[calculator.icon as keyof typeof iconMap];
                 
                 return (
-                  <motion.div
+                  <m.div
                     key={calculator.id}
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -219,16 +219,16 @@ export default function CalculatorsSection({ searchTerm = "", selectedCategory =
                           </div>
                         </Link>
                       </Card>
-                </motion.div>
+                </m.div>
               );
             })}
             </div>
-          </motion.div>
+          </m.div>
         )}
 
         {/* Loan Calculators */}
         {loanCalculators.length > 0 && (
-          <motion.div
+          <m.div
             className="mb-8"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -253,7 +253,7 @@ export default function CalculatorsSection({ searchTerm = "", selectedCategory =
                 const Icon = iconMap[calculator.icon as keyof typeof iconMap];
                 
                 return (
-                  <motion.div
+                  <m.div
                     key={calculator.id}
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -287,15 +287,15 @@ export default function CalculatorsSection({ searchTerm = "", selectedCategory =
                         </div>
                       </Link>
                     </Card>
-                  </motion.div>
+                  </m.div>
                 );
               })}
             </div>
-          </motion.div>
+          </m.div>
         )}
 
         {/* Call-to-Action */}
-        <motion.div
+        <m.div
           className="text-center"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -314,7 +314,7 @@ export default function CalculatorsSection({ searchTerm = "", selectedCategory =
               Consult an Expert CA
             </Link>
           </Button>
-        </motion.div>
+        </m.div>
       </div>
     </section>
   );

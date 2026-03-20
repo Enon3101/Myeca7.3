@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Star } from "lucide-react";
@@ -17,35 +17,35 @@ export default function HeroSection() {
         <div className="grid lg:grid-cols-2 gap-8 items-center">
           {/* Left Content */}
           <div className="text-center lg:text-left">
-            <motion.h1
+            <m.h1
               className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
               India's First <span className="text-gradient">AI-Powered Tax Assistant</span>
-            </motion.h1>
+            </m.h1>
             
-            <motion.p
+            <m.p
               className="text-xl text-gray-700 font-semibold mb-4"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               File ITR in <span className="text-gradient font-bold">3 Minutes</span> with MyeCA.in
-            </motion.p>
+            </m.p>
             
-            <motion.p
+            <m.p
               className="text-lg text-gray-600 mb-6"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
             >
               India's smartest tax platform with AI-powered assistance. File accurate ITR returns with maximum refunds guaranteed. Our intelligent system auto-fills your tax data and ensures error-free filing in minutes.
-            </motion.p>
+            </m.p>
             
             {/* Rating */}
-            <motion.div
+            <m.div
               className="flex items-center justify-center lg:justify-start space-x-2 mb-8"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -57,10 +57,10 @@ export default function HeroSection() {
                 ))}
               </div>
               <span className="text-gray-600 font-medium">4.7 | 22,500+ Reviews</span>
-            </motion.div>
+            </m.div>
 
             {/* Assessment Year Selector */}
-            <motion.div
+            <m.div
               className="flex items-center justify-center lg:justify-start space-x-4 mb-8"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -77,10 +77,10 @@ export default function HeroSection() {
                   <SelectItem value="2022-23">AY 2022-23</SelectItem>
                 </SelectContent>
               </Select>
-            </motion.div>
+            </m.div>
 
             {/* CTA Buttons */}
-            <motion.div
+            <m.div
               className="flex flex-col sm:flex-row items-center justify-center lg:justify-start space-y-4 sm:space-y-0 sm:space-x-4"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -102,11 +102,11 @@ export default function HeroSection() {
               >
                 View Pricing
               </Button>
-            </motion.div>
+            </m.div>
           </div>
 
           {/* Right Content - ITR Filing Process */}
-          <motion.div
+          <m.div
             className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-2xl p-8 border border-white/50 hover-lift"
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
@@ -174,7 +174,7 @@ export default function HeroSection() {
                 <div className="text-xs text-gray-600">Companies</div>
               </div>
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </div>
     </section>

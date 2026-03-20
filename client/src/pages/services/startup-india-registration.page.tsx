@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Link } from "wouter";
 import { 
   Rocket, 
@@ -151,9 +151,9 @@ export default function StartupIndiaRegistrationPage() {
       color: "purple",
       benefits: [
         "Startup India Seed Fund Scheme access",
-        "Fund of Funds with \u20B910,000 crore corpus",
-        "Up to \u20B920 lakhs as grants",
-        "Up to \u20B950 lakhs as debt/convertible debentures"
+        "Fund of Funds with ₹10,000 crore corpus",
+        "Up to ₹20 lakhs as grants",
+        "Up to ₹50 lakhs as debt/convertible debentures"
       ]
     },
     {
@@ -184,7 +184,7 @@ export default function StartupIndiaRegistrationPage() {
     },
     {
       title: "Turnover Limit",
-      requirement: "Not exceeding \u20B9100 crore in any financial year",
+      requirement: "Not exceeding ₹100 crore in any financial year",
       icon: TrendingUp,
       status: "mandatory"
     },
@@ -280,7 +280,7 @@ export default function StartupIndiaRegistrationPage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Eligibility Criteria */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -323,10 +323,10 @@ export default function StartupIndiaRegistrationPage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Required Documents */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
@@ -363,10 +363,10 @@ export default function StartupIndiaRegistrationPage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Registration Process */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
@@ -405,10 +405,10 @@ export default function StartupIndiaRegistrationPage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Benefits 2025 */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
@@ -445,10 +445,10 @@ export default function StartupIndiaRegistrationPage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Cost Structure */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.8 }}
@@ -466,15 +466,15 @@ export default function StartupIndiaRegistrationPage() {
             <CardContent>
               <div className="grid md:grid-cols-3 gap-6 text-center">
                 <div className="p-4">
-                  <div className="text-3xl font-bold text-green-600 mb-2">{"\u20B9"}0</div>
+                  <div className="text-3xl font-bold text-green-600 mb-2">{"₹"}0</div>
                   <div className="text-sm text-gray-600">DPIIT Registration Fee</div>
                 </div>
                 <div className="p-4">
-                  <div className="text-3xl font-bold text-green-600 mb-2">{"\u20B9"}0</div>
+                  <div className="text-3xl font-bold text-green-600 mb-2">{"₹"}0</div>
                   <div className="text-sm text-gray-600">Processing Fee</div>
                 </div>
                 <div className="p-4">
-                  <div className="text-3xl font-bold text-green-600 mb-2">{"\u20B9"}0</div>
+                  <div className="text-3xl font-bold text-green-600 mb-2">{"₹"}0</div>
                   <div className="text-sm text-gray-600">Certificate Fee</div>
                 </div>
               </div>
@@ -482,17 +482,17 @@ export default function StartupIndiaRegistrationPage() {
                 <Alert>
                   <AlertCircle className="h-4 w-4" />
                   <AlertDescription>
-                    <strong>Note:</strong> Only company incorporation charges apply ({"\u20B9"}2,000-{"\u20B9"}30,000). 
+                    <strong>Note:</strong> Only company incorporation charges apply ({"₹"}2,000-{"₹"}30,000). 
                     DPIIT registration through official portal is completely free.
                   </AlertDescription>
                 </Alert>
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* Expert Assistance CTA */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.0 }}
@@ -510,7 +510,7 @@ export default function StartupIndiaRegistrationPage() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button size="lg" className="bg-white text-purple-600 hover:bg-purple-50 px-8 shadow-lg">
                   <Rocket className="w-5 h-5 mr-2" />
-                  Start Registration {"\u20B9"}2,999
+                  Start Registration {"₹"}2,999
                 </Button>
                 <Link href="/expert-consultation?service=startup-india-registration">
                   <Button size="lg" className="bg-purple-700 hover:bg-purple-800 text-white border-0 px-8 shadow-lg font-semibold">
@@ -536,7 +536,7 @@ export default function StartupIndiaRegistrationPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
       </div>
     </div>
   );

@@ -68,8 +68,8 @@ const FormComponent = ({ register, errors }: any) => {
         <div className="grid grid-cols-2 gap-4">
           <div><Label>Lease Term (in Months)</Label><Input type="number" {...register('leaseTermMonths', { valueAsNumber: true })} /></div>
           <div><Label>Lock-in Period (in Months)</Label><Input type="number" {...register('lockInPeriod', { valueAsNumber: true })} /></div>
-          <div><Label>Monthly Rent (\u20B9) &lsqb;excl. GST&rsqb;</Label><Input type="number" {...register('monthlyRent', { valueAsNumber: true })} /></div>
-          <div><Label>Security Deposit (\u20B9)</Label><Input type="number" {...register('securityDeposit', { valueAsNumber: true })} /></div>
+          <div><Label>Monthly Rent (₹) &lsqb;excl. GST&rsqb;</Label><Input type="number" {...register('monthlyRent', { valueAsNumber: true })} /></div>
+          <div><Label>Security Deposit (₹)</Label><Input type="number" {...register('securityDeposit', { valueAsNumber: true })} /></div>
           <div><Label>Rent Commencement Date</Label><Input type="date" {...register('rentCommencementDate')} /></div>
         </div>
       </div>
@@ -110,12 +110,12 @@ const generateHTML = (data: any) => `
 
     <h3 style="margin-top: 30px; border-bottom: 1px solid #000; padding-bottom: 5px;">3. MONTHLY RENT & TAXES</h3>
     <p>
-      The Lessee shall pay a monthly rent of <strong>\u20B9 ${Number(data.monthlyRent).toLocaleString('en-IN')}/-</strong> to the Lessor. The rent shall be paid on or before the 7th day of each calendar month. The rent is exclusive of Goods and Services Tax (GST). If applicable, GST shall be paid extra by the Lessee as per prevalent rates. TDS, if applicable under the Income Tax Act, 1961, shall be deducted by the Lessee before payment of rent, and strict TDS certificates shall be provided to the Lessor.
+      The Lessee shall pay a monthly rent of <strong>₹ ${Number(data.monthlyRent).toLocaleString('en-IN')}/-</strong> to the Lessor. The rent shall be paid on or before the 7th day of each calendar month. The rent is exclusive of Goods and Services Tax (GST). If applicable, GST shall be paid extra by the Lessee as per prevalent rates. TDS, if applicable under the Income Tax Act, 1961, shall be deducted by the Lessee before payment of rent, and strict TDS certificates shall be provided to the Lessor.
     </p>
 
     <h3 style="margin-top: 30px; border-bottom: 1px solid #000; padding-bottom: 5px;">4. SECURITY DEPOSIT</h3>
     <p>
-      The Lessee has paid an interest-free refundable Security Deposit of <strong>\u20B9 ${Number(data.securityDeposit).toLocaleString('en-IN')}/-</strong> to the Lessor. This deposit shall be refunded to the Lessee simultaneously upon vacant handover of the Demised Premises, subject to deductions for unpaid rent, electricity bills, or damages to the property (excluding normal wear and tear).
+      The Lessee has paid an interest-free refundable Security Deposit of <strong>₹ ${Number(data.securityDeposit).toLocaleString('en-IN')}/-</strong> to the Lessor. This deposit shall be refunded to the Lessee simultaneously upon vacant handover of the Demised Premises, subject to deductions for unpaid rent, electricity bills, or damages to the property (excluding normal wear and tear).
     </p>
 
     <h3 style="margin-top: 30px; border-bottom: 1px solid #000; padding-bottom: 5px;">5. PERMITTED USE & MAINTENANCE</h3>

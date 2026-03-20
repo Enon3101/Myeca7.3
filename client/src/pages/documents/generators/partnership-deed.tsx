@@ -47,14 +47,14 @@ const FormComponent = ({ register, errors }: any) => {
       <h3 className="text-lg font-bold border-b pb-2 mt-6">Partner 1</h3>
       <div className="grid grid-cols-2 gap-4">
         <div><Label>Full Name</Label><Input {...register('partner1Name')} /></div>
-        <div><Label>Capital Brought In (\u20B9)</Label><Input type="number" {...register('partner1Capital', { valueAsNumber: true })} /></div>
+        <div><Label>Capital Brought In (₹)</Label><Input type="number" {...register('partner1Capital', { valueAsNumber: true })} /></div>
         <div className="col-span-2"><Label>Current Address</Label><Textarea rows={2} {...register('partner1Address')} /></div>
       </div>
 
       <h3 className="text-lg font-bold border-b pb-2 mt-6">Partner 2</h3>
       <div className="grid grid-cols-2 gap-4">
         <div><Label>Full Name</Label><Input {...register('partner2Name')} /></div>
-        <div><Label>Capital Brought In (\u20B9)</Label><Input type="number" {...register('partner2Capital', { valueAsNumber: true })} /></div>
+        <div><Label>Capital Brought In (₹)</Label><Input type="number" {...register('partner2Capital', { valueAsNumber: true })} /></div>
         <div className="col-span-2"><Label>Current Address</Label><Textarea rows={2} {...register('partner2Address')} /></div>
       </div>
 
@@ -107,10 +107,10 @@ const generateHTML = (data: any) => `
         <strong>Commencement:</strong> The partnership business shall be deemed to have commenced on ${data.executionDate.split('-').reverse().join('/')} and shall be a partnership 'At Will'.
       </li>
       <li style="margin-bottom: 15px;">
-        <strong>Capital Contribution:</strong> The initial capital infused by the partners amounts to \u20B9 ${Number(data.partner1Capital + data.partner2Capital).toLocaleString('en-IN')}/-, shared as follows:
+        <strong>Capital Contribution:</strong> The initial capital infused by the partners amounts to ₹ ${Number(data.partner1Capital + data.partner2Capital).toLocaleString('en-IN')}/-, shared as follows:
         <ul style="margin-top: 5px;">
-          <li>First Partner: \u20B9 ${Number(data.partner1Capital).toLocaleString('en-IN')}/-</li>
-          <li>Second Partner: \u20B9 ${Number(data.partner2Capital).toLocaleString('en-IN')}/-</li>
+          <li>First Partner: ₹ ${Number(data.partner1Capital).toLocaleString('en-IN')}/-</li>
+          <li>Second Partner: ₹ ${Number(data.partner2Capital).toLocaleString('en-IN')}/-</li>
         </ul>
       </li>
       <li style="margin-bottom: 15px;">

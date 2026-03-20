@@ -64,7 +64,7 @@ const TAX_RATES = {
   intradaySTCG: 0.30, // Speculative income
 };
 
-const LTCG_EXEMPTION = 125000; // \u20B91.25 lakh for equity
+const LTCG_EXEMPTION = 125000; // ₹1.25 lakh for equity
 
 // Grandfathering date for equity LTCG
 const GRANDFATHERING_DATE = new Date('2018-01-31');
@@ -127,7 +127,7 @@ function parseDate(dateStr: string): Date {
 // Parse amount
 function parseAmount(amountStr: string): number {
   if (!amountStr || amountStr.trim() === '' || amountStr === '-') return 0;
-  const cleaned = amountStr.replace(/[\u20B9$,\s()]/g, '').trim();
+  const cleaned = amountStr.replace(/[₹$,\s()]/g, '').trim();
   // Handle negative values in parentheses
   const isNegative = amountStr.includes('(') || cleaned.startsWith('-');
   const amount = parseFloat(cleaned.replace('-', ''));
@@ -503,20 +503,20 @@ export function exportForITR(data: ParsedCapitalGains): string {
   output += `# Generated on: ${new Date().toLocaleDateString()}\n\n`;
   
   output += `## Summary\n`;
-  output += `- Total STCG: \u20B9${data.summary.totalSTCG.toLocaleString('en-IN')}\n`;
-  output += `- Total LTCG: \u20B9${data.summary.totalLTCG.toLocaleString('en-IN')}\n`;
-  output += `- LTCG Exemption (Equity): \u20B9${data.summary.ltcgExemption.toLocaleString('en-IN')}\n`;
-  output += `- LTCG Above Exemption: \u20B9${data.summary.totalLTCGAboveExemption.toLocaleString('en-IN')}\n`;
-  output += `- Net Gain/Loss: \u20B9${data.summary.netGain.toLocaleString('en-IN')}\n\n`;
+  output += `- Total STCG: ₹${data.summary.totalSTCG.toLocaleString('en-IN')}\n`;
+  output += `- Total LTCG: ₹${data.summary.totalLTCG.toLocaleString('en-IN')}\n`;
+  output += `- LTCG Exemption (Equity): ₹${data.summary.ltcgExemption.toLocaleString('en-IN')}\n`;
+  output += `- LTCG Above Exemption: ₹${data.summary.totalLTCGAboveExemption.toLocaleString('en-IN')}\n`;
+  output += `- Net Gain/Loss: ₹${data.summary.netGain.toLocaleString('en-IN')}\n\n`;
   
   output += `## Tax Liability\n`;
-  output += `- STCG Tax (20%): \u20B9${data.summary.stcgTax.toLocaleString('en-IN')}\n`;
-  output += `- LTCG Tax (12.5%): \u20B9${data.summary.ltcgTax.toLocaleString('en-IN')}\n`;
-  output += `- Total Tax: \u20B9${data.summary.totalTax.toLocaleString('en-IN')}\n\n`;
+  output += `- STCG Tax (20%): ₹${data.summary.stcgTax.toLocaleString('en-IN')}\n`;
+  output += `- LTCG Tax (12.5%): ₹${data.summary.ltcgTax.toLocaleString('en-IN')}\n`;
+  output += `- Total Tax: ₹${data.summary.totalTax.toLocaleString('en-IN')}\n\n`;
   
   if (data.summary.carryForwardLoss > 0) {
     output += `## Carry Forward Loss\n`;
-    output += `- Amount: \u20B9${data.summary.carryForwardLoss.toLocaleString('en-IN')}\n`;
+    output += `- Amount: ₹${data.summary.carryForwardLoss.toLocaleString('en-IN')}\n`;
     output += `- Can be set off against future capital gains for up to 8 years\n\n`;
   }
   
@@ -525,7 +525,7 @@ export function exportForITR(data: ParsedCapitalGains): string {
   data.transactions.forEach((t, i) => {
     output += `${i + 1}. ${t.symbol}\n`;
     output += `   Buy: ${t.buyDate.toLocaleDateString()} | Sell: ${t.sellDate.toLocaleDateString()}\n`;
-    output += `   Qty: ${t.sellQuantity} | Gain: \u20B9${t.netGain.toLocaleString('en-IN')} (${t.gainType})\n\n`;
+    output += `   Qty: ${t.sellQuantity} | Gain: ₹${t.netGain.toLocaleString('en-IN')} (${t.gainType})\n\n`;
   });
   
   return output;

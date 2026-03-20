@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Link } from "wouter";
 import { 
   Utensils, 
@@ -38,6 +38,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import MetaSEO from "@/components/seo/MetaSEO";
 
 export default function FSSAIRegistrationPage() {
   const [selectedLicenseType, setSelectedLicenseType] = useState<string>("");
@@ -46,29 +47,29 @@ export default function FSSAIRegistrationPage() {
   const licenseTypes = [
     {
       type: "Basic Registration",
-      turnover: "Less than \u20B912 lakh",
+      turnover: "Less than ₹12 lakh",
       form: "Form A",
       authority: "Local/State Authority",
       processingTime: "7 days",
-      fees: "\u20B9100",
+      fees: "₹100",
       color: "green",
       icon: Building2,
       suitable: ["Small restaurants", "Home-based food businesses", "Street food vendors", "Catering services"]
     },
     {
       type: "State License",
-      turnover: "\u20B912 lakh - \u20B920 crore",
+      turnover: "₹12 lakh - ₹20 crore",
       form: "Form B",
       authority: "State Government",
       processingTime: "30 days",
-      fees: "\u20B92,000-5,000",
+      fees: "₹2,000-5,000",
       color: "blue",
       icon: Factory,
       suitable: ["Manufacturing units", "Large restaurants", "Food distributors", "Multi-city operations"]
     },
     {
       type: "Central License",
-      turnover: "Above \u20B920 crore",
+      turnover: "Above ₹20 crore",
       form: "Form B",
       authority: "Central Government",
       processingTime: "45-90 days",
@@ -206,6 +207,41 @@ export default function FSSAIRegistrationPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-white to-red-50">
+      <MetaSEO
+        title="FSSAI Registration Online | Food License for Restaurants & Home Kitchens"
+        description="Get your FSSAI food license online with MyeCA.in. Expert assistance for Basic registration, State, and Central license. Mandatory for all food businesses in India."
+        keywords={[
+          "FSSAI registration online", "food license India", "FSSAI Basic registration", 
+          "State food license", "Central food license", "FoSCoS portal filing",
+          "food safety license", "FSSAI renewal", "food business registration"
+        ]}
+        type="service"
+        serviceData={{
+          price: "2999",
+          rating: "4.8",
+          reviews: "8500",
+          availability: "https://schema.org/InStock"
+        }}
+        breadcrumbs={[
+          { name: "Home", url: "/" },
+          { name: "Services", url: "/services" },
+          { name: "FSSAI Registration", url: "/services/fssai-registration" }
+        ]}
+        faqPageData={[
+          {
+            question: "Who needs an FSSAI license in India?",
+            answer: "Any individual or entity involved in manufacturing, processing, storage, packaging, and distribution of food products in India must obtain an FSSAI license."
+          },
+          {
+            question: "What is the difference between FSSAI registration and license?",
+            answer: "FSSAI Registration (Basic) is for small businesses with turnover below ₹12 lakh. FSSAI License (State or Central) is for larger businesses with higher turnover or multi-state operations."
+          },
+          {
+            question: "What is FoSCoS?",
+            answer: "FoSCoS (Food Safety Compliance System) is the official cloud-based portal by FSSAI for food business registration and licensing in India."
+          }
+        ]}
+      />
       {/* Header */}
       <section className="bg-white border-b soft-border py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -268,7 +304,7 @@ export default function FSSAIRegistrationPage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* License Types */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -330,10 +366,10 @@ export default function FSSAIRegistrationPage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Registration Process */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
@@ -372,10 +408,10 @@ export default function FSSAIRegistrationPage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Required Documents by Type */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
@@ -405,7 +441,7 @@ export default function FSSAIRegistrationPage() {
                     Basic Registration Documents (Form A)
                   </CardTitle>
                   <CardDescription>
-                    For small food businesses with turnover less than \u20B912 lakh
+                    For small food businesses with turnover less than ₹12 lakh
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -429,7 +465,7 @@ export default function FSSAIRegistrationPage() {
                     State License Documents (Form B)
                   </CardTitle>
                   <CardDescription>
-                    For medium businesses with turnover \u20B912 lakh - \u20B920 crore
+                    For medium businesses with turnover ₹12 lakh - ₹20 crore
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -453,7 +489,7 @@ export default function FSSAIRegistrationPage() {
                     Central License Documents (Form B)
                   </CardTitle>
                   <CardDescription>
-                    For large businesses with turnover above \u20B920 crore
+                    For large businesses with turnover above ₹20 crore
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -469,10 +505,10 @@ export default function FSSAIRegistrationPage() {
               </Card>
             </TabsContent>
           </Tabs>
-        </motion.div>
+        </m.div>
 
         {/* Special Categories */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
@@ -499,10 +535,10 @@ export default function FSSAIRegistrationPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* Compliance Requirements */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.8 }}
@@ -539,10 +575,10 @@ export default function FSSAIRegistrationPage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Expert Assistance CTA */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.0 }}
@@ -560,7 +596,7 @@ export default function FSSAIRegistrationPage() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button size="lg" className="bg-white text-orange-600 hover:bg-orange-50 px-8">
                   <Utensils className="w-5 h-5 mr-2" />
-                  Apply Now from {"\u20B9"}2,999
+                  Apply Now from {"₹"}2,999
                 </Button>
                 <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-orange-600 px-8">
                   <Phone className="w-5 h-5 mr-2" />
@@ -584,7 +620,31 @@ export default function FSSAIRegistrationPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
+        {/* SEO Depth Section: Expert Guide on FSSAI */}
+        <div className="mt-24 space-y-16 border-t pt-16">
+          <div className="max-w-4xl mx-auto text-left">
+            <h2 className="text-3xl font-black text-slate-900 mb-6 tracking-tight">Expert Guide: Navigating Food Safety Compliance in 2025</h2>
+            <p className="text-lg text-slate-600 leading-relaxed mb-8">
+              Securing an <span className="text-orange-600 font-bold">FSSAI license</span> is not just a legal hurdle—it is your badge of commitment to public health. With the launch of <span className="font-bold">FoSCoS 2.0</span>, the Ministry of Health has made the process faster, digital-first, and more transparent.
+            </p>
+
+            <div className="grid md:grid-cols-2 gap-12">
+               <div className="space-y-4">
+                  <h3 className="text-xl font-bold text-slate-900">Hygiene Ratings & Branding</h3>
+                  <p className="text-sm text-slate-500 leading-relaxed">
+                    Beyond the mandatory 14-digit license number, FSSAI now encourages the <span className="font-bold">Hygiene Rating Scheme</span>. Businesses with high ratings (4 or 5 stars) see a significant boost in consumer trust and can display these ratings on platforms like Zomato and Swiggy.
+                  </p>
+               </div>
+               <div className="space-y-4">
+                  <h3 className="text-xl font-bold text-slate-900">Penalty for Non-Compliance</h3>
+                  <p className="text-sm text-slate-500 leading-relaxed">
+                    Operating without a valid FSSAI license can result in imprisonment up to 6 months and a fine up to <span className="font-bold">₹5,00,000</span>. Don't risk your reputation; our team ensures your application is filed under the correct category (Manufacturer, Trader, or Retailer) to avoid rejection.
+                  </p>
+               </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

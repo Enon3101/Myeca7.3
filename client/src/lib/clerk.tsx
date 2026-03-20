@@ -41,31 +41,7 @@ export function ClerkProvider({ children }: { children: ReactNode }) {
   return (
     <MockAuthContext.Provider value={{ role, setRole, isSignedIn: true }}>
       {children}
-      <RoleSelector currentRole={role} onRoleChange={setRole} />
     </MockAuthContext.Provider>
-  );
-}
-
-function RoleSelector({ currentRole, onRoleChange }: { currentRole: UserRole, onRoleChange: (role: UserRole) => void }) {
-  return (
-    <div className="fixed bottom-6 left-6 z-[9999] bg-white/80 backdrop-blur-xl border border-white/20 rounded-[22px] shadow-[0_20px_50px_rgba(0,0,0,0.1)] p-1.5 flex items-center gap-1.5 ring-1 ring-black/[0.03]">
-      <div className="px-3 py-2 border-r border-slate-200/50 mr-1 hidden sm:block">
-        <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Environment</span>
-      </div>
-      {(['user', 'ca', 'admin', 'team_member'] as UserRole[]).map((r) => (
-        <button
-          key={r}
-          onClick={() => onRoleChange(r)}
-          className={`px-4 py-2 rounded-[16px] text-[11px] font-bold tracking-wide transition-all duration-300 ${
-            currentRole === r 
-              ? 'bg-blue-600 text-white shadow-[0_4px_12px_rgba(37,99,235,0.3)] scale-105' 
-              : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100/50'
-          }`}
-        >
-          {r.toUpperCase()}
-        </button>
-      ))}
-    </div>
   );
 }
 

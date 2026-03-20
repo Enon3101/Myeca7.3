@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useLocation } from "wouter";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -160,7 +160,7 @@ export default function ExpertConsultationPage() {
     <div className="min-h-screen bg-gray-50 py-8 px-4">
       <div className="max-w-6xl mx-auto">
         {/* Hero Section */}
-        <motion.div
+        <m.div
           className="text-center mb-12"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -194,11 +194,11 @@ export default function ExpertConsultationPage() {
               <span className="text-gray-700 font-medium">100% Confidential</span>
             </div>
           </div>
-        </motion.div>
+        </m.div>
 
         <div className="grid gap-8 lg:grid-cols-3">
           {/* Main Form */}
-          <motion.div
+          <m.div
             className="lg:col-span-2"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -307,11 +307,11 @@ export default function ExpertConsultationPage() {
                           <SelectValue placeholder="Select budget range" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="under-5k">Under {"\u20B9"}5,000</SelectItem>
-                          <SelectItem value="5k-25k">{"\u20B9"}5,000 - {"\u20B9"}25,000</SelectItem>
-                          <SelectItem value="25k-50k">{"\u20B9"}25,000 - {"\u20B9"}50,000</SelectItem>
-                          <SelectItem value="50k-1l">{"\u20B9"}50,000 - {"\u20B9"}1,00,000</SelectItem>
-                          <SelectItem value="above-1l">Above {"\u20B9"}1,00,000</SelectItem>
+                          <SelectItem value="under-5k">Under {"₹"}5,000</SelectItem>
+                          <SelectItem value="5k-25k">{"₹"}5,000 - {"₹"}25,000</SelectItem>
+                          <SelectItem value="25k-50k">{"₹"}25,000 - {"₹"}50,000</SelectItem>
+                          <SelectItem value="50k-1l">{"₹"}50,000 - {"₹"}1,00,000</SelectItem>
+                          <SelectItem value="above-1l">Above {"₹"}1,00,000</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -375,10 +375,10 @@ export default function ExpertConsultationPage() {
                 </form>
               </CardContent>
             </Card>
-          </motion.div>
+          </m.div>
 
           {/* Sidebar */}
-          <motion.div
+          <m.div
             className="space-y-6"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -453,7 +453,7 @@ export default function ExpertConsultationPage() {
                     <p className="text-sm text-blue-100">Success Rate</p>
                   </div>
                   <div>
-                    <p className="text-2xl font-bold">{"\u20B9"}50Cr+</p>
+                    <p className="text-2xl font-bold">{"₹"}50Cr+</p>
                     <p className="text-sm text-blue-100">Refunds Processed</p>
                   </div>
                   <div>
@@ -463,7 +463,7 @@ export default function ExpertConsultationPage() {
                 </div>
               </CardContent>
             </Card>
-          </motion.div>
+          </m.div>
         </div>
       </div>
     </div>

@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { Link } from 'wouter';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
+import MetaSEO from "@/components/seo/MetaSEO";
 import {
   FileText,
   User,
@@ -23,7 +24,7 @@ import {
   CheckCircle,
 } from 'lucide-react';
 
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/components/AuthProvider';
 
 // Document Categories based on the new Indian Market Plan
 const CATEGORIES = [
@@ -510,6 +511,15 @@ export default function DocumentGeneratorRegistry() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col md:flex-row">
+      <MetaSEO 
+        title="Legal Documents & Agreements Online India | MyeCA.in"
+        description="Create, edit, and download 50+ legal and business documents including Rent Agreements, NDAs, Offer Letters, and Board Resolutions. CA-verified drafts for Indian market."
+        keywords={[
+          "legal documents online India", "business agreement drafts", "rent agreement online", 
+          "NDA draft India", "employment contract template", "board resolution format"
+        ]}
+        breadcrumbs={[{ name: "Home", url: "/" }, { name: "Document Registry", url: "/documents/generator" }]}
+      />
       {/* Sidebar Navigation */}
       <aside className="w-full md:w-64 bg-white border-r border-gray-200 p-6 shrink-0 md:sticky md:top-0 md:h-screen md:overflow-y-auto">
         <div className="mb-8">
@@ -601,7 +611,7 @@ export default function DocumentGeneratorRegistry() {
               const catStyle = getCategoryStyle(doc.category);
 
               return (
-                <motion.div
+                <m.div
                   key={doc.id}
                   layout
                   initial={{ opacity: 0, y: 20 }}
@@ -683,7 +693,7 @@ export default function DocumentGeneratorRegistry() {
                       )}
                     </div>
                   </div>
-                </motion.div>
+                </m.div>
               );
             })}
           </AnimatePresence>

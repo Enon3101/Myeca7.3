@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { MessageCircle, X, Send, Bot, User, Loader2 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 
 interface Message {
@@ -17,8 +17,8 @@ interface Message {
 const predefinedResponses: Record<string, string> = {
   "hello": "Hello! Welcome to MyeCA.in. How can I help you with your tax filing today?",
   "hi": "Hi there! I'm here to help with your tax queries. What would you like to know?",
-  "itr": "I can help you file your ITR! We offer expert CA assistance starting at \u20B91,499. Would you like to know more about our ITR filing services?",
-  "price": "Our ITR filing starts at \u20B91,499 with CA expert assistance. We also have a FREE DIY option. Which one interests you?",
+  "itr": "I can help you file your ITR! We offer expert CA assistance starting at ₹1,499. Would you like to know more about our ITR filing services?",
+  "price": "Our ITR filing starts at ₹1,499 with CA expert assistance. We also have a FREE DIY option. Which one interests you?",
   "refund": "Tax refunds typically process within 30-45 days after ITR verification. We help maximize your refund through expert deduction planning!",
   "documents": "For ITR filing, you'll need: Form 16/16A, bank statements, investment proofs, and PAN card. Need a detailed checklist?",
   "deadline": "The ITR filing deadline for AY 2025-26 is July 31, 2025. Don't wait - file early to avoid penalties!",
@@ -111,7 +111,7 @@ export default function ChatWidget() {
       {/* Chat button */}
       <AnimatePresence>
         {!isOpen && (
-          <motion.div
+          <m.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             exit={{ scale: 0 }}
@@ -127,14 +127,14 @@ export default function ChatWidget() {
             >
               <MessageCircle className="h-6 w-6" />
             </Button>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
 
       {/* Chat widget */}
       <AnimatePresence>
         {isOpen && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
@@ -170,7 +170,7 @@ export default function ChatWidget() {
               <ScrollArea ref={scrollAreaRef} className="flex-1 p-4">
                 <div className="space-y-4">
                   {messages.map((message) => (
-                    <motion.div
+                    <m.div
                       key={message.id}
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -206,7 +206,7 @@ export default function ChatWidget() {
                           <User className="h-5 w-5 text-white" />
                         </div>
                       )}
-                    </motion.div>
+                    </m.div>
                   ))}
                   {isTyping && (
                     <div className="flex gap-3">
@@ -269,7 +269,7 @@ export default function ChatWidget() {
                 </form>
               </div>
             </Card>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </>

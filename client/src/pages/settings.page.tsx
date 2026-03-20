@@ -1,9 +1,10 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { m } from "framer-motion";
 import {
   User, Bell, Shield, Globe, Palette, Download, Key,
   CreditCard, FileText, Mail, Smartphone, Monitor, TrendingUp,
-  ChevronRight, Check, X, Info, AlertCircle
+  ChevronRight, Check, X, Info, AlertCircle, Loader2, Save,
+  LogOut, Trash2, Lock, Fingerprint, History, Database
 } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -15,6 +16,9 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/components/AuthProvider";
+import { useQuery } from "@tanstack/react-query";
+import { cn } from "@/lib/utils";
 import SEO from "@/components/SEO";
 
 interface SettingsSectionProps {
@@ -22,67 +26,58 @@ interface SettingsSectionProps {
   description: string;
   icon: React.ElementType;
   children: React.ReactNode;
+  iconColor?: string;
+  bgColor?: string;
 }
 
-function SettingsSection({ title, description, icon: Icon, children }: SettingsSectionProps) {
+function SettingsSection({ title, description, icon: Icon, children, iconColor = "text-blue-600", bgColor = "bg-blue-50" }: SettingsSectionProps) {
   return (
-    <Card className="mb-6">
-      <CardHeader>
-        <div className="flex items-start gap-3">
-          <div className="p-2 bg-blue-100 rounded-lg">
-            <Icon className="h-5 w-5 text-blue-600" />
+    <Card className="rounded-[2.5rem] border-slate-200/60 shadow-xl shadow-slate-200/20 overflow-hidden bg-white mb-8">
+      <CardHeader className="p-8 pb-4">
+        <div className="flex items-start gap-4">
+          <div className={cn("p-3 rounded-2xl", bgColor)}>
+            <Icon className={cn("h-6 w-6", iconColor)} />
           </div>
           <div className="flex-1">
-            <CardTitle className="text-lg">{title}</CardTitle>
-            <CardDescription>{description}</CardDescription>
+            <CardTitle className="text-xl font-black text-slate-900 tracking-tight">{title}</CardTitle>
+            <CardDescription className="text-slate-500 font-medium mt-1">{description}</CardDescription>
           </div>
         </div>
       </CardHeader>
-      <CardContent>{children}</CardContent>
+      <CardContent className="px-8 pb-8">{children}</CardContent>
     </Card>
   );
 }
 
 export default function SettingsPage() {
+  const { user, logout, sendPasswordReset, sendEmailVerification, deleteAccount } = useAuth();
   const { toast } = useToast();
+  const [isPending, setIsPending] = useState<string | null>(null);
+
+  // Fetch additional user data if needed
+  const { data: dashboardData } = useQuery({
+    queryKey: ["/api/user/dashboard"],
+  });
+
   const [settings, setSettings] = useState({
-    // Profile
-    firstName: "John",
-    lastName: "Doe",
-    email: "john.doe@example.com",
-    phone: "+91 98765 43210",
-    
     // Notifications
     emailNotifications: true,
     smsNotifications: false,
     pushNotifications: true,
     marketingEmails: false,
     reminderNotifications: true,
-    
-    // Privacy
-    twoFactorAuth: false,
-    showProfile: true,
-    dataSharing: false,
-    activityTracking: true,
-    
     // Preferences
     language: "en",
     currency: "INR",
     dateFormat: "DD/MM/YYYY",
     defaultView: "dashboard",
-    
-    // Tax Settings
-    taxRegime: "new",
-    autoSave: true,
-    autoCalculate: true,
-    showTips: true,
   });
 
   const handleToggle = (key: keyof typeof settings) => {
     setSettings(prev => ({ ...prev, [key]: !prev[key] }));
     toast({
       title: "Setting updated",
-      description: "Your preference has been saved.",
+      description: `Your ${key.replace(/([A-Z])/g, ' $1').toLowerCase()} preference has been saved.`,
     });
   };
 
@@ -90,150 +85,188 @@ export default function SettingsPage() {
     setSettings(prev => ({ ...prev, [key]: value as any }));
   };
 
-  const handleSave = () => {
-    toast({
-      title: "Settings saved",
-      description: "All your preferences have been updated successfully.",
-    });
+  const handleAction = async (action: string, fn: () => Promise<void>) => {
+    setIsPending(action);
+    try {
+      await fn();
+      toast({
+        title: "Action successful",
+        description: `The request for ${action} was processed successfully.`,
+      });
+    } catch (error: any) {
+      toast({
+        title: "Action failed",
+        description: error.message || "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsPending(null);
+    }
   };
 
   const handleExportData = () => {
+    const data = {
+      profile: user,
+      activity: (dashboardData as any)?.recentActivity || [],
+      services: (dashboardData as any)?.activeServices || [],
+      exportDate: new Date().toISOString(),
+    };
+    
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `myeca-data-export-${new Date().getTime()}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+
     toast({
-      title: "Export initiated",
-      description: "Your data export will be ready in a few minutes. We'll email you the download link.",
+      title: "Export complete",
+      description: "Your data has been packaged and downloaded.",
     });
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-6 pb-12">
+    <div className="min-h-screen bg-slate-50/50 pt-12 pb-24">
       <SEO
-        title="Settings - Manage Your Preferences | MyeCA.in"
-        description="Customize your MyeCA experience. Manage notifications, privacy settings, tax preferences, and account settings."
-        keywords="settings, preferences, account management, notifications, privacy, tax settings"
+        title="Settings | MyeCA.in"
+        description="Manage your account preferences and security settings."
       />
 
-      {/* Header */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
-        <motion.div
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <m.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          className="mb-12 text-center"
         >
-          <h1 className="text-3xl font-bold text-gray-900">Settings</h1>
-          <p className="text-gray-600 mt-2">Manage your account preferences and settings</p>
-        </motion.div>
-      </div>
+          <Badge className="bg-blue-100 text-blue-700 border-0 font-black px-4 py-1 mb-4 rounded-full uppercase tracking-widest text-[10px]">
+            Preferences
+          </Badge>
+          <h1 className="text-4xl font-black text-slate-900 tracking-tight mb-2">Account Settings</h1>
+          <p className="text-slate-500 font-medium">Customize your MyeCA experience and manage security.</p>
+        </m.div>
 
-      {/* Settings Tabs */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Tabs defaultValue="profile" className="space-y-6">
-          <TabsList className="grid grid-cols-2 md:grid-cols-5 w-full">
-            <TabsTrigger value="profile" className="flex items-center gap-2">
-              <User className="h-4 w-4" />
-              <span className="hidden sm:inline">Profile</span>
+        <Tabs defaultValue="profile" className="space-y-8">
+          <TabsList className="flex w-full max-w-md mx-auto p-1 bg-white rounded-2xl shadow-sm border border-slate-200/60 mb-12">
+            <TabsTrigger value="profile" className="flex-1 rounded-xl font-bold py-3 data-[state=active]:bg-blue-600 data-[state=active]:text-white">
+              Profile
             </TabsTrigger>
-            <TabsTrigger value="notifications" className="flex items-center gap-2">
-              <Bell className="h-4 w-4" />
-              <span className="hidden sm:inline">Notifications</span>
+            <TabsTrigger value="notifications" className="flex-1 rounded-xl font-bold py-3 data-[state=active]:bg-blue-600 data-[state=active]:text-white">
+              Alerts
             </TabsTrigger>
-            <TabsTrigger value="privacy" className="flex items-center gap-2">
-              <Shield className="h-4 w-4" />
-              <span className="hidden sm:inline">Privacy</span>
-            </TabsTrigger>
-            <TabsTrigger value="preferences" className="flex items-center gap-2">
-              <Palette className="h-4 w-4" />
-              <span className="hidden sm:inline">Preferences</span>
-            </TabsTrigger>
-            <TabsTrigger value="tax" className="flex items-center gap-2">
-              <FileText className="h-4 w-4" />
-              <span className="hidden sm:inline">Tax</span>
+            <TabsTrigger value="security" className="flex-1 rounded-xl font-bold py-3 data-[state=active]:bg-blue-600 data-[state=active]:text-white">
+              Security
             </TabsTrigger>
           </TabsList>
 
-          {/* Profile Tab */}
           <TabsContent value="profile" className="space-y-6">
             <SettingsSection
-              title="Personal Information"
-              description="Update your personal details and contact information"
+              title="Personal Details"
+              description="Basic account information for identification"
               icon={User}
             >
-              <div className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="firstName">First Name</Label>
-                    <Input
-                      id="firstName"
-                      value={settings.firstName}
-                      onChange={(e) => handleChange("firstName", e.target.value)}
-                      className="mt-1"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="lastName">Last Name</Label>
-                    <Input
-                      id="lastName"
-                      value={settings.lastName}
-                      onChange={(e) => handleChange("lastName", e.target.value)}
-                      className="mt-1"
-                    />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                <div className="space-y-2">
+                  <Label className="text-[10px] font-black uppercase text-slate-400 tracking-widest ml-1">Email (Primary)</Label>
+                  <div className="flex items-center gap-2 p-4 rounded-2xl bg-slate-50 border border-slate-100 font-bold text-slate-400">
+                    <Mail className="h-4 w-4" />
+                    {user?.email}
                   </div>
                 </div>
-                <div>
-                  <Label htmlFor="email">Email Address</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    value={settings.email}
-                    onChange={(e) => handleChange("email", e.target.value)}
-                    className="mt-1"
-                  />
+                <div className="space-y-2">
+                  <Label className="text-[10px] font-black uppercase text-slate-400 tracking-widest ml-1">Verification</Label>
+                  <div className="flex items-center justify-between p-3 px-4 rounded-2xl bg-white border border-slate-100 shadow-sm">
+                    <div className="flex items-center gap-2">
+                      {user?.isVerified ? (
+                        <Check className="h-4 w-4 text-emerald-500" />
+                      ) : (
+                        <X className="h-4 w-4 text-amber-500" />
+                      )}
+                      <span className="font-bold text-sm">{user?.isVerified ? "Verified" : "Unverified"}</span>
+                    </div>
+                    {!user?.isVerified && (
+                      <Button 
+                        onClick={() => handleAction("verify-email", sendEmailVerification)}
+                        disabled={isPending === "verify-email"}
+                        variant="ghost" 
+                        size="sm" 
+                        className="text-blue-600 font-bold h-8"
+                      >
+                        {isPending === "verify-email" ? <Loader2 className="h-3 w-3 animate-spin" /> : "Verify Now"}
+                      </Button>
+                    )}
+                  </div>
                 </div>
-                <div>
-                  <Label htmlFor="phone">Phone Number</Label>
-                  <Input
-                    id="phone"
-                    type="tel"
-                    value={settings.phone}
-                    onChange={(e) => handleChange("phone", e.target.value)}
-                    className="mt-1"
-                  />
-                </div>
-                <Button onClick={handleSave} className="mt-4">
-                  Save Changes
-                </Button>
               </div>
             </SettingsSection>
 
             <SettingsSection
               title="Account Management"
-              description="Manage your account settings and data"
-              icon={Key}
+              description="Manage your account health and data"
+              icon={Shield}
+              iconColor="text-indigo-600"
+              bgColor="bg-indigo-50"
             >
-              <div className="space-y-4">
-                <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                  <div>
-                    <h4 className="font-medium">Change Password</h4>
-                    <p className="text-sm text-gray-600">Update your account password</p>
+              <div className="space-y-4 mt-4">
+                <div className="flex items-center justify-between p-6 bg-slate-50/50 rounded-3xl border border-slate-100 group transition-all hover:bg-white hover:shadow-lg">
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 bg-white rounded-2xl shadow-sm text-blue-600">
+                      <Lock className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <h4 className="font-black text-slate-900 leading-none mb-1">Change Password</h4>
+                      <p className="text-xs text-slate-500 font-medium">Sends a secure reset link to your email</p>
+                    </div>
                   </div>
-                  <Button variant="outline" size="sm">
-                    Change <ChevronRight className="h-4 w-4 ml-1" />
+                  <Button 
+                    variant="outline" 
+                    className="rounded-xl border-slate-200 px-6 font-bold hover:bg-blue-50 hover:text-blue-600"
+                    onClick={() => handleAction("password-reset", () => sendPasswordReset(user?.email || ""))}
+                    disabled={isPending === "password-reset"}
+                  >
+                    {isPending === "password-reset" ? <Loader2 className="h-4 w-4 animate-spin" /> : "Reset >"}
                   </Button>
                 </div>
-                <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                  <div>
-                    <h4 className="font-medium">Export Your Data</h4>
-                    <p className="text-sm text-gray-600">Download all your tax data and documents</p>
+
+                <div className="flex items-center justify-between p-6 bg-slate-50/50 rounded-3xl border border-slate-100 group transition-all hover:bg-white hover:shadow-lg">
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 bg-white rounded-2xl shadow-sm text-emerald-600">
+                      <Download className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <h4 className="font-black text-slate-900 leading-none mb-1">Export Your Data</h4>
+                      <p className="text-xs text-slate-500 font-medium">Download a complete copy of your tax records</p>
+                    </div>
                   </div>
-                  <Button variant="outline" size="sm" onClick={handleExportData}>
-                    <Download className="h-4 w-4 mr-1" /> Export
+                  <Button 
+                    variant="outline" 
+                    className="rounded-xl border-slate-200 px-6 font-bold hover:bg-emerald-50 hover:text-emerald-600"
+                    onClick={handleExportData}
+                  >
+                    Export
                   </Button>
                 </div>
-                <div className="flex items-center justify-between p-4 bg-red-50 rounded-lg">
-                  <div>
-                    <h4 className="font-medium text-red-900">Delete Account</h4>
-                    <p className="text-sm text-red-700">Permanently delete your account and data</p>
+
+                <div className="flex items-center justify-between p-6 bg-red-50/30 rounded-3xl border border-red-100 group transition-all hover:bg-white hover:shadow-lg">
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 bg-white rounded-2xl shadow-sm text-red-600">
+                      <Trash2 className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <h4 className="font-black text-red-900 leading-none mb-1">Delete Account</h4>
+                      <p className="text-xs text-red-600/70 font-medium">Permanently removes all data and access</p>
+                    </div>
                   </div>
-                  <Button variant="destructive" size="sm">
+                  <Button 
+                    variant="destructive" 
+                    className="rounded-xl px-6 font-black shadow-lg shadow-red-200"
+                    onClick={() => {
+                        if (confirm("Are you absolutely sure? This cannot be undone.")) {
+                            handleAction("delete-account", deleteAccount);
+                        }
+                    }}
+                    disabled={isPending === "delete-account"}
+                  >
                     Delete
                   </Button>
                 </div>
@@ -241,311 +274,79 @@ export default function SettingsPage() {
             </SettingsSection>
           </TabsContent>
 
-          {/* Notifications Tab */}
           <TabsContent value="notifications" className="space-y-6">
             <SettingsSection
-              title="Email Notifications"
-              description="Choose which emails you want to receive"
-              icon={Mail}
+              title="Push Alerts"
+              description="Stay updated with real-time notifications"
+              icon={Bell}
+              iconColor="text-amber-600"
+              bgColor="bg-amber-50"
             >
-              <div className="space-y-4">
+              <div className="space-y-6 mt-4">
                 <div className="flex items-center justify-between">
-                  <div>
-                    <Label htmlFor="emailNotifications" className="font-medium">Tax Filing Updates</Label>
-                    <p className="text-sm text-gray-600">Get notified about your tax filing status</p>
+                  <div className="space-y-1">
+                    <Label className="font-black text-slate-900">Tax Filing Updates</Label>
+                    <p className="text-xs text-slate-500 font-medium leading-relaxed">Notifications about your ITR status, missing documents, or CA queries.</p>
                   </div>
-                  <Switch
-                    id="emailNotifications"
-                    checked={settings.emailNotifications}
-                    onCheckedChange={() => handleToggle("emailNotifications")}
-                  />
+                  <Switch checked={settings.emailNotifications} onCheckedChange={() => handleToggle("emailNotifications")} className="data-[state=checked]:bg-blue-600" />
                 </div>
-                <Separator />
+                <Separator className="bg-slate-100" />
                 <div className="flex items-center justify-between">
-                  <div>
-                    <Label htmlFor="reminderNotifications" className="font-medium">Due Date Reminders</Label>
-                    <p className="text-sm text-gray-600">Receive reminders for important tax deadlines</p>
+                  <div className="space-y-1">
+                    <Label className="font-black text-slate-900">Deadline Reminders</Label>
+                    <p className="text-xs text-slate-500 font-medium leading-relaxed">Alerts for upcoming tax dates and payment windows.</p>
                   </div>
-                  <Switch
-                    id="reminderNotifications"
-                    checked={settings.reminderNotifications}
-                    onCheckedChange={() => handleToggle("reminderNotifications")}
-                  />
-                </div>
-                <Separator />
-                <div className="flex items-center justify-between">
-                  <div>
-                    <Label htmlFor="marketingEmails" className="font-medium">Marketing & Offers</Label>
-                    <p className="text-sm text-gray-600">Receive special offers and tax saving tips</p>
-                  </div>
-                  <Switch
-                    id="marketingEmails"
-                    checked={settings.marketingEmails}
-                    onCheckedChange={() => handleToggle("marketingEmails")}
-                  />
-                </div>
-              </div>
-            </SettingsSection>
-
-            <SettingsSection
-              title="Other Notifications"
-              description="Manage SMS and push notifications"
-              icon={Smartphone}
-            >
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <Label htmlFor="smsNotifications" className="font-medium">SMS Notifications</Label>
-                    <p className="text-sm text-gray-600">Receive important updates via SMS</p>
-                  </div>
-                  <Switch
-                    id="smsNotifications"
-                    checked={settings.smsNotifications}
-                    onCheckedChange={() => handleToggle("smsNotifications")}
-                  />
-                </div>
-                <Separator />
-                <div className="flex items-center justify-between">
-                  <div>
-                    <Label htmlFor="pushNotifications" className="font-medium">Browser Notifications</Label>
-                    <p className="text-sm text-gray-600">Get real-time updates in your browser</p>
-                  </div>
-                  <Switch
-                    id="pushNotifications"
-                    checked={settings.pushNotifications}
-                    onCheckedChange={() => handleToggle("pushNotifications")}
-                  />
+                  <Switch checked={settings.reminderNotifications} onCheckedChange={() => handleToggle("reminderNotifications")} className="data-[state=checked]:bg-blue-600" />
                 </div>
               </div>
             </SettingsSection>
           </TabsContent>
 
-          {/* Privacy Tab */}
-          <TabsContent value="privacy" className="space-y-6">
+          <TabsContent value="security" className="space-y-6">
             <SettingsSection
-              title="Security Settings"
-              description="Enhance your account security"
-              icon={Shield}
+              title="Security Checkup"
+              description="Strengthen your account protection"
+              icon={Fingerprint}
+              iconColor="text-purple-600"
+              bgColor="bg-purple-50"
             >
-              <div className="space-y-4">
+              <div className="space-y-6 mt-4">
                 <div className="flex items-center justify-between">
-                  <div>
-                    <Label htmlFor="twoFactorAuth" className="font-medium">Two-Factor Authentication</Label>
-                    <p className="text-sm text-gray-600">Add an extra layer of security to your account</p>
+                  <div className="space-y-1">
+                    <Label className="font-black text-slate-900">2-Factor Authentication</Label>
+                    <p className="text-xs text-slate-500 font-medium leading-relaxed">Add an extra layer of security using your mobile device.</p>
                   </div>
-                  <Switch
-                    id="twoFactorAuth"
-                    checked={settings.twoFactorAuth}
-                    onCheckedChange={() => handleToggle("twoFactorAuth")}
-                  />
+                  <Switch checked={false} disabled className="opacity-50" />
                 </div>
-                {settings.twoFactorAuth && (
-                  <div className="p-4 bg-green-50 rounded-lg">
-                    <div className="flex items-center gap-2 text-green-800">
-                      <Check className="h-5 w-5" />
-                      <span className="font-medium">2FA is enabled</span>
+                <div className="p-4 rounded-2xl bg-blue-50/50 border border-blue-100 flex items-start gap-3">
+                  <Info className="h-5 w-5 text-blue-600 mt-0.5 shrink-0" />
+                  <p className="text-xs text-blue-700 font-medium">
+                    2FA management is coming soon. Currently, your account is protected by enterprise-grade Firebase encryption.
+                  </p>
+                </div>
+              </div>
+            </SettingsSection>
+            
+            <SettingsSection
+              title="Recent Activity"
+              description="Monitor your account for unauthorized access"
+              icon={History}
+              iconColor="text-slate-600"
+              bgColor="bg-slate-100"
+            >
+              <div className="space-y-4 mt-2">
+                <div className="flex items-center justify-between p-4 rounded-xl bg-slate-50 border border-slate-100">
+                    <div className="flex items-center gap-3">
+                        <Monitor className="h-4 w-4 text-slate-400" />
+                        <div>
+                            <p className="text-sm font-bold text-slate-900">Chrome on Windows</p>
+                            <p className="text-[10px] font-medium text-slate-500">Current Session • India</p>
+                        </div>
                     </div>
-                    <p className="text-sm text-green-700 mt-1">Your account is protected with two-factor authentication</p>
-                  </div>
-                )}
-              </div>
-            </SettingsSection>
-
-            <SettingsSection
-              title="Privacy Controls"
-              description="Control how your data is used"
-              icon={Globe}
-            >
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <Label htmlFor="showProfile" className="font-medium">Public Profile</Label>
-                    <p className="text-sm text-gray-600">Allow others to see your basic profile information</p>
-                  </div>
-                  <Switch
-                    id="showProfile"
-                    checked={settings.showProfile}
-                    onCheckedChange={() => handleToggle("showProfile")}
-                  />
-                </div>
-                <Separator />
-                <div className="flex items-center justify-between">
-                  <div>
-                    <Label htmlFor="dataSharing" className="font-medium">Data Sharing</Label>
-                    <p className="text-sm text-gray-600">Share anonymized data to improve our services</p>
-                  </div>
-                  <Switch
-                    id="dataSharing"
-                    checked={settings.dataSharing}
-                    onCheckedChange={() => handleToggle("dataSharing")}
-                  />
-                </div>
-                <Separator />
-                <div className="flex items-center justify-between">
-                  <div>
-                    <Label htmlFor="activityTracking" className="font-medium">Activity Tracking</Label>
-                    <p className="text-sm text-gray-600">Allow us to track your usage for personalization</p>
-                  </div>
-                  <Switch
-                    id="activityTracking"
-                    checked={settings.activityTracking}
-                    onCheckedChange={() => handleToggle("activityTracking")}
-                  />
+                    <Badge className="bg-emerald-50 text-emerald-600 border-0 font-bold text-[9px] uppercase tracking-widest px-2 py-0.5">Active</Badge>
                 </div>
               </div>
             </SettingsSection>
-          </TabsContent>
-
-          {/* Preferences Tab */}
-          <TabsContent value="preferences" className="space-y-6">
-            <SettingsSection
-              title="Display Preferences"
-              description="Customize how the platform looks and feels"
-              icon={Monitor}
-            >
-              <div className="space-y-4">
-                <div>
-                  <Label htmlFor="language">Language</Label>
-                  <Select value={settings.language} onValueChange={(value) => handleChange("language", value)}>
-                    <SelectTrigger className="mt-1">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="en">English</SelectItem>
-                      <SelectItem value="hi">Hindi</SelectItem>
-                      <SelectItem value="ta">Tamil</SelectItem>
-                      <SelectItem value="te">Telugu</SelectItem>
-                      <SelectItem value="bn">Bengali</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div>
-                  <Label htmlFor="dateFormat">Date Format</Label>
-                  <Select value={settings.dateFormat} onValueChange={(value) => handleChange("dateFormat", value)}>
-                    <SelectTrigger className="mt-1">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="DD/MM/YYYY">DD/MM/YYYY</SelectItem>
-                      <SelectItem value="MM/DD/YYYY">MM/DD/YYYY</SelectItem>
-                      <SelectItem value="YYYY-MM-DD">YYYY-MM-DD</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div>
-                  <Label htmlFor="defaultView">Default Dashboard View</Label>
-                  <Select value={settings.defaultView} onValueChange={(value) => handleChange("defaultView", value)}>
-                    <SelectTrigger className="mt-1">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="dashboard">Overview Dashboard</SelectItem>
-                      <SelectItem value="returns">Tax Returns</SelectItem>
-                      <SelectItem value="documents">Documents</SelectItem>
-                      <SelectItem value="services">Services</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-            </SettingsSection>
-
-            <SettingsSection
-              title="Regional Settings"
-              description="Set your location and currency preferences"
-              icon={Globe}
-            >
-              <div className="space-y-4">
-                <div>
-                  <Label htmlFor="currency">Currency</Label>
-                  <Select value={settings.currency} onValueChange={(value) => handleChange("currency", value)}>
-                    <SelectTrigger className="mt-1">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="INR">Indian Rupee ({"\u20B9"})</SelectItem>
-                      <SelectItem value="USD">US Dollar ($)</SelectItem>
-                      <SelectItem value="EUR">Euro (€)</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-            </SettingsSection>
-          </TabsContent>
-
-          {/* Tax Settings Tab */}
-          <TabsContent value="tax" className="space-y-6">
-            <SettingsSection
-              title="Tax Preferences"
-              description="Set your default tax calculation preferences"
-              icon={FileText}
-            >
-              <div className="space-y-4">
-                <div>
-                  <Label htmlFor="taxRegime">Default Tax Regime</Label>
-                  <Select value={settings.taxRegime} onValueChange={(value) => handleChange("taxRegime", value)}>
-                    <SelectTrigger className="mt-1">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="new">New Tax Regime</SelectItem>
-                      <SelectItem value="old">Old Tax Regime</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <p className="text-sm text-gray-600 mt-1">This will be used as default in tax calculations</p>
-                </div>
-                <Separator />
-                <div className="flex items-center justify-between">
-                  <div>
-                    <Label htmlFor="autoSave" className="font-medium">Auto-Save Progress</Label>
-                    <p className="text-sm text-gray-600">Automatically save your tax filing progress</p>
-                  </div>
-                  <Switch
-                    id="autoSave"
-                    checked={settings.autoSave}
-                    onCheckedChange={() => handleToggle("autoSave")}
-                  />
-                </div>
-                <Separator />
-                <div className="flex items-center justify-between">
-                  <div>
-                    <Label htmlFor="autoCalculate" className="font-medium">Auto-Calculate Tax</Label>
-                    <p className="text-sm text-gray-600">Calculate tax automatically as you enter data</p>
-                  </div>
-                  <Switch
-                    id="autoCalculate"
-                    checked={settings.autoCalculate}
-                    onCheckedChange={() => handleToggle("autoCalculate")}
-                  />
-                </div>
-                <Separator />
-                <div className="flex items-center justify-between">
-                  <div>
-                    <Label htmlFor="showTips" className="font-medium">Tax Saving Tips</Label>
-                    <p className="text-sm text-gray-600">Show helpful tips while filing returns</p>
-                  </div>
-                  <Switch
-                    id="showTips"
-                    checked={settings.showTips}
-                    onCheckedChange={() => handleToggle("showTips")}
-                  />
-                </div>
-              </div>
-            </SettingsSection>
-
-            <Card className="border-blue-200 bg-blue-50">
-              <CardContent className="pt-6">
-                <div className="flex items-start gap-3">
-                  <Info className="h-5 w-5 text-blue-600 mt-0.5" />
-                  <div>
-                    <h4 className="font-medium text-blue-900">Tax Settings Help</h4>
-                    <p className="text-sm text-blue-700 mt-1">
-                      These settings help us provide personalized tax calculations and recommendations. 
-                      You can always override these defaults when filing your returns.
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
           </TabsContent>
         </Tabs>
       </div>

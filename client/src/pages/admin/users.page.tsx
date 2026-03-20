@@ -20,6 +20,25 @@ import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { apiRequest } from "@/lib/queryClient";
 
+const formatDate = (date: any, includeTime: boolean = false) => {
+  if (!date) return "N/A";
+  try {
+    let d;
+    if (typeof date.toDate === 'function') {
+      d = date.toDate();
+    } else if (date && typeof date._seconds === 'number') {
+      d = new Date(date._seconds * 1000);
+    } else {
+      d = new Date(date);
+    }
+    
+    if (isNaN(d.getTime())) return "N/A";
+    return format(d, includeTime ? 'MMM dd, yyyy HH:mm' : 'MMM dd, yyyy');
+  } catch (err) {
+    return "N/A";
+  }
+};
+
 interface User {
   id: string; // Clerk ID
   email: string;
@@ -42,6 +61,8 @@ export default function UsersManagementPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [roleFilter, setRoleFilter] = useState("all");
+  const [page, setPage] = useState(1);
+  const limit = 10;
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   
   const queryClient = useQueryClient();
@@ -56,9 +77,9 @@ export default function UsersManagementPage() {
   // Fetch all users
   const { data: response, isLoading, error } = useQuery<{
     success: boolean;
-    data: { users: User[]; pagination: any };
+    data: { users: User[]; pagination: { total: number; pages: number; page: number; limit: number } };
   }>({
-    queryKey: ["/api/admin/users"],
+    queryKey: [`/api/admin/users?page=${page}&limit=${limit}&search=${searchTerm}`],
     enabled: !!currentUser && currentUser.role === 'admin',
   });
 
@@ -158,8 +179,8 @@ export default function UsersManagementPage() {
 
   // Count users by status and role
   const userCounts = {
-    total: users.length,
-    active: users.filter((u: User) => u.status === 'active').length,
+    total: response?.data?.pagination?.total || 0,
+    active: users.filter((u: User) => u.status === 'active').length, // This is still limited to the current page in the simple counts, but usually stats come from a separate endpoint or full fetch. For now, let's keep it simple or use the total if available.
     pending: users.filter((u: User) => u.status === 'pending').length,
     suspended: users.filter((u: User) => u.status === 'suspended').length,
     admin: users.filter((u: User) => u.role === 'admin').length,
@@ -349,10 +370,10 @@ export default function UsersManagementPage() {
                         </Badge>
                       </TableCell>
                       <TableCell>
-                        {format(new Date(user.createdAt), 'MMM dd, yyyy')}
+                        {formatDate(user.createdAt)}
                       </TableCell>
                       <TableCell>
-                        {format(new Date(user.updatedAt), 'MMM dd, yyyy HH:mm')}
+                        {formatDate(user.updatedAt, true)}
                       </TableCell>
                       <TableCell className="text-right">
                         <div className="flex items-center justify-end gap-2">
@@ -416,6 +437,36 @@ export default function UsersManagementPage() {
               {filteredUsers.length === 0 && (
                 <div className="text-center py-8 text-gray-500">
                   No users found matching your criteria.
+                </div>
+              )}
+
+              {/* Pagination Controls */}
+              {response?.data?.pagination && response.data.pagination.pages > 1 && (
+                <div className="flex items-center justify-between mt-6 px-2">
+                  <p className="text-sm text-gray-600">
+                    Showing {Math.min((page - 1) * limit + 1, userCounts.total)} to {Math.min(page * limit, userCounts.total)} of {userCounts.total} users
+                  </p>
+                  <div className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setPage(p => Math.max(1, p - 1))}
+                      disabled={page === 1}
+                    >
+                      Previous
+                    </Button>
+                    <div className="flex items-center px-4 text-sm font-medium">
+                      Page {page} of {response.data.pagination.pages}
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setPage(p => Math.min(response.data.pagination.pages, p + 1))}
+                      disabled={page === response.data.pagination.pages}
+                    >
+                      Next
+                    </Button>
+                  </div>
                 </div>
               )}
             </div>

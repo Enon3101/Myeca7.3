@@ -13,6 +13,9 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { MfaEnrollment } from "@/components/auth/MfaEnrollment";
+import { Separator } from "@/components/ui/separator";
+import { logAuditEvent } from "@/lib/audit";
 
 const profileSchema = z.object({
   first_name: z.string().min(2, "First name must be at least 2 characters"),
@@ -97,6 +100,10 @@ export default function AccountSettingsPage() {
     },
     onSuccess: () => {
       toast({ title: "Success", description: "Profile updated successfully" });
+      logAuditEvent({
+        action: 'profile_update_success',
+        category: 'authentication'
+      });
       queryClient.invalidateQueries({ queryKey: ["/api/profile"] });
     },
     onError: (error: any) => {
@@ -114,6 +121,10 @@ export default function AccountSettingsPage() {
     },
     onSuccess: () => {
       toast({ title: "Success", description: "Password updated successfully" });
+      logAuditEvent({
+        action: 'password_change_success',
+        category: 'security'
+      });
       passwordForm.reset();
     },
     onError: (error: any) => {
@@ -294,6 +305,18 @@ export default function AccountSettingsPage() {
                   </div>
                 </form>
               </Form>
+
+              <div className="my-8">
+                <Separator />
+              </div>
+
+              <div className="space-y-6">
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">Multi-Factor Authentication</h3>
+                  <p className="text-sm text-slate-500">Protect your account with an extra layer of verification.</p>
+                </div>
+                <MfaEnrollment />
+              </div>
             </CardContent>
           </Card>
         </TabsContent>

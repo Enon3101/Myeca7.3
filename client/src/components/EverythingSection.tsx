@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Zap, Calculator, Scan, ShieldCheck } from "lucide-react";
 import { Link } from "wouter";
@@ -46,7 +46,7 @@ export default function EverythingSection() {
   return (
     <section id="services" className="py-[var(--space-24)] bg-[var(--color-primary-50)] border-b border-[var(--color-primary-100)] scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
+        <m.div
           className="text-center mb-[var(--space-16)]"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -59,11 +59,11 @@ export default function EverythingSection() {
           <p className="text-lg md:text-[19px] text-[var(--color-primary-500)] max-w-2xl mx-auto font-medium leading-relaxed">
             Comprehensive suite of tools and services to make your tax filing experience seamless and efficient.
           </p>
-        </motion.div>
+        </m.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 xl:gap-8">
           {features.map((feature, index) => (
-            <motion.div
+            <m.div
               key={feature.id}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -85,7 +85,7 @@ export default function EverythingSection() {
                   </CardContent>
                 </Card>
               </Link>
-            </motion.div>
+            </m.div>
           ))}
         </div>
       </div>

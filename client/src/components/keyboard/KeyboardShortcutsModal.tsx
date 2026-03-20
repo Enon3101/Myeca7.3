@@ -7,7 +7,7 @@ import {
   Search, Home, Calculator, FileText, Settings, HelpCircle,
   Command, ArrowUp, ArrowDown, CornerDownLeft, X
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 interface Shortcut {
   keys: string[];
@@ -131,7 +131,7 @@ function ShortcutSection({ title, shortcuts, formatKey }: ShortcutSectionProps) 
       {title && <h3 className="font-semibold text-lg mb-3">{title}</h3>}
       <div className="space-y-2">
         {shortcuts.map((shortcut, index) => (
-          <motion.div
+          <m.div
             key={index}
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -161,7 +161,7 @@ function ShortcutSection({ title, shortcuts, formatKey }: ShortcutSectionProps) 
                 </div>
               </div>
             </Card>
-          </motion.div>
+          </m.div>
         ))}
       </div>
     </div>

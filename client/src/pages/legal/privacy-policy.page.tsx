@@ -1,14 +1,24 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Shield, Lock, Eye, UserCheck, FileText, AlertCircle, Mail, Phone, MapPin } from "lucide-react";
 import { Link } from "wouter";
+import MetaSEO from "@/components/seo/MetaSEO";
 
 export default function PrivacyPolicyPage() {
   return (
+    <>
+      <MetaSEO 
+        title="Privacy Policy - MyeCA.in | Your Data Security is Our Priority"
+        description="Read the MyeCA.in Privacy Policy. We are committed to protecting your personal and financial information in accordance with IT Act 2000 and data protection rules."
+        breadcrumbs={[
+          { name: "Home", url: "/" },
+          { name: "Privacy Policy", url: "/legal/privacy-policy" }
+        ]}
+      />
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <section className="bg-white border-b soft-border py-16">
         <div className="container mx-auto px-6">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
@@ -24,14 +34,14 @@ export default function PrivacyPolicyPage() {
               Your privacy is our priority. Learn how we protect and handle your personal information.
             </p>
             <p className="text-sm text-gray-500 mt-4">Last updated: January 19, 2025</p>
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
       {/* Main Content */}
       <section className="py-16">
         <div className="container mx-auto px-6 max-w-4xl">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
@@ -310,9 +320,10 @@ export default function PrivacyPolicyPage() {
                 of the updated policy.
               </p>
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </section>
     </div>
+    </>
   );
 }

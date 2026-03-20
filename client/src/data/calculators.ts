@@ -63,7 +63,7 @@ export const investmentCalculators: CalculatorFeature[] = [
   {
     id: "ppf",
     title: "PPF Calculator",
-    description: "Calculate Public Provident Fund maturity at 7.1% with \u20B91.5L annual limit",
+    description: "Calculate Public Provident Fund maturity at 7.1% with ₹1.5L annual limit",
     icon: "Shield",
     path: "/calculators/ppf",
     color: "purple"
@@ -79,18 +79,10 @@ export const investmentCalculators: CalculatorFeature[] = [
   {
     id: "nps",
     title: "NPS Tax Calculator",
-    description: "Calculate NPS returns with 80CCD(1B) extra \u20B950K deduction and retirement planning",
+    description: "Calculate NPS returns with 80CCD(1B) extra ₹50K deduction and retirement planning",
     icon: "Shield",
     path: "/calculators/nps",
     color: "teal"
-  },
-  {
-    id: "portfolio",
-    title: "Portfolio Tax Dashboard",
-    description: "Track STCG/LTCG, tax-loss harvesting, and optimize your investment taxes",
-    icon: "PieChart",
-    path: "/portfolio-dashboard",
-    color: "violet"
   }
 ];
 

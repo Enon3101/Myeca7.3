@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -39,79 +39,79 @@ The Income Tax Department introduced the new tax regime as an alternative to the
 The old tax regime allows taxpayers to claim various deductions and exemptions:
 
 ### Key Deductions Available:
-- **Section 80C**: Up to \u20B91,50,000 for investments in ELSS, PPF, life insurance, etc.
-- **Section 80D**: Up to \u20B925,000-\u20B950,000 for health insurance premiums
-- **Section 24(b)**: Up to \u20B92,00,000 for home loan interest (self-occupied property)
+- **Section 80C**: Up to ₹1,50,000 for investments in ELSS, PPF, life insurance, etc.
+- **Section 80D**: Up to ₹25,000-₹50,000 for health insurance premiums
+- **Section 24(b)**: Up to ₹2,00,000 for home loan interest (self-occupied property)
 - **HRA Exemption**: House Rent Allowance exemption for salaried employees
 - **LTA**: Leave Travel Allowance exemption
 
 ### Tax Slabs (Old Regime):
-- Up to \u20B92,50,000: Nil
-- \u20B92,50,001 to \u20B95,00,000: 5%
-- \u20B95,00,001 to \u20B910,00,000: 20%
-- Above \u20B910,00,000: 30%
+- Up to ₹2,50,000: Nil
+- ₹2,50,001 to ₹5,00,000: 5%
+- ₹5,00,001 to ₹10,00,000: 20%
+- Above ₹10,00,000: 30%
 
 ## New Tax Regime Features
 
 The new tax regime offers lower tax rates but with limited deductions:
 
 ### Tax Slabs (New Regime):
-- Up to \u20B93,00,000: Nil
-- \u20B93,00,001 to \u20B96,00,000: 5%
-- \u20B96,00,001 to \u20B99,00,000: 10%
-- \u20B99,00,001 to \u20B912,00,000: 15%
-- \u20B912,00,001 to \u20B915,00,000: 20%
-- Above \u20B915,00,000: 30%
+- Up to ₹3,00,000: Nil
+- ₹3,00,001 to ₹6,00,000: 5%
+- ₹6,00,001 to ₹9,00,000: 10%
+- ₹9,00,001 to ₹12,00,000: 15%
+- ₹12,00,001 to ₹15,00,000: 20%
+- Above ₹15,00,000: 30%
 
 ### Available Deductions:
-- Standard deduction: \u20B950,000
-- Employer's contribution to NPS: Up to \u20B97,50,000
-- Interest on home loan (self-occupied): Up to \u20B92,00,000
+- Standard deduction: ₹50,000
+- Employer's contribution to NPS: Up to ₹7,50,000
+- Interest on home loan (self-occupied): Up to ₹2,00,000
 
 ## Which Regime Should You Choose?
 
 ### Choose Old Regime If:
-1. Your total deductions exceed \u20B92,50,000 annually
+1. Your total deductions exceed ₹2,50,000 annually
 2. You have a home loan with significant interest payments
 3. You receive HRA and pay house rent
 4. You make substantial investments in tax-saving instruments
 
 ### Choose New Regime If:
-1. Your deductions are minimal (less than \u20B92,50,000)
+1. Your deductions are minimal (less than ₹2,50,000)
 2. You prefer simplicity in tax calculations
 3. You're a young professional with limited investments
 4. You want to benefit from higher basic exemption limit
 
 ## Calculation Example
 
-Let's consider a salary of \u20B912,00,000:
+Let's consider a salary of ₹12,00,000:
 
 ### Old Regime Calculation:
-- Gross Income: \u20B912,00,000
-- Deductions (80C + 80D + HRA): \u20B93,00,000
-- Taxable Income: \u20B99,00,000
+- Gross Income: ₹12,00,000
+- Deductions (80C + 80D + HRA): ₹3,00,000
+- Taxable Income: ₹9,00,000
 - Tax Calculation:
-  - First \u20B92,50,000: Nil
-  - Next \u20B92,50,000 (2.5L to 5L): \u20B912,500
-  - Next \u20B94,00,000 (5L to 9L): \u20B980,000
-- Total Tax: \u20B992,500
-- Cess (4%): \u20B93,700
-- **Total Tax Liability: \u20B996,200**
+  - First ₹2,50,000: Nil
+  - Next ₹2,50,000 (2.5L to 5L): ₹12,500
+  - Next ₹4,00,000 (5L to 9L): ₹80,000
+- Total Tax: ₹92,500
+- Cess (4%): ₹3,700
+- **Total Tax Liability: ₹96,200**
 
 ### New Regime Calculation:
-- Gross Income: \u20B912,00,000
-- Standard Deduction: \u20B950,000
-- Taxable Income: \u20B911,50,000
+- Gross Income: ₹12,00,000
+- Standard Deduction: ₹50,000
+- Taxable Income: ₹11,50,000
 - Tax Calculation:
-  - First \u20B93,00,000: Nil
-  - Next \u20B93,00,000 (3L to 6L): \u20B915,000
-  - Next \u20B93,00,000 (6L to 9L): \u20B930,000
-  - Next \u20B92,50,000 (9L to 11.5L): \u20B937,500
-- Total Tax: \u20B982,500
-- Cess (4%): \u20B93,300
-- **Total Tax Liability: \u20B985,800**
+  - First ₹3,00,000: Nil
+  - Next ₹3,00,000 (3L to 6L): ₹15,000
+  - Next ₹3,00,000 (6L to 9L): ₹30,000
+  - Next ₹2,50,000 (9L to 11.5L): ₹37,500
+- Total Tax: ₹82,500
+- Cess (4%): ₹3,300
+- **Total Tax Liability: ₹85,800**
 
-In this example, the new regime saves \u20B910,400 in taxes.
+In this example, the new regime saves ₹10,400 in taxes.
 
 ## Important Considerations
 
@@ -123,7 +123,7 @@ In this example, the new regime saves \u20B910,400 in taxes.
 ## Recent Updates for AY 2025-26
 
 The government has made several changes to make the new regime more attractive:
-- Increased basic exemption limit to \u20B93,00,000
+- Increased basic exemption limit to ₹3,00,000
 - Revised tax slabs for better tax efficiency
 - Enhanced standard deduction benefits
 
@@ -131,7 +131,7 @@ The government has made several changes to make the new regime more attractive:
 
 The choice between old and new tax regime depends on your individual financial situation. Use tax calculators and consult with tax professionals to make an informed decision. Remember, you can review and change your choice every year based on your circumstances.
 
-**Key Takeaway**: If your total deductions are less than \u20B92.5 lakhs, the new regime is likely beneficial. For those with higher deductions, especially home loan borrowers, the old regime might be more advantageous.
+**Key Takeaway**: If your total deductions are less than ₹2.5 lakhs, the new regime is likely beneficial. For those with higher deductions, especially home loan borrowers, the old regime might be more advantageous.
     `,
     excerpt: "Learn which tax regime works best for your income level and investment pattern. Get detailed comparisons with real examples.",
     author: "CA Priya Sharma",
@@ -232,7 +232,7 @@ export default function BlogPostPage() {
     <div className="min-h-screen bg-gray-50 py-8 mobile-safe-bottom">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Back Button */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
@@ -244,10 +244,10 @@ export default function BlogPostPage() {
               Back to Blog
             </Button>
           </Link>
-        </motion.div>
+        </m.div>
 
         {/* Article Header */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -329,10 +329,10 @@ export default function BlogPostPage() {
               </Badge>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Article Content */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
@@ -342,10 +342,10 @@ export default function BlogPostPage() {
               {formatContent(post.content)}
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* Article Footer */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
@@ -421,7 +421,7 @@ export default function BlogPostPage() {
               </Button>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
       </div>
     </div>
   );

@@ -65,7 +65,7 @@ export default function ConsultationsPage() {
   };
 
   // Format price
-  const formatPrice = (price: number) => `\u20B9${price.toLocaleString('en-IN')}`;
+  const formatPrice = (price: number) => `₹${price.toLocaleString('en-IN')}`;
 
   // Render stars
   const renderStars = (rating: number) => {
@@ -196,7 +196,7 @@ export default function ConsultationsPage() {
               <p className="text-sm text-purple-200">Consultations</p>
             </div>
             <div className="text-center">
-              <p className="text-2xl font-bold">\u20B9299</p>
+              <p className="text-2xl font-bold">₹299</p>
               <p className="text-sm text-purple-200">Starting at</p>
             </div>
           </div>

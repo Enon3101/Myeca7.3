@@ -37,7 +37,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recharts";
 import {
   ParsedAIS,
@@ -98,7 +98,7 @@ export default function AISViewerPage() {
 
   // Format currency
   const formatCurrency = (amount: number) => {
-    return `\u20B9${amount.toLocaleString('en-IN')}`;
+    return `₹${amount.toLocaleString('en-IN')}`;
   };
 
   // Prepare chart data
@@ -241,7 +241,7 @@ export default function AISViewerPage() {
 
         {/* Results */}
         {parsedData && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="space-y-6"
@@ -650,7 +650,7 @@ export default function AISViewerPage() {
                 </div>
               </CardContent>
             </Card>
-          </motion.div>
+          </m.div>
         )}
       </div>
     </div>

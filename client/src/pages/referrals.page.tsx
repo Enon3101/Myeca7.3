@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -265,7 +265,7 @@ export default function ReferralsPage() {
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -285,7 +285,7 @@ export default function ReferralsPage() {
               Refer Client
             </Button>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Stats Overview */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -327,7 +327,7 @@ export default function ReferralsPage() {
               <div className="flex items-center gap-2">
                 <Coins className="h-8 w-8 text-yellow-600" />
                 <div>
-                  <span className="text-2xl font-bold">\u20B9{stats.availableRewards}</span>
+                  <span className="text-2xl font-bold">₹{stats.availableRewards}</span>
                   <p className="text-xs text-gray-500">Ready to redeem</p>
                 </div>
               </div>
@@ -342,7 +342,7 @@ export default function ReferralsPage() {
               <div className="flex items-center gap-2">
                 <Gift className="h-8 w-8 text-purple-600" />
                 <div>
-                  <span className="text-2xl font-bold">\u20B9{stats.totalRewards}</span>
+                  <span className="text-2xl font-bold">₹{stats.totalRewards}</span>
                   <p className="text-xs text-gray-500">Lifetime earnings</p>
                 </div>
               </div>
@@ -419,7 +419,7 @@ export default function ReferralsPage() {
                               </Badge>
                               {referral.rewardEarned && (
                                 <p className="text-sm font-medium text-green-600 mt-1">
-                                  +\u20B9{referral.rewardEarned}
+                                  +₹{referral.rewardEarned}
                                 </p>
                               )}
                               <p className="text-xs text-gray-500 mt-1">
@@ -457,7 +457,7 @@ export default function ReferralsPage() {
                             <Coins className="h-5 w-5 text-purple-600" />
                           </div>
                           <div>
-                            <h4 className="font-medium">\u20B9{reward.amount} {reward.type}</h4>
+                            <h4 className="font-medium">₹{reward.amount} {reward.type}</h4>
                             <p className="text-sm text-gray-500">{reward.description}</p>
                             <p className="text-xs text-gray-400">
                               Expires: {new Date(reward.expiryDate).toLocaleDateString()}
@@ -518,7 +518,7 @@ export default function ReferralsPage() {
                         </div>
                       </div>
                       <div className="text-right">
-                        <p className="font-bold text-green-600">\u20B9{leader.totalRewards}</p>
+                        <p className="font-bold text-green-600">₹{leader.totalRewards}</p>
                         <p className="text-xs text-gray-500">Total earned</p>
                       </div>
                     </div>
@@ -750,7 +750,7 @@ export default function ReferralsPage() {
                               </div>
                               <div>
                                 <span className="text-gray-600">Revenue:</span>
-                                <span className="ml-1 font-medium text-green-600">\u20B9{data.revenue}</span>
+                                <span className="ml-1 font-medium text-green-600">₹{data.revenue}</span>
                               </div>
                             </div>
                           </div>
@@ -774,7 +774,7 @@ export default function ReferralsPage() {
                                 {service.service.replace(/_/g, ' ')}
                               </span>
                               <span className="text-sm text-gray-600">
-                                ({service.converted} conversions, \u20B9{service.revenue} earned)
+                                ({service.converted} conversions, ₹{service.revenue} earned)
                               </span>
                             </div>
                           ))}

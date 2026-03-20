@@ -1,4 +1,4 @@
-import { motion } from "framer-motion"
+import { m } from "framer-motion"
 import { Sparkles, Zap, MousePointer } from "lucide-react"
 import { AnimatedFormExample } from "@/components/examples/AnimatedFormExample"
 
@@ -8,7 +8,7 @@ export default function FormDemoPage() {
       {/* Header */}
       <section className="py-16">
         <div className="container mx-auto px-6 text-center">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
@@ -28,7 +28,7 @@ export default function FormDemoPage() {
             
             {/* Features */}
             <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-12">
-              <motion.div
+              <m.div
                 className="bg-white p-6 rounded-lg shadow-md"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -37,9 +37,9 @@ export default function FormDemoPage() {
                 <Zap className="w-8 h-8 text-blue-500 mx-auto mb-3" />
                 <h3 className="font-semibold text-gray-900 mb-2">Focus Animations</h3>
                 <p className="text-gray-600 text-sm">Smooth scale transforms and ring effects on field focus</p>
-              </motion.div>
+              </m.div>
               
-              <motion.div
+              <m.div
                 className="bg-white p-6 rounded-lg shadow-md"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -48,9 +48,9 @@ export default function FormDemoPage() {
                 <MousePointer className="w-8 h-8 text-purple-500 mx-auto mb-3" />
                 <h3 className="font-semibold text-gray-900 mb-2">Hover Effects</h3>
                 <p className="text-gray-600 text-sm">Subtle hover animations with smooth transitions</p>
-              </motion.div>
+              </m.div>
               
-              <motion.div
+              <m.div
                 className="bg-white p-6 rounded-lg shadow-md"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -59,9 +59,9 @@ export default function FormDemoPage() {
                 <Sparkles className="w-8 h-8 text-green-500 mx-auto mb-3" />
                 <h3 className="font-semibold text-gray-900 mb-2">Validation Feedback</h3>
                 <p className="text-gray-600 text-sm">Animated validation messages with icons and colors</p>
-              </motion.div>
+              </m.div>
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
@@ -73,17 +73,17 @@ export default function FormDemoPage() {
       {/* Implementation Notes */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-6 max-w-4xl">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="text-center mb-12"
           >
             <h2 className="text-3xl font-bold text-gray-900 mb-6">Implementation Features</h2>
-          </motion.div>
+          </m.div>
           
           <div className="grid md:grid-cols-2 gap-8">
-            <motion.div
+            <m.div
               className="bg-white p-8 rounded-lg shadow-md"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -97,9 +97,9 @@ export default function FormDemoPage() {
                 <li>• Animated focus rings with spring physics</li>
                 <li>• Loading indicators and success states</li>
               </ul>
-            </motion.div>
+            </m.div>
             
-            <motion.div
+            <m.div
               className="bg-white p-8 rounded-lg shadow-md"
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -113,7 +113,7 @@ export default function FormDemoPage() {
                 <li>• Success checkmarks with path drawing animations</li>
                 <li>• Consistent hover and active states</li>
               </ul>
-            </motion.div>
+            </m.div>
           </div>
         </div>
       </section>

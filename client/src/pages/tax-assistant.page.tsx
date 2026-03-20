@@ -75,7 +75,7 @@ const HELP_TOPICS = [
 const FAQS = [
   {
     question: "Which tax regime should I choose?",
-    answer: "The new regime is beneficial if your total deductions (80C, 80D, HRA, etc.) are less than \u20B93.75 lakh. If you have substantial deductions, the old regime may save more tax. Use our regime comparator for a personalized analysis.",
+    answer: "The new regime is beneficial if your total deductions (80C, 80D, HRA, etc.) are less than ₹3.75 lakh. If you have substantial deductions, the old regime may save more tax. Use our regime comparator for a personalized analysis.",
   },
   {
     question: "What is the deadline for ITR filing?",
@@ -83,11 +83,11 @@ const FAQS = [
   },
   {
     question: "How do I claim HRA exemption?",
-    answer: "HRA exemption is the minimum of: (1) Actual HRA received, (2) 50% of salary for metro/40% for non-metro, (3) Rent paid minus 10% of salary. Keep rent receipts and landlord PAN if rent exceeds \u20B91 lakh/year.",
+    answer: "HRA exemption is the minimum of: (1) Actual HRA received, (2) 50% of salary for metro/40% for non-metro, (3) Rent paid minus 10% of salary. Keep rent receipts and landlord PAN if rent exceeds ₹1 lakh/year.",
   },
   {
     question: "What is advance tax and when to pay?",
-    answer: "Advance tax is paid quarterly if your tax liability exceeds \u20B910,000. Due dates: June 15 (15%), Sept 15 (45%), Dec 15 (75%), March 15 (100%). Missing deadlines attracts interest under sections 234B and 234C.",
+    answer: "Advance tax is paid quarterly if your tax liability exceeds ₹10,000. Due dates: June 15 (15%), Sept 15 (45%), Dec 15 (75%), March 15 (100%). Missing deadlines attracts interest under sections 234B and 234C.",
   },
   {
     question: "How to e-verify my ITR?",
@@ -101,35 +101,39 @@ export default function TaxAssistantPage() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Header */}
-      <div className="bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="bg-white border-b border-gray-100 relative overflow-hidden">
+        {/* Abstract background decorative element */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-purple-100/30 rounded-full blur-3xl -mr-32 -mt-32"></div>
+        <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-100/20 rounded-full blur-3xl -ml-16 -mb-16"></div>
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10">
           <Breadcrumb className="mb-6">
             <BreadcrumbList>
               <BreadcrumbItem>
                 <BreadcrumbLink asChild>
-                  <Link href="/" className="text-purple-200 hover:text-white">Home</Link>
+                  <Link href="/" className="text-slate-500 hover:text-purple-600 transition-colors">Home</Link>
                 </BreadcrumbLink>
               </BreadcrumbItem>
-              <BreadcrumbSeparator className="text-purple-300" />
+              <BreadcrumbSeparator className="text-slate-300" />
               <BreadcrumbItem>
-                <BreadcrumbPage className="text-white">AI Tax Assistant</BreadcrumbPage>
+                <BreadcrumbPage className="text-slate-900 font-bold">AI Tax Assistant</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
 
           <div className="flex items-center gap-4 mb-4">
-            <div className="p-3 bg-white/20 rounded-xl backdrop-blur-sm">
+            <div className="p-3 bg-purple-100 text-purple-600 rounded-xl shadow-sm border border-purple-200">
               <Bot className="h-8 w-8" />
             </div>
             <div>
-              <h1 className="text-3xl font-bold flex items-center gap-2">
+              <h1 className="text-3xl font-black text-slate-900 tracking-tight flex items-center gap-2">
                 AI Tax Assistant
-                <Badge variant="secondary" className="bg-white/20 text-white">
+                <Badge variant="secondary" className="bg-amber-100 text-amber-700 border-amber-200">
                   <Sparkles className="h-3 w-3 mr-1" />
                   Beta
                 </Badge>
               </h1>
-              <p className="text-purple-200 mt-1">
+              <p className="text-slate-500 font-medium mt-1">
                 Get instant answers to your tax questions with our intelligent assistant
               </p>
             </div>
@@ -137,21 +141,21 @@ export default function TaxAssistantPage() {
 
           {/* Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
-            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
-              <div className="text-2xl font-bold">24/7</div>
-              <div className="text-sm text-purple-200">Available</div>
+            <div className="bg-white border border-slate-100 shadow-sm rounded-xl p-4">
+              <div className="text-2xl font-black text-slate-900">24/7</div>
+              <div className="text-sm text-slate-500 font-bold uppercase tracking-wider text-[10px]">Available</div>
             </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
-              <div className="text-2xl font-bold">100+</div>
-              <div className="text-sm text-purple-200">Tax Topics</div>
+            <div className="bg-white border border-slate-100 shadow-sm rounded-xl p-4">
+              <div className="text-2xl font-black text-slate-900">100+</div>
+              <div className="text-sm text-slate-500 font-bold uppercase tracking-wider text-[10px]">Tax Topics</div>
             </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
-              <div className="text-2xl font-bold">Instant</div>
-              <div className="text-sm text-purple-200">Responses</div>
+            <div className="bg-white border border-slate-100 shadow-sm rounded-xl p-4">
+              <div className="text-2xl font-black text-slate-900">Instant</div>
+              <div className="text-sm text-slate-500 font-bold uppercase tracking-wider text-[10px]">Responses</div>
             </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
-              <div className="text-2xl font-bold">Free</div>
-              <div className="text-sm text-purple-200">To Use</div>
+            <div className="bg-white border border-slate-100 shadow-sm rounded-xl p-4">
+              <div className="text-2xl font-black text-slate-900">Free</div>
+              <div className="text-sm text-slate-500 font-bold uppercase tracking-wider text-[10px]">To Use</div>
             </div>
           </div>
         </div>
@@ -300,22 +304,24 @@ export default function TaxAssistantPage() {
             </Card>
 
             {/* CTA */}
-            <Card className="mt-6 bg-gradient-to-r from-purple-600 to-indigo-600 text-white">
-              <CardContent className="p-6 flex flex-col md:flex-row items-center justify-between gap-4">
+            <Card className="mt-6 bg-white border-2 border-purple-100 shadow-lg relative overflow-hidden">
+               <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/5 rounded-full blur-2xl -mr-12 -mt-12"></div>
+              <CardContent className="p-8 flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
                 <div>
-                  <h3 className="text-xl font-bold">Still have questions?</h3>
-                  <p className="text-purple-200">Chat with our AI assistant or speak to a tax expert</p>
+                  <h3 className="text-2xl font-black text-slate-900 tracking-tight">Still have questions?</h3>
+                  <p className="text-slate-500 font-medium">Chat with our AI assistant or speak to a tax expert</p>
                 </div>
-                <div className="flex gap-3">
+                <div className="flex gap-4">
                   <Button 
                     variant="secondary" 
+                    className="bg-purple-600 hover:bg-purple-700 text-white rounded-xl px-8 h-12 font-bold shadow-lg shadow-purple-500/20"
                     onClick={() => setActiveTab("chat")}
                   >
                     <MessageCircle className="mr-2 h-4 w-4" />
                     Chat Now
                   </Button>
                   <Link href="/help">
-                    <Button variant="outline" className="border-white text-white hover:bg-white/10">
+                    <Button variant="outline" className="border-slate-200 text-slate-700 hover:bg-slate-50 rounded-xl px-8 h-12 font-bold">
                       Contact Expert
                     </Button>
                   </Link>

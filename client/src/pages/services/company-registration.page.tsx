@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Link } from "wouter";
 import { 
   Building2, 
@@ -37,6 +37,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import MetaSEO from "@/components/seo/MetaSEO";
+import LeadMagnet from "@/components/seo/LeadMagnet";
 
 export default function CompanyRegistrationPage() {
   const [companyType, setCompanyType] = useState<string>("");
@@ -57,7 +59,7 @@ export default function CompanyRegistrationPage() {
         "Transferable shares"
       ],
       suitableFor: "Startups, SMEs, businesses seeking investment",
-      registrationFee: "\u20B96,999",
+      registrationFee: "₹6,999",
       color: "blue"
     },
     {
@@ -74,7 +76,7 @@ export default function CompanyRegistrationPage() {
         "Easier compliance"
       ],
       suitableFor: "Individual entrepreneurs, consultants",
-      registrationFee: "\u20B94,999",
+      registrationFee: "₹4,999",
       color: "green"
     },
     {
@@ -91,7 +93,7 @@ export default function CompanyRegistrationPage() {
         "High credibility"
       ],
       suitableFor: "Large businesses, IPO planning",
-      registrationFee: "\u20B912,999",
+      registrationFee: "₹12,999",
       color: "purple"
     },
     {
@@ -108,7 +110,7 @@ export default function CompanyRegistrationPage() {
         "Tax benefits"
       ],
       suitableFor: "Professional services, partnerships",
-      registrationFee: "\u20B93,999",
+      registrationFee: "₹3,999",
       color: "orange"
     }
   ];
@@ -183,28 +185,28 @@ export default function CompanyRegistrationPage() {
       frequency: "Annual",
       requirement: "Annual Filing (AOC-4 & MGT-7)",
       dueDate: "Within 30 days of AGM",
-      penalty: "\u20B9100/day",
+      penalty: "₹100/day",
       description: "File annual financial statements and annual return"
     },
     {
       frequency: "Annual",
       requirement: "Income Tax Return",
       dueDate: "30th September",
-      penalty: "\u20B95,000 - \u20B920,000",
+      penalty: "₹5,000 - ₹20,000",
       description: "File corporate income tax return"
     },
     {
       frequency: "Annual", 
       requirement: "Director KYC (DIR-3 KYC)",
       dueDate: "30th September",
-      penalty: "\u20B95,000 per director",
+      penalty: "₹5,000 per director",
       description: "Annual KYC filing for all directors"
     },
     {
       frequency: "Event-based",
       requirement: "Board Meetings",
       dueDate: "Quarterly",
-      penalty: "\u20B925,000",
+      penalty: "₹25,000",
       description: "Minimum 4 board meetings per year"
     }
   ];
@@ -244,6 +246,41 @@ export default function CompanyRegistrationPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-white to-indigo-50">
+      <MetaSEO
+        title="Company Registration Online | Pvt Ltd, OPC & LLP Incorporation India"
+        description="Incorporate your business in India with MyeCA.in. Expert CA assistance for Private Limited, OPC, and LLP registration. Fast approval, transparent pricing, and 100% success rate."
+        keywords={[
+          "company registration India", "Pvt Ltd incorporation online", "OPC registration", 
+          "LLP registration India", "start a business in India", "incorporation services",
+          "DPIIT recognition startup", "Startup India benefits", "MCA SPICe+ filing"
+        ]}
+        type="service"
+        serviceData={{
+          price: "6999",
+          rating: "4.8",
+          reviews: "25000",
+          availability: "https://schema.org/InStock"
+        }}
+        breadcrumbs={[
+          { name: "Home", url: "/" },
+          { name: "Services", url: "/services" },
+          { name: "Company Registration", url: "/services/company-registration" }
+        ]}
+        faqPageData={[
+          {
+            question: "How many people are needed to register a Private Limited Company?",
+            answer: "A minimum of 2 directors and 2 shareholders are required to register a Private Limited Company in India. A single person can also register an One Person Company (OPC)."
+          },
+          {
+            question: "How long does it take for company incorporation in India?",
+            answer: "The entire process, from name reservation to receiving the Certificate of Incorporation, typically takes 10–15 working days."
+          },
+          {
+            question: "Is a physical office required for company registration?",
+            answer: "Yes, a registered office address is mandatory for company registration in India. You must provide utility bill proofs and an NOC from the property owner."
+          }
+        ]}
+      />
       {/* Header */}
       <section className="bg-white border-b soft-border py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -308,7 +345,7 @@ export default function CompanyRegistrationPage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Company Types */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -394,10 +431,10 @@ export default function CompanyRegistrationPage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Registration Process */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
@@ -436,10 +473,10 @@ export default function CompanyRegistrationPage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Required Documents */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
@@ -478,10 +515,10 @@ export default function CompanyRegistrationPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* Benefits of Incorporation */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
@@ -513,10 +550,10 @@ export default function CompanyRegistrationPage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Compliance Requirements */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.8 }}
@@ -552,7 +589,7 @@ export default function CompanyRegistrationPage() {
                             <div className="text-sm text-gray-600">{req.description}</div>
                           </div>
                         </td>
-                        <td className="py-3">
+                      <td className="py-3">
                           <Badge variant="outline">{req.frequency}</Badge>
                         </td>
                         <td className="py-3 text-sm">{req.dueDate}</td>
@@ -564,10 +601,10 @@ export default function CompanyRegistrationPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* Registration Form */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.0 }}
@@ -619,12 +656,12 @@ export default function CompanyRegistrationPage() {
                     <SelectValue placeholder="Select authorized capital" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="1-lakh">\u20B91 Lakh</SelectItem>
-                    <SelectItem value="5-lakh">\u20B95 Lakhs</SelectItem>
-                    <SelectItem value="10-lakh">\u20B910 Lakhs</SelectItem>
-                    <SelectItem value="25-lakh">\u20B925 Lakhs</SelectItem>
-                    <SelectItem value="50-lakh">\u20B950 Lakhs</SelectItem>
-                    <SelectItem value="1-crore">\u20B91 Crore</SelectItem>
+                    <SelectItem value="1-lakh">₹1 Lakh</SelectItem>
+                    <SelectItem value="5-lakh">₹5 Lakhs</SelectItem>
+                    <SelectItem value="10-lakh">₹10 Lakhs</SelectItem>
+                    <SelectItem value="25-lakh">₹25 Lakhs</SelectItem>
+                    <SelectItem value="50-lakh">₹50 Lakhs</SelectItem>
+                    <SelectItem value="1-crore">₹1 Crore</SelectItem>
                     <SelectItem value="custom">Custom Amount</SelectItem>
                   </SelectContent>
                 </Select>
@@ -676,10 +713,10 @@ export default function CompanyRegistrationPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* Pricing & CTA */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.2 }}
@@ -689,7 +726,7 @@ export default function CompanyRegistrationPage() {
             <div className="text-center mb-6">
               <h3 className="text-2xl font-bold text-gray-900 mb-2">Company Registration Pricing</h3>
               <div className="flex justify-center items-baseline gap-2 mb-2">
-                <span className="text-4xl font-bold text-blue-600">\u20B96,999</span>
+                <span className="text-4xl font-bold text-blue-600">₹6,999</span>
                 <span className="text-lg text-gray-600">all inclusive</span>
                 <Badge className="bg-green-100 text-green-800">Best Value</Badge>
               </div>
@@ -738,8 +775,109 @@ export default function CompanyRegistrationPage() {
               Trusted by 25,000+ entrepreneurs • 10-15 days completion • Expert guidance
             </p>
           </Card>
-        </motion.div>
-      </div>
+        </m.div>
+
+        {/* SEO Depth Section: Business Success Guide */}
+        <div className="mt-24 space-y-16 border-t border-indigo-100 pt-16">
+          <div className="max-w-4xl mx-auto text-left">
+            <h2 className="text-4xl font-black text-slate-900 mb-6 tracking-tight">The Founder's Guide to Company Registration 2025</h2>
+            <p className="text-lg text-slate-600 leading-relaxed mb-8">
+              Registering a <span className="text-indigo-600 font-bold">Private Limited Company</span> is the first step toward building a scalable, fundable venture. 
+              Under the Ministry of Corporate Affairs (MCA) 2024 guidelines, the process has been streamlined via the <span className="font-bold">SPICe+ system</span>, integrating PAN, TAN, and EPFO into a single application.
+            </p>
+
+            <div className="grid md:grid-cols-2 gap-12">
+               <div className="space-y-4">
+                  <h3 className="text-xl font-bold text-slate-900">Startup India & DPIIT Benefits</h3>
+                  <p className="text-sm text-slate-500 leading-relaxed">
+                    Once registered as a Private Limited Company, you can apply for <span className="font-bold">DPIIT Recognition</span>. 
+                    This unlocks 3 years of 100% income tax exemption and easy access to government funding and procurement tenders. Only Private Limited Companies and LLPs are eligible for these schemes.
+                  </p>
+               </div>
+               <div className="space-y-4">
+                  <h3 className="text-xl font-bold text-slate-900">Fundraising & Investor Readiness</h3>
+                  <p className="text-sm text-slate-500 leading-relaxed">
+                    Angel investors and VCs exclusively invest in Private Limited structures. 
+                    This is because it allows for <span className="font-bold">equity dilution</span>, issuance of ESOPs for employees, and clear governance through a Board of Directors.
+                  </p>
+               </div>
+            </div>
+          </div>
+
+          {/* Compliance Checklist Table */}
+          <Card className="rounded-[2rem] border-indigo-100 overflow-hidden shadow-sm">
+             <CardHeader className="bg-indigo-950 text-white p-8">
+                <CardTitle className="text-2xl font-black italic">Post-Incorporation Compliance Checklist</CardTitle>
+             </CardHeader>
+             <CardContent className="p-0">
+                <table className="w-full text-left border-collapse">
+                   <thead>
+                      <tr className="bg-indigo-50 border-b border-indigo-100">
+                         <th className="p-6 text-xs font-black text-indigo-900 uppercase tracking-widest">Action Item</th>
+                         <th className="p-6 text-xs font-black text-indigo-900 uppercase tracking-widest">Timeframe</th>
+                         <th className="p-6 text-xs font-black text-indigo-900 uppercase tracking-widest">Penalty for Miss</th>
+                      </tr>
+                   </thead>
+                   <tbody className="text-sm font-medium text-slate-600">
+                      <tr className="border-b border-indigo-50 hover:bg-indigo-50/30 transition-colors">
+                         <td className="p-6 font-bold">Appointment of First Auditor</td>
+                         <td className="p-6">Within 30 days</td>
+                         <td className="p-6 text-red-500">Fine on Directors</td>
+                      </tr>
+                      <tr className="border-b border-indigo-50 hover:bg-indigo-50/30 transition-colors">
+                         <td className="p-6 font-bold">Commencement of Business (INC-20A)</td>
+                         <td className="p-6 font-semibold">Within 180 days</td>
+                         <td className="p-6 text-red-600">Disqualification (Critical)</td>
+                      </tr>
+                      <tr className="border-b border-indigo-50 hover:bg-indigo-50/30 transition-colors">
+                         <td className="p-6 font-bold">Issuance of Share Certificates</td>
+                         <td className="p-6">Within 60 days</td>
+                         <td className="p-6">Adjudication Penalty</td>
+                      </tr>
+                      <tr className="hover:bg-indigo-50/30 transition-colors">
+                         <td className="p-6 font-bold">First Board Meeting</td>
+                         <td className="p-6">Within 30 days</td>
+                         <td className="p-6">Regulatory non-compliance</td>
+                      </tr>
+                   </tbody>
+                </table>
+             </CardContent>
+          </Card>
+
+          {/* Expert Tip Section */}
+          <div className="bg-indigo-50 rounded-[2.5rem] p-10 border border-indigo-100">
+             <div className="flex items-start gap-6">
+                <div className="w-16 h-16 rounded-3xl bg-indigo-600 flex items-center justify-center text-white shrink-0 shadow-lg shadow-indigo-200">
+                   <Briefcase className="w-8 h-8" />
+                </div>
+                <div>
+                   <h3 className="text-2xl font-black text-slate-900 mb-3 tracking-tight">CA Expert Tip for Founders</h3>
+                   <p className="text-slate-600 leading-relaxed mb-6 font-medium">
+                      "When choosing your <span className="font-bold underline decoration-indigo-300 underline-offset-4">Authorized Capital</span>, 
+                      start with ₹1 Lakh or ₹10 Lakhs. While you can increase it later, higher initial capital requires more government fee. 
+                      However, if you're raising immediate funding, keep it at a level that avoids repeated stamp duty filings."
+                   </p>
+                   <div className="flex flex-wrap gap-4">
+                      <Button className="bg-indigo-900 text-white rounded-xl font-bold px-6 h-12 shadow-md">Check Name Availability Free</Button>
+                      <Button variant="ghost" className="text-indigo-700 font-bold">Compare OPC vs Pvt Ltd →</Button>
+                   </div>
+                </div>
+             </div>
+          </div>
+          </div>
+        </div>
+
+        {/* Lead Magnet Section */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+          <m.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="max-w-2xl mx-auto"
+          >
+            <LeadMagnet resourceName="Company Incorporation" />
+          </m.div>
+        </div>
     </div>
   );
 }

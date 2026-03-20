@@ -39,7 +39,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import {
   Transaction,
   TransactionCategory,
@@ -279,7 +279,7 @@ export default function BankAnalyzerPage() {
 
         {/* Results */}
         {parsedData && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="space-y-6"
@@ -468,10 +468,10 @@ export default function BankAnalyzerPage() {
                     Based on your statement analysis:
                     <ul className="list-disc list-inside mt-2 space-y-1">
                       {parsedData.taxRelevantSummary.interestIncome > 40000 && (
-                        <li>Your interest income exceeds \u20B940,000 - TDS may be deducted by the bank</li>
+                        <li>Your interest income exceeds ₹40,000 - TDS may be deducted by the bank</li>
                       )}
                       {parsedData.taxRelevantSummary.investmentAmount < 150000 && (
-                        <li>You have scope to invest more under Section 80C (limit: \u20B91.5 lakh)</li>
+                        <li>You have scope to invest more under Section 80C (limit: ₹1.5 lakh)</li>
                       )}
                       {parsedData.taxRelevantSummary.rentPaid > 0 && (
                         <li>Ensure you have rent receipts for HRA exemption claims</li>
@@ -631,7 +631,7 @@ export default function BankAnalyzerPage() {
                 </Card>
               </TabsContent>
             </Tabs>
-          </motion.div>
+          </m.div>
         )}
       </div>
     </div>

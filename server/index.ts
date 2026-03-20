@@ -1,16 +1,15 @@
 import "dotenv/config";
-import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import compress from "compression";
+import fs from "fs";
+import path from "path";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
-import { clerkMiddleware } from "@clerk/express";
-
 const app = express();
 app.use(compress());
-app.use(clerkMiddleware());
+// Triggering server restart for technical asset fixes...
 
 app.use(helmet({
   contentSecurityPolicy: false,

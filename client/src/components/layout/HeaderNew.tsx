@@ -70,7 +70,7 @@ export default function HeaderNew() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-3 group focus:outline-none focus:ring-0">
+          <a href="https://myeca.in" className="flex items-center space-x-3 group focus:outline-none focus:ring-0">
             <div className="transition-all duration-300 transform group-hover:scale-105">
               <Logo size="md" />
             </div>
@@ -79,7 +79,7 @@ export default function HeaderNew() {
                 MyeCA.in
               </span>
             </div>
-          </Link>
+          </a>
 
           {/* Prominent Startup Button in Center */}
           <Link href="/startup-services" className="hidden md:block">
@@ -95,6 +95,10 @@ export default function HeaderNew() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
+            <a href="https://myeca.in" className="flex items-center space-x-2 text-base font-medium transition-colors duration-200 text-[var(--color-primary-700)] hover:text-[var(--color-accent-600)]">
+              <Home className="h-4 w-4" />
+              <span>Home</span>
+            </a>
             {navItems.map((item) => (
               <Link key={item.href} href={item.href} className={`flex items-center space-x-2 text-base font-medium transition-colors duration-200 ${
                 isActive(item.href) ? 'text-[var(--color-accent-600)]' : 'text-[var(--color-primary-700)] hover:text-[var(--color-accent-600)]'
@@ -184,6 +188,12 @@ export default function HeaderNew() {
             </SheetTrigger>
             <SheetContent side="right" className="w-[300px] sm:w-[400px]">
               <nav className="flex flex-col space-y-4 mt-6">
+                {/* Home link for Mobile */}
+                <a href="https://myeca.in" onClick={() => setIsOpen(false)} className="flex items-center space-x-3 px-4 py-3 rounded-md text-base font-medium transition-colors text-[var(--color-primary-700)] hover:bg-[var(--color-primary-50)] hover:text-[var(--color-primary-900)]">
+                  <Home className="h-5 w-5" />
+                  <span>Home</span>
+                </a>
+                
                 {/* Prominent Startup Button for Mobile */}
                 <Link href="/startup-services" onClick={() => setIsOpen(false)}>
                   <Button 

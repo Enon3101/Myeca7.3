@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import SEO from "@/components/SEO";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 // Sample data - In production, this would come from API
 const revenueData = [
@@ -159,7 +159,7 @@ export default function AnalyticsDashboardPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <MetricCard 
             title="Total Revenue"
-            value="\u20B982.5L"
+            value="₹82.5L"
             change={15.2}
             icon={IndianRupee}
             trend="up"
@@ -215,7 +215,7 @@ export default function AnalyticsDashboardPage() {
                     stroke="#3b82f6" 
                     fill="#3b82f6" 
                     fillOpacity={0.6}
-                    name="Revenue (\u20B9)"
+                    name="Revenue (₹)"
                   />
                   <Line 
                     yAxisId="right"
@@ -248,25 +248,25 @@ export default function AnalyticsDashboardPage() {
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
                     <span className="text-sm">ITR Filing Services</span>
-                    <span className="font-semibold">\u20B937.12L (45%)</span>
+                    <span className="font-semibold">₹37.12L (45%)</span>
                   </div>
                   <Progress value={45} className="h-2" />
                   
                   <div className="flex justify-between items-center">
                     <span className="text-sm">GST Returns</span>
-                    <span className="font-semibold">\u20B916.50L (20%)</span>
+                    <span className="font-semibold">₹16.50L (20%)</span>
                   </div>
                   <Progress value={20} className="h-2" />
                   
                   <div className="flex justify-between items-center">
                     <span className="text-sm">Company Registration</span>
-                    <span className="font-semibold">\u20B912.37L (15%)</span>
+                    <span className="font-semibold">₹12.37L (15%)</span>
                   </div>
                   <Progress value={15} className="h-2" />
                   
                   <div className="flex justify-between items-center">
                     <span className="text-sm">Other Services</span>
-                    <span className="font-semibold">\u20B916.50L (20%)</span>
+                    <span className="font-semibold">₹16.50L (20%)</span>
                   </div>
                   <Progress value={20} className="h-2" />
                 </div>
@@ -410,41 +410,41 @@ export default function AnalyticsDashboardPage() {
             <Card className="p-6">
               <h3 className="text-lg font-semibold mb-4">User Journey Analytics</h3>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <motion.div 
+                <m.div 
                   className="bg-blue-50 p-4 rounded-lg text-center"
                   whileHover={{ scale: 1.05 }}
                 >
                   <Eye className="h-8 w-8 text-blue-600 mx-auto mb-2" />
                   <p className="font-semibold">Homepage Visit</p>
                   <p className="text-2xl font-bold mt-1">100%</p>
-                </motion.div>
+                </m.div>
                 
-                <motion.div 
+                <m.div 
                   className="bg-green-50 p-4 rounded-lg text-center"
                   whileHover={{ scale: 1.05 }}
                 >
                   <Target className="h-8 w-8 text-green-600 mx-auto mb-2" />
                   <p className="font-semibold">Service View</p>
                   <p className="text-2xl font-bold mt-1">65%</p>
-                </motion.div>
+                </m.div>
                 
-                <motion.div 
+                <m.div 
                   className="bg-purple-50 p-4 rounded-lg text-center"
                   whileHover={{ scale: 1.05 }}
                 >
                   <Activity className="h-8 w-8 text-purple-600 mx-auto mb-2" />
                   <p className="font-semibold">Sign Up</p>
                   <p className="text-2xl font-bold mt-1">42%</p>
-                </motion.div>
+                </m.div>
                 
-                <motion.div 
+                <m.div 
                   className="bg-orange-50 p-4 rounded-lg text-center"
                   whileHover={{ scale: 1.05 }}
                 >
                   <Award className="h-8 w-8 text-orange-600 mx-auto mb-2" />
                   <p className="font-semibold">Purchase</p>
                   <p className="text-2xl font-bold mt-1">28%</p>
-                </motion.div>
+                </m.div>
               </div>
             </Card>
           </TabsContent>
@@ -557,7 +557,7 @@ export default function AnalyticsDashboardPage() {
               { time: "12 min ago", action: "Payment received", user: "Chennai, TN", icon: IndianRupee, color: "orange" },
               { time: "15 min ago", action: "CA consultation booked", user: "Pune, MH", icon: Calendar, color: "pink" },
             ].map((activity, index) => (
-              <motion.div 
+              <m.div 
                 key={index}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -572,7 +572,7 @@ export default function AnalyticsDashboardPage() {
                   <p className="text-xs text-gray-600">{activity.user}</p>
                 </div>
                 <span className="text-xs text-gray-500">{activity.time}</span>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </Card>

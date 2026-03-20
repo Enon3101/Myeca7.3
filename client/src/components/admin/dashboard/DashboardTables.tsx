@@ -28,7 +28,7 @@ function getActivityColor(action: string) {
 }
 
 export function RecentActivityTable({ stats, isLoading }: DashboardTablesProps) {
-  const activities = stats.recent_activity || [];
+  const activities = stats.recentActivity || [];
 
   if (isLoading) {
     return (
@@ -64,8 +64,8 @@ export function RecentActivityTable({ stats, isLoading }: DashboardTablesProps) 
         ) : (
           <ScrollArea className="h-[400px]">
             <div className="space-y-4">
-              {activities.map((activity) => {
-                const Icon = getActivityIcon(activity.resource_type || '');
+              {activities.map((activity: any) => {
+                const Icon = getActivityIcon(activity.resourceType || '');
                 return (
                   <div key={activity.id} className="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors">
                     <div className={cn('p-2 rounded-lg', getActivityColor(activity.action || ''))}>
@@ -116,7 +116,7 @@ export function DashboardTables({ stats, isLoading }: DashboardTablesProps) {
             <div className="flex items-center justify-between p-4 bg-green-50 rounded-lg">
               <div>
                 <p className="text-sm text-gray-600">New This Month</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.users.new_this_month}</p>
+                <p className="text-2xl font-bold text-gray-900">{stats.users.newThisMonth}</p>
               </div>
               <User className="h-8 w-8 text-green-600" />
             </div>

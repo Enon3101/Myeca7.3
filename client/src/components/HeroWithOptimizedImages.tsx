@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { ArrowRight, Shield, Clock, Award, ChevronDown } from "lucide-react";
 import { Link } from "wouter";
 import OptimizedImage from "@/components/OptimizedImage";
@@ -21,7 +21,7 @@ export default function HeroWithOptimizedImages() {
     <>
       <SEO 
         title="Expert Income Tax Filing & ITR e-Filing Services India 2025-26"
-        description="File ITR online with MyeCA.in. Expert CA assistance, maximum refund guarantee, 15L+ happy customers. ITR filing starts at \u20B9499. File AY 2025-26 returns now!"
+        description="File ITR online with MyeCA.in. Expert CA assistance, maximum refund guarantee, 15L+ happy customers. ITR filing starts at ₹499. File AY 2025-26 returns now!"
         keywords="ITR filing, income tax return, tax filing India, e-filing, AY 2025-26, tax consultant, CA services"
       />
       
@@ -59,7 +59,7 @@ export default function HeroWithOptimizedImages() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Left Content */}
-            <motion.div
+            <m.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
@@ -109,23 +109,23 @@ export default function HeroWithOptimizedImages() {
               {/* CTAs */}
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link href="/auth/login">
-                  <motion.button
+                  <m.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     className="px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors shadow-lg hover:shadow-xl flex items-center justify-center gap-2 group"
                   >
                     Login & Start Filing
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                  </motion.button>
+                  </m.button>
                 </Link>
                 <Link href="/pricing">
-                  <motion.button
+                  <m.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     className="px-6 py-3 bg-white text-blue-600 border-2 border-blue-600 rounded-lg font-semibold hover:bg-blue-50 transition-colors flex items-center justify-center gap-2"
                   >
                     View Pricing
-                  </motion.button>
+                  </m.button>
                 </Link>
               </div>
 
@@ -136,7 +136,7 @@ export default function HeroWithOptimizedImages() {
                   <div className="text-sm text-gray-600">Happy Customers</div>
                 </div>
                 <div>
-                  <div className="text-2xl font-bold text-gray-900">{"\u20B9"}50Cr+</div>
+                  <div className="text-2xl font-bold text-gray-900">{"₹"}50Cr+</div>
                   <div className="text-sm text-gray-600">Refunds Claimed</div>
                 </div>
                 <div>
@@ -144,10 +144,10 @@ export default function HeroWithOptimizedImages() {
                   <div className="text-sm text-gray-600">Success Rate</div>
                 </div>
               </div>
-            </motion.div>
+            </m.div>
 
             {/* Right Content - Hero Image */}
-            <motion.div
+            <m.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
@@ -163,7 +163,7 @@ export default function HeroWithOptimizedImages() {
               />
               
               {/* Floating Card */}
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5, duration: 0.6 }}
@@ -174,14 +174,14 @@ export default function HeroWithOptimizedImages() {
                 </div>
                 <div>
                   <div className="font-semibold text-gray-900">Website Launch Offer</div>
-                  <div className="text-sm text-gray-600">Save up to {"\u20B9"}500 on filing</div>
+                  <div className="text-sm text-gray-600">Save up to {"₹"}500 on filing</div>
                 </div>
-              </motion.div>
-            </motion.div>
+              </m.div>
+            </m.div>
           </div>
 
           {/* Process Steps */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
@@ -197,7 +197,7 @@ export default function HeroWithOptimizedImages() {
                 { step: 3, title: "Let CA check your returns", desc: "Expert review for maximum refund", icon: "👨‍💼" },
                 { step: 4, title: "File ITR", desc: "E-verify and relax", icon: "✅" }
               ].map((item) => (
-                <motion.div
+                <m.div
                   key={item.step}
                   whileHover={{ y: -5 }}
                   className="relative"
@@ -213,10 +213,10 @@ export default function HeroWithOptimizedImages() {
                       <ArrowRight className="w-6 h-6 text-gray-300" />
                     </div>
                   )}
-                </motion.div>
+                </m.div>
               ))}
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </section>
     </>

@@ -2,7 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "wouter";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import {
   Play,
   BookOpen,
@@ -69,7 +69,7 @@ export default function LearnPage() {
           </Breadcrumb>
 
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <motion.div
+            <m.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
@@ -93,9 +93,9 @@ export default function LearnPage() {
                   Browse Topics
                 </Button>
               </div>
-            </motion.div>
+            </m.div>
 
-            <motion.div
+            <m.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
@@ -115,7 +115,7 @@ export default function LearnPage() {
                   <p className="text-sm text-indigo-200">{stat.label}</p>
                 </div>
               ))}
-            </motion.div>
+            </m.div>
           </div>
         </div>
       </div>
@@ -128,7 +128,7 @@ export default function LearnPage() {
             <p className="text-gray-600 max-w-2xl mx-auto">Select the learning style that suits you best. From visual tutorials to detailed reading materials.</p>
           </div>
 
-          <motion.div
+          <m.div
             variants={container}
             initial="hidden"
             whileInView="show"
@@ -136,7 +136,7 @@ export default function LearnPage() {
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
           >
             <Link href="/learn/videos">
-              <motion.div variants={item} className="h-full">
+              <m.div variants={item} className="h-full">
                 <Card className="h-full group cursor-pointer hover:shadow-2xl transition-all duration-300 border-0 shadow-md bg-gradient-to-b from-white to-red-50/30 overflow-hidden relative">
                   <div className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity">
                     <ArrowUpRight className="h-5 w-5 text-red-400" />
@@ -157,11 +157,11 @@ export default function LearnPage() {
                     </div>
                   </CardContent>
                 </Card>
-              </motion.div>
+              </m.div>
             </Link>
 
             <Link href="/learn/guides">
-              <motion.div variants={item} className="h-full">
+              <m.div variants={item} className="h-full">
                 <Card className="h-full group cursor-pointer hover:shadow-2xl transition-all duration-300 border-0 shadow-md bg-gradient-to-b from-white to-emerald-50/30 overflow-hidden relative">
                   <div className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity">
                     <ArrowUpRight className="h-5 w-5 text-emerald-400" />
@@ -182,11 +182,11 @@ export default function LearnPage() {
                     </div>
                   </CardContent>
                 </Card>
-              </motion.div>
+              </m.div>
             </Link>
 
             <Link href="/learn/consultations">
-              <motion.div variants={item} className="h-full">
+              <m.div variants={item} className="h-full">
                 <Card className="h-full group cursor-pointer hover:shadow-2xl transition-all duration-300 border-0 shadow-md bg-gradient-to-b from-white to-purple-50/30 overflow-hidden relative">
                   <div className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity">
                     <ArrowUpRight className="h-5 w-5 text-purple-400" />
@@ -207,11 +207,11 @@ export default function LearnPage() {
                     </div>
                   </CardContent>
                 </Card>
-              </motion.div>
+              </m.div>
             </Link>
 
             <Link href="/blog">
-              <motion.div variants={item} className="h-full">
+              <m.div variants={item} className="h-full">
                 <Card className="h-full group cursor-pointer hover:shadow-2xl transition-all duration-300 border-0 shadow-md bg-gradient-to-b from-white to-blue-50/30 overflow-hidden relative">
                   <div className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity">
                     <ArrowUpRight className="h-5 w-5 text-blue-400" />
@@ -232,9 +232,9 @@ export default function LearnPage() {
                     </div>
                   </CardContent>
                 </Card>
-              </motion.div>
+              </m.div>
             </Link>
-          </motion.div>
+          </m.div>
         </section>
 
         {/* Popular Videos */}

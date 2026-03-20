@@ -53,8 +53,8 @@ const FormComponent = ({ register, errors }: any) => {
       <h3 className="text-lg font-bold border-b pb-2 mt-6">Specifics</h3>
       <div className="grid grid-cols-3 gap-4">
         <div><Label>Term (Years)</Label><Input type="number" {...register('leaseYears', { valueAsNumber: true })} /></div>
-        <div><Label>Monthly Rent (\u20B9)</Label><Input type="number" {...register('monthlyRent', { valueAsNumber: true })} /></div>
-        <div><Label>Security Deposit (\u20B9)</Label><Input type="number" {...register('securityDeposit', { valueAsNumber: true })} /></div>
+        <div><Label>Monthly Rent (₹)</Label><Input type="number" {...register('monthlyRent', { valueAsNumber: true })} /></div>
+        <div><Label>Security Deposit (₹)</Label><Input type="number" {...register('securityDeposit', { valueAsNumber: true })} /></div>
       </div>
     </div>
   );
@@ -72,8 +72,8 @@ const generateHTML = (data: any) => `
     <h3 style="border-bottom: 1px solid #000; padding-bottom: 5px;">NOW THEREFORE THIS LEASE DEED WITNESSETH AS FOLLOWS:</h3>
     <ol style="margin-left: 20px; margin-top: 15px;">
       <li style="margin-bottom: 10px;">The Lessor agrees to let out and the Lessee agrees to take on lease the premises strictly for a firm period of <strong>${data.leaseYears} years</strong>.</li>
-      <li style="margin-bottom: 10px;">The monthly lease rent shall be <strong>\u20B9 ${Number(data.monthlyRent).toLocaleString('en-IN')}/-</strong>, payable in advance by the 5th of each month, subject to TDS (if applicable).</li>
-      <li style="margin-bottom: 10px;">The Lessee has deposited <strong>\u20B9 ${Number(data.securityDeposit).toLocaleString('en-IN')}/-</strong> as an interest-free Security Deposit.</li>
+      <li style="margin-bottom: 10px;">The monthly lease rent shall be <strong>₹ ${Number(data.monthlyRent).toLocaleString('en-IN')}/-</strong>, payable in advance by the 5th of each month, subject to TDS (if applicable).</li>
+      <li style="margin-bottom: 10px;">The Lessee has deposited <strong>₹ ${Number(data.securityDeposit).toLocaleString('en-IN')}/-</strong> as an interest-free Security Deposit.</li>
       <li style="margin-bottom: 10px;">This Lease Deed is subject to mandatory registration with the Sub-Registrar under the Registration Act. The stamp duty and registration fee shall be borne equally or as mutually agreed.</li>
       <li style="margin-bottom: 10px;">The Lessee shall not sublet, assign, or part with possession of the premises to any third party.</li>
     </ol>

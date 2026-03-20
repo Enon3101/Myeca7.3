@@ -41,7 +41,7 @@ const userGuides = [
         title: 'Understand Our Services',
         content: [
           'DIY Plan: Free self-filing with basic features',
-          'CA Assisted: Expert help at \u20B91,499',
+          'CA Assisted: Expert help at ₹1,499',
           'Business Plan: Complete business tax solutions',
           'All plans include tax calculators and support'
         ]
@@ -68,7 +68,7 @@ const userGuides = [
       {
         title: 'Choose the Right ITR Form',
         content: [
-          'ITR-1: Salary/pension income up to \u20B950 lakhs',
+          'ITR-1: Salary/pension income up to ₹50 lakhs',
           'ITR-2: Capital gains, foreign income',
           'ITR-3: Business/professional income',
           'ITR-4: Presumptive taxation scheme',
@@ -108,7 +108,7 @@ const userGuides = [
       {
         title: 'Section 80C Deductions',
         content: [
-          'Maximum limit: \u20B91.5 lakhs',
+          'Maximum limit: ₹1.5 lakhs',
           'PPF, ELSS, Life Insurance',
           'NSC, 5-year FD, NPS',
           'Home loan principal repayment',
@@ -130,7 +130,7 @@ const userGuides = [
         content: [
           'Old regime: Multiple deductions allowed',
           'New regime: Lower tax rates, no deductions',
-          'Break-even at ~\u20B92.5 lakh deductions',
+          'Break-even at ~₹2.5 lakh deductions',
           'Use our calculator to compare',
           'Can switch regimes yearly'
         ]
@@ -147,7 +147,7 @@ const userGuides = [
       {
         title: 'GST Compliance',
         content: [
-          'Register if turnover > \u20B940 lakhs',
+          'Register if turnover > ₹40 lakhs',
           'File GSTR-1 by 11th of next month',
           'File GSTR-3B by 20th',
           'Claim input tax credit',
@@ -167,7 +167,7 @@ const userGuides = [
       {
         title: 'Advance Tax',
         content: [
-          'Pay if tax liability > \u20B910,000',
+          'Pay if tax liability > ₹10,000',
           '15% by June 15',
           '45% by September 15',
           '75% by December 15',

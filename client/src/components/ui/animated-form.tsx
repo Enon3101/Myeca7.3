@@ -1,5 +1,5 @@
 import * as React from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import { m, AnimatePresence } from "framer-motion"
 import { CheckCircle, AlertCircle, Loader2 } from "lucide-react"
 
 import { cn } from "@/lib/utils"
@@ -21,7 +21,7 @@ const AnimatedFormField = React.forwardRef<HTMLDivElement, AnimatedFormFieldProp
     const handleBlur = () => setIsFocused(false)
 
     return (
-      <motion.div
+      <m.div
         ref={ref}
         className={cn("space-y-2", className)}
         initial={{ opacity: 0, y: 10 }}
@@ -31,7 +31,7 @@ const AnimatedFormField = React.forwardRef<HTMLDivElement, AnimatedFormFieldProp
       >
         {/* Animated Label */}
         {label && (
-          <motion.label
+          <m.label
             className={cn(
               "block text-sm font-medium transition-colors duration-200",
               isFocused ? "text-blue-600" : "text-gray-700",
@@ -44,20 +44,20 @@ const AnimatedFormField = React.forwardRef<HTMLDivElement, AnimatedFormFieldProp
           >
             {label}
             {required && (
-              <motion.span
+              <m.span
                 className="text-red-500 ml-1"
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ type: "spring", stiffness: 500, delay: 0.2 }}
               >
                 *
-              </motion.span>
+              </m.span>
             )}
-          </motion.label>
+          </m.label>
         )}
 
         {/* Form Field Container */}
-        <motion.div
+        <m.div
           className="relative"
           onFocus={handleFocus}
           onBlur={handleBlur}
@@ -69,7 +69,7 @@ const AnimatedFormField = React.forwardRef<HTMLDivElement, AnimatedFormFieldProp
           {/* Loading Indicator */}
           <AnimatePresence>
             {isLoading && (
-              <motion.div
+              <m.div
                 className="absolute right-3 top-1/2 transform -translate-y-1/2"
                 initial={{ opacity: 0, scale: 0 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -77,14 +77,14 @@ const AnimatedFormField = React.forwardRef<HTMLDivElement, AnimatedFormFieldProp
                 transition={{ duration: 0.2 }}
               >
                 <Loader2 className="h-4 w-4 animate-spin text-blue-500" />
-              </motion.div>
+              </m.div>
             )}
           </AnimatePresence>
 
           {/* Success Indicator */}
           <AnimatePresence>
             {success && !isLoading && (
-              <motion.div
+              <m.div
                 className="absolute right-3 top-1/2 transform -translate-y-1/2"
                 initial={{ opacity: 0, scale: 0, rotate: -90 }}
                 animate={{ opacity: 1, scale: 1, rotate: 0 }}
@@ -92,14 +92,14 @@ const AnimatedFormField = React.forwardRef<HTMLDivElement, AnimatedFormFieldProp
                 transition={{ type: "spring", stiffness: 500, damping: 15 }}
               >
                 <CheckCircle className="h-4 w-4 text-green-500" />
-              </motion.div>
+              </m.div>
             )}
           </AnimatePresence>
 
           {/* Error Indicator */}
           <AnimatePresence>
             {error && !isLoading && (
-              <motion.div
+              <m.div
                 className="absolute right-3 top-1/2 transform -translate-y-1/2"
                 initial={{ opacity: 0, scale: 0, x: 10 }}
                 animate={{ opacity: 1, scale: 1, x: 0 }}
@@ -107,15 +107,15 @@ const AnimatedFormField = React.forwardRef<HTMLDivElement, AnimatedFormFieldProp
                 transition={{ type: "spring", stiffness: 500, damping: 15 }}
               >
                 <AlertCircle className="h-4 w-4 text-red-500" />
-              </motion.div>
+              </m.div>
             )}
           </AnimatePresence>
-        </motion.div>
+        </m.div>
 
         {/* Animated Messages */}
         <AnimatePresence mode="wait">
           {error && (
-            <motion.div
+            <m.div
               key="error"
               className="flex items-center space-x-2 text-sm text-red-600"
               initial={{ opacity: 0, height: 0, y: -10 }}
@@ -125,11 +125,11 @@ const AnimatedFormField = React.forwardRef<HTMLDivElement, AnimatedFormFieldProp
             >
               <AlertCircle className="h-4 w-4 flex-shrink-0" />
               <span>{error}</span>
-            </motion.div>
+            </m.div>
           )}
           
           {success && !error && (
-            <motion.div
+            <m.div
               key="success"
               className="flex items-center space-x-2 text-sm text-green-600"
               initial={{ opacity: 0, height: 0, y: -10 }}
@@ -139,10 +139,10 @@ const AnimatedFormField = React.forwardRef<HTMLDivElement, AnimatedFormFieldProp
             >
               <CheckCircle className="h-4 w-4 flex-shrink-0" />
               <span>{success}</span>
-            </motion.div>
+            </m.div>
           )}
         </AnimatePresence>
-      </motion.div>
+      </m.div>
     )
   }
 )
@@ -155,7 +155,7 @@ interface AnimatedFormProps extends React.FormHTMLAttributes<HTMLFormElement> {
 const AnimatedForm = React.forwardRef<HTMLFormElement, AnimatedFormProps>(
   ({ className, children, ...props }, ref) => {
     return (
-      <motion.form
+      <m.form
         ref={ref}
         className={cn("space-y-6", className)}
         initial={{ opacity: 0 }}
@@ -164,7 +164,7 @@ const AnimatedForm = React.forwardRef<HTMLFormElement, AnimatedFormProps>(
         {...props}
       >
         {children}
-      </motion.form>
+      </m.form>
     )
   }
 )

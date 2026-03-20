@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Link } from "wouter";
 import { 
   Shield, 
@@ -44,6 +44,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CollapsibleFAQ } from "@/components/ui/collapsible-faq";
+import MetaSEO from "@/components/seo/MetaSEO";
 
 export default function TrademarkRegistrationPage() {
   const [selectedClass, setSelectedClass] = useState<string>("");
@@ -109,31 +110,31 @@ export default function TrademarkRegistrationPage() {
   const feeStructure2025 = [
     {
       applicantType: "Individual/Startup/Small Enterprise",
-      filingFee: "\u20B94,500",
-      searchFee: "\u20B91,500", 
-      totalGovtFee: "\u20B96,000",
-      professionalFee: "\u20B96,999",
-      totalCost: "\u20B912,999",
-      savings: "Save \u20B94,500 vs Standard",
+      filingFee: "₹4,500",
+      searchFee: "₹1,500", 
+      totalGovtFee: "₹6,000",
+      professionalFee: "₹6,999",
+      totalCost: "₹12,999",
+      savings: "Save ₹4,500 vs Standard",
       color: "green"
     },
     {
       applicantType: "Other than Small Enterprise",
-      filingFee: "\u20B99,000",
-      searchFee: "\u20B92,500",
-      totalGovtFee: "\u20B911,500", 
-      professionalFee: "\u20B98,999",
-      totalCost: "\u20B920,499",
+      filingFee: "₹9,000",
+      searchFee: "₹2,500",
+      totalGovtFee: "₹11,500", 
+      professionalFee: "₹8,999",
+      totalCost: "₹20,499",
       savings: "Standard Rate",
       color: "blue"
     },
     {
       applicantType: "Foreign Applicant",
-      filingFee: "\u20B918,000",
-      searchFee: "\u20B95,000",
-      totalGovtFee: "\u20B923,000",
-      professionalFee: "\u20B912,999", 
-      totalCost: "\u20B935,999",
+      filingFee: "₹18,000",
+      searchFee: "₹5,000",
+      totalGovtFee: "₹23,000",
+      professionalFee: "₹12,999", 
+      totalCost: "₹35,999",
       savings: "Includes priority claim",
       color: "purple"
     }
@@ -323,6 +324,40 @@ export default function TrademarkRegistrationPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-white to-indigo-50 service-page">
+      <MetaSEO
+        title="Trademark Registration Online India | Brand Protection Services"
+        description="Protect your brand with trademark registration in India. Expert TM search, application filing, and objection handling. Registration in 12-18 months. Start from ₹12,999."
+        keywords={[
+          "trademark registration India", "apply for trademark online", "TM search India", 
+          "brand registration", "IP India filing", "trademark classes"
+        ]}
+        type="service"
+        serviceData={{
+          price: "12999",
+          rating: "4.7",
+          reviews: "10000",
+          availability: "https://schema.org/InStock"
+        }}
+        breadcrumbs={[
+          { name: "Home", url: "/" },
+          { name: "Services", url: "/services" },
+          { name: "Trademark Registration", url: "/services/trademark-registration" }
+        ]}
+        faqPageData={[
+          {
+            question: "How long is a trademark valid in India?",
+            answer: "A registered trademark in India is valid for 10 years from the date of application and can be renewed indefinitely for successive 10-year periods."
+          },
+          {
+            question: "Can I use the TM symbol immediately after filing?",
+            answer: "Yes, you can use the 'TM' symbol as soon as you receive the trademark application acknowledgement. The '®' symbol can only be used after the registration certificate is issued."
+          },
+          {
+            question: "What is a trademark search and is it necessary?",
+            answer: "A trademark search checks existing marks for similarities to avoid rejection. While not mandatory, it is highly recommended to ensure your brand is unique and legally protectable."
+          }
+        ]}
+      />
       {/* Header */}
       <section className="bg-white border-b soft-border py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -387,7 +422,7 @@ export default function TrademarkRegistrationPage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* 6-Step Registration Process */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -447,10 +482,10 @@ export default function TrademarkRegistrationPage() {
               );
             })}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* 2025 Fee Structure */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
@@ -505,10 +540,10 @@ export default function TrademarkRegistrationPage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Popular Trademark Classes */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
@@ -544,10 +579,10 @@ export default function TrademarkRegistrationPage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Required Documents */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
@@ -584,10 +619,10 @@ export default function TrademarkRegistrationPage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Trademark Benefits */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.8 }}
@@ -617,10 +652,10 @@ export default function TrademarkRegistrationPage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Renewal Timeline */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.0 }}
@@ -651,10 +686,10 @@ export default function TrademarkRegistrationPage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Common Rejection Reasons */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.2 }}
@@ -701,10 +736,10 @@ export default function TrademarkRegistrationPage() {
               );
             })}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* FAQ Section */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.4 }}
@@ -729,7 +764,7 @@ export default function TrademarkRegistrationPage() {
               {
                 id: 2,
                 question: "How long does trademark registration take and what are the costs?",
-                answer: "The complete process takes 12-18 months including examination, publication, and registration. 2025 costs: Individual/Startup \u20B94,500, Small Enterprise \u20B94,500, Standard \u20B99,000, Foreign \u20B918,000 (government fees). Our professional services start from \u20B912,999 including search, filing, and complete assistance until registration."
+                answer: "The complete process takes 12-18 months including examination, publication, and registration. 2025 costs: Individual/Startup ₹4,500, Small Enterprise ₹4,500, Standard ₹9,000, Foreign ₹18,000 (government fees). Our professional services start from ₹12,999 including search, filing, and complete assistance until registration."
               },
               {
                 id: 3,
@@ -778,10 +813,10 @@ export default function TrademarkRegistrationPage() {
             allowMultiple={false}
             defaultOpenIndex={0}
           />
-        </motion.div>
+        </m.div>
 
         {/* Expert Assistance CTA */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.6 }}
@@ -793,13 +828,13 @@ export default function TrademarkRegistrationPage() {
               </h3>
               <p className="text-purple-100 mb-6 max-w-2xl mx-auto">
                 Our trademark experts handle the complete registration process from search to certificate. 
-                Secure your brand with 10-year protection starting from {"\u20B9"}12,999.
+                Secure your brand with 10-year protection starting from {"₹"}12,999.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button size="lg" className="bg-white text-purple-600 hover:bg-purple-50 px-8">
                   <Shield className="w-5 h-5 mr-2" />
-                  Register Trademark \u20B912,999
+                  Register Trademark ₹12,999
                 </Button>
                 <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-purple-600 px-8">
                   <Search className="w-5 h-5 mr-2" />
@@ -823,7 +858,31 @@ export default function TrademarkRegistrationPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
+        {/* SEO Depth Section: Expert Guide on Trademarks */}
+        <div className="mt-24 space-y-16 border-t pt-16">
+          <div className="max-w-4xl mx-auto text-left">
+            <h2 className="text-3xl font-black text-slate-900 mb-6 tracking-tight">The 2025 Intellectual Property Guide for Indian Brands</h2>
+            <p className="text-lg text-slate-600 leading-relaxed mb-8">
+              In a digital-first economy, your <span className="text-purple-600 font-bold">Trademark</span> is your most valuable asset. The Office of the Controller General of Patents, Designs & Trademarks (CGPDTM) has simplified the filing process, but the <span className="font-bold">Trademark Search</span> remains the single most critical step to avoid infringement suits.
+            </p>
+
+            <div className="grid md:grid-cols-2 gap-12">
+               <div className="space-y-4">
+                  <h3 className="text-xl font-bold text-slate-900">Selecting a 'Strong' Trademark</h3>
+                  <p className="text-sm text-slate-500 leading-relaxed">
+                    Legally, "Arbitrary" or "Fanciful" names (like Apple for computers) are the strongest and easiest to register. Avoid "Descriptive" names (like 'Tasty food' for a restaurant) as they are often rejected for lacking distinctiveness. Our CA experts help you refine your brand name before filing.
+                  </p>
+               </div>
+               <div className="space-y-4">
+                  <h3 className="text-xl font-bold text-slate-900">The Power of the ® Symbol</h3>
+                  <p className="text-sm text-slate-500 leading-relaxed">
+                    While the 'TM' symbol indicates an intent to protect, only the <span className="font-bold">® symbol</span> (awarded after registration) grants you the right to sue for infringement. Registration also allows you to block others from using similar domain names or social media handles through IP enforcement policies.
+                  </p>
+               </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -30,7 +30,7 @@ import {
   AlertTriangle
 } from "lucide-react";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import {
   Form16Data,
   parseForm16Text,
@@ -163,7 +163,7 @@ export default function Form16ParserPage() {
 
   // Format currency
   const formatCurrency = (amount: number) => {
-    return `\u20B9${amount.toLocaleString('en-IN')}`;
+    return `₹${amount.toLocaleString('en-IN')}`;
   };
 
   // Reset
@@ -350,7 +350,7 @@ Standard Deduction: 75,000
 
         {/* Results */}
         {parsedData && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="space-y-6"
@@ -656,7 +656,7 @@ Standard Deduction: 75,000
                 </div>
               </CardContent>
             </Card>
-          </motion.div>
+          </m.div>
         )}
       </div>
     </div>

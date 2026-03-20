@@ -96,7 +96,7 @@ export default function AnalyticsDashboard() {
     },
     {
       title: 'Revenue',
-      value: `\u20B9${(mockAnalyticsData.overview.revenue / 1000).toFixed(1)}K`,
+      value: `₹${(mockAnalyticsData.overview.revenue / 1000).toFixed(1)}K`,
       change: calculateChange(125600, 98700),
       icon: FileText,
       color: 'text-orange-600'

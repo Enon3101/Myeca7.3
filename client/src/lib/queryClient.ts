@@ -15,7 +15,10 @@ export async function apiRequest(
   }
 ): Promise<Response> {
   const token = localStorage.getItem("token");
-  const headers: HeadersInit = {};
+  const mockRole = localStorage.getItem("mock_role") || "user";
+  const headers: HeadersInit = {
+    "x-mock-role": mockRole
+  };
   
   if (options?.body) {
     headers["Content-Type"] = "application/json";
@@ -24,7 +27,8 @@ export async function apiRequest(
   if (token) {
     headers["Authorization"] = `Bearer ${token}`;
   }
-  
+
+  const start = performance.now();
   const res = await fetch(url, {
     method: options?.method || "GET",
     headers,
@@ -43,13 +47,18 @@ export const getQueryFn: <T>(options: {
   ({ on401: unauthorizedBehavior }) =>
   async ({ queryKey }) => {
     const token = localStorage.getItem("token");
-    const headers: HeadersInit = {};
+    const mockRole = localStorage.getItem("mock_role") || "user";
+    const headers: HeadersInit = {
+      "x-mock-role": mockRole
+    };
     
     if (token) {
       headers["Authorization"] = `Bearer ${token}`;
     }
     
-    const res = await fetch(queryKey.join("/") as string, {
+    const url = queryKey.join("/") as string;
+    const start = performance.now();
+    const res = await fetch(url, {
       headers,
       credentials: "include",
     });

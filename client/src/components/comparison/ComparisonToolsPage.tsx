@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { 
   GitCompare, Calculator, TrendingUp, PiggyBank, 
   Home, Car, GraduationCap, CreditCard, Check, X
@@ -171,7 +171,7 @@ export default function ComparisonToolsPage() {
 
       {/* Header */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -185,7 +185,7 @@ export default function ComparisonToolsPage() {
               <p className="text-gray-600">Compare and make informed financial decisions</p>
             </div>
           </div>
-        </motion.div>
+        </m.div>
       </div>
 
       {/* Main Content */}

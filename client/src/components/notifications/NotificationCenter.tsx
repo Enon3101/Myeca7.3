@@ -12,7 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
 
 interface Notification {
@@ -157,7 +157,7 @@ export default function NotificationCenter() {
           ) : (
             <AnimatePresence>
               {notifications.map((notification: Notification) => (
-                <motion.div
+                <m.div
                   key={notification.id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -206,7 +206,7 @@ export default function NotificationCenter() {
                       </div>
                     </div>
                   </DropdownMenuItem>
-                </motion.div>
+                </m.div>
               ))}
             </AnimatePresence>
           )}

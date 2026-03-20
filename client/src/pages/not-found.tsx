@@ -2,9 +2,15 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { FileSearch, Home, Calculator, Briefcase, ChevronRight } from "lucide-react";
+import { MetaSEO } from "@/components/seo/MetaSEO";
 
 export default function NotFound() {
   return (
+    <>
+      <MetaSEO 
+        title="Page Not Found | MyeCA.in"
+        description="The page you are looking for does not exist. Explore our tax calculators and services to get started."
+      />
     <div className="min-h-screen w-full flex items-center justify-center bg-[var(--color-primary-50)] p-4">
       <Card className="w-full max-w-lg shadow-xl border-[var(--color-primary-100)] rounded-[var(--radius-3xl)] overflow-hidden">
         <CardHeader className="text-center pt-10 pb-6 bg-white">
@@ -63,12 +69,13 @@ export default function NotFound() {
 
         <CardFooter className="bg-[var(--color-primary-50)] border-t border-[var(--color-primary-100)] flex justify-center py-6">
           <Link href="/">
-            <Button size="lg" className="bg-[var(--color-primary-900)] hover:bg-black text-white px-8 rounded-full shadow-lg">
+            <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-10 h-14 rounded-2xl shadow-lg shadow-blue-500/25 transition-all font-black">
               Return Home
             </Button>
           </Link>
         </CardFooter>
       </Card>
     </div>
+    </>
   );
 }

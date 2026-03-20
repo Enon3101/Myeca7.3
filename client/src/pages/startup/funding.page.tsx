@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { 
   ArrowRight, 
   IndianRupee, 
@@ -29,12 +29,12 @@ const FundingPage = () => {
   const governmentSchemes = [
     {
       name: "Startup India Seed Fund Scheme (SISFS)",
-      amount: "Up to \u20B970 Lakhs",
+      amount: "Up to ₹70 Lakhs",
       description: "Comprehensive early-stage support for proof of concept, prototype development, and market entry",
       highlights: [
-        "\u20B920 lakhs grant for concept validation",
-        "\u20B950 lakhs debt/convertible debentures for scaling",
-        "\u20B9916.91 crore approved across 217 incubators",
+        "₹20 lakhs grant for concept validation",
+        "₹50 lakhs debt/convertible debentures for scaling",
+        "₹916.91 crore approved across 217 incubators",
         "No collateral or personal guarantee required"
       ],
       eligibility: [
@@ -48,11 +48,11 @@ const FundingPage = () => {
     },
     {
       name: "Credit Guarantee Scheme for Startups (CGSS)",
-      amount: "Up to \u20B920 Crores",
+      amount: "Up to ₹20 Crores",
       description: "Collateral-free loans with government backing for growth-stage startups",
       highlights: [
-        "85% guarantee for loans up to \u20B910 crore",
-        "75% guarantee for loans above \u20B910 crore",
+        "85% guarantee for loans up to ₹10 crore",
+        "75% guarantee for loans above ₹10 crore",
         "No collateral required",
         "2% annual guarantee fee only"
       ],
@@ -66,7 +66,7 @@ const FundingPage = () => {
     },
     {
       name: "Fund of Funds for Startups (FFS)",
-      amount: "\u20B910,000 Crore Corpus",
+      amount: "₹10,000 Crore Corpus",
       description: "Indirect funding through SEBI-registered Alternative Investment Funds (AIFs)",
       highlights: [
         "Government invests in AIFs",
@@ -84,7 +84,7 @@ const FundingPage = () => {
     },
     {
       name: "SAMRIDH Scheme (MeitY)",
-      amount: "\u20B940 Lakhs",
+      amount: "₹40 Lakhs",
       description: "Support for product-based startups with proven concept",
       highlights: [
         "Acceleration through approved accelerators",
@@ -102,7 +102,7 @@ const FundingPage = () => {
     },
     {
       name: "Karnataka ELEVATE",
-      amount: "Up to \u20B950 Lakhs",
+      amount: "Up to ₹50 Lakhs",
       description: "Grant support for Karnataka-based startups",
       highlights: [
         "Direct grant funding",
@@ -113,14 +113,14 @@ const FundingPage = () => {
       eligibility: [
         "Karnataka-registered startups",
         "Less than 10 years old",
-        "Revenue < \u20B9100 crore"
+        "Revenue < ₹100 crore"
       ],
       link: "https://www.elevate.kar.nic.in",
       color: "red"
     },
     {
       name: "Biotechnology Ignition Grant (BIG)",
-      amount: "Up to \u20B950 Lakhs",
+      amount: "Up to ₹50 Lakhs",
       description: "Early-stage funding for biotech startups",
       highlights: [
         "Grant funding for proof of concept",
@@ -326,14 +326,14 @@ const FundingPage = () => {
     <div className="min-h-screen bg-gray-50">
       <SEO 
         title="Startup Funding & Grants 2025 | Government Schemes, VCs & Angel Investors"
-        description="Access comprehensive funding opportunities for Indian startups - Government grants up to \u20B920Cr, international accelerators, top VCs like Peak XV & Accel, and angel investors. Updated for 2025."
+        description="Access comprehensive funding opportunities for Indian startups - Government grants up to ₹20Cr, international accelerators, top VCs like Peak XV & Accel, and angel investors. Updated for 2025."
         keywords="startup funding India, government grants, SISFS, CGSS, venture capital, angel investors, Peak XV Partners, Accel India, Tiger Global"
       />
 
       {/* Hero Section */}
       <div className="bg-white border-b border-gray-200">
         <div className="container mx-auto px-4 py-8">
-          <motion.div 
+          <m.div 
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             className="flex flex-col md:flex-row justify-between items-center gap-6"
@@ -348,7 +348,7 @@ const FundingPage = () => {
                 </h1>
               </div>
               <p className="text-gray-600 text-lg max-w-2xl">
-                Access Government Grants up to {"\u20B9"}20 Crores, International Programs, and connect with Top VCs & Angels.
+                Access Government Grants up to {"₹"}20 Crores, International Programs, and connect with Top VCs & Angels.
               </p>
             </div>
             
@@ -362,13 +362,13 @@ const FundingPage = () => {
                  Consult Expert
                </Button>
             </div>
-          </motion.div>
+          </m.div>
 
           {/* Quick Stats Grid */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
             <Card className="bg-purple-50 border-purple-100 shadow-sm">
               <CardContent className="p-4">
-                <div className="text-2xl font-bold text-purple-700">{"\u20B9"}10,000Cr</div>
+                <div className="text-2xl font-bold text-purple-700">{"₹"}10,000Cr</div>
                 <div className="text-xs font-medium text-purple-600 uppercase tracking-wide">Total Fund Corpus</div>
               </CardContent>
             </Card>
@@ -386,7 +386,7 @@ const FundingPage = () => {
             </Card>
             <Card className="bg-orange-50 border-orange-100 shadow-sm">
               <CardContent className="p-4">
-                <div className="text-2xl font-bold text-orange-700">{"\u20B9"}20Cr</div>
+                <div className="text-2xl font-bold text-orange-700">{"₹"}20Cr</div>
                 <div className="text-xs font-medium text-orange-600 uppercase tracking-wide">Max CGSS Loan</div>
               </CardContent>
             </Card>
@@ -401,7 +401,7 @@ const FundingPage = () => {
           <h2 className="text-2xl font-bold text-center mb-8">Your Funding Journey</h2>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             {fundingSteps.map((item, index) => (
-              <motion.div
+              <m.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -421,7 +421,7 @@ const FundingPage = () => {
                     <p className="text-sm text-gray-600">{item.description}</p>
                   </CardContent>
                 </Card>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </div>
@@ -439,7 +439,7 @@ const FundingPage = () => {
           <TabsContent value="government">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {governmentSchemes.map((scheme, index) => (
-                <motion.div
+                <m.div
                   key={index}
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -493,7 +493,7 @@ const FundingPage = () => {
                       </div>
                     </CardContent>
                   </Card>
-                </motion.div>
+                </m.div>
               ))}
             </div>
           </TabsContent>
@@ -502,7 +502,7 @@ const FundingPage = () => {
           <TabsContent value="international">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {internationalPrograms.map((program, index) => (
-                <motion.div
+                <m.div
                   key={index}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -554,7 +554,7 @@ const FundingPage = () => {
                       </div>
                     </CardContent>
                   </Card>
-                </motion.div>
+                </m.div>
               ))}
             </div>
           </TabsContent>
@@ -563,7 +563,7 @@ const FundingPage = () => {
           <TabsContent value="vc">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {vcFirms.map((vc, index) => (
-                <motion.div
+                <m.div
                   key={index}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -609,7 +609,7 @@ const FundingPage = () => {
                       </div>
                     </CardContent>
                   </Card>
-                </motion.div>
+                </m.div>
               ))}
             </div>
           </TabsContent>
@@ -618,7 +618,7 @@ const FundingPage = () => {
           <TabsContent value="angel">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {angelInvestors.map((angel, index) => (
-                <motion.div
+                <m.div
                   key={index}
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -646,7 +646,7 @@ const FundingPage = () => {
                       </div>
                     </CardContent>
                   </Card>
-                </motion.div>
+                </m.div>
               ))}
             </div>
             
@@ -664,7 +664,7 @@ const FundingPage = () => {
         </Tabs>
 
         {/* CTA Section */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           className="mt-16 bg-white border border-gray-200 rounded-2xl p-8 text-center shadow-sm"
@@ -688,7 +688,7 @@ const FundingPage = () => {
               </Button>
             </Link>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Important Notes */}
         <div className="mt-12 p-6 bg-yellow-50 rounded-lg border border-yellow-200">

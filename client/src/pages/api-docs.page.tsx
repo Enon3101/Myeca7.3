@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { 
   Code2, Copy, Check, ChevronRight, Lock, Globe, 
   Zap, Shield, Database, GitBranch, Key, AlertCircle
@@ -356,7 +356,7 @@ export default function ApiDocsPage() {
 
       {/* Header */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -418,7 +418,7 @@ export default function ApiDocsPage() {
               </CardContent>
             </Card>
           </div>
-        </motion.div>
+        </m.div>
       </div>
 
       {/* Main Content */}

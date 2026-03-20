@@ -36,19 +36,19 @@ const baseRules: Record<TDSIncomeType, TDSRule> = {
     rate: 10,
     threshold: 40000, // Bank/Post office interest threshold for non-seniors (Sec 194A)
     section: "194A",
-    notes: "Senior citizens threshold \u20B950,000 (bank/post office).",
+    notes: "Senior citizens threshold ₹50,000 (bank/post office).",
   },
   dividend: {
     rate: 10,
     threshold: 5000, // Sec 194
     section: "194",
-    notes: "Resident shareholders typically face 10% TDS on dividends above \u20B95,000.",
+    notes: "Resident shareholders typically face 10% TDS on dividends above ₹5,000.",
   },
   rent: {
     rate: 10,
     threshold: 240000, // Sec 194I, annual aggregate
     section: "194I",
-    notes: "Individuals/ HUFs paying >\u20B950,000/month may fall under Sec 194IB @5%.",
+    notes: "Individuals/ HUFs paying >₹50,000/month may fall under Sec 194IB @5%.",
   },
   commission: {
     rate: 5,
@@ -63,9 +63,9 @@ const baseRules: Record<TDSIncomeType, TDSRule> = {
   },
   contractor_payment: {
     rate: 1,
-    threshold: 30000, // Sec 194C single payment (aggregate threshold \u20B91,00,000)
+    threshold: 30000, // Sec 194C single payment (aggregate threshold ₹1,00,000)
     section: "194C",
-    notes: "Aggregate threshold \u20B91,00,000 applies; simplified single-payment threshold shown.",
+    notes: "Aggregate threshold ₹1,00,000 applies; simplified single-payment threshold shown.",
   },
 };
 

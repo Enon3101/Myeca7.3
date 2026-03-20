@@ -60,7 +60,7 @@ const FormComponent = ({ register, errors }: any) => {
       <h3 className="text-lg font-bold border-b pb-2 mt-6">Property to be Gifted</h3>
       <div className="grid grid-cols-1 gap-4 text-sm">
         <div><Label>Detailed Property Description</Label><Textarea rows={3} {...register('propertyDetails')} /></div>
-        <div><Label>Estimated Market Value (\u20B9)</Label><Input type="number" {...register('propertyValue', { valueAsNumber: true })} /></div>
+        <div><Label>Estimated Market Value (₹)</Label><Input type="number" {...register('propertyValue', { valueAsNumber: true })} /></div>
       </div>
     </div>
   );
@@ -109,7 +109,7 @@ const generateHTML = (data: any) => `
         The Donee is entitled to get the Scheduled Property mutated in their name in the records of the Municipal Corporation, Revenue Department, or any other relevant authority.
       </li>
       <li style="margin-bottom: 10px;">
-        The estimated market value of the Scheduled Property for the purpose of computing stamp duty is <strong>\u20B9 ${Number(data.propertyValue).toLocaleString('en-IN')}/-</strong>.
+        The estimated market value of the Scheduled Property for the purpose of computing stamp duty is <strong>₹ ${Number(data.propertyValue).toLocaleString('en-IN')}/-</strong>.
       </li>
     </ol>
 

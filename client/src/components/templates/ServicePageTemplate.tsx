@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -99,7 +99,7 @@ export function ServicePageTemplate({
               </Button>
             </Link>
 
-            <motion.div {...fadeInUp} className="grid md:grid-cols-2 gap-8 items-center">
+            <m.div {...fadeInUp} className="grid md:grid-cols-2 gap-8 items-center">
               <div>
                 <Badge variant="secondary" className="mb-4">{subtitle}</Badge>
                 <h1 className="text-3xl md:text-4xl font-bold mb-4" data-testid="text-service-title">
@@ -124,11 +124,11 @@ export function ServicePageTemplate({
                   {icon}
                 </div>
               </div>
-            </motion.div>
+            </m.div>
 
             {/* Stats */}
             {heroStats.length > 0 && (
-              <motion.div 
+              <m.div 
                 {...fadeInUp} 
                 transition={{ delay: 0.2 }}
                 className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12"
@@ -141,7 +141,7 @@ export function ServicePageTemplate({
                     </CardContent>
                   </Card>
                 ))}
-              </motion.div>
+              </m.div>
             )}
           </div>
         </section>
@@ -150,17 +150,17 @@ export function ServicePageTemplate({
         {benefits.length > 0 && (
           <section className="py-12 md:py-16">
             <div className="container mx-auto px-4 max-w-6xl">
-              <motion.h2 {...fadeInUp} className="text-2xl md:text-3xl font-bold text-center mb-8">
+              <m.h2 {...fadeInUp} className="text-2xl md:text-3xl font-bold text-center mb-8">
                 Key Benefits
-              </motion.h2>
-              <motion.div 
+              </m.h2>
+              <m.div 
                 variants={staggerContainer}
                 initial="initial"
                 animate="animate"
                 className="grid md:grid-cols-3 gap-6"
               >
                 {benefits.map((benefit, i) => (
-                  <motion.div key={i} variants={fadeInUp}>
+                  <m.div key={i} variants={fadeInUp}>
                     <Card className="h-full hover-elevate">
                       <CardContent className="pt-6">
                         <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary mb-4">
@@ -170,9 +170,9 @@ export function ServicePageTemplate({
                         <p className="text-sm text-muted-foreground">{benefit.description}</p>
                       </CardContent>
                     </Card>
-                  </motion.div>
+                  </m.div>
                 ))}
-              </motion.div>
+              </m.div>
             </div>
           </section>
         )}
@@ -181,12 +181,12 @@ export function ServicePageTemplate({
         {process.length > 0 && (
           <section className="py-12 md:py-16 bg-muted/30">
             <div className="container mx-auto px-4 max-w-6xl">
-              <motion.h2 {...fadeInUp} className="text-2xl md:text-3xl font-bold text-center mb-8">
+              <m.h2 {...fadeInUp} className="text-2xl md:text-3xl font-bold text-center mb-8">
                 How It Works
-              </motion.h2>
+              </m.h2>
               <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {process.map((step, i) => (
-                  <motion.div key={i} {...fadeInUp} transition={{ delay: i * 0.1 }}>
+                  <m.div key={i} {...fadeInUp} transition={{ delay: i * 0.1 }}>
                     <Card className="h-full relative">
                       <CardContent className="pt-6">
                         <div className="absolute -top-4 left-6 h-8 w-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold">
@@ -196,7 +196,7 @@ export function ServicePageTemplate({
                         <p className="text-sm text-muted-foreground">{step.description}</p>
                       </CardContent>
                     </Card>
-                  </motion.div>
+                  </m.div>
                 ))}
               </div>
             </div>
@@ -207,10 +207,10 @@ export function ServicePageTemplate({
         {documents.length > 0 && (
           <section className="py-12 md:py-16">
             <div className="container mx-auto px-4 max-w-6xl">
-              <motion.h2 {...fadeInUp} className="text-2xl md:text-3xl font-bold text-center mb-8">
+              <m.h2 {...fadeInUp} className="text-2xl md:text-3xl font-bold text-center mb-8">
                 Documents Required
-              </motion.h2>
-              <motion.div {...fadeInUp} transition={{ delay: 0.1 }}>
+              </m.h2>
+              <m.div {...fadeInUp} transition={{ delay: 0.1 }}>
                 <Card>
                   <CardContent className="pt-6">
                     <div className="grid md:grid-cols-2 gap-4">
@@ -228,7 +228,7 @@ export function ServicePageTemplate({
                     </div>
                   </CardContent>
                 </Card>
-              </motion.div>
+              </m.div>
             </div>
           </section>
         )}
@@ -237,9 +237,9 @@ export function ServicePageTemplate({
         {pricingPlans.length > 0 && (
           <section className="py-12 md:py-16 bg-muted/30">
             <div className="container mx-auto px-4 max-w-6xl">
-              <motion.h2 {...fadeInUp} className="text-2xl md:text-3xl font-bold text-center mb-8">
+              <m.h2 {...fadeInUp} className="text-2xl md:text-3xl font-bold text-center mb-8">
                 Pricing Plans
-              </motion.h2>
+              </m.h2>
               <div className={cn(
                 'grid gap-6',
                 pricingPlans.length === 1 ? 'max-w-md mx-auto' :
@@ -247,7 +247,7 @@ export function ServicePageTemplate({
                 'md:grid-cols-3'
               )}>
                 {pricingPlans.map((plan, i) => (
-                  <motion.div key={i} {...fadeInUp} transition={{ delay: i * 0.1 }}>
+                  <m.div key={i} {...fadeInUp} transition={{ delay: i * 0.1 }}>
                     <Card className={cn(
                       'h-full relative',
                       plan.popular && 'border-primary ring-2 ring-primary/20'
@@ -283,7 +283,7 @@ export function ServicePageTemplate({
                         </Button>
                       </CardContent>
                     </Card>
-                  </motion.div>
+                  </m.div>
                 ))}
               </div>
             </div>
@@ -294,10 +294,10 @@ export function ServicePageTemplate({
         {faqs.length > 0 && (
           <section className="py-12 md:py-16">
             <div className="container mx-auto px-4 max-w-4xl">
-              <motion.h2 {...fadeInUp} className="text-2xl md:text-3xl font-bold text-center mb-8">
+              <m.h2 {...fadeInUp} className="text-2xl md:text-3xl font-bold text-center mb-8">
                 Frequently Asked Questions
-              </motion.h2>
-              <motion.div {...fadeInUp} transition={{ delay: 0.1 }} className="space-y-4">
+              </m.h2>
+              <m.div {...fadeInUp} transition={{ delay: 0.1 }} className="space-y-4">
                 {faqs.map((faq, i) => (
                   <Card key={i}>
                     <CardHeader className="pb-2">
@@ -308,7 +308,7 @@ export function ServicePageTemplate({
                     </CardContent>
                   </Card>
                 ))}
-              </motion.div>
+              </m.div>
             </div>
           </section>
         )}
@@ -320,7 +320,7 @@ export function ServicePageTemplate({
         {ctaSection || (
           <section className="py-12 md:py-16 bg-primary text-primary-foreground">
             <div className="container mx-auto px-4 max-w-4xl text-center">
-              <motion.div {...fadeInUp}>
+              <m.div {...fadeInUp}>
                 <h2 className="text-2xl md:text-3xl font-bold mb-4">
                   Ready to Get Started?
                 </h2>
@@ -337,7 +337,7 @@ export function ServicePageTemplate({
                     Email Us
                   </Button>
                 </div>
-              </motion.div>
+              </m.div>
             </div>
           </section>
         )}

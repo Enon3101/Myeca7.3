@@ -7,12 +7,13 @@ import { cn } from '@/lib/utils';
 interface StatCardProps {
   title: string;
   value: string | number;
+  description?: string;
   change?: number;
   icon?: React.ReactNode;
   className?: string;
 }
 
-export function StatCard({ title, value, change, icon, className }: StatCardProps) {
+export function StatCard({ title, value, description, change, icon, className }: StatCardProps) {
   const isPositive = change !== undefined && change > 0;
   
   return (
@@ -30,6 +31,9 @@ export function StatCard({ title, value, change, icon, className }: StatCardProp
           )}
         </div>
         <div className="text-3xl font-bold text-slate-900 mb-2 tracking-tight">{value}</div>
+        {description && (
+          <p className="text-[11px] font-medium text-slate-400 mb-3 leading-none italic">{description}</p>
+        )}
         {change !== undefined && (
           <div className={cn(
             'flex items-center gap-1.5 text-[13px] font-medium py-1 px-2 rounded-full w-fit',

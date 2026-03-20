@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Shield, Calculator, FileText, TrendingUp, Clock, CheckCircle, ArrowRight, IndianRupee, Building2, AlertCircle, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -14,7 +14,7 @@ const TaxPlanningPage = () => {
     {
       title: "Section 80-IAC Benefits",
       description: "100% profit deduction for 3 consecutive years out of first 10 years",
-      savings: "Up to \u20B925L annually",
+      savings: "Up to ₹25L annually",
       eligibility: "DPIIT recognized startups",
       icon: Shield,
       color: "blue"
@@ -29,7 +29,7 @@ const TaxPlanningPage = () => {
     },
     {
       title: "Angel Tax Exemption",
-      description: "No angel tax on investments up to \u20B925 crores",
+      description: "No angel tax on investments up to ₹25 crores",
       savings: "30.9% of investment",
       eligibility: "DPIIT recognized startups",
       icon: Building2,
@@ -96,7 +96,7 @@ const TaxPlanningPage = () => {
     <div className="min-h-screen bg-gray-50">
       <SEO
         title="Startup Tax Planning & Benefits - Save up to 100% Tax | MyeCA.in"
-        description="Maximize tax savings for your startup with Section 80-IAC benefits, angel tax exemption, R&D incentives, and expert CA guidance. Save up to \u20B925L annually."
+        description="Maximize tax savings for your startup with Section 80-IAC benefits, angel tax exemption, R&D incentives, and expert CA guidance. Save up to ₹25L annually."
         keywords="startup tax benefits, section 80-IAC, angel tax exemption, startup tax planning, DPIIT tax benefits, R&D tax incentives"
       />
 
@@ -142,7 +142,7 @@ const TaxPlanningPage = () => {
                   </li>
                   <li className="flex items-start">
                     <TrendingUp className="w-4 h-4 mr-2 text-green-600 mt-0.5" />
-                    Use angel tax exemption for investments up to \u20B925 Cr.
+                    Use angel tax exemption for investments up to ₹25 Cr.
                   </li>
                   <li className="flex items-start">
                     <IndianRupee className="w-4 h-4 mr-2 text-indigo-600 mt-0.5" />
@@ -174,7 +174,7 @@ const TaxPlanningPage = () => {
 
           <div className="grid md:grid-cols-2 gap-6">
             {startupTaxBenefits.map((benefit, index) => (
-              <motion.div
+              <m.div
                 key={index}
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -203,7 +203,7 @@ const TaxPlanningPage = () => {
                     </div>
                   </CardContent>
                 </Card>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </section>
@@ -221,7 +221,7 @@ const TaxPlanningPage = () => {
 
           <div className="grid md:grid-cols-2 gap-8">
             {taxPlanningStrategies.map((category, index) => (
-              <motion.div
+              <m.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -246,7 +246,7 @@ const TaxPlanningPage = () => {
                     </ul>
                   </CardContent>
                 </Card>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </section>

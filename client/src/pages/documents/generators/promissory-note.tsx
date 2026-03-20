@@ -36,7 +36,7 @@ const FormComponent = ({ register, errors }: any) => {
       <div className="grid grid-cols-2 gap-4">
         <div><Label>Execution Place</Label><Input {...register('place')} /></div>
         <div><Label>Execution Date</Label><Input type="date" {...register('date')} /></div>
-        <div><Label>Principal Amount (\u20B9)</Label><Input type="number" {...register('principalAmount', { valueAsNumber: true })} /></div>
+        <div><Label>Principal Amount (₹)</Label><Input type="number" {...register('principalAmount', { valueAsNumber: true })} /></div>
         <div><Label>Interest Rate (% per annum)</Label><Input type="number" step="0.1" {...register('interestRate', { valueAsNumber: true })} /></div>
         <div className="col-span-2"><Label>Due Date (or type "On Demand")</Label><Input {...register('dueDate')} /></div>
       </div>
@@ -66,7 +66,7 @@ const generateHTML = (data: any) => `
     <h1 style="text-align: center; text-decoration: underline; text-transform: uppercase; letter-spacing: 2px;">PROMISSORY NOTE</h1>
     
     <div style="display: flex; justify-content: space-between; margin-top: 40px; font-weight: bold; font-size: 16px;">
-      <div>Amount: \u20B9 ${Number(data.principalAmount).toLocaleString('en-IN')}/-</div>
+      <div>Amount: ₹ ${Number(data.principalAmount).toLocaleString('en-IN')}/-</div>
       <div style="text-align: right;">
         Place: ${data.place}<br/>Date: ${data.date.split('-').reverse().join('/')}
       </div>

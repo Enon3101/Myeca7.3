@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { 
   ShieldCheck, 
   Lock, 
@@ -87,7 +87,7 @@ export default function DocumentVaultServicePage() {
       <section className="py-12 lg:py-16 bg-gradient-to-br from-slate-50 via-blue-50/30 to-white">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center space-y-6">
-            <motion.div
+            <m.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5 }}
@@ -97,9 +97,9 @@ export default function DocumentVaultServicePage() {
               <span>CA Assisted Secure Storage</span>
               <span className="text-[var(--color-primary-400)]">•</span>
               <span className="text-[var(--color-success-600)] font-semibold">ISO Certified Vault</span>
-            </motion.div>
+            </m.div>
 
-            <motion.h1 
+            <m.h1 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
@@ -108,18 +108,18 @@ export default function DocumentVaultServicePage() {
               Your Personal <span className="text-[var(--color-accent-600)]">Secure Vault</span>
               <br className="hidden sm:block" />
               for Tax & Legal Documents
-            </motion.h1>
+            </m.h1>
 
-            <motion.p 
+            <m.p 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
               className="text-lg text-gray-600 max-w-2xl mx-auto"
             >
               The most secure way to store, organize, and share your critical tax and legal documents. Bank-grade security meets effortless organization.
-            </motion.p>
+            </m.p>
 
-            <motion.div 
+            <m.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
@@ -161,7 +161,7 @@ export default function DocumentVaultServicePage() {
                   </div>
                 </DialogContent>
               </Dialog>
-            </motion.div>
+            </m.div>
           </div>
         </div>
       </section>
@@ -171,7 +171,7 @@ export default function DocumentVaultServicePage() {
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto mb-16">
             {features.map((feature, idx) => (
-              <motion.div
+              <m.div
                 key={idx}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -189,7 +189,7 @@ export default function DocumentVaultServicePage() {
                     </div>
                   </div>
                 </div>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </div>
@@ -277,7 +277,7 @@ export default function DocumentVaultServicePage() {
             </div>
 
             <div className="flex-[1.2] relative">
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, x: 20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
@@ -324,7 +324,7 @@ export default function DocumentVaultServicePage() {
                     </div>
                   </div>
                 </div>
-              </motion.div>
+              </m.div>
               <div className="absolute -top-10 -right-10 w-40 h-40 bg-blue-100/50 rounded-full blur-3xl" />
               <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-emerald-100/50 rounded-full blur-3xl" />
             </div>
@@ -384,7 +384,7 @@ export default function DocumentVaultServicePage() {
                                </span>
                             </div>
                             <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
-                               <motion.div 
+                               <m.div 
                                  initial={{ width: 0 }}
                                  animate={{ width: `${(demoStep / 5) * 100}%` }}
                                  className="h-full bg-gradient-to-r from-blue-600 to-indigo-600"
@@ -397,7 +397,7 @@ export default function DocumentVaultServicePage() {
                                  "ISO Compliance Check",
                                  "Zero-Knowledge Handshake"
                                ].map((text, i) => (
-                                 <motion.div 
+                                 <m.div 
                                    key={i}
                                    initial={{ opacity: 0, x: -10 }}
                                    animate={{ opacity: demoStep > i + 1 ? 1 : 0.3, x: 0 }}
@@ -407,13 +407,13 @@ export default function DocumentVaultServicePage() {
                                       {demoStep > i + 1 ? <Check className="w-3 h-3" /> : <div className="w-1.5 h-1.5 rounded-full bg-current" />}
                                    </div>
                                    {text}
-                                 </motion.div>
+                                 </m.div>
                                ))}
                             </div>
                             {demoStep === 5 && (
-                              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+                              <m.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                                  <VaultButton className="w-full bg-emerald-600 hover:bg-emerald-700" />
-                              </motion.div>
+                              </m.div>
                             )}
                          </div>
                        )}

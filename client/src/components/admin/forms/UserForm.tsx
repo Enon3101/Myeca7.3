@@ -31,14 +31,14 @@ interface UserFormProps {
 }
 
 export function UserForm({ user, open, onOpenChange, onSubmit, isLoading = false }: UserFormProps) {
-  const [formData, setFormData] = useState<Partial<User>>({
+  const [formData, setFormData] = useState<Partial<User & { password?: string }>>({
     username: user?.username || '',
     email: user?.email || '',
-    first_name: user?.first_name || '',
-    last_name: user?.last_name || '',
-    phone: user?.phone || '',
-    is_active: user?.is_active ?? true,
-    is_admin: user?.is_admin ?? false,
+    firstName: user?.firstName || '',
+    lastName: user?.lastName || '',
+    phoneNumber: user?.phoneNumber || '',
+    status: user?.status || 'active',
+    role: user?.role || 'user',
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -63,7 +63,7 @@ export function UserForm({ user, open, onOpenChange, onSubmit, isLoading = false
               <Label htmlFor="username">Username *</Label>
               <Input
                 id="username"
-                value={formData.username}
+                value={formData.username || ''}
                 onChange={(e) => setFormData({ ...formData, username: e.target.value })}
                 required
                 disabled={!!user} // Don't allow changing username for existing users
@@ -75,7 +75,7 @@ export function UserForm({ user, open, onOpenChange, onSubmit, isLoading = false
               <Input
                 id="email"
                 type="email"
-                value={formData.email}
+                value={formData.email || ''}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 required
               />
@@ -84,33 +84,33 @@ export function UserForm({ user, open, onOpenChange, onSubmit, isLoading = false
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="first_name">First Name *</Label>
+              <Label htmlFor="firstName">First Name *</Label>
               <Input
-                id="first_name"
-                value={formData.first_name}
-                onChange={(e) => setFormData({ ...formData, first_name: e.target.value })}
+                id="firstName"
+                value={formData.firstName || ''}
+                onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                 required
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="last_name">Last Name *</Label>
+              <Label htmlFor="lastName">Last Name *</Label>
               <Input
-                id="last_name"
-                value={formData.last_name}
-                onChange={(e) => setFormData({ ...formData, last_name: e.target.value })}
+                id="lastName"
+                value={formData.lastName || ''}
+                onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                 required
               />
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="phone">Phone</Label>
+            <Label htmlFor="phoneNumber">Phone</Label>
             <Input
-              id="phone"
+              id="phoneNumber"
               type="tel"
-              value={formData.phone || ''}
-              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+              value={formData.phoneNumber || ''}
+              onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
             />
           </div>
 
@@ -134,22 +134,22 @@ export function UserForm({ user, open, onOpenChange, onSubmit, isLoading = false
             <div className="space-y-4">
               <div className="flex items-center gap-3">
                 <Switch
-                  id="is_active"
-                  checked={formData.is_active}
-                  onCheckedChange={(checked) => setFormData({ ...formData, is_active: checked })}
+                  id="isActive"
+                  checked={formData.status === 'active'}
+                  onCheckedChange={(checked) => setFormData({ ...formData, status: checked ? 'active' : 'inactive' })}
                 />
-                <Label htmlFor="is_active" className="cursor-pointer">
+                <Label htmlFor="isActive" className="cursor-pointer">
                   Active User
                 </Label>
               </div>
 
               <div className="flex items-center gap-3">
                 <Switch
-                  id="is_admin"
-                  checked={formData.is_admin}
-                  onCheckedChange={(checked) => setFormData({ ...formData, is_admin: checked })}
+                  id="isAdmin"
+                  checked={formData.role === 'admin'}
+                  onCheckedChange={(checked) => setFormData({ ...formData, role: checked ? 'admin' : 'user' })}
                 />
-                <Label htmlFor="is_admin" className="cursor-pointer">
+                <Label htmlFor="isAdmin" className="cursor-pointer">
                   Administrator
                 </Label>
               </div>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { ArrowUp } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -37,7 +37,7 @@ export const ScrollToTop: React.FC<ScrollToTopProps> = ({
   return (
     <AnimatePresence>
       {isVisible && (
-        <motion.button
+        <m.button
           initial={{ opacity: 0, scale: 0.8, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.8, y: 20 }}
@@ -54,7 +54,7 @@ export const ScrollToTop: React.FC<ScrollToTopProps> = ({
           
           {/* Pulse ring effect */}
           <div className="absolute inset-0 rounded-full bg-indigo-400 animate-ping opacity-20"></div>
-        </motion.button>
+        </m.button>
       )}
     </AnimatePresence>
   );

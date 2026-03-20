@@ -11,7 +11,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { searchItems, highlightText, SearchHistory, popularSearches, SearchResult } from "@/lib/search-utils";
 
@@ -199,14 +199,14 @@ export default function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
 
   return (
     <AnimatePresence>
-      <motion.div
+      <m.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         className="fixed inset-0 bg-black/50 z-50 flex items-start justify-center pt-20 px-4"
         onClick={onClose}
       >
-        <motion.div
+        <m.div
           initial={{ opacity: 0, scale: 0.95, y: -20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: -20 }}
@@ -323,7 +323,7 @@ export default function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
                         const isSelected = globalIndex === selectedIndex;
                         
                         return (
-                          <motion.div
+                          <m.div
                             key={result.item.id}
                             initial={{ opacity: 0, x: -20 }}
                             animate={{ opacity: 1, x: 0 }}
@@ -363,7 +363,7 @@ export default function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
                                 <ArrowRight className="h-4 w-4 text-gray-400 mt-1 flex-shrink-0" />
                               </div>
                             </Card>
-                          </motion.div>
+                          </m.div>
                         );
                       })}
                     </div>
@@ -459,8 +459,8 @@ export default function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
               <kbd className="px-1.5 py-0.5 bg-gray-200 rounded text-xs ml-1">Esc</kbd> to close
             </p>
           </div>
-        </motion.div>
-      </motion.div>
+        </m.div>
+      </m.div>
     </AnimatePresence>
   );
 }

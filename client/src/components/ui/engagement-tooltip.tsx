@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { X, ArrowRight, Lightbulb, Target, Coins, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -81,7 +81,7 @@ export function EngagementTooltip({ tooltips, onComplete }: EngagementTooltipPro
       {isVisible && (
         <>
           {/* Backdrop */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -90,7 +90,7 @@ export function EngagementTooltip({ tooltips, onComplete }: EngagementTooltipPro
           />
           
           {/* Tooltip */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, scale: 0.8, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
@@ -148,7 +148,7 @@ export function EngagementTooltip({ tooltips, onComplete }: EngagementTooltipPro
                       <span>{Math.round(((currentTooltip + 1) / tooltips.length) * 100)}%</span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-2">
-                      <motion.div
+                      <m.div
                         className={`h-2 rounded-full bg-gradient-to-r ${tooltip.color}`}
                         initial={{ width: 0 }}
                         animate={{ width: `${((currentTooltip + 1) / tooltips.length) * 100}%` }}
@@ -183,7 +183,7 @@ export function EngagementTooltip({ tooltips, onComplete }: EngagementTooltipPro
 
             {/* Pointer */}
             <div className={`absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-8 border-r-8 border-t-8 border-transparent border-t-white`}></div>
-          </motion.div>
+          </m.div>
         </>
       )}
     </AnimatePresence>
@@ -239,7 +239,7 @@ export const startupTooltips: TooltipData[] = [
   {
     id: "schemes",
     title: "Government Schemes",
-    message: "Access up to \u20B950L funding through SISFS, BIG, CGSS & PMMY schemes. Our experts guide you through the entire application process.",
+    message: "Access up to ₹50L funding through SISFS, BIG, CGSS & PMMY schemes. Our experts guide you through the entire application process.",
     icon: Coins,
     actionText: "View Funding Services",
     actionUrl: "#funding-services",
@@ -261,7 +261,7 @@ export const startupTooltips: TooltipData[] = [
   {
     id: "success",
     title: "Join 2,500+ Successful Startups",
-    message: "Our clients have successfully raised \u20B9850+ crores through government schemes. Let us help you achieve similar success.",
+    message: "Our clients have successfully raised ₹850+ crores through government schemes. Let us help you achieve similar success.",
     icon: CheckCircle,
     actionText: "Start Your Journey",
     actionUrl: "#get-started",

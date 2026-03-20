@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Clock, AlertTriangle, FileCheck } from "lucide-react";
 
 const BulletinBanner = () => {
@@ -30,7 +30,7 @@ const BulletinBanner = () => {
   ];
 
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
@@ -41,7 +41,7 @@ const BulletinBanner = () => {
           {announcements.map((announcement, index) => {
             const IconComponent = announcement.icon;
             return (
-              <motion.div
+              <m.div
                 key={announcement.id}
                 initial={{ opacity: 0, x: 50 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -52,12 +52,12 @@ const BulletinBanner = () => {
                 <span className={`text-sm font-medium ${announcement.color} whitespace-nowrap`}>
                   {announcement.text}
                 </span>
-              </motion.div>
+              </m.div>
             );
           })}
         </div>
       </div>
-    </motion.div>
+    </m.div>
   );
 };
 

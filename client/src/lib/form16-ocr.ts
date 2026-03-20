@@ -102,41 +102,41 @@ const PATTERNS = {
   financialYear: /financial\s*year[:\s]*(\d{4}[-–]\d{2,4})/i,
   
   // Amount patterns
-  amount: /\u20B9?\s*([0-9,]+(?:\.\d{2})?)/,
+  amount: /₹?\s*([0-9,]+(?:\.\d{2})?)/,
   
   // Specific fields
-  grossSalary: /gross\s*salary[:\s]*\u20B9?\s*([0-9,]+)/i,
-  hra: /house\s*rent\s*allowance|hra[:\s]*\u20B9?\s*([0-9,]+)/i,
-  lta: /leave\s*travel\s*(?:allowance|concession)|lta[:\s]*\u20B9?\s*([0-9,]+)/i,
-  standardDeduction: /standard\s*deduction[:\s]*\u20B9?\s*([0-9,]+)/i,
-  professionalTax: /professional\s*tax[:\s]*\u20B9?\s*([0-9,]+)/i,
+  grossSalary: /gross\s*salary[:\s]*₹?\s*([0-9,]+)/i,
+  hra: /house\s*rent\s*allowance|hra[:\s]*₹?\s*([0-9,]+)/i,
+  lta: /leave\s*travel\s*(?:allowance|concession)|lta[:\s]*₹?\s*([0-9,]+)/i,
+  standardDeduction: /standard\s*deduction[:\s]*₹?\s*([0-9,]+)/i,
+  professionalTax: /professional\s*tax[:\s]*₹?\s*([0-9,]+)/i,
   
   // Deductions
-  section80C: /80c[:\s]*\u20B9?\s*([0-9,]+)/i,
-  section80D: /80d[:\s]*\u20B9?\s*([0-9,]+)/i,
-  section80E: /80e[:\s]*\u20B9?\s*([0-9,]+)/i,
-  section80G: /80g[:\s]*\u20B9?\s*([0-9,]+)/i,
-  section80CCD: /80ccd[:\s]*\u20B9?\s*([0-9,]+)/i,
+  section80C: /80c[:\s]*₹?\s*([0-9,]+)/i,
+  section80D: /80d[:\s]*₹?\s*([0-9,]+)/i,
+  section80E: /80e[:\s]*₹?\s*([0-9,]+)/i,
+  section80G: /80g[:\s]*₹?\s*([0-9,]+)/i,
+  section80CCD: /80ccd[:\s]*₹?\s*([0-9,]+)/i,
   
   // Tax fields
-  totalIncome: /total\s*(?:taxable\s*)?income[:\s]*\u20B9?\s*([0-9,]+)/i,
-  taxPayable: /(?:total\s*)?tax\s*(?:payable|liability)[:\s]*\u20B9?\s*([0-9,]+)/i,
-  tdsDeducted: /(?:total\s*)?(?:tds|tax)\s*deducted[:\s]*\u20B9?\s*([0-9,]+)/i,
-  rebate87A: /rebate\s*(?:u\/s\s*)?87a[:\s]*\u20B9?\s*([0-9,]+)/i,
-  surcharge: /surcharge[:\s]*\u20B9?\s*([0-9,]+)/i,
-  cess: /(?:health|education)\s*(?:and\s*education\s*)?cess[:\s]*\u20B9?\s*([0-9,]+)/i,
+  totalIncome: /total\s*(?:taxable\s*)?income[:\s]*₹?\s*([0-9,]+)/i,
+  taxPayable: /(?:total\s*)?tax\s*(?:payable|liability)[:\s]*₹?\s*([0-9,]+)/i,
+  tdsDeducted: /(?:total\s*)?(?:tds|tax)\s*deducted[:\s]*₹?\s*([0-9,]+)/i,
+  rebate87A: /rebate\s*(?:u\/s\s*)?87a[:\s]*₹?\s*([0-9,]+)/i,
+  surcharge: /surcharge[:\s]*₹?\s*([0-9,]+)/i,
+  cess: /(?:health|education)\s*(?:and\s*education\s*)?cess[:\s]*₹?\s*([0-9,]+)/i,
   
   // Quarterly TDS
-  q1TDS: /(?:quarter\s*1|q1|apr.*jun)[:\s]*\u20B9?\s*([0-9,]+)/i,
-  q2TDS: /(?:quarter\s*2|q2|jul.*sep)[:\s]*\u20B9?\s*([0-9,]+)/i,
-  q3TDS: /(?:quarter\s*3|q3|oct.*dec)[:\s]*\u20B9?\s*([0-9,]+)/i,
-  q4TDS: /(?:quarter\s*4|q4|jan.*mar)[:\s]*\u20B9?\s*([0-9,]+)/i,
+  q1TDS: /(?:quarter\s*1|q1|apr.*jun)[:\s]*₹?\s*([0-9,]+)/i,
+  q2TDS: /(?:quarter\s*2|q2|jul.*sep)[:\s]*₹?\s*([0-9,]+)/i,
+  q3TDS: /(?:quarter\s*3|q3|oct.*dec)[:\s]*₹?\s*([0-9,]+)/i,
+  q4TDS: /(?:quarter\s*4|q4|jan.*mar)[:\s]*₹?\s*([0-9,]+)/i,
 };
 
 // Parse amount string
 function parseAmount(amountStr: string | undefined): number {
   if (!amountStr) return 0;
-  const cleaned = amountStr.replace(/[\u20B9,\s]/g, '');
+  const cleaned = amountStr.replace(/[₹,\s]/g, '');
   return parseFloat(cleaned) || 0;
 }
 
@@ -361,7 +361,7 @@ export function validateForm16Data(data: Form16Data): { isValid: boolean; errors
   }
   
   if (data.partB.deductions.section80C > 150000) {
-    errors.push('Section 80C deduction exceeds limit of \u20B91.5 lakh');
+    errors.push('Section 80C deduction exceeds limit of ₹1.5 lakh');
   }
   
   return {
@@ -386,33 +386,33 @@ export function exportForm16ForITR(data: Form16Data): string {
   output += `- Assessment Year: ${data.assessmentYear}\n\n`;
   
   output += `## Salary Details (Part B)\n`;
-  output += `- Gross Salary: \u20B9${data.partB.grossSalary.toLocaleString('en-IN')}\n`;
-  output += `- HRA Exemption: \u20B9${data.partB.exemptAllowances.hra.toLocaleString('en-IN')}\n`;
-  output += `- LTA: \u20B9${data.partB.exemptAllowances.lta.toLocaleString('en-IN')}\n`;
-  output += `- Standard Deduction: \u20B9${data.partB.standardDeduction.toLocaleString('en-IN')}\n`;
-  output += `- Professional Tax: \u20B9${data.partB.professionalTax.toLocaleString('en-IN')}\n`;
-  output += `- Income Chargeable: \u20B9${data.partB.incomeChargeableSalaries.toLocaleString('en-IN')}\n\n`;
+  output += `- Gross Salary: ₹${data.partB.grossSalary.toLocaleString('en-IN')}\n`;
+  output += `- HRA Exemption: ₹${data.partB.exemptAllowances.hra.toLocaleString('en-IN')}\n`;
+  output += `- LTA: ₹${data.partB.exemptAllowances.lta.toLocaleString('en-IN')}\n`;
+  output += `- Standard Deduction: ₹${data.partB.standardDeduction.toLocaleString('en-IN')}\n`;
+  output += `- Professional Tax: ₹${data.partB.professionalTax.toLocaleString('en-IN')}\n`;
+  output += `- Income Chargeable: ₹${data.partB.incomeChargeableSalaries.toLocaleString('en-IN')}\n\n`;
   
   output += `## Deductions\n`;
-  output += `- Section 80C: \u20B9${data.partB.deductions.section80C.toLocaleString('en-IN')}\n`;
-  output += `- Section 80D: \u20B9${data.partB.deductions.section80D.toLocaleString('en-IN')}\n`;
-  output += `- Section 80CCD(1B): \u20B9${data.partB.deductions.section80CCD1B.toLocaleString('en-IN')}\n`;
-  output += `- Total Deductions: \u20B9${data.partB.deductions.totalDeductions.toLocaleString('en-IN')}\n\n`;
+  output += `- Section 80C: ₹${data.partB.deductions.section80C.toLocaleString('en-IN')}\n`;
+  output += `- Section 80D: ₹${data.partB.deductions.section80D.toLocaleString('en-IN')}\n`;
+  output += `- Section 80CCD(1B): ₹${data.partB.deductions.section80CCD1B.toLocaleString('en-IN')}\n`;
+  output += `- Total Deductions: ₹${data.partB.deductions.totalDeductions.toLocaleString('en-IN')}\n\n`;
   
   output += `## Tax Details\n`;
-  output += `- Total Taxable Income: \u20B9${data.partB.totalTaxableIncome.toLocaleString('en-IN')}\n`;
-  output += `- Tax on Income: \u20B9${data.partB.taxOnTotalIncome.toLocaleString('en-IN')}\n`;
-  output += `- Rebate 87A: \u20B9${data.partB.rebate87A.toLocaleString('en-IN')}\n`;
-  output += `- Surcharge: \u20B9${data.partB.surcharge.toLocaleString('en-IN')}\n`;
-  output += `- H&E Cess: \u20B9${data.partB.healthEducationCess.toLocaleString('en-IN')}\n`;
-  output += `- Net Tax Payable: \u20B9${data.partB.netTaxPayable.toLocaleString('en-IN')}\n\n`;
+  output += `- Total Taxable Income: ₹${data.partB.totalTaxableIncome.toLocaleString('en-IN')}\n`;
+  output += `- Tax on Income: ₹${data.partB.taxOnTotalIncome.toLocaleString('en-IN')}\n`;
+  output += `- Rebate 87A: ₹${data.partB.rebate87A.toLocaleString('en-IN')}\n`;
+  output += `- Surcharge: ₹${data.partB.surcharge.toLocaleString('en-IN')}\n`;
+  output += `- H&E Cess: ₹${data.partB.healthEducationCess.toLocaleString('en-IN')}\n`;
+  output += `- Net Tax Payable: ₹${data.partB.netTaxPayable.toLocaleString('en-IN')}\n\n`;
   
   output += `## TDS Details (Part A)\n`;
-  output += `- Total TDS Deducted: \u20B9${data.partA.totalTDSDeducted.toLocaleString('en-IN')}\n`;
-  output += `- Q1: \u20B9${data.partA.quarterlyTDS.q1.toLocaleString('en-IN')}\n`;
-  output += `- Q2: \u20B9${data.partA.quarterlyTDS.q2.toLocaleString('en-IN')}\n`;
-  output += `- Q3: \u20B9${data.partA.quarterlyTDS.q3.toLocaleString('en-IN')}\n`;
-  output += `- Q4: \u20B9${data.partA.quarterlyTDS.q4.toLocaleString('en-IN')}\n`;
+  output += `- Total TDS Deducted: ₹${data.partA.totalTDSDeducted.toLocaleString('en-IN')}\n`;
+  output += `- Q1: ₹${data.partA.quarterlyTDS.q1.toLocaleString('en-IN')}\n`;
+  output += `- Q2: ₹${data.partA.quarterlyTDS.q2.toLocaleString('en-IN')}\n`;
+  output += `- Q3: ₹${data.partA.quarterlyTDS.q3.toLocaleString('en-IN')}\n`;
+  output += `- Q4: ₹${data.partA.quarterlyTDS.q4.toLocaleString('en-IN')}\n`;
   
   if (data.warnings.length > 0) {
     output += `\n## Warnings\n`;

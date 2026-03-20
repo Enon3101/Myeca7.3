@@ -1,4 +1,6 @@
+import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { useLocation } from 'wouter';
 import { SEO_DEFAULTS } from '@/utils/seo-defaults';
 
 interface EnhancedSEOProps {
@@ -41,6 +43,19 @@ export default function EnhancedSEO({
   alternateLanguages = [],
   jsonLd
 }: EnhancedSEOProps) {
+  const [location] = useLocation();
+
+  // Track page view for Google Analytics
+  useEffect(() => {
+    const gtag = (window as any).gtag;
+    if (typeof gtag === 'function') {
+      gtag('event', 'page_view', {
+        page_location: `${SEO_DEFAULTS.siteUrl}${location}`,
+        page_path: location,
+        page_title: title,
+      });
+    }
+  }, [location, title]);
   const fullTitle = title === SEO_DEFAULTS.siteTitle ? title : `${title} | ${SEO_DEFAULTS.siteName}`;
   const fullImageUrl = image.startsWith('http') ? image : `${SEO_DEFAULTS.siteUrl}${image}`;
   const canonical = canonicalUrl || url;

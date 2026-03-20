@@ -1,26 +1,26 @@
-import { db } from "../db";
-import { activityLogs } from "@shared/schema";
+import { adminDb } from "../firebase-admin";
 import type { Request } from "express";
 
 export async function logActivity(
-  userId: number,
+  userId: string, // Changed to string for Firebase UID
   action: string,
   entity: string,
-  entityId: number | null,
+  entityId: string | null, // Changed to string
   oldData: any,
   newData: any,
   req: Request
 ) {
   try {
-    await db.insert(activityLogs).values({
+    await adminDb.collection("activity_logs").add({
       userId,
       action,
       entity,
       entityId,
-      oldData: oldData ? JSON.stringify(oldData) : null,
-      newData: newData ? JSON.stringify(newData) : null,
+      oldData: oldData || null,
+      newData: newData || null,
       ipAddress: req.ip || req.socket.remoteAddress || null,
       userAgent: req.headers["user-agent"] || null,
+      createdAt: new Date(),
     });
   } catch (error) {
     console.error("Activity logging error:", error);

@@ -91,7 +91,7 @@ const FormComponent = ({ register, errors }: any) => {
 
       <div className="grid grid-cols-3 gap-4">
         <div>
-          <Label>Annual CTC (\u20B9)</Label>
+          <Label>Annual CTC (₹)</Label>
           <Input type="number" {...register('ctc', { valueAsNumber: true })} />
         </div>
         <div>
@@ -144,7 +144,7 @@ const generateHTML = (data: any) => {
       <p>Your employment will commence on <strong>${data.startDate}</strong>. Your initial place of work will be the <strong>${data.workLocation}</strong> office, and you will be reporting directly to the <strong>${data.reportingManager}</strong>.</p>
 
       <div style="margin: 20px 0; padding-left: 20px;">
-        <p style="margin-bottom: 5px;"><strong>1. Remuneration:</strong> Your Annual Cost to Company (CTC) will be <strong>\u20B9${Number(data.ctc || 0).toLocaleString('en-IN')}</strong>. A detailed salary breakdown will be provided in Annexure A at the time of joining.</p>
+        <p style="margin-bottom: 5px;"><strong>1. Remuneration:</strong> Your Annual Cost to Company (CTC) will be <strong>₹${Number(data.ctc || 0).toLocaleString('en-IN')}</strong>. A detailed salary breakdown will be provided in Annexure A at the time of joining.</p>
         <p style="margin-bottom: 5px;"><strong>2. Probation Period:</strong> You will be under probation for a period of <strong>${data.probationMonths} months</strong> from your date of joining. Upon satisfactory completion of your probation, your employment may be confirmed in writing.</p>
         <p style="margin-bottom: 5px;"><strong>3. Notice Period:</strong> After confirmation, either party may terminate this agreement by giving <strong>${data.noticePeriodDays} days</strong> written notice, or salary in lieu thereof.</p>
         <p style="margin-bottom: 5px;"><strong>4. Working Hours:</strong> You will be governed by the standard working hours and holiday schedule of the company.</p>

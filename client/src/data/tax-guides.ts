@@ -102,7 +102,7 @@ export const TAX_GUIDES: TaxGuide[] = [
         ],
         tips: [
           'Use our Tax Regime Calculator to compare both options',
-          'If your deductions exceed \u20B93-4 lakhs, old regime might be better',
+          'If your deductions exceed ₹3-4 lakhs, old regime might be better',
           'You can switch regimes every year (non-business income)',
         ],
         links: [
@@ -201,12 +201,12 @@ export const TAX_GUIDES: TaxGuide[] = [
         checklist: [
           'Rent receipts for each month (signed by landlord)',
           'Rental agreement copy',
-          'Landlord PAN card (if rent > \u20B91 lakh/year)',
+          'Landlord PAN card (if rent > ₹1 lakh/year)',
           'Bank statements showing rent payments',
         ],
         tips: [
           'Rent receipts must include landlord name, address, and period',
-          'Revenue stamps required on receipts above \u20B95,000',
+          'Revenue stamps required on receipts above ₹5,000',
           'Keep copies of bank transfer records as proof',
         ],
       },
@@ -263,12 +263,12 @@ export const TAX_GUIDES: TaxGuide[] = [
         description: 'Current tax rates for equity capital gains (FY 2024-25).',
         checklist: [
           'STCG: 20% flat rate',
-          'LTCG: 12.5% above \u20B91.25 lakh exemption',
+          'LTCG: 12.5% above ₹1.25 lakh exemption',
           'No indexation benefit for listed equity',
           'Add 4% Health & Education Cess',
         ],
         tips: [
-          'LTCG up to \u20B91.25 lakh per year is tax-free',
+          'LTCG up to ₹1.25 lakh per year is tax-free',
           'Consider tax-loss harvesting to offset gains',
         ],
       },
@@ -319,7 +319,7 @@ export const TAX_GUIDES: TaxGuide[] = [
           'Use ITR-2 if you have capital gains',
           'Fill Schedule CG with transaction details',
           'Provide scrip-wise details for equity',
-          'Declare exempt LTCG up to \u20B91.25L',
+          'Declare exempt LTCG up to ₹1.25L',
         ],
         tips: [
           'ITR-1 cannot be used if you have capital gains',
@@ -345,7 +345,7 @@ export const TAX_GUIDES: TaxGuide[] = [
     steps: [
       {
         id: 'section-80c',
-        title: 'Section 80C Deductions (\u20B91.5 Lakh)',
+        title: 'Section 80C Deductions (₹1.5 Lakh)',
         description: 'Most popular section with multiple investment options.',
         checklist: [
           'PPF (Public Provident Fund) - 15 year lock-in',
@@ -360,7 +360,7 @@ export const TAX_GUIDES: TaxGuide[] = [
           'NPS (within 80C portion)',
         ],
         tips: [
-          'Total limit is \u20B91.5 lakh combining all 80C investments',
+          'Total limit is ₹1.5 lakh combining all 80C investments',
           'ELSS has shortest lock-in with highest return potential',
           'EPF automatically covers part of your 80C limit',
         ],
@@ -371,16 +371,16 @@ export const TAX_GUIDES: TaxGuide[] = [
       },
       {
         id: 'section-80ccd',
-        title: 'Section 80CCD - NPS Benefits (Extra \u20B950K)',
+        title: 'Section 80CCD - NPS Benefits (Extra ₹50K)',
         description: 'Additional deduction for NPS investment.',
         checklist: [
           '80CCD(1): Employee contribution - part of 80C',
-          '80CCD(1B): Additional \u20B950,000 over 80C',
+          '80CCD(1B): Additional ₹50,000 over 80C',
           '80CCD(2): Employer contribution (up to 10%/14%)',
         ],
         tips: [
-          '80CCD(1B) is OVER AND ABOVE the \u20B91.5L limit',
-          'Total tax benefit can be \u20B92 lakh (80C + 80CCD1B)',
+          '80CCD(1B) is OVER AND ABOVE the ₹1.5L limit',
+          'Total tax benefit can be ₹2 lakh (80C + 80CCD1B)',
           'Government employees get higher employer limit (14%)',
         ],
         links: [
@@ -389,26 +389,26 @@ export const TAX_GUIDES: TaxGuide[] = [
       },
       {
         id: 'section-80d',
-        title: 'Section 80D - Health Insurance (\u20B925K-\u20B91L)',
+        title: 'Section 80D - Health Insurance (₹25K-₹1L)',
         description: 'Deduction for health insurance premiums.',
         checklist: [
-          'Self & family premium: Up to \u20B925,000',
-          'Parents premium: Additional \u20B925,000',
-          'Senior citizen limit: \u20B950,000 each',
-          'Preventive health check-up: \u20B95,000 (within above)',
+          'Self & family premium: Up to ₹25,000',
+          'Parents premium: Additional ₹25,000',
+          'Senior citizen limit: ₹50,000 each',
+          'Preventive health check-up: ₹5,000 (within above)',
         ],
         tips: [
-          'Maximum deduction can be \u20B91 lakh (all senior citizens)',
+          'Maximum deduction can be ₹1 lakh (all senior citizens)',
           'Premium for self can include spouse and dependent children',
           'Keep premium receipts and policy documents',
         ],
       },
       {
         id: 'section-24b',
-        title: 'Section 24(b) - Home Loan Interest (\u20B92L)',
+        title: 'Section 24(b) - Home Loan Interest (₹2L)',
         description: 'Deduction on home loan interest for self-occupied property.',
         checklist: [
-          'Self-occupied property: Up to \u20B92 lakh interest',
+          'Self-occupied property: Up to ₹2 lakh interest',
           'Let-out property: No limit on interest deduction',
           'Under construction: Interest deductible in 5 installments',
           'Joint loan: Each co-owner claims separately',
@@ -426,8 +426,8 @@ export const TAX_GUIDES: TaxGuide[] = [
         checklist: [
           '80E: Education loan interest (no limit)',
           '80G: Donations to approved charities',
-          '80TTA: Savings account interest (\u20B910,000)',
-          '80TTB: Senior citizen interest (\u20B950,000)',
+          '80TTA: Savings account interest (₹10,000)',
+          '80TTB: Senior citizen interest (₹50,000)',
           '80U/80DD: Disability deductions',
           '80DDB: Medical treatment for specified diseases',
         ],
@@ -497,7 +497,7 @@ export const TAX_GUIDES: TaxGuide[] = [
         checklist: [
           'Regular: Actual profit (Income - Expenses)',
           'Presumptive 44ADA: 50% of gross receipts as profit',
-          'Presumptive limit: \u20B975 lakh (\u20B950L if cash > 5%)',
+          'Presumptive limit: ₹75 lakh (₹50L if cash > 5%)',
           'No expense documentation needed for presumptive',
         ],
         tips: [
@@ -509,7 +509,7 @@ export const TAX_GUIDES: TaxGuide[] = [
       {
         id: 'advance-tax',
         title: 'Pay Advance Tax',
-        description: 'Quarterly advance tax payments if tax > \u20B910,000.',
+        description: 'Quarterly advance tax payments if tax > ₹10,000.',
         checklist: [
           'June 15: 15% of estimated tax',
           'September 15: 45% of estimated tax',
@@ -571,7 +571,7 @@ export const TAX_GUIDES: TaxGuide[] = [
         ],
         tips: [
           'File early to avoid last-minute rush',
-          'Penalty of \u20B95,000 for late filing (\u20B91,000 if income < \u20B95L)',
+          'Penalty of ₹5,000 for late filing (₹1,000 if income < ₹5L)',
           'Cannot claim losses if filed late',
         ],
       },
@@ -586,7 +586,7 @@ export const TAX_GUIDES: TaxGuide[] = [
           'March 15: 100% of tax liability',
         ],
         tips: [
-          'Not required if tax liability < \u20B910,000',
+          'Not required if tax liability < ₹10,000',
           'Senior citizens exempt if no business income',
         ],
       },
@@ -603,7 +603,7 @@ export const TAX_GUIDES: TaxGuide[] = [
         ],
         tips: [
           'Delay in TDS payment attracts 1.5% per month interest',
-          'Late filing fee of \u20B9200 per day',
+          'Late filing fee of ₹200 per day',
         ],
       },
       {
@@ -618,7 +618,7 @@ export const TAX_GUIDES: TaxGuide[] = [
           'GSTR-9C: December 31 (audit)',
         ],
         tips: [
-          'Late fee: \u20B950/day (\u20B920 for nil return)',
+          'Late fee: ₹50/day (₹20 for nil return)',
           'Interest: 18% on late tax payment',
         ],
       },

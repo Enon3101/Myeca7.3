@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { 
   Building2, 
   FileText, 
@@ -57,7 +57,7 @@ export default function AllServicesPage() {
     const IconComponent = iconMap[service.icon as keyof typeof iconMap];
     
     return (
-      <motion.div
+      <m.div
         key={service.id}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -111,7 +111,7 @@ export default function AllServicesPage() {
             )}
           </CardContent>
         </Card>
-      </motion.div>
+      </m.div>
     );
   };
 
@@ -125,7 +125,7 @@ export default function AllServicesPage() {
       {/* Header */}
       <div className="bg-gradient-to-br from-blue-50 to-emerald-50 py-16">
         <div className="container mx-auto px-6">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-center"
@@ -156,7 +156,7 @@ export default function AllServicesPage() {
                 <div className="text-sm text-gray-600">Calculators</div>
               </div>
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </div>
 

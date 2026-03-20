@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -194,8 +194,8 @@ export default function TaxRegimeComparison() {
         
         slabWiseBreakdown.push({
           slab: slab.max 
-            ? `\u20B9${slab.min.toLocaleString()} - \u20B9${slab.max.toLocaleString()}` 
-            : `\u20B9${slab.min.toLocaleString()}+`,
+            ? `₹${slab.min.toLocaleString()} - ₹${slab.max.toLocaleString()}` 
+            : `₹${slab.min.toLocaleString()}+`,
           taxableAmount: taxableInThisSlab,
           tax: taxForSlab
         });
@@ -254,8 +254,8 @@ export default function TaxRegimeComparison() {
       regime: savings > 0 ? 'new' : 'old',
       savings: Math.abs(savings),
       message: savings > 0 
-        ? `New regime saves you \u20B9${Math.abs(savings).toLocaleString()}` 
-        : `Old regime saves you \u20B9${Math.abs(savings).toLocaleString()}`
+        ? `New regime saves you ₹${Math.abs(savings).toLocaleString()}` 
+        : `Old regime saves you ₹${Math.abs(savings).toLocaleString()}`
     };
   };
 
@@ -264,7 +264,7 @@ export default function TaxRegimeComparison() {
   return (
     <section className="py-20 bg-gradient-to-br from-blue-50 to-indigo-100">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -276,11 +276,11 @@ export default function TaxRegimeComparison() {
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Compare old vs new tax regimes with real-time tax rates. Select your assessment year and get personalized recommendations.
           </p>
-        </motion.div>
+        </m.div>
 
         <div className="grid lg:grid-cols-2 gap-8 mb-8">
           {/* Input Section */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
@@ -328,7 +328,7 @@ export default function TaxRegimeComparison() {
                 </div>
 
                 <div>
-                  <Label htmlFor="income">Gross Annual Income ( {'\u20B9'} )</Label>
+                  <Label htmlFor="income">Gross Annual Income ( {'₹'} )</Label>
                   <Input
                     id="income"
                     type="number"
@@ -339,7 +339,7 @@ export default function TaxRegimeComparison() {
                 </div>
 
                 <div>
-                  <Label htmlFor="deductions">Total Deductions - 80C, 80D etc. ( {'\u20B9'} )</Label>
+                  <Label htmlFor="deductions">Total Deductions - 80C, 80D etc. ( {'₹'} )</Label>
                   <Input
                     id="deductions"
                     type="number"
@@ -358,10 +358,10 @@ export default function TaxRegimeComparison() {
                 </Button>
               </CardContent>
             </Card>
-          </motion.div>
+          </m.div>
 
           {/* Tax Rates Display */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
@@ -382,8 +382,8 @@ export default function TaxRegimeComparison() {
                         <div key={index} className="flex justify-between text-sm">
                           <span className="text-gray-600">
                             {slab.max 
-                              ? `\u20B9${slab.min.toLocaleString()} - \u20B9${slab.max.toLocaleString()}`
-                              : `\u20B9${slab.min.toLocaleString()}+`}
+                              ? `₹${slab.min.toLocaleString()} - ₹${slab.max.toLocaleString()}`
+                              : `₹${slab.min.toLocaleString()}+`}
                           </span>
                           <span className="font-medium">{slab.rate}%</span>
                         </div>
@@ -398,8 +398,8 @@ export default function TaxRegimeComparison() {
                         <div key={index} className="flex justify-between text-sm">
                           <span className="text-gray-600">
                             {slab.max 
-                              ? `\u20B9${slab.min.toLocaleString()} - \u20B9${slab.max.toLocaleString()}`
-                              : `\u20B9${slab.min.toLocaleString()}+`}
+                              ? `₹${slab.min.toLocaleString()} - ₹${slab.max.toLocaleString()}`
+                              : `₹${slab.min.toLocaleString()}+`}
                           </span>
                           <span className="font-medium">{slab.rate}%</span>
                         </div>
@@ -411,19 +411,19 @@ export default function TaxRegimeComparison() {
                 <Separator className="my-4" />
                 
                 <div className="text-sm text-gray-600">
-                  <p>• Standard Deduction (New Regime): {"\u20B9"}{taxRates[selectedYear]?.standardDeduction.toLocaleString()}</p>
-                  <p>• Section 80C Limit (Old Regime): \u20B91,50,000</p>
+                  <p>• Standard Deduction (New Regime): {"₹"}{taxRates[selectedYear]?.standardDeduction.toLocaleString()}</p>
+                  <p>• Section 80C Limit (Old Regime): ₹1,50,000</p>
                   <p>• Health & Education Cess: 4% on income tax</p>
                   <p>• Rates shown: Baseline values (verify with latest search)</p>
                 </div>
               </CardContent>
             </Card>
-          </motion.div>
+          </m.div>
         </div>
 
         {/* Results Section */}
         {calculations.oldRegime && calculations.newRegime && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
@@ -463,19 +463,19 @@ export default function TaxRegimeComparison() {
                   <div className="space-y-4">
                     <div className="flex justify-between">
                       <span className="text-gray-600">Gross Income:</span>
-                      <span className="font-semibold">\u20B9{calculations.oldRegime.grossIncome.toLocaleString()}</span>
+                      <span className="font-semibold">₹{calculations.oldRegime.grossIncome.toLocaleString()}</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">Taxable Income:</span>
-                      <span className="font-semibold">\u20B9{calculations.oldRegime.taxableIncome.toLocaleString()}</span>
+                      <span className="font-semibold">₹{calculations.oldRegime.taxableIncome.toLocaleString()}</span>
                     </div>
                     <div className="flex justify-between text-lg">
                       <span className="text-gray-900 font-medium">Total Tax:</span>
-                      <span className="font-bold text-orange-600">\u20B9{calculations.oldRegime.taxPayable.toLocaleString()}</span>
+                      <span className="font-bold text-orange-600">₹{calculations.oldRegime.taxPayable.toLocaleString()}</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">Net Income:</span>
-                      <span className="font-semibold text-green-600">\u20B9{calculations.oldRegime.netIncome.toLocaleString()}</span>
+                      <span className="font-semibold text-green-600">₹{calculations.oldRegime.netIncome.toLocaleString()}</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">Effective Rate:</span>
@@ -488,7 +488,7 @@ export default function TaxRegimeComparison() {
                         {calculations.oldRegime.slabWiseBreakdown.map((slab, index) => (
                           <div key={index} className="flex justify-between text-sm">
                             <span className="text-gray-600">{slab.slab}:</span>
-                            <span>\u20B9{slab.tax.toLocaleString()}</span>
+                            <span>₹{slab.tax.toLocaleString()}</span>
                           </div>
                         ))}
                       </div>
@@ -506,19 +506,19 @@ export default function TaxRegimeComparison() {
                   <div className="space-y-4">
                     <div className="flex justify-between">
                       <span className="text-gray-600">Gross Income:</span>
-                      <span className="font-semibold">\u20B9{calculations.newRegime.grossIncome.toLocaleString()}</span>
+                      <span className="font-semibold">₹{calculations.newRegime.grossIncome.toLocaleString()}</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">Taxable Income:</span>
-                      <span className="font-semibold">\u20B9{calculations.newRegime.taxableIncome.toLocaleString()}</span>
+                      <span className="font-semibold">₹{calculations.newRegime.taxableIncome.toLocaleString()}</span>
                     </div>
                     <div className="flex justify-between text-lg">
                       <span className="text-gray-900 font-medium">Total Tax:</span>
-                      <span className="font-bold text-green-600">\u20B9{calculations.newRegime.taxPayable.toLocaleString()}</span>
+                      <span className="font-bold text-green-600">₹{calculations.newRegime.taxPayable.toLocaleString()}</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">Net Income:</span>
-                      <span className="font-semibold text-green-600">\u20B9{calculations.newRegime.netIncome.toLocaleString()}</span>
+                      <span className="font-semibold text-green-600">₹{calculations.newRegime.netIncome.toLocaleString()}</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">Effective Rate:</span>
@@ -531,7 +531,7 @@ export default function TaxRegimeComparison() {
                         {calculations.newRegime.slabWiseBreakdown.map((slab, index) => (
                           <div key={index} className="flex justify-between text-sm">
                             <span className="text-gray-600">{slab.slab}:</span>
-                            <span>\u20B9{slab.tax.toLocaleString()}</span>
+                            <span>₹{slab.tax.toLocaleString()}</span>
                           </div>
                         ))}
                       </div>
@@ -540,7 +540,7 @@ export default function TaxRegimeComparison() {
                 </CardContent>
               </Card>
             </div>
-          </motion.div>
+          </m.div>
         )}
       </div>
     </section>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { Link } from 'wouter';
 import { 
   ArrowRight, 
@@ -38,7 +38,7 @@ const StartupServicesPage = () => {
     return (
       <span className="inline-flex items-center">
         <IndianRupee className="w-3.5 h-3.5 mr-0.5" />
-        {p.replace(/\\u20B9|₹|â‚¹/g, "")}
+        {p.replace(/\₹|₹|â‚¹/g, "")}
       </span>
     );
   };
@@ -46,10 +46,10 @@ const StartupServicesPage = () => {
   const servicePackages = [
     {
       title: "Startup Essentials",
-      price: "\u20B92,999",
+      price: "₹2,999",
       period: "/month",
       stage: "Early Stage & Bootstrap",
-      savings: "Save \u20B915,000 annually",
+      savings: "Save ₹15,000 annually",
       icon: Rocket,
       color: "emerald",
       features: [
@@ -65,10 +65,10 @@ const StartupServicesPage = () => {
     },
     {
       title: "Growth Accelerator",
-      price: "\u20B98,999",
+      price: "₹8,999",
       period: "/month", 
       stage: "Funding Ready & Scaling",
-      savings: "Save \u20B950,000 annually",
+      savings: "Save ₹50,000 annually",
       icon: TrendingUp,
       color: "blue",
       popular: true,
@@ -85,10 +85,10 @@ const StartupServicesPage = () => {
     },
     {
       title: "Enterprise Suite",
-      price: "\u20B919,999",
+      price: "₹19,999",
       period: "/month",
       stage: "Series Funding & IPO Ready",
-      savings: "Save \u20B91,00,000 annually",
+      savings: "Save ₹1,00,000 annually",
       icon: Building,
       color: "purple",
       features: [
@@ -107,7 +107,7 @@ const StartupServicesPage = () => {
   const governmentSchemeServices = [
     {
       title: "Startup India Registration & DPIIT Recognition",
-      price: "\u20B94,999 - \u20B912,999",
+      price: "₹4,999 - ₹12,999",
       schemes: ["Startup India", "DPIIT Recognition"],
       benefits: "3-year profit tax holiday under Section 80-IAC",
       icon: Rocket,
@@ -116,16 +116,16 @@ const StartupServicesPage = () => {
     },
     {
       title: "Funding & Grant Assistance",
-      price: "\u20B915,999 - \u20B945,000", 
+      price: "₹15,999 - ₹45,000", 
       schemes: ["SISFS", "BIG", "CGSS", "PMMY", "Stand-Up India"],
-      benefits: "Up to \u20B950 Lakh funding, collateral-free loans",
+      benefits: "Up to ₹50 Lakh funding, collateral-free loans",
       icon: Coins,
       color: "blue",
       description: "Complete support for grant applications, financial models, pitch decks, and VC connections under government schemes"
     },
     {
       title: "Tax Planning & Incentives Optimization",
-      price: "\u20B98,999 - \u20B925,000",
+      price: "₹8,999 - ₹25,000",
       schemes: ["Section 80-IAC", "Capital Gains Relief", "R&D Incentives"],
       benefits: "Maximum tax exemptions & IP reimbursements",
       icon: TrendingUp,
@@ -134,7 +134,7 @@ const StartupServicesPage = () => {
     },
     {
       title: "Audit & Financial Management",
-      price: "\u20B912,999 - \u20B935,000",
+      price: "₹12,999 - ₹35,000",
       schemes: ["Statutory Audit", "ESOP Structuring", "Risk Assessment"],
       benefits: "Maintain scheme eligibility & financial health",
       icon: Shield,
@@ -143,7 +143,7 @@ const StartupServicesPage = () => {
     },
     {
       title: "Strategic Advisory & Mentorship",
-      price: "\u20B918,999 - \u20B950,000",
+      price: "₹18,999 - ₹50,000",
       schemes: ["FFS", "Export Promotion", "ICAI Networks"],
       benefits: "Holistic business growth & scaling support",
       icon: Briefcase,
@@ -152,7 +152,7 @@ const StartupServicesPage = () => {
     },
     {
       title: "Comprehensive Compliance Management",
-      price: "\u20B99,999 - \u20B928,000",
+      price: "₹9,999 - ₹28,000",
       schemes: ["ROC", "GST", "TDS", "FEMA", "Labor Law Self-Certification"],
       benefits: "Complete regulatory compliance coverage",
       icon: FileText,
@@ -164,7 +164,7 @@ const StartupServicesPage = () => {
   const specializedServices = [
     {
       title: "Business Valuation Services",
-      price: "\u20B915,999 - \u20B975,000",
+      price: "₹15,999 - ₹75,000",
       duration: "1-2 weeks",
       guarantee: "100% Accurate",
       icon: PieChart,
@@ -172,7 +172,7 @@ const StartupServicesPage = () => {
     },
     {
       title: "Due Diligence Support",
-      price: "\u20B925,999 - \u20B91,50,000", 
+      price: "₹25,999 - ₹1,50,000", 
       duration: "2-4 weeks",
       guarantee: "Investor Approved",
       icon: Shield,
@@ -180,7 +180,7 @@ const StartupServicesPage = () => {
     },
     {
       title: "IPO Readiness Advisory",
-      price: "\u20B92,99,999 - \u20B915,00,000",
+      price: "₹2,99,999 - ₹15,00,000",
       duration: "6-12 months",
       guarantee: "IPO Success",
       icon: Award,
@@ -188,7 +188,7 @@ const StartupServicesPage = () => {
     },
     {
       title: "Investor Pitch Deck",
-      price: "\u20B99,999 - \u20B935,000",
+      price: "₹9,999 - ₹35,000",
       duration: "3-7 days",
       guarantee: "Funding Ready",
       icon: FileText,
@@ -260,7 +260,7 @@ const StartupServicesPage = () => {
       </div>
 
       {/* Government Scheme-Backed Services */}
-      <motion.div
+      <m.div
         id="funding-services"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -269,7 +269,7 @@ const StartupServicesPage = () => {
       >
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
-            <motion.div
+            <m.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
@@ -277,7 +277,7 @@ const StartupServicesPage = () => {
             >
               <Award className="w-5 h-5 mr-2 text-emerald-600" />
               <span className="text-sm font-medium text-gray-700">Government Scheme Specialists</span>
-            </motion.div>
+            </m.div>
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               Comprehensive CA Services Leveraging Government Schemes
             </h2>
@@ -289,7 +289,7 @@ const StartupServicesPage = () => {
           {/* Government Scheme Services Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
             {governmentSchemeServices.map((service, index) => (
-              <motion.div
+              <m.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -337,16 +337,16 @@ const StartupServicesPage = () => {
                     </Button>
                   </CardContent>
                 </Card>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </div>
-      </motion.div>
+      </m.div>
 
 
 
       {/* Service Packages */}
-      <motion.div
+      <m.div
         id="tax-benefits"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -365,7 +365,7 @@ const StartupServicesPage = () => {
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {servicePackages.map((pkg, index) => (
-              <motion.div
+              <m.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -407,14 +407,14 @@ const StartupServicesPage = () => {
                     </Button>
                   </CardContent>
                 </Card>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </div>
-      </motion.div>
+      </m.div>
 
       {/* Specialized Services */}
-      <motion.div
+      <m.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.5 }}
@@ -432,7 +432,7 @@ const StartupServicesPage = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {specializedServices.map((service, index) => (
-              <motion.div
+              <m.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -466,14 +466,14 @@ const StartupServicesPage = () => {
                     </div>
                   </CardContent>
                 </Card>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </div>
-      </motion.div>
+      </m.div>
 
       {/* Our Advantages */}
-      <motion.div
+      <m.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.6 }}
@@ -491,7 +491,7 @@ const StartupServicesPage = () => {
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {ourAdvantages.map((advantage, index) => (
-              <motion.div
+              <m.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -518,14 +518,14 @@ const StartupServicesPage = () => {
                     </div>
                   </CardContent>
                 </Card>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </div>
-      </motion.div>
+      </m.div>
 
       {/* Why Startups Trust Us */}
-      <motion.div
+      <m.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.7 }}
@@ -568,7 +568,7 @@ const StartupServicesPage = () => {
                 color: "purple"
               }
             ].map((factor, index) => (
-              <motion.div
+              <m.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -583,14 +583,14 @@ const StartupServicesPage = () => {
                     <p className="text-gray-600 text-sm">{factor.description}</p>
                   </CardContent>
                 </Card>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </div>
-      </motion.div>
+      </m.div>
 
       {/* CTA Section */}
-      <motion.div
+      <m.div
         id="get-started"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -605,7 +605,7 @@ const StartupServicesPage = () => {
               </h2>
               <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
                 Join 2,500+ successful startups who trust MyeCA for their financial and compliance needs. 
-                From {"\u20B9"}2,999/month essentials to enterprise solutions - we grow with you.
+                From {"₹"}2,999/month essentials to enterprise solutions - we grow with you.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
@@ -626,7 +626,7 @@ const StartupServicesPage = () => {
                 </div>
                 <div className="flex items-center">
                   <CheckCircle className="w-4 h-4 mr-2 text-green-500" />
-                  <span>{"\u20B9"}850+ Cr Funding Facilitated</span>
+                  <span>{"₹"}850+ Cr Funding Facilitated</span>
                 </div>
                 <div className="flex items-center">
                   <CheckCircle className="w-4 h-4 mr-2 text-green-500" />
@@ -640,7 +640,7 @@ const StartupServicesPage = () => {
             </CardContent>
           </Card>
         </div>
-      </motion.div>
+      </m.div>
 
       {/* Dynamic Engagement Tooltips */}
       {!isCompleted && (

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Link } from "wouter";
 import { 
   Factory, 
@@ -37,6 +37,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import MetaSEO from "@/components/seo/MetaSEO";
 
 export default function MSMEUdyamRegistrationPage() {
   const [selectedBusinessType, setSelectedBusinessType] = useState<string>("");
@@ -45,22 +46,22 @@ export default function MSMEUdyamRegistrationPage() {
   const msmeCategories = [
     {
       category: "Micro Enterprise",
-      investment: "Up to \u20B91 Crore",
-      turnover: "Up to \u20B95 Crore",
+      investment: "Up to ₹1 Crore",
+      turnover: "Up to ₹5 Crore",
       color: "green",
       icon: Building2
     },
     {
       category: "Small Enterprise", 
-      investment: "\u20B91-10 Crore",
-      turnover: "\u20B95-50 Crore",
+      investment: "₹1-10 Crore",
+      turnover: "₹5-50 Crore",
       color: "blue",
       icon: Factory
     },
     {
       category: "Medium Enterprise",
-      investment: "\u20B910-50 Crore", 
-      turnover: "\u20B950-250 Crore",
+      investment: "₹10-50 Crore", 
+      turnover: "₹50-250 Crore",
       color: "purple",
       icon: TrendingUp
     }
@@ -72,7 +73,7 @@ export default function MSMEUdyamRegistrationPage() {
       icon: IndianRupee,
       color: "green",
       benefits: [
-        "Collateral-free loans up to \u20B91 crore under CGTMSE scheme",
+        "Collateral-free loans up to ₹1 crore under CGTMSE scheme",
         "Lower interest rates (1-1.5% reduction on bank loans)",
         "Priority sector lending from banks",
         "Credit guarantee schemes without third-party guarantees"
@@ -185,6 +186,41 @@ export default function MSMEUdyamRegistrationPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-white to-blue-50">
+      <MetaSEO
+        title="MSME Udyam Registration Online India | Benefits for Small Businesses"
+        description="Register your business as an MSME on the official Udyam portal. Unlock bank loans, government subsidies, and priority in tenders. 100% online and paperless."
+        keywords={[
+          "MSME registration India", "Udyam registration online", "SSI registration", 
+          "MSME benefits", "Udyam portal registration", "startup benefits India",
+          "Aadhaar based business registration", "MSME loan schemes"
+        ]}
+        type="service"
+        serviceData={{
+          price: "0",
+          rating: "4.9",
+          reviews: "45000",
+          availability: "https://schema.org/InStock"
+        }}
+        breadcrumbs={[
+          { name: "Home", url: "/" },
+          { name: "Services", url: "/services" },
+          { name: "MSME Udyam Registration", url: "/services/msme-udyam-registration" }
+        ]}
+        faqPageData={[
+          {
+            question: "Is MSME registration free?",
+            answer: "Yes, MSME (Udyam) registration is a completely free process on the official government portal (udyamregistration.gov.in)."
+          },
+          {
+            question: "What are the documents required for Udyam registration?",
+            answer: "No physical documents are required. The process is based on self-declaration and verified automatically via Aadhaar and PAN."
+          },
+          {
+            question: "How long is the Udyam certificate valid?",
+            answer: "Udyam Registration certificate has lifetime validity. You don't need to renew it annually."
+          }
+        ]}
+      />
       {/* Header */}
       <section className="bg-white border-b soft-border py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -249,7 +285,7 @@ export default function MSMEUdyamRegistrationPage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* MSME Categories */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -288,10 +324,10 @@ export default function MSMEUdyamRegistrationPage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Registration Process */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
@@ -330,10 +366,10 @@ export default function MSMEUdyamRegistrationPage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Required Information */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
@@ -385,10 +421,10 @@ export default function MSMEUdyamRegistrationPage() {
               </p>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* Registration Benefits */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
@@ -425,10 +461,10 @@ export default function MSMEUdyamRegistrationPage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Cost & Important Notes */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.8 }}
@@ -442,7 +478,7 @@ export default function MSMEUdyamRegistrationPage() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="text-center">
-                <div className="text-6xl font-bold text-green-600 mb-4">{"\u20B9"}0</div>
+                <div className="text-6xl font-bold text-green-600 mb-4">{"₹"}0</div>
                 <div className="text-lg text-gray-600 mb-4">Completely FREE</div>
                 <ul className="text-sm text-gray-600 space-y-1">
                   <li>✓ No registration fee</li>
@@ -478,10 +514,10 @@ export default function MSMEUdyamRegistrationPage() {
               </CardContent>
             </Card>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Expert Assistance CTA */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.0 }}
@@ -503,7 +539,7 @@ export default function MSMEUdyamRegistrationPage() {
                 </Button>
                 <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-green-600 px-8">
                   <Phone className="w-5 h-5 mr-2" />
-                  Expert Guidance {"\u20B9"}499
+                  Expert Guidance {"₹"}499
                 </Button>
               </div>
 
@@ -523,7 +559,31 @@ export default function MSMEUdyamRegistrationPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
+        {/* SEO Depth Section: Expert Guide on MSME */}
+        <div className="mt-24 space-y-16 border-t pt-16">
+          <div className="max-w-4xl mx-auto text-left">
+            <h2 className="text-3xl font-black text-slate-900 mb-6 tracking-tight">The 2025 Guide to MSME Power in India</h2>
+            <p className="text-lg text-slate-600 leading-relaxed mb-8">
+              Micro, Small, and Medium Enterprises (MSMEs) are the backbone of the Indian economy. An <span className="text-green-600 font-bold">Udyam Registration</span> is more than a certificate—it's your key to the <span className="font-bold">Priority Sector Lending</span> pool of Indian banks.
+            </p>
+
+            <div className="grid md:grid-cols-2 gap-12">
+               <div className="space-y-4">
+                  <h3 className="text-xl font-bold text-slate-900">Protection Against Delayed Payments</h3>
+                  <p className="text-sm text-slate-500 leading-relaxed">
+                    One of the most powerful features of MSME registration is the <span className="font-bold">MSME Samadhaan</span> portal. Large buyers are legally required to pay MSMEs within 45 days. If they fail, they must pay interest at three times the bank rate.
+                  </p>
+               </div>
+               <div className="space-y-4">
+                  <h3 className="text-xl font-bold text-slate-900">Access to Global Tenders</h3>
+                  <p className="text-sm text-slate-500 leading-relaxed">
+                    The Government of India has reserved over <span className="font-bold">350+ items</span> exclusively for purchase from MSMEs. With an Udyam certificate, your startup can participate in government tenders without paying Earnest Money Deposits (EMD), significantly reducing your bidding costs.
+                  </p>
+               </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -18,6 +18,8 @@ interface PerformanceThresholds {
   FID: { good: number; needsImprovement: number };
   CLS: { good: number; needsImprovement: number };
   TTFB: { good: number; needsImprovement: number };
+  domContentLoaded: { good: number; needsImprovement: number };
+  loadComplete: { good: number; needsImprovement: number };
 }
 
 const THRESHOLDS: PerformanceThresholds = {
@@ -26,6 +28,8 @@ const THRESHOLDS: PerformanceThresholds = {
   FID: { good: 100, needsImprovement: 300 },
   CLS: { good: 0.1, needsImprovement: 0.25 },
   TTFB: { good: 800, needsImprovement: 1800 },
+  domContentLoaded: { good: 1500, needsImprovement: 3000 },
+  loadComplete: { good: 2500, needsImprovement: 5000 },
 };
 
 class PerformanceMonitor {
@@ -86,8 +90,9 @@ class PerformanceMonitor {
     // First Input Delay (FID)
     new PerformanceObserver((entryList) => {
       for (const entry of entryList.getEntries()) {
-        if (entry.processingStart && entry.startTime) {
-          const fid = entry.processingStart - entry.startTime;
+        const inputEntry = entry as any; // Cast to any or PerformanceEventTiming if available
+        if (inputEntry.processingStart && inputEntry.startTime) {
+          const fid = inputEntry.processingStart - inputEntry.startTime;
           this.metrics.FID = fid;
           this.analyzeMetric('FID', fid);
           break;
@@ -102,9 +107,10 @@ class PerformanceMonitor {
 
     new PerformanceObserver((entryList) => {
       for (const entry of entryList.getEntries()) {
-        if (!(entry as any).hadRecentInput) {
-          clsValue += (entry as any).value;
-          clsEntries.push(entry);
+        const layoutEntry = entry as any;
+        if (!layoutEntry.hadRecentInput) {
+          clsValue += layoutEntry.value;
+          clsEntries.push(layoutEntry);
         }
       }
       this.metrics.CLS = clsValue;
@@ -117,13 +123,14 @@ class PerformanceMonitor {
       setTimeout(() => {
         const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
         if (navigation) {
+          const timeOrigin = (performance as any).timeOrigin || 0;
           this.metrics.TTFB = navigation.responseStart - navigation.requestStart;
-          this.metrics.domContentLoaded = navigation.domContentLoadedEventEnd - navigation.navigationStart;
-          this.metrics.loadComplete = navigation.loadEventEnd - navigation.navigationStart;
+          this.metrics.domContentLoaded = navigation.domContentLoadedEventEnd;
+          this.metrics.loadComplete = navigation.loadEventEnd;
           
           this.analyzeMetric('TTFB', this.metrics.TTFB);
-          this.analyzeMetric('DOMContentLoaded', this.metrics.domContentLoaded);
-          this.analyzeMetric('LoadComplete', this.metrics.loadComplete);
+          this.analyzeMetric('domContentLoaded', this.metrics.domContentLoaded!);
+          this.analyzeMetric('loadComplete', this.metrics.loadComplete!);
         }
       }, 0);
     });
@@ -134,13 +141,10 @@ class PerformanceMonitor {
     new PerformanceObserver((entryList) => {
       for (const entry of entryList.getEntries()) {
         if (entry.entryType === 'resource') {
+          const resEntry = entry as PerformanceResourceTiming;
           // Track slow resources
-          if (entry.duration > 1000) {
-            trackEvent('performance', 'slow_resource', {
-              name: entry.name,
-              duration: entry.duration,
-              size: entry.transferSize,
-            });
+          if (resEntry.duration > 1000) {
+            trackEvent('performance', 'slow_resource', `${resEntry.name} (${resEntry.duration.toFixed(0)}ms)`);
           }
         }
       }
@@ -153,10 +157,7 @@ class PerformanceMonitor {
         for (const entry of list.getEntries()) {
           // Monitor long tasks
           if (entry.entryType === 'longtask') {
-            trackEvent('performance', 'long_task', {
-              duration: entry.duration,
-              startTime: entry.startTime,
-            });
+            trackEvent('performance', 'long_task', `Duration: ${entry.duration.toFixed(0)}ms`);
           }
         }
       });
@@ -199,20 +200,12 @@ class PerformanceMonitor {
       rating = 'poor';
     }
 
-    trackEvent('performance', `${metricName.toLowerCase()}_rating`, {
-      value,
-      rating,
-      threshold: threshold.good,
-    });
+    trackEvent('performance', `${metricName.toLowerCase()}_rating`, `${rating} (Val: ${value.toFixed(2)}, Threshold: ${threshold.good})`, value);
 
     // Alert for poor performance
     if (rating === 'poor') {
       console.warn(`Poor ${metricName} performance: ${value}ms`);
-      trackEvent('performance', 'poor_metric', {
-        metric: metricName,
-        value,
-        url: window.location.href,
-      });
+      trackEvent('performance', 'poor_metric', `${metricName}: ${value.toFixed(0)}ms`);
     }
   }
 
@@ -228,11 +221,7 @@ class PerformanceMonitor {
       rating = 'poor';
     }
 
-    trackEvent('performance', 'bundle_size', {
-      size: sizeInMB,
-      rating,
-      url: window.location.href,
-    });
+    trackEvent('performance', 'bundle_size', `Size: ${sizeInMB.toFixed(2)}MB, Rating: ${rating}`);
   }
 
   getMetrics(): PerformanceMetrics {
@@ -344,10 +333,7 @@ export const measureFunction = <T extends (...args: any[]) => any>(
     const result = fn(...args);
     const end = performance.now();
     
-    trackEvent('performance', 'function_timing', {
-      function: name,
-      duration: end - start,
-    });
+    trackEvent('performance', 'function_timing', `${name}: ${(end - start).toFixed(2)}ms`);
     
     return result;
   }) as T;
@@ -362,10 +348,7 @@ export const measureAsyncFunction = <T extends (...args: any[]) => Promise<any>>
     const result = await fn(...args);
     const end = performance.now();
     
-    trackEvent('performance', 'async_function_timing', {
-      function: name,
-      duration: end - start,
-    });
+    trackEvent('performance', 'async_function_timing', `${name}: ${(end - start).toFixed(2)}ms`);
     
     return result;
   }) as T;
@@ -379,12 +362,7 @@ export const monitorMemoryUsage = (): void => {
     const totalMB = memoryInfo.totalJSHeapSize / (1024 * 1024);
     const limitMB = memoryInfo.jsHeapSizeLimit / (1024 * 1024);
     
-    trackEvent('performance', 'memory_usage', {
-      used: usedMB,
-      total: totalMB,
-      limit: limitMB,
-      usage: (usedMB / totalMB) * 100,
-    });
+    trackEvent('performance', 'memory_usage', `Used: ${usedMB.toFixed(1)}MB, Total: ${totalMB.toFixed(1)}MB`, (usedMB / totalMB) * 100);
     
     // Alert if memory usage is high
     if ((usedMB / totalMB) > 0.9) {

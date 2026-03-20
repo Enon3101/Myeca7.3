@@ -1,48 +1,77 @@
-import { eq } from "drizzle-orm";
-import { db } from "./db";
-import { users, profiles, type User, type InsertUser, type Profile, type InsertProfile } from "../shared/schema";
+import { adminDb } from "./firebase-admin";
+import { type User, type InsertUser, type Profile, type InsertProfile } from "../shared/schema";
 
 export const storage = {
   async getUser(id: string): Promise<User | null> {
-    const result = await (db as any).select().from(users).where(eq(users.id, id)).limit(1);
-    return result[0] || null;
+    const doc = await adminDb.collection("users").doc(id).get();
+    if (!doc.exists) return null;
+    return { id: doc.id, ...doc.data() } as User;
   },
 
   async getUserByEmail(email: string): Promise<User | null> {
-    const result = await (db as any).select().from(users).where(eq(users.email, email.toLowerCase())).limit(1);
-    return result[0] || null;
+    const snapshot = await adminDb.collection("users")
+      .where("email", "==", email.toLowerCase())
+      .limit(1)
+      .get();
+    
+    if (snapshot.empty) return null;
+    const doc = snapshot.docs[0];
+    return { id: doc.id, ...doc.data() } as User;
   },
 
   async createUser(data: InsertUser): Promise<User> {
-    const result = await db.insert(users).values({
-      ...data,
+    const id = data.id || adminDb.collection("users").doc().id;
+    const userRef = adminDb.collection("users").doc(id);
+    const { id: _, ...otherData } = data;
+    const userData = {
+      ...otherData,
+      id,
       email: data.email ? data.email.toLowerCase() : data.email,
-    }).returning();
-    return result[0];
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+    await userRef.set(userData);
+    return { id, ...userData } as User;
   },
 
   async updateUser(id: string, data: Partial<InsertUser>): Promise<User | null> {
-    const result = await (db as any).update(users)
-      .set({ ...data, updatedAt: new Date() })
-      .where(eq(users.id, id))
-      .returning();
-    return result[0] || null;
+    const userRef = adminDb.collection("users").doc(id);
+    const doc = await userRef.get();
+    if (!doc.exists) return null;
+    
+    const updateData = { ...data, updatedAt: new Date() };
+    await userRef.update(updateData);
+    return { id, ...doc.data(), ...updateData } as User;
   },
 
   async createProfile(data: InsertProfile): Promise<Profile> {
-    const result = await db.insert(profiles).values(data).returning();
-    return result[0];
+    const profileRef = adminDb.collection("profiles").doc();
+    const profileData = {
+      ...data,
+      id: Math.floor(Math.random() * 1000000), // Temporary numeric ID for compatibility
+      createdAt: new Date(),
+    };
+    await profileRef.set(profileData);
+    return { ...profileData } as Profile;
   },
 
   async getProfilesByUserId(userId: string): Promise<Profile[]> {
-    return await (db as any).select().from(profiles).where(eq(profiles.userId, userId));
+    const snapshot = await adminDb.collection("profiles")
+      .where("userId", "==", userId)
+      .get();
+    
+    return snapshot.docs.map(doc => doc.data() as Profile);
   },
 
   async updateProfile(id: number, data: Partial<InsertProfile>): Promise<Profile | null> {
-    const result = await db.update(profiles)
-      .set(data)
-      .where(eq(profiles.id, id))
-      .returning();
-    return result[0] || null;
+    const snapshot = await adminDb.collection("profiles")
+      .where("id", "==", id)
+      .limit(1)
+      .get();
+    
+    if (snapshot.empty) return null;
+    const profileRef = snapshot.docs[0].ref;
+    await profileRef.update(data);
+    return { ...snapshot.docs[0].data(), ...data } as Profile;
   },
 };

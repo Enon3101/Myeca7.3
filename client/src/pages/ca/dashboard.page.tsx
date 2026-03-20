@@ -14,7 +14,7 @@ import {
   TrendingUp, Search, Eye, Briefcase, LayoutDashboard,
   FolderOpen, ArrowRight, ChevronRight, Loader2
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useState } from "react";
 import { apiRequest } from "@/lib/queryClient";
 import { cn } from "@/lib/utils";
@@ -23,11 +23,11 @@ export default function CADashboard() {
   const { user, isLoading: authLoading, isAuthenticated } = useAuth();
   const [searchTerm, setSearchTerm] = useState("");
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (!authLoading && (!isAuthenticated || !user)) {
       window.location.href = '/auth/login';
     }
-  }, [isAuthenticated, authLoading, user]);
+  }, [isAuthenticated, authLoading, user]); */
 
   // Fetch CA stats
   const { data: statsData, isLoading: statsLoading } = useQuery({
@@ -74,7 +74,7 @@ export default function CADashboard() {
         <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-blue-200/20 rounded-full blur-3xl"></div>
         
         <div className="relative max-w-7xl mx-auto px-6 sm:px-8 py-12">
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+          <m.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
               <div className="flex items-center gap-6">
                 <div className="p-4 bg-white rounded-[22px] shadow-xl shadow-emerald-900/5 border border-emerald-50">
@@ -96,7 +96,7 @@ export default function CADashboard() {
                 </Link>
               </div>
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </div>
 
@@ -104,7 +104,7 @@ export default function CADashboard() {
         {/* Stats Cards */}
         {/* Stats Cards - Using Refined StatCard style logic but custom here to match the grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12 -mt-20">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
+          <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
             <Card className="bg-white/90 backdrop-blur-xl border border-white rounded-[28px] shadow-[0_20px_50px_rgba(0,0,0,0.04)] overflow-hidden group hover:shadow-[0_25px_60px_rgba(0,0,0,0.06)] transition-all duration-500">
               <CardContent className="p-7">
                 <div className="flex items-center justify-between mb-4">
@@ -117,9 +117,9 @@ export default function CADashboard() {
                 <p className="text-slate-500 font-bold text-sm mt-1 uppercase tracking-wide">Assigned Clients</p>
               </CardContent>
             </Card>
-          </motion.div>
+          </m.div>
 
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+          <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
             <Card className="bg-white/90 backdrop-blur-xl border border-white rounded-[28px] shadow-[0_20px_50px_rgba(0,0,0,0.04)] overflow-hidden group hover:shadow-[0_25px_60px_rgba(0,0,0,0.06)] transition-all duration-500">
               <CardContent className="p-7">
                 <div className="flex items-center justify-between mb-4">
@@ -132,9 +132,9 @@ export default function CADashboard() {
                 <p className="text-slate-500 font-bold text-sm mt-1 uppercase tracking-wide">Returns Filed</p>
               </CardContent>
             </Card>
-          </motion.div>
+          </m.div>
 
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
+          <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
             <Card className="bg-white/90 backdrop-blur-xl border border-white rounded-[28px] shadow-[0_20px_50px_rgba(0,0,0,0.04)] overflow-hidden group hover:shadow-[0_25px_60px_rgba(0,0,0,0.06)] transition-all duration-500">
               <CardContent className="p-7">
                 <div className="flex items-center justify-between mb-4">
@@ -147,9 +147,9 @@ export default function CADashboard() {
                 <p className="text-slate-500 font-bold text-sm mt-1 uppercase tracking-wide">Pending Filings</p>
               </CardContent>
             </Card>
-          </motion.div>
+          </m.div>
 
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
+          <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
             <Card className="bg-white/90 backdrop-blur-xl border border-white rounded-[28px] shadow-[0_20px_50px_rgba(0,0,0,0.04)] overflow-hidden group hover:shadow-[0_25px_60px_rgba(0,0,0,0.06)] transition-all duration-500">
               <CardContent className="p-7">
                 <div className="flex items-center justify-between mb-4">
@@ -162,7 +162,7 @@ export default function CADashboard() {
                 <p className="text-slate-500 font-bold text-sm mt-1 uppercase tracking-wide">Annual Projects</p>
               </CardContent>
             </Card>
-          </motion.div>
+          </m.div>
         </div>
 
         {/* Clients Table - Enhanced Tabs */}

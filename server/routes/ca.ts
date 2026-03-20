@@ -1,16 +1,13 @@
-import { Router, Request, Response } from "express";
+import { Router, Response } from "express";
 import { requireAuth, requireCA, AuthRequest } from "../middleware/auth";
-import { db } from "../db";
-import { users, profiles, taxReturns, documents } from "@shared/schema";
-import { eq, and } from "drizzle-orm";
-import { getAuth } from "@clerk/express";
+import { adminDb } from "../firebase-admin";
 
 const router = Router();
 
 // GET /api/ca/clients — List all users assigned to the logged-in CA
-router.get("/clients", requireAuth, requireCA, async (req: Request, res: Response) => {
+router.get("/clients", requireAuth, requireCA, async (req: AuthRequest, res: Response) => {
   try {
-    const auth = getAuth(req);
+    const auth = req.auth;
     if (!auth || !auth.userId) {
       return res.status(401).json({ error: "Not authenticated" });
     }
@@ -18,26 +15,33 @@ router.get("/clients", requireAuth, requireCA, async (req: Request, res: Respons
     const caId = auth.userId;
 
     // Get all users assigned to this CA
-    const clients = await (db as any)
-      .select()
-      .from(users)
-      .where(eq(users.assignedCaId, caId));
+    const snapshot = await adminDb.collection("users")
+      .where("assignedCaId", "==", caId)
+      .get();
+    
+    const clients = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
     // Get filing counts for each client
     const clientsWithStats = await Promise.all(
       clients.map(async (client: any) => {
-        const clientProfiles = await (db as any)
-          .select()
-          .from(profiles)
-          .where(eq(profiles.userId, client.id));
+        // Get all profiles for this client
+        const profileSnapshot = await adminDb.collection("profiles")
+          .where("userId", "==", client.id)
+          .get();
+        
+        const clientProfiles = profileSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
         let filingCount = 0;
         let pendingCount = 0;
+        
         for (const profile of clientProfiles) {
-          const filings = await (db as any)
-            .select()
-            .from(taxReturns)
-            .where(eq(taxReturns.profileId, profile.id));
+          // In Firestore, we should probably have a better way to count than fetching all,
+          // but for now we follow the existing logic logic
+          const filingsSnapshot = await adminDb.collection("tax_returns")
+            .where("profileId", "==", profile.id)
+            .get();
+          
+          const filings = filingsSnapshot.docs.map(doc => doc.data());
           filingCount += filings.length;
           pendingCount += filings.filter((f: any) => f.status === "draft" || f.status === "pending").length;
         }
@@ -64,9 +68,9 @@ router.get("/clients", requireAuth, requireCA, async (req: Request, res: Respons
 });
 
 // GET /api/ca/clients/:userId/documents — View assigned user's documents
-router.get("/clients/:userId/documents", requireAuth, requireCA, async (req: Request, res: Response) => {
+router.get("/clients/:userId/documents", requireAuth, requireCA, async (req: AuthRequest, res: Response) => {
   try {
-    const auth = getAuth(req);
+    const auth = req.auth;
     if (!auth || !auth.userId) {
       return res.status(401).json({ error: "Not authenticated" });
     }
@@ -75,19 +79,18 @@ router.get("/clients/:userId/documents", requireAuth, requireCA, async (req: Req
     const { userId } = req.params;
 
     // Verify this user is assigned to this CA
-    const [client] = await (db as any)
-      .select()
-      .from(users)
-      .where(and(eq(users.id, userId), eq(users.assignedCaId, caId)));
+    const userDoc = await adminDb.collection("users").doc(userId).get();
+    const client = userDoc.exists ? { id: userDoc.id, ...userDoc.data() } : null;
 
-    if (!client) {
+    if (!client || (client as any).assignedCaId !== caId) {
       return res.status(403).json({ error: "This client is not assigned to you." });
     }
 
-    const clientDocs = await (db as any)
-      .select()
-      .from(documents)
-      .where(eq(documents.userId, userId));
+    const docsSnapshot = await adminDb.collection("documents")
+      .where("userId", "==", userId)
+      .get();
+    
+    const clientDocs = docsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
     res.json({
       success: true,
@@ -100,9 +103,9 @@ router.get("/clients/:userId/documents", requireAuth, requireCA, async (req: Req
 });
 
 // GET /api/ca/clients/:userId/filings — View assigned user's tax returns
-router.get("/clients/:userId/filings", requireAuth, requireCA, async (req: Request, res: Response) => {
+router.get("/clients/:userId/filings", requireAuth, requireCA, async (req: AuthRequest, res: Response) => {
   try {
-    const auth = getAuth(req);
+    const auth = req.auth;
     if (!auth || !auth.userId) {
       return res.status(401).json({ error: "Not authenticated" });
     }
@@ -111,34 +114,33 @@ router.get("/clients/:userId/filings", requireAuth, requireCA, async (req: Reque
     const { userId } = req.params;
 
     // Verify this user is assigned to this CA
-    const [client] = await (db as any)
-      .select()
-      .from(users)
-      .where(and(eq(users.id, userId), eq(users.assignedCaId, caId)));
+    const userDoc = await adminDb.collection("users").doc(userId).get();
+    const client = userDoc.exists ? { id: userDoc.id, ...userDoc.data() } : null;
 
-    if (!client) {
+    if (!client || (client as any).assignedCaId !== caId) {
       return res.status(403).json({ error: "This client is not assigned to you." });
     }
 
     // Get all profiles for this user
-    const clientProfiles = await (db as any)
-      .select()
-      .from(profiles)
-      .where(eq(profiles.userId, userId));
+    const profileSnapshot = await adminDb.collection("profiles")
+      .where("userId", "==", userId)
+      .get();
+    
+    const clientProfiles = profileSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
     // Get all filings across profiles
     const filings: any[] = [];
     for (const profile of clientProfiles) {
-      const profileFilings = await (db as any)
-        .select()
-        .from(taxReturns)
-        .where(eq(taxReturns.profileId, profile.id));
-      filings.push(
-        ...profileFilings.map((f: any) => ({
-          ...f,
-          profileName: profile.name,
-        }))
-      );
+      const filingsSnapshot = await adminDb.collection("tax_returns")
+        .where("profileId", "==", profile.id)
+        .get();
+      
+      const profileFilings = filingsSnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data(),
+        profileName: (profile as any).name,
+      }));
+      filings.push(...profileFilings);
     }
 
     res.json({
@@ -152,34 +154,37 @@ router.get("/clients/:userId/filings", requireAuth, requireCA, async (req: Reque
 });
 
 // GET /api/ca/stats — CA dashboard statistics
-router.get("/stats", requireAuth, requireCA, async (req: Request, res: Response) => {
+router.get("/stats", requireAuth, requireCA, async (req: AuthRequest, res: Response) => {
   try {
-    const auth = getAuth(req);
+    const auth = req.auth;
     if (!auth || !auth.userId) {
       return res.status(401).json({ error: "Not authenticated" });
     }
 
     const caId = auth.userId;
 
-    const clients = await (db as any)
-      .select()
-      .from(users)
-      .where(eq(users.assignedCaId, caId));
+    const clientsSnapshot = await adminDb.collection("users")
+      .where("assignedCaId", "==", caId)
+      .get();
+    
+    const clients = clientsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
     let totalFilings = 0;
     let pendingFilings = 0;
 
     for (const client of clients) {
-      const clientProfiles = await (db as any)
-        .select()
-        .from(profiles)
-        .where(eq(profiles.userId, client.id));
+      const profileSnapshot = await adminDb.collection("profiles")
+        .where("userId", "==", (client as any).id)
+        .get();
+
+      const clientProfiles = profileSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
       for (const profile of clientProfiles) {
-        const filings = await (db as any)
-          .select()
-          .from(taxReturns)
-          .where(eq(taxReturns.profileId, profile.id));
+        const filingsSnapshot = await adminDb.collection("tax_returns")
+          .where("profileId", "==", profile.id)
+          .get();
+        
+        const filings = filingsSnapshot.docs.map(doc => doc.data());
         totalFilings += filings.length;
         pendingFilings += filings.filter((f: any) => f.status === "draft" || f.status === "pending").length;
       }

@@ -10,9 +10,10 @@ import {
   Save, X, Bold, Italic, Underline, List, ListOrdered,
   Link2, Quote, Code, Upload, Sparkles, Filter,
   ChevronLeft, ChevronRight, Hash, BookOpen, PenTool,
-  Palette, Layout, Target, Globe, TrendingUp
+  Palette, Layout, Target, Globe, TrendingUp, Bell,
+  Landmark, Receipt, Rocket, Calculator
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -56,7 +57,19 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 
+const Loader2 = ({ className }: { className?: string }) => (
+  <m.div
+    animate={{ rotate: 360 }}
+    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+    className={cn("w-8 h-8", className)}
+  >
+    <div className="w-full h-full border-4 border-current border-t-transparent rounded-full" />
+  </m.div>
+);
+
+
 // Enhanced Rich Text Editor with more features
+// Enhanced Rich Text Editor with Blog-Specific Typography
 const RichTextEditor = ({ 
   value, 
   onChange,
@@ -73,8 +86,15 @@ const RichTextEditor = ({
   const [linkUrl, setLinkUrl] = useState("");
   const [wordCount, setWordCount] = useState(0);
 
+  // Sync value to editor only if it's different and not active
   useEffect(() => {
-    const text = value.replace(/<[^>]*>/g, '');
+    if (editorRef.current && editorRef.current.innerHTML !== value) {
+      editorRef.current.innerHTML = value;
+    }
+  }, [value]);
+
+  useEffect(() => {
+    const text = (value || "").replace(/<[^>]*>/g, '');
     setWordCount(text.split(/\s+/).filter(word => word.length > 0).length);
   }, [value]);
 
@@ -112,41 +132,40 @@ const RichTextEditor = ({
   ];
 
   return (
-    <div className="border rounded-lg shadow-sm bg-white">
-      {/* Enhanced Toolbar */}
-      <div className="border-b p-3 flex items-center justify-between bg-gray-50">
+    <div className="flex flex-col h-full">
+      {/* Floating Assistant Toolbar */}
+      <div className="sticky top-0 z-10 p-2 bg-white/80 backdrop-blur-md border-b flex items-center justify-between shadow-sm">
         <div className="flex items-center gap-1">
-          {/* Heading Dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm" className="gap-1">
-                <Hash className="h-4 w-4" />
-                Heading
+              <Button variant="ghost" size="sm" className="h-9 gap-1 font-bold text-[10px] uppercase tracking-widest text-slate-500">
+                <Hash className="h-3.5 w-3.5" />
+                Structure
                 <ChevronRight className="h-3 w-3" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuItem onClick={() => insertHeading(1)}>
-                <span className="text-2xl font-bold">Heading 1</span>
+            <DropdownMenuContent className="p-2 min-w-[200px] rounded-xl border-slate-200">
+              <DropdownMenuItem onClick={() => insertHeading(1)} className="rounded-lg py-3">
+                <span className="text-xl font-black text-slate-900">Heading 1</span>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => insertHeading(2)}>
-                <span className="text-xl font-bold">Heading 2</span>
+              <DropdownMenuItem onClick={() => insertHeading(2)} className="rounded-lg py-3">
+                <span className="text-lg font-black text-slate-800">Heading 2</span>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => insertHeading(3)}>
-                <span className="text-lg font-bold">Heading 3</span>
+              <DropdownMenuItem onClick={() => insertHeading(3)} className="rounded-lg py-3">
+                <span className="text-base font-black text-slate-700">Heading 3</span>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => execCommand('formatBlock', '<p>')}>
-                <span>Normal Text</span>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={() => execCommand('formatBlock', '<p>')} className="rounded-lg py-3">
+                <span className="text-sm font-bold text-slate-500">Normal Intel</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <Separator orientation="vertical" className="h-6 mx-1" />
+          <div className="h-4 w-px bg-slate-200 mx-2" />
 
-          {/* Format Buttons */}
           {toolbarButtons.map((button, index) => (
             button.separator ? (
-              <Separator key={index} orientation="vertical" className="h-6 mx-1" />
+              <div key={index} className="h-4 w-px bg-slate-200 mx-1" />
             ) : (
               <Button
                 key={index}
@@ -155,7 +174,7 @@ const RichTextEditor = ({
                 size="sm"
                 onClick={() => button.onClick ? button.onClick() : execCommand(button.command, button.value)}
                 title={button.tooltip}
-                className="p-2 hover:bg-gray-200"
+                className="h-9 w-9 p-0 hover:bg-slate-100 rounded-lg text-slate-500 hover:text-blue-600 transition-colors"
               >
                 <button.icon className="h-4 w-4" />
               </Button>
@@ -163,59 +182,46 @@ const RichTextEditor = ({
           ))}
         </div>
 
-        <div className="flex items-center gap-2 text-sm text-gray-500">
-          <span>{wordCount} words</span>
-          {onSave && (
-            <>
-              <Separator orientation="vertical" className="h-4" />
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                onClick={onSave}
-                className="gap-1"
-              >
-                <Save className="h-4 w-4" />
-                Save Draft
-              </Button>
-            </>
-          )}
+        <div className="flex items-center gap-4 px-4 text-[10px] font-black text-slate-300 uppercase tracking-widest">
+          <span className="flex items-center gap-2">
+            <span className="w-1 h-1 rounded-full bg-slate-200" />
+            {wordCount} Signals
+          </span>
         </div>
       </div>
 
-      {/* Editor Content */}
+      {/* Actual Content Area */}
       <div
         ref={editorRef}
         contentEditable
-        className="p-6 min-h-[400px] focus:outline-none prose prose-sm max-w-none"
-        dangerouslySetInnerHTML={{ __html: value }}
         onInput={(e) => onChange((e.target as HTMLDivElement).innerHTML)}
         placeholder={placeholder}
-        style={{ minHeight: '400px' }}
+        className="flex-1 p-0 focus:outline-none prose prose-slate max-w-none 
+          prose-p:text-[18px] prose-p:text-slate-800/90 prose-p:leading-[1.8] prose-p:font-medium prose-p:tracking-tight
+          prose-headings:font-black prose-headings:text-slate-900 prose-headings:tracking-tight
+          prose-h1:text-4xl prose-h2:text-3xl prose-h3:text-2xl
+          prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:bg-blue-50/50 prose-blockquote:py-4 prose-blockquote:px-8 prose-blockquote:rounded-r-2xl prose-blockquote:font-medium prose-blockquote:italic
+          prose-li:text-slate-600 prose-li:font-medium prose-li:text-lg
+          prose-strong:text-slate-900 prose-strong:font-black"
       />
 
-      {/* Link Dialog */}
       <Dialog open={showLinkDialog} onOpenChange={setShowLinkDialog}>
-        <DialogContent>
+        <DialogContent className="rounded-3xl p-8 max-w-sm">
           <DialogHeader>
-            <DialogTitle>Insert Link</DialogTitle>
+            <DialogTitle className="text-xl font-black">Neural Link</DialogTitle>
           </DialogHeader>
-          <div className="space-y-4">
-            <div>
-              <Label htmlFor="link-url">URL</Label>
-              <Input
-                id="link-url"
-                value={linkUrl}
-                onChange={(e) => setLinkUrl(e.target.value)}
-                placeholder="https://example.com"
-              />
-            </div>
+          <div className="py-4">
+               <Label className="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-2 block">Destination URL</Label>
+               <Input
+                 value={linkUrl}
+                 onChange={(e) => setLinkUrl(e.target.value)}
+                 placeholder="https://..."
+                 className="rounded-xl border-slate-200 h-11"
+               />
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setShowLinkDialog(false)}>
-              Cancel
-            </Button>
-            <Button onClick={insertLink}>Insert</Button>
+            <Button variant="ghost" onClick={() => setShowLinkDialog(false)} className="rounded-xl font-bold">Cancel</Button>
+            <Button onClick={insertLink} className="rounded-xl bg-blue-600 text-white font-black px-6 shadow-lg shadow-blue-500/20">Establish</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -224,504 +230,352 @@ const RichTextEditor = ({
 };
 
 // Enhanced Blog Form with SEO and Preview
-const BlogForm = ({ 
-  post, 
-  onSubmit, 
-  onCancel 
-}: { 
-  post?: any; 
-  onSubmit: (data: any) => void;
-  onCancel: () => void;
-}) => {
+const BlogForm = ({ post, categories, onSubmit, onCancel }: { post?: any, categories: any[], onSubmit: (data: any) => void, onCancel: () => void }) => {
   const { user } = useAuth();
-  const [activeTab, setActiveTab] = useState("content");
   const [showPreview, setShowPreview] = useState(false);
-  const [autoSaving, setAutoSaving] = useState(false);
+  const [tagInput, setTagInput] = useState("");
   
   const [formData, setFormData] = useState({
     title: post?.title || "",
     slug: post?.slug || "",
     content: post?.content || "",
     excerpt: post?.excerpt || "",
-    tags: post?.tags ? JSON.parse(post.tags) : [],
+    tags: post?.tags ? (typeof post.tags === 'string' ? JSON.parse(post.tags) : post.tags) : [],
     featuredImage: post?.featuredImage || "",
     status: post?.status || "draft",
-    category: post?.category || "general",
+    categoryId: post?.categoryId || (categories.length > 0 ? categories[0].id : null),
     metaDescription: post?.metaDescription || "",
     metaKeywords: post?.metaKeywords || "",
     publishDate: post?.publishDate || new Date().toISOString().split('T')[0],
     readingTime: post?.readingTime || 5,
   });
 
-  const [tagInput, setTagInput] = useState("");
-  const [keywordInput, setKeywordInput] = useState("");
-
-  // Auto-save functionality
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (formData.content && formData.title) {
-        setAutoSaving(true);
-        // Simulate auto-save
-        setTimeout(() => setAutoSaving(false), 1000);
-      }
-    }, 3000);
-
-    return () => clearTimeout(timer);
-  }, [formData.content, formData.title]);
-
-  // Calculate reading time
-  useEffect(() => {
-    const wordCount = formData.content.replace(/<[^>]*>/g, '').split(/\s+/).length;
-    const readingTime = Math.max(1, Math.ceil(wordCount / 200));
-    setFormData(prev => ({ ...prev, readingTime }));
-  }, [formData.content]);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSubmit({
-      ...formData,
-      tags: JSON.stringify(formData.tags),
-      authorId: user?.id,
-    });
-  };
-
   const generateSlug = () => {
     const slug = formData.title
       .toLowerCase()
-      .replace(/[^\w\s-]/g, '')
-      .replace(/\s+/g, '-')
-      .replace(/-+/g, '-')
-      .trim();
+      .replace(/[^\w\s-]/g, "")
+      .replace(/\s+/g, "-");
     setFormData({ ...formData, slug });
   };
 
   const addTag = () => {
-    if (tagInput.trim() && !formData.tags.includes(tagInput.trim())) {
-      setFormData({
-        ...formData,
-        tags: [...formData.tags, tagInput.trim()]
-      });
+    if (tagInput && !formData.tags.includes(tagInput)) {
+      setFormData({ ...formData, tags: [...formData.tags, tagInput] });
       setTagInput("");
     }
   };
 
   const removeTag = (index: number) => {
-    setFormData({
-      ...formData,
-      tags: formData.tags.filter((_, i) => i !== index)
-    });
+    const newTags = [...formData.tags];
+    newTags.splice(index, 1);
+    setFormData({ ...formData, tags: newTags });
   };
 
-  const categories = [
-    { value: "general", label: "General", icon: BookOpen },
-    { value: "tax-tips", label: "Tax Tips", icon: TrendingUp },
-    { value: "updates", label: "Updates", icon: Sparkles },
-    { value: "guides", label: "Guides", icon: FileText },
-    { value: "news", label: "News", icon: Globe },
-  ];
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const submitData = {
+      ...formData,
+      categoryId: formData.categoryId ? parseInt(formData.categoryId.toString()) : null,
+      authorId: user?.id,
+      tags: formData.tags,
+    };
+    onSubmit(submitData);
+  };
 
-  const contentTemplates = [
-    { name: "Tax Update", content: "<h2>Tax Update Title</h2><p>Summary of the update...</p><h3>Key Points</h3><ul><li>Point 1</li><li>Point 2</li></ul><h3>Impact</h3><p>How this affects taxpayers...</p>" },
-    { name: "How-To Guide", content: "<h2>How to [Task]</h2><p>Introduction...</p><h3>Step 1: [Action]</h3><p>Description...</p><h3>Step 2: [Action]</h3><p>Description...</p><h3>Conclusion</h3><p>Summary...</p>" },
-    { name: "Tax Tip", content: "<h2>Tax Saving Tip</h2><p>Introduction to the tip...</p><h3>Why This Works</h3><p>Explanation...</p><h3>How to Implement</h3><p>Steps to follow...</p><h3>Potential Savings</h3><p>Expected benefits...</p>" },
-  ];
+  const mappedCategories = categories.map((cat: any) => ({
+    id: cat.id,
+    name: cat.name,
+    icon: cat.name.toLowerCase().includes("tax") ? Calculator : 
+          cat.name.toLowerCase().includes("gst") ? Receipt :
+          cat.name.toLowerCase().includes("legal") ? Landmark : BookOpen
+  }));
+
+  const categoryName = categories.find(c => c.id.toString() === formData.categoryId?.toString())?.name || "Uncategorized";
 
   return (
-    <div className="relative">
-      {/* Auto-save indicator */}
-      {autoSaving && (
-        <div className="absolute top-0 right-0 flex items-center gap-2 text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
-          <Clock className="h-4 w-4 animate-spin" />
-          Auto-saving...
-        </div>
-      )}
-
-      <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Header Section */}
-        <div className="bg-white p-6 rounded-lg border">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-4">
-              <h3 className="text-lg font-semibold">
-                {post ? "Edit Post" : "Create New Post"}
-              </h3>
-              <Badge variant={formData.status === "published" ? "default" : "secondary"}>
-                {formData.status}
-              </Badge>
-            </div>
-            <div className="flex gap-2">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => setShowPreview(!showPreview)}
-              >
-                <Eye className="h-4 w-4 mr-2" />
-                {showPreview ? "Hide Preview" : "Show Preview"}
-              </Button>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline">
-                    <Layout className="h-4 w-4 mr-2" />
-                    Templates
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuLabel>Content Templates</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  {contentTemplates.map((template, index) => (
-                    <DropdownMenuItem
-                      key={index}
-                      onClick={() => setFormData({ ...formData, content: template.content })}
-                    >
-                      {template.name}
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="title">Title *</Label>
-              <div className="flex gap-2">
-                <Input
-                  id="title"
-                  value={formData.title}
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  placeholder="Enter an engaging title..."
-                  required
-                  className="text-lg font-medium"
-                />
-                <Button type="button" variant="outline" onClick={generateSlug}>
-                  <Link2 className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="slug">URL Slug *</Label>
-              <Input
-                id="slug"
-                value={formData.slug}
-                onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                placeholder="url-friendly-slug"
-                required
-              />
-            </div>
-          </div>
-
-          <div className="mt-4 space-y-2">
-            <Label htmlFor="excerpt">Excerpt</Label>
-            <Textarea
-              id="excerpt"
-              value={formData.excerpt}
-              onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
-              placeholder="A brief summary that appears in search results and post previews..."
-              rows={3}
-              className="resize-none"
-            />
-          </div>
-        </div>
-
-        {/* Tabs Section */}
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="content" className="gap-2">
-              <PenTool className="h-4 w-4" />
-              Content
-            </TabsTrigger>
-            <TabsTrigger value="media" className="gap-2">
-              <Image className="h-4 w-4" />
-              Media & Tags
-            </TabsTrigger>
-            <TabsTrigger value="seo" className="gap-2">
-              <Target className="h-4 w-4" />
-              SEO
-            </TabsTrigger>
-            <TabsTrigger value="settings" className="gap-2">
-              <Palette className="h-4 w-4" />
-              Settings
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="content" className="space-y-4">
-            <Card>
-              <CardHeader>
-                <CardTitle>Post Content</CardTitle>
-                <CardDescription>
-                  Write your blog post content. Use the toolbar to format text.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                {showPreview ? (
-                  <div className="prose max-w-none p-6 bg-gray-50 rounded-lg min-h-[400px]">
-                    <h1>{formData.title}</h1>
-                    <div className="text-gray-500 flex items-center gap-4 text-sm mb-4">
-                      <span className="flex items-center gap-1">
-                        <Clock className="h-4 w-4" />
-                        {formData.readingTime} min read
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <Calendar className="h-4 w-4" />
-                        {format(new Date(formData.publishDate), 'MMM d, yyyy')}
-                      </span>
-                    </div>
-                    <div dangerouslySetInnerHTML={{ __html: formData.content }} />
-                  </div>
-                ) : (
-                  <RichTextEditor
-                    value={formData.content}
-                    onChange={(content) => setFormData({ ...formData, content })}
-                    placeholder="Start writing your blog post..."
-                    onSave={() => setAutoSaving(true)}
-                  />
-                )}
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="media" className="space-y-4">
-            <Card>
-              <CardHeader>
-                <CardTitle>Featured Image</CardTitle>
-                <CardDescription>
-                  Add a featured image that represents your post
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="featuredImage">Image URL</Label>
-                  <div className="flex gap-2">
-                    <Input
-                      id="featuredImage"
-                      value={formData.featuredImage}
-                      onChange={(e) => setFormData({ ...formData, featuredImage: e.target.value })}
-                      placeholder="https://example.com/image.jpg"
-                    />
-                    <Button type="button" variant="outline">
-                      <Upload className="h-4 w-4 mr-2" />
-                      Upload
-                    </Button>
-                  </div>
-                </div>
-                {formData.featuredImage && (
-                  <div className="relative aspect-video w-full max-w-md rounded-lg overflow-hidden border">
-                    <img
-                      src={formData.featuredImage}
-                      alt="Featured"
-                      className="object-cover w-full h-full"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = "/placeholder-image.jpg";
-                      }}
-                    />
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Category & Tags</CardTitle>
-                <CardDescription>
-                  Organize your post with categories and tags
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label>Category</Label>
-                  <Select
-                    value={formData.category}
-                    onValueChange={(value) => setFormData({ ...formData, category: value })}
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {categories.map((category) => (
-                        <SelectItem key={category.value} value={category.value}>
-                          <div className="flex items-center gap-2">
-                            <category.icon className="h-4 w-4" />
-                            {category.label}
-                          </div>
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-2">
-                  <Label>Tags</Label>
-                  <div className="flex gap-2">
-                    <Input
-                      value={tagInput}
-                      onChange={(e) => setTagInput(e.target.value)}
-                      placeholder="Add a tag"
-                      onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}
-                    />
-                    <Button type="button" onClick={addTag} size="sm">
-                      <Plus className="h-4 w-4" />
-                    </Button>
-                  </div>
-                  <div className="flex flex-wrap gap-2 mt-2">
-                    {formData.tags.map((tag, index) => (
-                      <Badge key={index} variant="secondary" className="gap-1">
-                        <Tag className="h-3 w-3" />
-                        {tag}
-                        <button
-                          type="button"
-                          onClick={() => removeTag(index)}
-                          className="ml-1 hover:text-red-500"
-                        >
-                          ×
-                        </button>
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="seo" className="space-y-4">
-            <Card>
-              <CardHeader>
-                <CardTitle>SEO Settings</CardTitle>
-                <CardDescription>
-                  Optimize your post for search engines
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="metaDescription">Meta Description</Label>
-                  <Textarea
-                    id="metaDescription"
-                    value={formData.metaDescription}
-                    onChange={(e) => setFormData({ ...formData, metaDescription: e.target.value })}
-                    placeholder="A concise description for search engines (150-160 characters)..."
-                    rows={3}
-                    maxLength={160}
-                  />
-                  <p className="text-sm text-gray-500">
-                    {formData.metaDescription.length}/160 characters
-                  </p>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="metaKeywords">Keywords</Label>
-                  <Input
-                    id="metaKeywords"
-                    value={formData.metaKeywords}
-                    onChange={(e) => setFormData({ ...formData, metaKeywords: e.target.value })}
-                    placeholder="keyword1, keyword2, keyword3"
-                  />
-                </div>
-
-                <div className="border rounded-lg p-4 bg-gray-50">
-                  <h4 className="font-medium mb-2">Search Preview</h4>
-                  <div className="space-y-1">
-                    <p className="text-blue-600 text-lg hover:underline cursor-pointer">
-                      {formData.title || "Page Title"}
-                    </p>
-                    <p className="text-green-700 text-sm">
-                      myeca.in/blog/{formData.slug || "url-slug"}
-                    </p>
-                    <p className="text-gray-600 text-sm">
-                      {formData.metaDescription || formData.excerpt || "Page description will appear here..."}
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="settings" className="space-y-4">
-            <Card>
-              <CardHeader>
-                <CardTitle>Post Settings</CardTitle>
-                <CardDescription>
-                  Configure publishing options and visibility
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="status">Status</Label>
-                    <Select
-                      value={formData.status}
-                      onValueChange={(value) => setFormData({ ...formData, status: value })}
-                    >
-                      <SelectTrigger id="status">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="draft">
-                          <div className="flex items-center gap-2">
-                            <AlertCircle className="h-4 w-4 text-yellow-500" />
-                            Draft
-                          </div>
-                        </SelectItem>
-                        <SelectItem value="review">
-                          <div className="flex items-center gap-2">
-                            <Clock className="h-4 w-4 text-blue-500" />
-                            Under Review
-                          </div>
-                        </SelectItem>
-                        <SelectItem value="published">
-                          <div className="flex items-center gap-2">
-                            <CheckCircle className="h-4 w-4 text-green-500" />
-                            Published
-                          </div>
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="publishDate">Publish Date</Label>
-                    <Input
-                      id="publishDate"
-                      type="date"
-                      value={formData.publishDate}
-                      onChange={(e) => setFormData({ ...formData, publishDate: e.target.value })}
-                    />
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between p-4 bg-blue-50 rounded-lg">
-                  <div className="flex items-center gap-2">
-                    <Clock className="h-5 w-5 text-blue-600" />
-                    <span className="font-medium">Estimated Reading Time</span>
-                  </div>
-                  <span className="text-lg font-semibold text-blue-600">
-                    {formData.readingTime} minutes
-                  </span>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
-
-        {/* Action Buttons */}
-        <div className="flex justify-between items-center bg-white p-6 rounded-lg border">
-          <Button type="button" variant="outline" onClick={onCancel}>
-            <X className="h-4 w-4 mr-2" />
-            Cancel
+    <div className="flex flex-col h-screen bg-slate-50">
+      <header className="h-20 bg-white border-b border-slate-200 px-8 flex items-center justify-between sticky top-0 z-50">
+        <div className="flex items-center gap-6">
+          <Button variant="ghost" size="sm" onClick={onCancel} className="rounded-xl hover:bg-slate-100 font-bold text-xs uppercase tracking-widest text-slate-500">
+            <ChevronLeft className="w-4 h-4 mr-2" />
+            Back to Cache
           </Button>
-          <div className="flex gap-2">
-            <Button type="submit" variant="outline">
-              <Save className="h-4 w-4 mr-2" />
-              Save as Draft
-            </Button>
-            <Button
-              type="submit"
-              onClick={() => setFormData({ ...formData, status: "published" })}
-            >
-              <CheckCircle className="h-4 w-4 mr-2" />
-              {post ? "Update Post" : "Publish Post"}
-            </Button>
+          <div className="h-6 w-px bg-slate-200" />
+          <div className="flex items-center gap-3">
+             <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-lg shadow-blue-500/20">
+                <PenTool className="w-5 h-5" />
+             </div>
+             <div>
+                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">Editor Mode</p>
+                <h2 className="text-sm font-black text-slate-900 leading-none">Intelligence Synthesis</h2>
+             </div>
           </div>
         </div>
-      </form>
+
+        <div className="flex items-center gap-4">
+          <div className="flex bg-slate-100 p-1 rounded-xl border border-slate-200">
+             <Button 
+              variant={!showPreview ? "secondary" : "ghost"} 
+              size="sm" 
+              onClick={() => setShowPreview(false)}
+              className="rounded-lg font-bold text-[10px] uppercase tracking-widest"
+             >
+               Edit
+             </Button>
+             <Button 
+              variant={showPreview ? "secondary" : "ghost"} 
+              size="sm" 
+              onClick={() => setShowPreview(true)}
+              className="rounded-lg font-bold text-[10px] uppercase tracking-widest"
+             >
+               Preview
+             </Button>
+          </div>
+          <div className="h-6 w-px bg-slate-200 mx-2" />
+          <Button 
+            onClick={handleSubmit}
+            className="bg-slate-900 hover:bg-slate-800 text-white rounded-xl px-8 h-12 font-black text-xs uppercase tracking-widest transition-all shadow-xl active:scale-95 flex items-center gap-3"
+          >
+            <Sparkles className="w-4 h-4" />
+            Deploy to Global
+          </Button>
+        </div>
+      </header>
+
+      <main className="flex-1 overflow-hidden flex">
+        <div className={cn("flex-1 overflow-y-auto bg-slate-100/30", showPreview ? "hidden lg:block w-1/2" : "w-full")}>
+           <div className="max-w-[900px] mx-auto py-16 px-8">
+              <div className="mb-12 space-y-6">
+                 <Input 
+                   value={formData.title}
+                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                   placeholder="Intelligence Headline..."
+                   className="text-4xl md:text-6xl font-black bg-transparent border-none p-0 h-auto focus-visible:ring-0 placeholder:text-slate-200 tracking-tighter"
+                 />
+                 
+                 <div className="flex flex-wrap gap-4">
+                    <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-xl border border-slate-200 text-slate-500 shadow-sm">
+                       <Link2 className="w-4 h-4 text-slate-300" />
+                       <span className="text-[10px] font-black uppercase tracking-widest opacity-40">/blog/</span>
+                       <input 
+                         value={formData.slug}
+                         onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+                         className="bg-transparent border-none p-0 text-[11px] font-black text-blue-600 focus:ring-0 outline-none w-auto min-w-[120px]"
+                       />
+                       <Button variant="ghost" size="icon" onClick={generateSlug} className="h-6 w-6 p-0 hover:bg-blue-50 rounded-lg">
+                         <Sparkles className="h-3.5 w-3.5 text-blue-400" />
+                       </Button>
+                    </div>
+
+                    <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-xl border border-slate-200 text-slate-500 shadow-sm">
+                       <Clock className="w-4 h-4 text-slate-300" />
+                       <input 
+                         type="number"
+                         value={formData.readingTime}
+                         onChange={(e) => setFormData({ ...formData, readingTime: parseInt(e.target.value) })}
+                         className="bg-transparent border-none p-0 text-[11px] font-black text-slate-900 focus:ring-0 w-8 text-center"
+                       />
+                       <span className="text-[11px] font-black uppercase tracking-widest opacity-40">Min Read</span>
+                    </div>
+
+                    <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-xl border border-slate-200 text-blue-600 shadow-sm">
+                       <Calendar className="w-4 h-4" />
+                       <input 
+                         type="date"
+                         value={formData.publishDate}
+                         onChange={(e) => setFormData({ ...formData, publishDate: e.target.value })}
+                         className="bg-transparent border-none p-0 text-[11px] font-black focus:ring-0 uppercase tracking-widest cursor-pointer"
+                       />
+                    </div>
+                 </div>
+              </div>
+
+              <div className="bg-white rounded-[3rem] shadow-2xl shadow-slate-200/50 border border-slate-200 overflow-hidden min-h-[1000px] flex flex-col">
+                 <div className="p-12 md:p-20 flex-1 flex flex-col">
+                    <RichTextEditor 
+                      value={formData.content}
+                      onChange={(content) => setFormData({ ...formData, content })}
+                      placeholder="Start drafting high-signal intelligence here..."
+                    />
+                 </div>
+              </div>
+              <div className="h-32" />
+           </div>
+        </div>
+
+        <div className={cn("w-[420px] bg-white border-l border-slate-200 overflow-y-auto shrink-0", showPreview ? "w-1/2" : "w-[420px]")}>
+           {showPreview ? (
+              <div className="h-full flex flex-col bg-white">
+                 <div className="h-16 border-b border-slate-100 flex items-center px-12 justify-between">
+                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                      <Eye className="w-3.5 h-3.5" />
+                      Global Preview Resolution
+                    </span>
+                    <Badge variant="outline" className="text-[9px] font-black border-emerald-100 text-emerald-600 bg-emerald-50 rounded-full px-4">Signals Verified</Badge>
+                 </div>
+                 <div className="flex-1 overflow-y-auto p-12 lg:p-20 scrollbar-hide">
+                    <article className="max-w-none">
+                       <div className="flex items-center gap-3 text-blue-600 text-[10px] font-black uppercase tracking-[0.2em] mb-8">
+                          {categoryName}
+                          <span className="w-1.5 h-1.5 rounded-full bg-slate-200" />
+                          {format(new Date(formData.publishDate), 'MMMM d, yyyy')}
+                       </div>
+                       
+                       <h1 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight leading-tight mb-8">
+                          {formData.title || "Untitled Intelligence"}
+                       </h1>
+
+                       {formData.featuredImage && (
+                          <div className="aspect-[16/9] rounded-[2rem] overflow-hidden mb-12 shadow-2xl border border-slate-100">
+                             <img src={formData.featuredImage} className="w-full h-full object-cover" alt="Hero" />
+                          </div>
+                       )}
+
+                       <div className="text-xl text-slate-500 font-medium leading-relaxed italic mb-12 border-l-[6px] border-blue-500 pl-8 bg-blue-50/30 py-6 rounded-r-3xl">
+                          {formData.excerpt}
+                       </div>
+
+                       <div 
+                         className="prose prose-slate max-w-none
+                           prose-p:text-[18px] prose-p:text-slate-800/90 prose-p:leading-[1.8] prose-p:font-medium prose-p:tracking-tight
+                           prose-headings:font-black prose-headings:text-slate-900
+                           prose-strong:text-slate-900 prose-strong:font-black"
+                         dangerouslySetInnerHTML={{ __html: formData.content }} 
+                       />
+                       
+                       <div className="mt-16 pt-12 border-t border-slate-100 flex flex-wrap gap-2 text-[10px] font-black text-slate-300 uppercase tracking-widest">
+                          {formData.tags.map((t: string) => <span key={t}>#{t}</span>)}
+                       </div>
+                    </article>
+                 </div>
+              </div>
+           ) : (
+              <div className="p-8 space-y-12 pb-24">
+                 <section>
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-6">Media Core</label>
+                    <div className="space-y-4">
+                       <div className="aspect-[16/10] bg-slate-50 rounded-[2rem] border-2 border-dashed border-slate-200 flex flex-col items-center justify-center relative group overflow-hidden shadow-inner">
+                          {formData.featuredImage ? (
+                            <img src={formData.featuredImage} className="absolute inset-0 w-full h-full object-cover transition-transform group-hover:scale-105 duration-500" />
+                          ) : (
+                            <>
+                              <div className="w-12 h-12 rounded-2xl bg-white shadow-sm flex items-center justify-center mb-4 text-slate-200 border border-slate-100">
+                                <Image className="w-6 h-6" />
+                              </div>
+                              <span className="text-[11px] font-black text-slate-300 uppercase tracking-widest">Connect Hero Entity</span>
+                            </>
+                          )}
+                       </div>
+                       <div className="relative">
+                          <Image className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-300" />
+                          <Input 
+                            value={formData.featuredImage}
+                            onChange={(e) => setFormData({ ...formData, featuredImage: e.target.value })}
+                            placeholder="Input Entity URL..." 
+                            className="rounded-xl border-slate-200 bg-white text-xs h-11 pl-12"
+                          />
+                       </div>
+                    </div>
+                 </section>
+
+                 <Separator className="bg-slate-100" />
+
+                 <section>
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-6">Taxonomy</label>
+                    <div className="space-y-8">
+                       <div className="space-y-2">
+                          <Label className="text-[9px] font-bold uppercase text-slate-500 tracking-wider">Target Segment</Label>
+                          <Select
+                            value={formData.categoryId?.toString()}
+                            onValueChange={(value) => setFormData({ ...formData, categoryId: value })}
+                          >
+                            <SelectTrigger className="rounded-xl bg-white border-slate-200 h-11 shadow-sm">
+                              <SelectValue placeholder="Select Category" />
+                            </SelectTrigger>
+                            <SelectContent className="rounded-xl border-slate-200">
+                              {mappedCategories.map((cat) => (
+                                <SelectItem key={cat.id} value={cat.id.toString()}>
+                                  <div className="flex items-center gap-2">
+                                    <cat.icon className="h-3.5 w-3.5 text-blue-600" />
+                                    <span className="font-bold text-xs">{cat.name}</span>
+                                  </div>
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                       </div>
+
+                       <div className="space-y-4">
+                          <Label className="text-[9px] font-bold uppercase text-slate-500 tracking-wider">Descriptor Nodes (Tags)</Label>
+                          <div className="flex gap-2">
+                            <Input
+                              value={tagInput}
+                              onChange={(e) => setTagInput(e.target.value)}
+                              placeholder="Add node..."
+                              className="rounded-xl bg-white border-slate-200 h-11 text-xs shadow-sm"
+                              onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}
+                            />
+                            <Button type="button" onClick={addTag} className="rounded-xl bg-slate-900 h-11 w-11 p-0 shadow-lg shadow-slate-900/10">
+                              <Plus className="h-4 w-4" />
+                            </Button>
+                          </div>
+                          <div className="flex flex-wrap gap-2 pt-2">
+                            {formData.tags.map((tag: string, index: number) => (
+                              <Badge key={index} variant="secondary" className="rounded-lg bg-slate-50 border border-slate-200 text-slate-600 px-3 py-1.5 gap-2 hover:bg-red-50 hover:text-red-600 transition-all cursor-default">
+                                <span className="text-[10px] font-black">{tag}</span>
+                                <button
+                                  type="button"
+                                  onClick={() => removeTag(index)}
+                                  className="text-[14px] leading-none"
+                                >
+                                  ×
+                                </button>
+                              </Badge>
+                            ))}
+                          </div>
+                       </div>
+                    </div>
+                 </section>
+
+                 <Separator className="bg-slate-100" />
+
+                 <section>
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-6">Search Optimization</label>
+                    <div className="space-y-8">
+                       <div className="space-y-2">
+                          <Label className="text-[9px] font-bold uppercase text-slate-500 tracking-wider">Abstract (Excerpt)</Label>
+                          <Textarea 
+                            value={formData.excerpt}
+                            onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
+                            placeholder="Brief neural summary for indexers..."
+                            className="rounded-2xl border-slate-200 bg-white text-xs min-h-[120px] resize-none focus:ring-blue-500 shadow-sm p-4 leading-relaxed"
+                          />
+                       </div>
+                       <div className="space-y-2">
+                          <Label className="text-[9px] font-bold uppercase text-slate-500 tracking-wider">Indexing Keywords</Label>
+                          <Input 
+                            value={formData.metaKeywords}
+                            onChange={(e) => setFormData({ ...formData, metaKeywords: e.target.value })}
+                            placeholder="tax, wealth, future..."
+                            className="rounded-xl border-slate-200 bg-white text-xs h-11 shadow-sm"
+                          />
+                       </div>
+                    </div>
+                 </section>
+
+                 <div className="pt-8">
+                    <div className="bg-slate-50 p-6 rounded-3xl border border-slate-100 flex items-center justify-between">
+                       <div className="flex items-center gap-3">
+                          <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                          <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Protocol Stable</span>
+                       </div>
+                       <span className="text-[10px] font-bold text-slate-300">v7.3.0</span>
+                    </div>
+                 </div>
+              </div>
+           )}
+        </div>
+      </main>
     </div>
   );
 };
@@ -732,661 +586,362 @@ export default function AdminBlog() {
   const [statusFilter, setStatusFilter] = useState("all");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [sheetOpen, setSheetOpen] = useState(false);
   const [editingPost, setEditingPost] = useState<any>(null);
-  const [selectedPosts, setSelectedPosts] = useState<number[]>([]);
-  const [bulkAction, setBulkAction] = useState("");
-  const [viewType, setViewType] = useState<"grid" | "list">("list");
+  const [viewType, setViewType] = useState<"grid" | "list">("grid");
 
   // Fetch blog posts
-  const { data: posts = [], isLoading } = useQuery({
-    queryKey: ["/api/admin/blog"],
+  const { data: postsData, isLoading: postsLoading } = useQuery<{ posts: any[] }>({
+    queryKey: ["/api/cms/posts"],
+    queryFn: async () => {
+      const response = await apiRequest("/api/cms/posts");
+      const data = await response.json();
+      return data;
+    }
   });
 
-  // Create post mutation
+  // Fetch categories
+  const { data: catData, isLoading: categoriesLoading } = useQuery<{ categories: any[] }>({
+    queryKey: ["/api/cms/categories"],
+    queryFn: async () => {
+      const response = await apiRequest("/api/cms/categories");
+      const data = await response.json();
+      return data;
+    }
+  });
+
+  const posts = (postsData as any)?.posts || [];
+  const categories = (catData as any)?.categories || [];
+  const isLoading = postsLoading || categoriesLoading;
+
+  const filteredPosts = posts.filter((post: any) => {
+    const title = post.title || "";
+    const matchesSearch = title.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesStatus = statusFilter === "all" || post.status === statusFilter;
+    const matchesCategory = categoryFilter === "all" || post.categoryId?.toString() === categoryFilter;
+    return matchesSearch && matchesStatus && matchesCategory;
+  });
+
+  // Calculate Stats
+  const stats = {
+    total: posts.length,
+    published: posts.filter((p: any) => p.status === "published").length,
+    drafts: posts.filter((p: any) => p.status === "draft").length,
+    reviews: posts.filter((p: any) => p.status === "review").length,
+  };
+
   const createMutation = useMutation({
-    mutationFn: (data: any) => apiRequest("POST", "/api/admin/blog", data),
+    mutationFn: (data: any) => apiRequest("/api/cms/posts", {
+      method: "POST",
+      body: JSON.stringify(data)
+    }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/blog"] });
-      toast({
-        title: "Post created",
-        description: "The blog post has been created successfully.",
-      });
+      queryClient.invalidateQueries({ queryKey: ["/api/cms/posts"] });
+      toast({ title: "Intelligence Captured", description: "The new insight has been successfully logged." });
       setDialogOpen(false);
     },
-    onError: () => {
-      toast({
-        title: "Error",
-        description: "Failed to create post. Please try again.",
-        variant: "destructive",
-      });
-    },
   });
 
-  // Update post mutation
   const updateMutation = useMutation({
-    mutationFn: ({ id, data }: { id: number; data: any }) => 
-      apiRequest("PATCH", `/api/admin/blog/${id}`, data),
+    mutationFn: ({ id, data }: { id: string | number; data: any }) => 
+      apiRequest(`/api/cms/posts/${id}`, {
+        method: "PUT",
+        body: JSON.stringify(data)
+      }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/blog"] });
-      toast({
-        title: "Post updated",
-        description: "The blog post has been updated successfully.",
-      });
+      queryClient.invalidateQueries({ queryKey: ["/api/cms/posts"] });
+      toast({ title: "Neural Link Updated", description: "Your modifications have been synchronized." });
       setDialogOpen(false);
       setEditingPost(null);
     },
-    onError: () => {
-      toast({
-        title: "Error",
-        description: "Failed to update post. Please try again.",
-        variant: "destructive",
-      });
-    },
   });
 
-  // Delete post mutation
   const deleteMutation = useMutation({
-    mutationFn: (id: number) => apiRequest("DELETE", `/api/admin/blog/${id}`),
+    mutationFn: (id: string | number) => apiRequest(`/api/cms/posts/${id}`, {
+      method: "DELETE"
+    }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/blog"] });
-      toast({
-        title: "Post deleted",
-        description: "The blog post has been deleted successfully.",
-      });
-    },
-    onError: () => {
-      toast({
-        title: "Error",
-        description: "Failed to delete post. Please try again.",
-        variant: "destructive",
-      });
+      queryClient.invalidateQueries({ queryKey: ["/api/cms/posts"] });
+      toast({ title: "Insight Redacted", description: "The intelligence entry has been purged." });
     },
   });
-
-  const handleSubmit = (data: any) => {
-    if (editingPost) {
-      updateMutation.mutate({ id: editingPost.id, data });
-    } else {
-      createMutation.mutate(data);
-    }
-  };
 
   const handleEdit = (post: any) => {
     setEditingPost(post);
     setDialogOpen(true);
   };
 
-  const handleDelete = (id: number) => {
-    if (confirm("Are you sure you want to delete this post?")) {
+  const handleDelete = (id: string) => {
+    if (confirm("Are you certain you wish to redact this intelligence?")) {
       deleteMutation.mutate(id);
     }
   };
 
-  // Bulk actions
-  const handleBulkAction = () => {
-    if (selectedPosts.length === 0) {
-      toast({
-        title: "No posts selected",
-        description: "Please select posts to perform bulk action.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    switch (bulkAction) {
-      case "publish":
-        // Bulk publish logic
-        toast({
-          title: "Posts published",
-          description: `${selectedPosts.length} posts have been published.`,
-        });
-        break;
-      case "draft":
-        // Bulk draft logic
-        toast({
-          title: "Posts moved to draft",
-          description: `${selectedPosts.length} posts have been moved to draft.`,
-        });
-        break;
-      case "delete":
-        if (confirm(`Are you sure you want to delete ${selectedPosts.length} posts?`)) {
-          // Bulk delete logic
-          toast({
-            title: "Posts deleted",
-            description: `${selectedPosts.length} posts have been deleted.`,
-          });
-        }
-        break;
-    }
-    setSelectedPosts([]);
-    setBulkAction("");
-  };
-
-  // Toggle post selection
-  const togglePostSelection = (postId: number) => {
-    setSelectedPosts(prev =>
-      prev.includes(postId)
-        ? prev.filter(id => id !== postId)
-        : [...prev, postId]
-    );
-  };
-
-  // Select all posts
-  const selectAllPosts = () => {
-    if (selectedPosts.length === filteredPosts.length) {
-      setSelectedPosts([]);
-    } else {
-      setSelectedPosts(filteredPosts.map((post: any) => post.id));
-    }
-  };
-
-  // Filter posts
-  const filteredPosts = posts.filter((post: any) => {
-    const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         post.excerpt?.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus = statusFilter === "all" || post.status === statusFilter;
-    const matchesCategory = categoryFilter === "all" || post.category === categoryFilter;
-    return matchesSearch && matchesStatus && matchesCategory;
-  });
-
-  // Stats
-  const stats = {
-    total: posts.length,
-    published: posts.filter((p: any) => p.status === "published").length,
-    draft: posts.filter((p: any) => p.status === "draft").length,
-    review: posts.filter((p: any) => p.status === "review").length,
-  };
-
-  // Categories for filtering
-  const categories = [
-    { value: "all", label: "All Categories" },
-    { value: "general", label: "General" },
-    { value: "tax-tips", label: "Tax Tips" },
-    { value: "updates", label: "Updates" },
-    { value: "guides", label: "Guides" },
-    { value: "news", label: "News" },
-  ];
-
   return (
-    <div className="admin-blog-page p-10 max-w-[1600px] mx-auto bg-slate-50/30 min-h-screen">
-      {/* Premium Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 mb-12">
-        <div>
-          <h1 className="text-4xl font-black text-slate-900 tracking-tight flex items-center gap-4">
-            <div className="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow-xl shadow-blue-500/20">
-              <BookOpen className="h-6 w-6" />
+    <div className="min-h-screen bg-[#f1f5f9] p-8 lg:p-12">
+      <div className="max-w-7xl mx-auto">
+        {/* Header Section */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+          <m.div 
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+          >
+            <div className="flex items-center gap-3 text-blue-600 font-black text-xs uppercase tracking-[0.3em] mb-4">
+              <BookOpen className="w-4 h-4" />
+              Intelligence Management
             </div>
-            Editorial Suite
-          </h1>
-          <p className="mt-3 text-slate-500 font-medium text-[16px]">Curate and orchestrate your platform's content strategy</p>
+            <h1 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight">The <span className="text-blue-600">Vault</span></h1>
+            <p className="text-slate-500 font-medium mt-4">Curating and deploying high-signal financial intelligence.</p>
+          </m.div>
+
+          <m.div 
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="flex items-center gap-4"
+          >
+            <div className="flex bg-white p-1 rounded-2xl border border-slate-200 shadow-sm">
+               <Button 
+                variant={viewType === "list" ? "secondary" : "ghost"} 
+                size="sm" 
+                onClick={() => setViewType("list")}
+                className="rounded-xl"
+               >
+                 <List className="w-4 h-4" />
+               </Button>
+               <Button 
+                variant={viewType === "grid" ? "secondary" : "ghost"} 
+                size="sm" 
+                onClick={() => setViewType("grid")}
+                className="rounded-xl"
+               >
+                 <Layout className="w-4 h-4" />
+               </Button>
+            </div>
+            <Button 
+              onClick={() => { setEditingPost(null); setDialogOpen(true); }}
+              className="bg-slate-900 hover:bg-slate-800 text-white rounded-2xl px-8 h-12 font-black text-xs uppercase tracking-widest transition-all shadow-xl shadow-slate-900/20 active:scale-95"
+            >
+              <Plus className="w-4 h-4 mr-2" strokeWidth={3} />
+              New Insight
+            </Button>
+          </m.div>
         </div>
-        <div className="flex items-center gap-3">
-          <Button variant="outline" onClick={() => setSheetOpen(true)} className="h-12 px-6 rounded-2xl border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-bold shadow-sm transition-all">
-            <Sparkles className="h-4 w-4 mr-2 text-blue-500" />
-            AI Content Forge
-          </Button>
-          <Button onClick={() => { setEditingPost(null); setDialogOpen(true); }} className="h-12 px-6 rounded-2xl bg-slate-900 hover:bg-blue-600 text-white font-bold shadow-lg shadow-black/10 transition-all">
-            <Plus className="h-4 w-4 mr-2" />
-            Draft New Article
-          </Button>
+
+        {/* Stats Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
+          {[
+            { label: "Total Assets", value: stats.total, icon: FileText, color: "text-blue-600", bg: "bg-blue-50" },
+            { label: "Deployed", value: stats.published, icon: CheckCircle, color: "text-emerald-600", bg: "bg-emerald-50" },
+            { label: "In Review", value: stats.reviews, icon: Clock, color: "text-amber-600", bg: "bg-amber-50" },
+            { label: "Drafted", value: stats.drafts, icon: PenTool, color: "text-slate-500", bg: "bg-slate-100" },
+          ].map((stat, i) => (
+            <m.div
+              key={stat.label}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.1 }}
+              className="bg-white p-8 rounded-[2rem] border border-slate-200/60 shadow-sm group hover:shadow-xl hover:shadow-blue-500/5 transition-all duration-500"
+            >
+              <div className={cn("w-12 h-12 rounded-2xl flex items-center justify-center mb-6 transition-transform group-hover:scale-110 duration-500", stat.bg)}>
+                <stat.icon className={cn("w-6 h-6", stat.color)} />
+              </div>
+              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{stat.label}</p>
+              <h3 className="text-3xl font-black text-slate-900">{stat.value}</h3>
+            </m.div>
+          ))}
         </div>
-      </div>
 
-      {/* Premium Analytics Strip */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-        <Card className="bg-white border-none shadow-[0_8px_30px_rgb(0,0,0,0.02)] rounded-[28px] overflow-hidden group hover:shadow-[0_20px_60px_rgb(0,0,0,0.05)] transition-all duration-500">
-          <CardContent className="p-8">
-            <div className="flex items-center justify-between mb-4">
-              <span className="text-[13px] font-bold text-slate-400 uppercase tracking-widest">Total Articles</span>
-              <div className="p-3 bg-blue-50 rounded-2xl text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all duration-500">
-                <FileText className="h-5 w-5" />
-              </div>
-            </div>
-            <div className="text-4xl font-black text-slate-900 tracking-tight">{stats.total}</div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-white border-none shadow-[0_8px_30px_rgb(0,0,0,0.02)] rounded-[28px] overflow-hidden group hover:shadow-[0_20px_60px_rgb(0,0,0,0.05)] transition-all duration-500">
-          <CardContent className="p-8">
-            <div className="flex items-center justify-between mb-4">
-              <span className="text-[13px] font-bold text-slate-400 uppercase tracking-widest">Live Content</span>
-              <div className="p-3 bg-emerald-50 rounded-2xl text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-500">
-                <CheckCircle className="h-5 w-5" />
-              </div>
-            </div>
-            <div className="text-4xl font-black text-slate-900 tracking-tight">{stats.published}</div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-white border-none shadow-[0_8px_30px_rgb(0,0,0,0.02)] rounded-[28px] overflow-hidden group hover:shadow-[0_20px_60px_rgb(0,0,0,0.05)] transition-all duration-500">
-          <CardContent className="p-8">
-            <div className="flex items-center justify-between mb-4">
-              <span className="text-[13px] font-bold text-slate-400 uppercase tracking-widest">Unfinished Drafts</span>
-              <div className="p-3 bg-orange-50 rounded-2xl text-orange-600 group-hover:bg-orange-600 group-hover:text-white transition-all duration-500">
-                <PenTool className="h-5 w-5" />
-              </div>
-            </div>
-            <div className="text-4xl font-black text-slate-900 tracking-tight">{stats.draft}</div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-white border-none shadow-[0_8px_30px_rgb(0,0,0,0.02)] rounded-[28px] overflow-hidden group hover:shadow-[0_20px_60px_rgb(0,0,0,0.05)] transition-all duration-500">
-          <CardContent className="p-8">
-            <div className="flex items-center justify-between mb-4">
-              <span className="text-[13px] font-bold text-slate-400 uppercase tracking-widest">Awaiting Review</span>
-              <div className="p-3 bg-purple-50 rounded-2xl text-purple-600 group-hover:bg-purple-600 group-hover:text-white transition-all duration-500">
-                <Clock className="h-5 w-5" />
-              </div>
-            </div>
-            <div className="text-4xl font-black text-slate-900 tracking-tight">{stats.review}</div>
-          </CardContent>
-        </Card>
-      </div>
-      {/* Premium Filters and Actions */}
-      <Card className="mb-12 bg-white border-none shadow-[0_8px_40px_rgba(0,0,0,0.02)] rounded-[32px] overflow-hidden">
-        <CardContent className="p-10">
-          <div className="flex flex-col gap-8">
-            {/* Search and Primary Filters */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-end">
-              <div className="lg:col-span-6">
-                <Label className="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-3 block">Search Repository</Label>
-                <div className="relative">
-                  <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 h-5 w-5" />
-                  <Input
-                    placeholder="Query titles, narratives, or excerpts..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-12 h-14 rounded-2xl border-slate-100 bg-slate-50/50 focus:bg-white transition-all shadow-none font-medium placeholder:text-slate-300"
-                  />
-                </div>
-              </div>
-
-              <div className="lg:col-span-3">
-                <Label className="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-3 block">Category</Label>
-                <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-                  <SelectTrigger className="h-14 rounded-2xl border-slate-100 bg-slate-50/50">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className="rounded-2xl border-slate-100 shadow-xl">
-                    {categories.map((category) => (
-                      <SelectItem key={category.value} value={category.value} className="rounded-xl">
-                        {category.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="lg:col-span-3 flex justify-end">
-                <div className="p-1.5 bg-slate-100 rounded-2xl inline-flex shadow-inner">
-                  <Button
-                    type="button"
-                    variant={viewType === "list" ? "default" : "ghost"}
-                    onClick={() => setViewType("list")}
-                    className={cn(
-                      "rounded-xl h-11 px-4 transition-all duration-300",
-                      viewType === "list" ? "bg-white text-blue-600 shadow-sm" : "text-slate-500 hover:text-slate-900"
-                    )}
-                  >
-                    <List className="h-4 w-4 mr-2" />
-                    <span className="text-xs font-bold uppercase tracking-tight">List</span>
-                  </Button>
-                  <Button
-                    type="button"
-                    variant={viewType === "grid" ? "default" : "ghost"}
-                    onClick={() => setViewType("grid")}
-                    className={cn(
-                      "rounded-xl h-11 px-4 transition-all duration-300",
-                      viewType === "grid" ? "bg-white text-blue-600 shadow-sm" : "text-slate-500 hover:text-slate-900"
-                    )}
-                  >
-                    <Layout className="h-4 w-4 mr-2" />
-                    <span className="text-xs font-bold uppercase tracking-tight">Grid</span>
-                  </Button>
-                </div>
-              </div>
-            </div>
-
-            {/* Status Tabs and Selection Actions */}
-            <div className="flex flex-col sm:flex-row justify-between items-center gap-6 pt-6 border-t border-slate-50">
-              <Tabs value={statusFilter} onValueChange={setStatusFilter} className="w-full sm:w-auto">
-                <TabsList className="bg-slate-50/50 p-1 rounded-2xl border border-slate-100 h-auto">
-                  <TabsTrigger value="all" className="rounded-xl px-6 py-2.5 data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm font-bold text-xs uppercase tracking-tight">
-                    All Content ({posts.length})
-                  </TabsTrigger>
-                  <TabsTrigger value="published" className="rounded-xl px-6 py-2.5 data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm font-bold text-xs uppercase tracking-tight">
-                    Published ({stats.published})
-                  </TabsTrigger>
-                  <TabsTrigger value="draft" className="rounded-xl px-6 py-2.5 data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm font-bold text-xs uppercase tracking-tight">
-                    Drafts ({stats.draft})
-                  </TabsTrigger>
-                  <TabsTrigger value="review" className="rounded-xl px-6 py-2.5 data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm font-bold text-xs uppercase tracking-tight">
-                    Review ({stats.review})
-                  </TabsTrigger>
-                </TabsList>
-              </Tabs>
-
-              {selectedPosts.length > 0 && (
-                <motion.div 
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="flex items-center gap-4 bg-blue-50/50 border border-blue-100 p-2 rounded-2xl w-full sm:w-auto"
-                >
-                  <span className="text-xs font-black text-blue-800 uppercase tracking-widest px-4">
-                    {selectedPosts.length} Items
-                  </span>
-                  <Select value={bulkAction} onValueChange={setBulkAction}>
-                    <SelectTrigger className="h-10 w-40 rounded-xl border-blue-200 bg-white shadow-sm ring-0 focus:ring-0">
-                      <SelectValue placeholder="Bulk Action" />
-                    </SelectTrigger>
-                    <SelectContent className="rounded-xl border-blue-100">
-                      <SelectItem value="publish" className="rounded-lg">Publish</SelectItem>
-                      <SelectItem value="draft" className="rounded-lg">Move to Draft</SelectItem>
-                      <SelectItem value="delete" className="rounded-lg text-red-600">Delete</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <Button
-                    variant="default"
-                    size="sm"
-                    onClick={handleBulkAction}
-                    disabled={!bulkAction}
-                    className="h-10 px-6 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold transition-all shadow-md shadow-blue-500/20"
-                  >
-                    Apply
-                  </Button>
-                </motion.div>
-              )}
-            </div>
+        {/* Filters & Search */}
+        <div className="bg-white p-6 rounded-3xl border border-slate-200/60 shadow-sm mb-12 flex flex-col md:flex-row gap-6">
+          <div className="flex-1 relative">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+            <Input 
+              placeholder="Search intelligence cache..." 
+              className="pl-12 h-12 rounded-2xl bg-slate-50 border-transparent focus:bg-white focus:border-blue-500 transition-all font-medium"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
           </div>
-        </CardContent>
-      </Card>
+          <div className="flex gap-4">
+             <Select value={statusFilter} onValueChange={setStatusFilter}>
+               <SelectTrigger className="h-12 rounded-2xl w-[160px] bg-white border-slate-200 font-bold text-xs uppercase tracking-widest">
+                 <SelectValue placeholder="Status" />
+               </SelectTrigger>
+               <SelectContent>
+                 <SelectItem value="all">Every State</SelectItem>
+                 <SelectItem value="published">Deployed</SelectItem>
+                 <SelectItem value="draft">Drafted</SelectItem>
+                 <SelectItem value="review">In Review</SelectItem>
+               </SelectContent>
+             </Select>
 
-      {/* Enhanced Posts Display */}
-      {isLoading ? (
-        <div className="flex items-center justify-center h-64">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-            <p className="mt-4" style={{ color: '#000000' }}>Loading posts...</p>
+             <Select value={categoryFilter} onValueChange={setCategoryFilter}>
+               <SelectTrigger className="h-12 rounded-2xl w-[160px] bg-white border-slate-200 font-bold text-xs uppercase tracking-widest">
+                 <SelectValue placeholder="Topic" />
+               </SelectTrigger>
+               <SelectContent>
+                 <SelectItem value="all">All Topics</SelectItem>
+                 {categories.map((cat: any) => (
+                   <SelectItem key={cat.id} value={cat.id.toString()}>{cat.name}</SelectItem>
+                 ))}
+               </SelectContent>
+             </Select>
           </div>
         </div>
-      ) : filteredPosts.length === 0 ? (
-        <Card>
-          <CardContent className="p-12 text-center">
-            <FileText className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold mb-2" style={{ color: '#000000' }}>No posts found</h3>
-            <p className="mb-4" style={{ color: '#333333' }}>
-              {searchTerm ? "Try adjusting your search criteria" : "Start creating your first blog post"}
-            </p>
-            {!searchTerm && (
-              <Button onClick={() => { setEditingPost(null); setDialogOpen(true); }}>
-                <Plus className="h-4 w-4 mr-2" />
-                Create Your First Post
-              </Button>
-            )}
-          </CardContent>
-        </Card>
-      ) : (
-        <>
-          {viewType === "grid" ? (
-            // Grid View
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredPosts.map((post: any) => (
-                <Card key={post.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-                  <div className="relative">
-                    {/* Selection Checkbox */}
-                    <div className="absolute top-2 left-2 z-10">
-                      <Checkbox
-                        checked={selectedPosts.includes(post.id)}
-                        onCheckedChange={() => togglePostSelection(post.id)}
-                        className="bg-white shadow-sm"
-                      />
+
+        {/* Content View */}
+        {isLoading ? (
+          <div className="flex flex-col items-center justify-center py-40">
+             <Loader2 className="w-12 h-12 text-blue-600 animate-spin mb-6" />
+             <span className="text-xs font-black text-slate-400 uppercase tracking-[0.3em]">Querying Database...</span>
+          </div>
+        ) : filteredPosts.length === 0 ? (
+          <div className="text-center py-40 bg-white rounded-[3rem] border border-slate-200">
+             <div className="w-20 h-20 bg-slate-50 rounded-3xl flex items-center justify-center mx-auto mb-8 text-slate-200">
+                <Target className="w-10 h-10" />
+             </div>
+             <h3 className="text-2xl font-black text-slate-900 mb-2">No signals detected</h3>
+             <p className="text-slate-500 font-medium">Adjust your filters to scan different frequency bands.</p>
+          </div>
+        ) : viewType === "grid" ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredPosts.map((post: any, i: number) => (
+              <m.div
+                key={post.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.05 }}
+              >
+                <Card className="group h-full bg-white border border-slate-200/60 rounded-[2.5rem] overflow-hidden hover:shadow-2xl hover:shadow-blue-500/5 hover:-translate-y-2 transition-all duration-500 flex flex-col">
+                  <div className="h-48 relative overflow-hidden bg-slate-50">
+                    <div className="absolute inset-0 flex items-center justify-center text-7xl opacity-20 filter grayscale transition-all group-hover:grayscale-0 group-hover:scale-110 duration-700">
+                      {post.featuredImage || post.image || "📄"}
                     </div>
-
-                    {/* Featured Image */}
-                    {post.featuredImage ? (
-                      <img
-                        src={post.featuredImage}
-                        alt={post.title}
-                        className="w-full h-48 object-cover"
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).src = "/placeholder-blog.jpg";
-                        }}
-                      />
-                    ) : (
-                      <div className="w-full h-48 bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center">
-                        <FileText className="h-16 w-16 text-gray-400" />
-                      </div>
-                    )}
-                    
-                    {/* Status Badge */}
-                    <div className="absolute top-2 right-2">
-                      <Badge 
-                        variant={post.status === "published" ? "default" : "secondary"}
-                        className={cn(
-                          "shadow-sm",
-                          post.status === "published" && "bg-green-500 text-white",
-                          post.status === "draft" && "bg-yellow-500 text-white",
-                          post.status === "review" && "bg-blue-500 text-white"
-                        )}
-                      >
+                    <div className="absolute top-6 right-6">
+                      <Badge className={cn(
+                        "rounded-xl px-4 py-1.5 font-black text-[9px] uppercase tracking-widest border-none shadow-lg",
+                        post.status === "published" ? "bg-emerald-500 text-white shadow-emerald-500/20" : 
+                        post.status === "review" ? "bg-amber-500 text-white shadow-amber-500/20" : 
+                        "bg-slate-500 text-white shadow-slate-500/20"
+                      )}>
                         {post.status}
                       </Badge>
                     </div>
                   </div>
-
-                  <CardContent className="p-6">
-                    <div className="mb-4">
-                      <h3 className="font-semibold text-lg mb-2 line-clamp-2" style={{ color: '#000000' }}>{post.title}</h3>
-                      <p className="text-sm line-clamp-3" style={{ color: '#333333' }}>{post.excerpt}</p>
-                    </div>
-
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center gap-2 text-sm" style={{ color: '#333333' }}>
-                        <Calendar className="h-4 w-4" />
-                        {format(new Date(post.createdAt), 'MMM d, yyyy')}
-                      </div>
-                      <div className="flex items-center gap-1 text-sm" style={{ color: '#333333' }}>
-                        <Clock className="h-4 w-4" />
-                        {post.readingTime || 5} min
-                      </div>
-                    </div>
-
-                    {post.tags && JSON.parse(post.tags).length > 0 && (
-                      <div className="flex gap-1 flex-wrap mb-4">
-                        {JSON.parse(post.tags).slice(0, 3).map((tag: string, index: number) => (
-                          <Badge key={index} variant="outline" className="text-xs">
-                            {tag}
-                          </Badge>
-                        ))}
-                      </div>
-                    )}
-
-                    <div className="flex gap-2 justify-end">
-                      <Button variant="ghost" size="sm" asChild>
-                        <a href={`/blog/${post.slug}`} target="_blank">
-                          <Eye className="h-4 w-4" />
-                        </a>
-                      </Button>
-                      <Button variant="ghost" size="sm" onClick={() => handleEdit(post)}>
-                        <Edit className="h-4 w-4" />
-                      </Button>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="sm">
-                            <Trash2 className="h-4 w-4" />
+                  <CardContent className="p-8 flex-grow flex flex-col">
+                    <p className="text-[10px] font-black text-blue-600 uppercase tracking-widest mb-4 flex items-center gap-2">
+                       <Tag className="w-3 h-3" />
+                       {post.category}
+                    </p>
+                    <h3 className="text-xl font-black text-slate-900 mb-4 leading-tight group-hover:text-blue-600 transition-colors line-clamp-2">
+                      {post.title}
+                    </h3>
+                    <div className="mt-auto pt-8 border-t border-slate-50 flex items-center justify-between">
+                       <div className="flex -space-x-3">
+                          <div className="w-10 h-10 rounded-2xl bg-slate-100 border-2 border-white flex items-center justify-center text-slate-600 font-black text-xs shadow-sm">
+                            {post.author?.firstName?.charAt(0) || "A"}
+                          </div>
+                       </div>
+                       <div className="flex gap-2">
+                          <Button variant="ghost" size="icon" onClick={() => handleEdit(post)} className="rounded-xl hover:bg-blue-50 hover:text-blue-600">
+                            <Edit className="w-4 h-4" />
                           </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                          <DropdownMenuItem
-                            className="text-red-600"
-                            onClick={() => handleDelete(post.id)}
-                          >
-                            <Trash2 className="h-4 w-4 mr-2" />
-                            Delete Post
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
+                          <Button variant="ghost" size="icon" onClick={() => handleDelete(post.id)} className="rounded-xl hover:bg-red-50 hover:text-red-600">
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                       </div>
                     </div>
                   </CardContent>
                 </Card>
-              ))}
-            </div>
-          ) : (
-            // List View
-            <Card>
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead className="bg-gray-50 border-b">
-                    <tr>
-                      <th className="p-4 text-left">
-                        <Checkbox
-                          checked={selectedPosts.length === filteredPosts.length && filteredPosts.length > 0}
-                          onCheckedChange={selectAllPosts}
-                        />
-                      </th>
-                      <th className="p-4 text-left font-medium" style={{ color: '#000000' }}>Post</th>
-                      <th className="p-4 text-left font-medium" style={{ color: '#000000' }}>Category</th>
-                      <th className="p-4 text-left font-medium" style={{ color: '#000000' }}>Status</th>
-                      <th className="p-4 text-left font-medium" style={{ color: '#000000' }}>Views</th>
-                      <th className="p-4 text-left font-medium" style={{ color: '#000000' }}>Date</th>
-                      <th className="p-4 text-right font-medium" style={{ color: '#000000' }}>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-200">
-                    {filteredPosts.map((post: any) => (
-                      <tr key={post.id} className="hover:bg-gray-50">
-                        <td className="p-4">
-                          <Checkbox
-                            checked={selectedPosts.includes(post.id)}
-                            onCheckedChange={() => togglePostSelection(post.id)}
-                          />
-                        </td>
-                        <td className="p-4">
-                          <div className="flex items-start gap-4">
-                            {post.featuredImage ? (
-                              <img
-                                src={post.featuredImage}
-                                alt={post.title}
-                                className="w-16 h-16 rounded object-cover"
-                                onError={(e) => {
-                                  (e.target as HTMLImageElement).src = "/placeholder-blog.jpg";
-                                }}
-                              />
-                            ) : (
-                              <div className="w-16 h-16 rounded bg-gray-100 flex items-center justify-center">
-                                <FileText className="h-6 w-6 text-gray-400" />
-                              </div>
-                            )}
-                            <div className="flex-1">
-                              <h4 className="font-medium mb-1" style={{ color: '#000000' }}>{post.title}</h4>
-                              <p className="text-sm line-clamp-2" style={{ color: '#333333' }}>{post.excerpt}</p>
-                              <div className="flex gap-1 flex-wrap mt-2">
-                                {post.tags && JSON.parse(post.tags).slice(0, 3).map((tag: string, index: number) => (
-                                  <Badge key={index} variant="outline" className="text-xs">
-                                    {tag}
-                                  </Badge>
-                                ))}
-                              </div>
+              </m.div>
+            ))}
+          </div>
+        ) : (
+          <div className="bg-white rounded-[3rem] border border-slate-200/60 shadow-sm overflow-hidden">
+             <table className="w-full text-left">
+               <thead>
+                 <tr className="border-b border-slate-100">
+                    <th className="p-8 text-[11px] font-black text-slate-400 uppercase tracking-widest">Signal</th>
+                    <th className="p-8 text-[11px] font-black text-slate-400 uppercase tracking-widest">Topic</th>
+                    <th className="p-8 text-[11px] font-black text-slate-400 uppercase tracking-widest">Status</th>
+                    <th className="p-8 text-[11px] font-black text-slate-400 uppercase tracking-widest text-right">Actions</th>
+                 </tr>
+               </thead>
+               <tbody className="divide-y divide-slate-50">
+                 {filteredPosts.map((post: any) => (
+                   <tr key={post.id} className="hover:bg-slate-50/50 transition-colors group">
+                      <td className="p-8">
+                         <div className="flex items-center gap-6">
+                            <div className="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-500">
+                               {post.featuredImage || post.image || "📄"}
                             </div>
-                          </div>
-                        </td>
-                        <td className="p-4">
-                          <span className="text-sm capitalize" style={{ color: '#000000' }}>
-                            {post.category || "general"}
-                          </span>
-                        </td>
-                        <td className="p-4">
-                          <Badge 
-                            variant={post.status === "published" ? "default" : "secondary"}
-                            className={cn(
-                              post.status === "published" && "bg-green-100 text-green-800",
-                              post.status === "draft" && "bg-yellow-100 text-yellow-800",
-                              post.status === "review" && "bg-blue-100 text-blue-800"
-                            )}
-                          >
-                            {post.status === "published" && <CheckCircle className="h-3 w-3 mr-1" />}
-                            {post.status === "draft" && <PenTool className="h-3 w-3 mr-1" />}
-                            {post.status === "review" && <Clock className="h-3 w-3 mr-1" />}
-                            {post.status}
-                          </Badge>
-                        </td>
-                        <td className="p-4">
-                          <div className="flex items-center gap-1 text-sm" style={{ color: '#000000' }}>
-                            <Eye className="h-4 w-4" />
-                            {post.views || Math.floor(Math.random() * 1000)}
-                          </div>
-                        </td>
-                        <td className="p-4">
-                          <div className="text-sm" style={{ color: '#000000' }}>
-                            <p>{format(new Date(post.createdAt), 'MMM d, yyyy')}</p>
-                            <p className="text-xs" style={{ color: '#333333' }}>
-                              {format(new Date(post.createdAt), 'h:mm a')}
-                            </p>
-                          </div>
-                        </td>
-                        <td className="p-4">
-                          <div className="flex justify-end gap-2">
-                            <Button variant="ghost" size="sm" asChild>
-                              <a href={`/blog/${post.slug}`} target="_blank">
-                                <Eye className="h-4 w-4" />
-                              </a>
+                            <div>
+                               <p className="font-black text-slate-900 group-hover:text-blue-600 transition-colors mb-1">{post.title}</p>
+                               <p className="text-xs text-slate-400 font-medium">{(() => {
+                                   try {
+                                     const dateObj = post.createdAt;
+                                     let date: Date;
+                                     if (dateObj?._seconds) {
+                                       date = new Date(dateObj._seconds * 1000);
+                                     } else if (dateObj?.toDate) {
+                                       date = dateObj.toDate();
+                                     } else {
+                                       date = new Date(dateObj);
+                                     }
+                                     return isNaN(date.getTime()) ? "No Date" : format(date, 'MMM d, yyyy');
+                                   } catch (e) {
+                                     return "No Date";
+                                   }
+                                 })()}
+</p>
+                            </div>
+                         </div>
+                      </td>
+                      <td className="p-8 capitalize">
+                         <span className="text-[10px] font-black text-blue-600 uppercase tracking-widest px-4 py-1.5 bg-blue-50 rounded-full">
+                            {post.category}
+                         </span>
+                      </td>
+                      <td className="p-8">
+                         <div className="flex items-center gap-2">
+                            <div className={cn("w-2 h-2 rounded-full", 
+                              post.status === "published" ? "bg-emerald-500" : 
+                              post.status === "review" ? "bg-amber-500" : "bg-slate-400"
+                            )} />
+                            <span className="text-xs font-black uppercase tracking-widest text-slate-600">{post.status}</span>
+                         </div>
+                      </td>
+                      <td className="p-8">
+                         <div className="flex items-center justify-end gap-2">
+                            <Button variant="ghost" size="icon" onClick={() => handleEdit(post)} className="rounded-xl hover:bg-blue-50 hover:text-blue-600">
+                               <Edit className="w-4 h-4" />
                             </Button>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => handleEdit(post)}
-                            >
-                              <Edit className="h-4 w-4" />
+                            <Button variant="ghost" size="icon" onClick={() => handleDelete(post.id)} className="rounded-xl hover:bg-red-50 hover:text-red-600">
+                               <Trash2 className="w-4 h-4" />
                             </Button>
-                            <DropdownMenu>
-                              <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" size="sm">
-                                  <Trash2 className="h-4 w-4" />
-                                </Button>
-                              </DropdownMenuTrigger>
-                              <DropdownMenuContent>
-                                <DropdownMenuItem
-                                  className="text-red-600"
-                                  onClick={() => handleDelete(post.id)}
-                                >
-                                  <Trash2 className="h-4 w-4 mr-2" />
-                                  Delete Post
-                                </DropdownMenuItem>
-                              </DropdownMenuContent>
-                            </DropdownMenu>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </Card>
-          )}
-        </>
-      )}
+                         </div>
+                      </td>
+                   </tr>
+                 ))}
+               </tbody>
+             </table>
+          </div>
+        )}
+      </div>
 
-      {/* Create/Edit Dialog */}
+      {/* Editor Full Screen Dialog */}
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>
-              {editingPost ? "Edit Blog Post" : "Create New Blog Post"}
-            </DialogTitle>
-            <DialogDescription>
-              {editingPost 
-                ? "Update the blog post details below." 
-                : "Fill in the details to create a new blog post."}
-            </DialogDescription>
-          </DialogHeader>
-          <BlogForm
+        <DialogContent className="max-w-none w-screen h-screen m-0 p-0 rounded-none border-none overflow-hidden flex flex-col bg-slate-50">
+          <BlogForm 
             post={editingPost}
-            onSubmit={handleSubmit}
-            onCancel={() => {
-              setDialogOpen(false);
-              setEditingPost(null);
+            categories={categories}
+            onSubmit={(data) => {
+              if (editingPost) {
+                updateMutation.mutate({ id: editingPost.id, data });
+              } else {
+                createMutation.mutate(data);
+              }
             }}
+            onCancel={() => setDialogOpen(false)}
           />
         </DialogContent>
       </Dialog>

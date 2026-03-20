@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { Star } from "lucide-react";
 import { testimonials } from "@/data/testimonials";
@@ -7,7 +7,7 @@ export default function Testimonials() {
   return (
     <section id="testimonials" className="relative py-12 bg-white border-y border-gray-100 scroll-mt-20">
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
-        <motion.div
+        <m.div
           className="text-center mb-10"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -20,11 +20,11 @@ export default function Testimonials() {
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Join thousands of satisfied users who have simplified their tax filing with MyeCA.in.
           </p>
-        </motion.div>
+        </m.div>
 
         {/* Testimonials Carousel */}
         <div className="relative overflow-hidden">
-          <motion.div
+          <m.div
             className="flex space-x-6 pb-6"
             animate={{ x: [0, -1200] }}
             transition={{
@@ -69,7 +69,7 @@ export default function Testimonials() {
                 </div>
               </Card>
             ))}
-          </motion.div>
+          </m.div>
         </div>
       </div>
     </section>

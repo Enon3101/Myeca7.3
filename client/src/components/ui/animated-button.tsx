@@ -1,7 +1,7 @@
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
-import { motion, AnimatePresence } from "framer-motion"
+import { m, AnimatePresence } from "framer-motion"
 import { Loader2 } from "lucide-react"
 
 import { cn } from "@/lib/utils"
@@ -54,7 +54,7 @@ const AnimatedButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const handleMouseLeave = () => setIsPressed(false)
 
     return (
-      <motion.div
+      <m.div
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
         transition={{ type: "spring", stiffness: 400, damping: 17 }}
@@ -76,7 +76,7 @@ const AnimatedButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
           {/* Ripple effect */}
           <AnimatePresence>
             {isPressed && !loading && (
-              <motion.div
+              <m.div
                 className="absolute inset-0 bg-white/20 rounded-md"
                 initial={{ scale: 0, opacity: 0.6 }}
                 animate={{ scale: 1, opacity: 0 }}
@@ -89,7 +89,7 @@ const AnimatedButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
           {/* Content with loading state */}
           <AnimatePresence mode="wait">
             {loading ? (
-              <motion.div
+              <m.div
                 key="loading"
                 className="flex items-center gap-2"
                 initial={{ opacity: 0, scale: 0.8 }}
@@ -99,9 +99,9 @@ const AnimatedButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
               >
                 <Loader2 className="h-4 w-4 animate-spin" />
                 <span>Loading...</span>
-              </motion.div>
+              </m.div>
             ) : success ? (
-              <motion.div
+              <m.div
                 key="success"
                 className="flex items-center gap-2"
                 initial={{ opacity: 0, scale: 0.8 }}
@@ -109,7 +109,7 @@ const AnimatedButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
                 exit={{ opacity: 0, scale: 0.8 }}
                 transition={{ duration: 0.2 }}
               >
-                <motion.svg
+                <m.svg
                   className="h-4 w-4"
                   fill="none"
                   viewBox="0 0 24 24"
@@ -118,17 +118,17 @@ const AnimatedButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
                   animate={{ pathLength: 1 }}
                   transition={{ duration: 0.6, ease: "easeInOut" }}
                 >
-                  <motion.path
+                  <m.path
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth={2}
                     d="M5 13l4 4L19 7"
                   />
-                </motion.svg>
+                </m.svg>
                 <span>Success</span>
-              </motion.div>
+              </m.div>
             ) : (
-              <motion.span
+              <m.span
                 key="content"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -136,11 +136,11 @@ const AnimatedButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
                 transition={{ duration: 0.2 }}
               >
                 {children}
-              </motion.span>
+              </m.span>
             )}
           </AnimatePresence>
         </Comp>
-      </motion.div>
+      </m.div>
     )
   }
 )

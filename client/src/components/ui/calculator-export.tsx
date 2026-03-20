@@ -28,7 +28,7 @@ export function CalculatorExport({ title, data, resultRef }: CalculatorExportPro
       ``,
       ...Object.entries(data).map(([key, value]) => {
         const formattedValue = typeof value === 'number' 
-          ? `\u20B9${value.toLocaleString('en-IN')}`
+          ? `₹${value.toLocaleString('en-IN')}`
           : value;
         return `${key}: ${formattedValue}`;
       }),
@@ -199,7 +199,7 @@ export function CalculatorExport({ title, data, resultRef }: CalculatorExportPro
           <div class="results">
             ${Object.entries(data).map(([key, value], index, arr) => {
               const formattedValue = typeof value === 'number' 
-                ? `\u20B9${value.toLocaleString('en-IN')}`
+                ? `₹${value.toLocaleString('en-IN')}`
                 : value;
               const isLast = index === arr.length - 1;
               return isLast 

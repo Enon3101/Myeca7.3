@@ -10,9 +10,9 @@ interface SecureSessionOptions {
 
 export function useSecureSession(options: SecureSessionOptions = {}) {
   const {
-    maxInactiveTime = 15 * 60 * 1000, // 15 minutes default
-    warningTime = 2 * 60 * 1000, // 2 minutes warning
-    checkInterval = 10 * 1000, // Check every 10 seconds
+    maxInactiveTime = 24 * 60 * 60 * 1000, // 24 hours
+    warningTime = 5 * 60 * 1000, // 5 minutes warning
+    checkInterval = 30 * 1000, // Check every 30 seconds
   } = options;
 
   const { logout, user } = useAuth();

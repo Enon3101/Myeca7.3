@@ -10,10 +10,10 @@ export const blogPosts = [
       
       <h3>Key Changes in FY 2024-25</h3>
       <ul>
-        <li>Standard deduction increased to \u20B9 75,000 under new tax regime</li>
-        <li>Tax exemption limit increased to \u20B9 3 lakh under new regime</li>
-        <li>Rebate under section 87A increased to \u20B9 25,000 for income up to \u20B9 7 lakh</li>
-        <li>Family pension deduction increased from \u20B9 15,000 to \u20B9 25,000</li>
+        <li>Standard deduction increased to ₹ 75,000 under new tax regime</li>
+        <li>Tax exemption limit increased to ₹ 3 lakh under new regime</li>
+        <li>Rebate under section 87A increased to ₹ 25,000 for income up to ₹ 7 lakh</li>
+        <li>Family pension deduction increased from ₹ 15,000 to ₹ 25,000</li>
       </ul>
 
       <h3>Documents Required for ITR Filing</h3>
@@ -28,7 +28,7 @@ export const blogPosts = [
       <h3>Step-by-Step Filing Process</h3>
       <p>1. <strong>Choose the Right ITR Form:</strong> ITR-1 for salaried individuals, ITR-2 for capital gains, ITR-3 for business income</p>
       <p>2. <strong>Calculate Total Income:</strong> Add all income sources including salary, interest, capital gains</p>
-      <p>3. <strong>Claim Deductions:</strong> Under sections 80C (up to \u20B9 1.5 lakh), 80D (health insurance), etc.</p>
+      <p>3. <strong>Claim Deductions:</strong> Under sections 80C (up to ₹ 1.5 lakh), 80D (health insurance), etc.</p>
       <p>4. <strong>Compute Tax:</strong> Use tax slabs applicable to your chosen regime</p>
       <p>5. <strong>E-Verify:</strong> Complete verification within 30 days of filing</p>
 
@@ -60,40 +60,40 @@ export const blogPosts = [
       <h3>New Tax Regime (Default from FY 2023-24)</h3>
       <table>
         <tr><th>Income Slab</th><th>Tax Rate</th></tr>
-        <tr><td>Up to \u20B9 3,00,000</td><td>Nil</td></tr>
-        <tr><td>\u20B9 3,00,001 - \u20B9 6,00,000</td><td>5%</td></tr>
-        <tr><td>\u20B9 6,00,001 - \u20B9 9,00,000</td><td>10%</td></tr>
-        <tr><td>\u20B9 9,00,001 - \u20B9 12,00,000</td><td>15%</td></tr>
-        <tr><td>\u20B9 12,00,001 - \u20B9 15,00,000</td><td>20%</td></tr>
-        <tr><td>Above \u20B9 15,00,000</td><td>30%</td></tr>
+        <tr><td>Up to ₹ 3,00,000</td><td>Nil</td></tr>
+        <tr><td>₹ 3,00,001 - ₹ 6,00,000</td><td>5%</td></tr>
+        <tr><td>₹ 6,00,001 - ₹ 9,00,000</td><td>10%</td></tr>
+        <tr><td>₹ 9,00,001 - ₹ 12,00,000</td><td>15%</td></tr>
+        <tr><td>₹ 12,00,001 - ₹ 15,00,000</td><td>20%</td></tr>
+        <tr><td>Above ₹ 15,00,000</td><td>30%</td></tr>
       </table>
-      <p><strong>Standard Deduction:</strong> \u20B9 75,000 (increased in Budget 2024)</p>
-      <p><strong>Rebate u/s 87A:</strong> \u20B9 25,000 for income up to \u20B9 7 lakh</p>
+      <p><strong>Standard Deduction:</strong> ₹ 75,000 (increased in Budget 2024)</p>
+      <p><strong>Rebate u/s 87A:</strong> ₹ 25,000 for income up to ₹ 7 lakh</p>
 
       <h3>Old Tax Regime</h3>
       <table>
         <tr><th>Income Slab</th><th>Tax Rate</th></tr>
-        <tr><td>Up to \u20B9 2,50,000</td><td>Nil</td></tr>
-        <tr><td>\u20B9 2,50,001 - \u20B9 5,00,000</td><td>5%</td></tr>
-        <tr><td>\u20B9 5,00,001 - \u20B9 10,00,000</td><td>20%</td></tr>
-        <tr><td>Above \u20B9 10,00,000</td><td>30%</td></tr>
+        <tr><td>Up to ₹ 2,50,000</td><td>Nil</td></tr>
+        <tr><td>₹ 2,50,001 - ₹ 5,00,000</td><td>5%</td></tr>
+        <tr><td>₹ 5,00,001 - ₹ 10,00,000</td><td>20%</td></tr>
+        <tr><td>Above ₹ 10,00,000</td><td>30%</td></tr>
       </table>
 
       <h3>Key Deductions Available in Old Regime</h3>
       <ul>
-        <li><strong>Section 80C:</strong> Up to \u20B9 1.5 lakh (PPF, ELSS, LIC, etc.)</li>
+        <li><strong>Section 80C:</strong> Up to ₹ 1.5 lakh (PPF, ELSS, LIC, etc.)</li>
         <li><strong>Section 80D:</strong> Health insurance premiums</li>
-        <li><strong>Section 24:</strong> Home loan interest up to \u20B9 2 lakh</li>
+        <li><strong>Section 24:</strong> Home loan interest up to ₹ 2 lakh</li>
         <li><strong>HRA Exemption:</strong> Based on salary and rent paid</li>
         <li><strong>LTA:</strong> Leave Travel Allowance</li>
       </ul>
 
       <h3>When to Choose New Regime?</h3>
       <ul>
-        <li>Annual deductions less than \u20B9 2.5 lakh</li>
+        <li>Annual deductions less than ₹ 2.5 lakh</li>
         <li>No home loan or minimal interest payment</li>
         <li>Prefer simplicity over tax planning</li>
-        <li>Income above \u20B9 15 lakh with limited deductions</li>
+        <li>Income above ₹ 15 lakh with limited deductions</li>
       </ul>
 
       <h3>When to Choose Old Regime?</h3>
@@ -101,7 +101,7 @@ export const blogPosts = [
         <li>Significant investments in 80C instruments</li>
         <li>Paying home loan EMIs</li>
         <li>High HRA claims</li>
-        <li>Multiple deductions exceeding \u20B9 2.5 lakh annually</li>
+        <li>Multiple deductions exceeding ₹ 2.5 lakh annually</li>
       </ul>
     `,
     author: "CA Rajesh Kumar",
@@ -118,14 +118,14 @@ export const blogPosts = [
     excerpt: "Explore the best investment options under Section 80C and other provisions to minimize your tax liability effectively.",
     content: `
       <h2>Maximize Your Tax Savings in 2025</h2>
-      <p>Smart tax planning through investments can help you save up to \u20B9 46,800 in taxes (for 30% tax bracket) under Section 80C alone.</p>
+      <p>Smart tax planning through investments can help you save up to ₹ 46,800 in taxes (for 30% tax bracket) under Section 80C alone.</p>
 
       <h3>1. Public Provident Fund (PPF)</h3>
       <ul>
         <li><strong>Current Interest Rate:</strong> 7.1% p.a. (Q4 FY 2024-25)</li>
         <li><strong>Lock-in:</strong> 15 years</li>
         <li><strong>Tax Benefit:</strong> EEE (Exempt-Exempt-Exempt)</li>
-        <li><strong>Investment Limit:</strong> Min \u20B9 500, Max \u20B9 1.5 lakh per year</li>
+        <li><strong>Investment Limit:</strong> Min ₹ 500, Max ₹ 1.5 lakh per year</li>
       </ul>
 
       <h3>2. Employee Provident Fund (EPF)</h3>
@@ -139,13 +139,13 @@ export const blogPosts = [
       <ul>
         <li><strong>Lock-in:</strong> 3 years (shortest among 80C options)</li>
         <li><strong>Potential Returns:</strong> 12-15% (market-linked)</li>
-        <li><strong>Tax on Gains:</strong> LTCG above \u20B9 1 lakh taxed at 12.5%</li>
+        <li><strong>Tax on Gains:</strong> LTCG above ₹ 1 lakh taxed at 12.5%</li>
       </ul>
 
       <h3>4. National Pension System (NPS)</h3>
       <ul>
-        <li><strong>Additional Deduction:</strong> \u20B9 50,000 under 80CCD(1B)</li>
-        <li><strong>Total Benefit:</strong> Up to \u20B9 2 lakh (80C + 80CCD)</li>
+        <li><strong>Additional Deduction:</strong> ₹ 50,000 under 80CCD(1B)</li>
+        <li><strong>Total Benefit:</strong> Up to ₹ 2 lakh (80C + 80CCD)</li>
         <li><strong>Maturity:</strong> 60% withdrawal tax-free</li>
       </ul>
 
@@ -153,7 +153,7 @@ export const blogPosts = [
       <ul>
         <li><strong>Interest Rate:</strong> 8.2% p.a. (Q4 FY 2024-25)</li>
         <li><strong>Eligibility:</strong> 60 years and above</li>
-        <li><strong>Investment Limit:</strong> \u20B9 30 lakh</li>
+        <li><strong>Investment Limit:</strong> ₹ 30 lakh</li>
       </ul>
 
       <h3>6. Sukanya Samriddhi Yojana (SSY)</h3>
@@ -174,21 +174,21 @@ export const blogPosts = [
       <ul>
         <li><strong>Traditional Plans:</strong> Sum assured should be 10x premium</li>
         <li><strong>Term Insurance:</strong> Pure protection, low premium</li>
-        <li><strong>Deduction Limit:</strong> Included in \u20B9 1.5 lakh</li>
+        <li><strong>Deduction Limit:</strong> Included in ₹ 1.5 lakh</li>
       </ul>
 
       <h3>9. Health Insurance (Section 80D)</h3>
       <ul>
-        <li><strong>Self & Family:</strong> \u20B9 25,000 (\u20B9 50,000 for senior citizens)</li>
-        <li><strong>Parents:</strong> Additional \u20B9 25,000 (\u20B9 50,000 if senior)</li>
-        <li><strong>Preventive Health Check:</strong> \u20B9 5,000</li>
+        <li><strong>Self & Family:</strong> ₹ 25,000 (₹ 50,000 for senior citizens)</li>
+        <li><strong>Parents:</strong> Additional ₹ 25,000 (₹ 50,000 if senior)</li>
+        <li><strong>Preventive Health Check:</strong> ₹ 5,000</li>
       </ul>
 
       <h3>10. Home Loan Principal (Section 80C)</h3>
       <ul>
-        <li><strong>Principal Repayment:</strong> Up to \u20B9 1.5 lakh</li>
-        <li><strong>Interest (Section 24):</strong> Up to \u20B9 2 lakh</li>
-        <li><strong>First-Time Buyers:</strong> Additional \u20B9 50,000 under 80EE</li>
+        <li><strong>Principal Repayment:</strong> Up to ₹ 1.5 lakh</li>
+        <li><strong>Interest (Section 24):</strong> Up to ₹ 2 lakh</li>
+        <li><strong>First-Time Buyers:</strong> Additional ₹ 50,000 under 80EE</li>
       </ul>
     `,
     author: "CA Neha Gupta",
@@ -205,7 +205,7 @@ export const blogPosts = [
     excerpt: "Learn about the most common GST filing errors that can lead to penalties and how to ensure accurate and timely GST compliance.",
     content: `
       <h2>Avoid Costly GST Filing Mistakes</h2>
-      <p>GST compliance errors can result in heavy penalties ranging from \u20B9 10,000 to \u20B9 25,000. Here's how to avoid common mistakes.</p>
+      <p>GST compliance errors can result in heavy penalties ranging from ₹ 10,000 to ₹ 25,000. Here's how to avoid common mistakes.</p>
 
       <h3>1. Mismatch in GSTR-1 and GSTR-3B</h3>
       <ul>
@@ -217,7 +217,7 @@ export const blogPosts = [
       <h3>2. Wrong HSN Code Classification</h3>
       <ul>
         <li><strong>Impact:</strong> Wrong tax rate application</li>
-        <li><strong>Requirement:</strong> 4-digit HSN for turnover above \u20B9 5 Cr</li>
+        <li><strong>Requirement:</strong> 4-digit HSN for turnover above ₹ 5 Cr</li>
         <li><strong>Best Practice:</strong> Maintain HSN master list</li>
       </ul>
 
@@ -238,13 +238,13 @@ export const blogPosts = [
       <h3>5. Late Filing Penalties</h3>
       <table>
         <tr><th>Return Type</th><th>Due Date</th><th>Late Fee</th></tr>
-        <tr><td>GSTR-1</td><td>11th of next month</td><td>\u20B9 50/day (\u20B9 25 CGST + \u20B9 25 SGST)</td></tr>
-        <tr><td>GSTR-3B</td><td>20th of next month</td><td>\u20B9 50/day (capped at \u20B9 5,000)</td></tr>
+        <tr><td>GSTR-1</td><td>11th of next month</td><td>₹ 50/day (₹ 25 CGST + ₹ 25 SGST)</td></tr>
+        <tr><td>GSTR-3B</td><td>20th of next month</td><td>₹ 50/day (capped at ₹ 5,000)</td></tr>
       </table>
 
       <h3>6. E-Invoice Compliance</h3>
       <ul>
-        <li><strong>Threshold:</strong> \u20B9 5 Cr turnover (from Aug 2023)</li>
+        <li><strong>Threshold:</strong> ₹ 5 Cr turnover (from Aug 2023)</li>
         <li><strong>Time Limit:</strong> Generate within 30 days</li>
         <li><strong>Cancellation:</strong> Within 24 hours only</li>
       </ul>
@@ -277,9 +277,9 @@ export const blogPosts = [
       <h3>Expected Changes in Income Tax</h3>
       <ul>
         <li><strong>Tax Slabs:</strong> Possible revision in new regime slabs</li>
-        <li><strong>Standard Deduction:</strong> May increase to \u20B9 1 lakh</li>
-        <li><strong>Section 80C:</strong> Limit may increase to \u20B9 2 lakh</li>
-        <li><strong>NPS Benefit:</strong> Additional deduction may go up to \u20B9 75,000</li>
+        <li><strong>Standard Deduction:</strong> May increase to ₹ 1 lakh</li>
+        <li><strong>Section 80C:</strong> Limit may increase to ₹ 2 lakh</li>
+        <li><strong>NPS Benefit:</strong> Additional deduction may go up to ₹ 75,000</li>
       </ul>
 
       <h3>Corporate Tax Expectations</h3>
@@ -405,50 +405,50 @@ export const blogPosts = [
   },
   {
     id: 7,
-    title: "Zero Tax on \u20B912 Lakh Income: Complete Guide to New Tax Regime 2025",
-    excerpt: "Breaking down how the new tax regime makes income up to \u20B912 lakh tax-free with increased rebates and deductions for FY 2025-26.",
+    title: "Zero Tax on ₹12 Lakh Income: Complete Guide to New Tax Regime 2025",
+    excerpt: "Breaking down how the new tax regime makes income up to ₹12 lakh tax-free with increased rebates and deductions for FY 2025-26.",
     content: `
       <h2>Revolutionary Tax Changes in Budget 2025</h2>
-      <p>The Union Budget 2025 has brought game-changing updates to the new tax regime, making it incredibly attractive for taxpayers. The most significant change is that individuals earning up to \u20B912 lakh can now pay zero tax under the new regime.</p>
+      <p>The Union Budget 2025 has brought game-changing updates to the new tax regime, making it incredibly attractive for taxpayers. The most significant change is that individuals earning up to ₹12 lakh can now pay zero tax under the new regime.</p>
       
       <h3>Key Changes in New Tax Regime</h3>
       <ul>
-        <li><strong>Basic Exemption Limit:</strong> Increased from \u20B93 lakh to \u20B94 lakh</li>
-        <li><strong>Rebate u/s 87A:</strong> Increased from \u20B925,000 to \u20B960,000</li>
-        <li><strong>Standard Deduction:</strong> Enhanced to \u20B975,000 (from \u20B950,000)</li>
-        <li><strong>Zero Tax Income:</strong> Up to \u20B912 lakh (effective tax-free income)</li>
+        <li><strong>Basic Exemption Limit:</strong> Increased from ₹3 lakh to ₹4 lakh</li>
+        <li><strong>Rebate u/s 87A:</strong> Increased from ₹25,000 to ₹60,000</li>
+        <li><strong>Standard Deduction:</strong> Enhanced to ₹75,000 (from ₹50,000)</li>
+        <li><strong>Zero Tax Income:</strong> Up to ₹12 lakh (effective tax-free income)</li>
       </ul>
 
       <h3>New Tax Slabs for FY 2025-26</h3>
       <table>
         <tr><th>Income Range</th><th>Tax Rate</th><th>Tax Amount</th></tr>
-        <tr><td>Up to \u20B94,00,000</td><td>0%</td><td>Nil</td></tr>
-        <tr><td>\u20B94,00,001 - \u20B96,00,000</td><td>5%</td><td>\u20B910,000 max</td></tr>
-        <tr><td>\u20B96,00,001 - \u20B99,00,000</td><td>10%</td><td>\u20B930,000</td></tr>
-        <tr><td>\u20B99,00,001 - \u20B912,00,000</td><td>15%</td><td>\u20B945,000</td></tr>
-        <tr><td>\u20B912,00,001 - \u20B915,00,000</td><td>20%</td><td>\u20B960,000</td></tr>
-        <tr><td>Above \u20B915,00,000</td><td>30%</td><td>As applicable</td></tr>
+        <tr><td>Up to ₹4,00,000</td><td>0%</td><td>Nil</td></tr>
+        <tr><td>₹4,00,001 - ₹6,00,000</td><td>5%</td><td>₹10,000 max</td></tr>
+        <tr><td>₹6,00,001 - ₹9,00,000</td><td>10%</td><td>₹30,000</td></tr>
+        <tr><td>₹9,00,001 - ₹12,00,000</td><td>15%</td><td>₹45,000</td></tr>
+        <tr><td>₹12,00,001 - ₹15,00,000</td><td>20%</td><td>₹60,000</td></tr>
+        <tr><td>Above ₹15,00,000</td><td>30%</td><td>As applicable</td></tr>
       </table>
 
-      <h3>How \u20B912 Lakh Income Becomes Tax-Free</h3>
+      <h3>How ₹12 Lakh Income Becomes Tax-Free</h3>
       <p><strong>Example Calculation:</strong></p>
       <ul>
-        <li>Gross Income: \u20B912,00,000</li>
-        <li>Less: Standard Deduction: \u20B975,000</li>
-        <li>Taxable Income: \u20B911,25,000</li>
+        <li>Gross Income: ₹12,00,000</li>
+        <li>Less: Standard Deduction: ₹75,000</li>
+        <li>Taxable Income: ₹11,25,000</li>
         <li>Tax Calculation:
           <ul>
             <li>0-4L: Nil</li>
-            <li>4-6L: \u20B910,000</li>
-            <li>6-9L: \u20B930,000</li>
-            <li>9-11.25L: \u20B933,750</li>
+            <li>4-6L: ₹10,000</li>
+            <li>6-9L: ₹30,000</li>
+            <li>9-11.25L: ₹33,750</li>
           </ul>
         </li>
-        <li>Total Tax: \u20B973,750</li>
-        <li>Less: Rebate u/s 87A: \u20B960,000</li>
-        <li>Net Tax Payable: \u20B913,750</li>
-        <li>Health & Education Cess (4%): \u20B9550</li>
-        <li><strong>Total Tax: \u20B914,300 (Effective Rate: 1.19%)</strong></li>
+        <li>Total Tax: ₹73,750</li>
+        <li>Less: Rebate u/s 87A: ₹60,000</li>
+        <li>Net Tax Payable: ₹13,750</li>
+        <li>Health & Education Cess (4%): ₹550</li>
+        <li><strong>Total Tax: ₹14,300 (Effective Rate: 1.19%)</strong></li>
       </ul>
 
       <h3>Who Benefits Most?</h3>
@@ -462,25 +462,25 @@ export const blogPosts = [
       <h3>New vs Old Regime Comparison</h3>
       <table>
         <tr><th>Income Level</th><th>Old Regime Tax</th><th>New Regime Tax</th><th>Savings</th></tr>
-        <tr><td>\u20B97 lakh</td><td>\u20B952,500*</td><td>\u20B90</td><td>\u20B952,500</td></tr>
-        <tr><td>\u20B910 lakh</td><td>\u20B91,12,500*</td><td>\u20B935,000</td><td>\u20B977,500</td></tr>
-        <tr><td>\u20B912 lakh</td><td>\u20B91,72,500*</td><td>\u20B914,300</td><td>\u20B91,58,200</td></tr>
-        <tr><td>\u20B915 lakh</td><td>\u20B92,62,500*</td><td>\u20B978,000</td><td>\u20B91,84,500</td></tr>
+        <tr><td>₹7 lakh</td><td>₹52,500*</td><td>₹0</td><td>₹52,500</td></tr>
+        <tr><td>₹10 lakh</td><td>₹1,12,500*</td><td>₹35,000</td><td>₹77,500</td></tr>
+        <tr><td>₹12 lakh</td><td>₹1,72,500*</td><td>₹14,300</td><td>₹1,58,200</td></tr>
+        <tr><td>₹15 lakh</td><td>₹2,62,500*</td><td>₹78,000</td><td>₹1,84,500</td></tr>
       </table>
-      <p><small>*Assuming standard deductions of \u20B91.5L (80C) + \u20B950K (others) in old regime</small></p>
+      <p><small>*Assuming standard deductions of ₹1.5L (80C) + ₹50K (others) in old regime</small></p>
 
       <h3>Strategic Tax Planning Tips</h3>
       <ul>
         <li><strong>Salary Structuring:</strong> Optimize with allowances and perquisites</li>
         <li><strong>Investment Strategy:</strong> Focus on wealth creation over tax saving</li>
-        <li><strong>NPS Contribution:</strong> Additional \u20B950,000 deduction even in new regime</li>
-        <li><strong>Leave Encashment:</strong> Plan to stay within \u20B912 lakh limit</li>
+        <li><strong>NPS Contribution:</strong> Additional ₹50,000 deduction even in new regime</li>
+        <li><strong>Leave Encashment:</strong> Plan to stay within ₹12 lakh limit</li>
       </ul>
 
       <h3>Action Points for Taxpayers</h3>
       <ol>
         <li>Calculate tax under both regimes using updated slabs</li>
-        <li>Consider switching to new regime if investments < \u20B92.5 lakh</li>
+        <li>Consider switching to new regime if investments < ₹2.5 lakh</li>
         <li>Restructure salary to maximize take-home pay</li>
         <li>File updated declaration with employer for TDS adjustment</li>
         <li>Plan investments for wealth rather than just tax saving</li>
@@ -552,7 +552,7 @@ export const blogPosts = [
       <h3>Important Considerations</h3>
       <ul>
         <li><strong>Interest u/s 234A:</strong> Still applicable if tax dues pending</li>
-        <li><strong>Late Filing Fees:</strong> \u20B95,000 applicable after September 15</li>
+        <li><strong>Late Filing Fees:</strong> ₹5,000 applicable after September 15</li>
         <li><strong>Revised Returns:</strong> Can be filed till March 31, 2026</li>
         <li><strong>Carry Forward Losses:</strong> Must file within extended deadline</li>
         <li><strong>Refund Processing:</strong> Early filing ensures faster refunds</li>
@@ -599,10 +599,10 @@ export const blogPosts = [
       <h3>Overview of ITR Forms</h3>
       <table>
         <tr><th>Form</th><th>Applicable For</th><th>Income Limit</th><th>Key Changes</th></tr>
-        <tr><td>ITR-1 (Sahaj)</td><td>Salaried, One House</td><td>\u20B950 lakh</td><td>Simplified layout</td></tr>
+        <tr><td>ITR-1 (Sahaj)</td><td>Salaried, One House</td><td>₹50 lakh</td><td>Simplified layout</td></tr>
         <tr><td>ITR-2</td><td>Capital Gains, Multiple Houses</td><td>No limit</td><td>New CG schedules</td></tr>
         <tr><td>ITR-3</td><td>Business/Profession</td><td>No limit</td><td>Enhanced P&L format</td></tr>
-        <tr><td>ITR-4 (Sugam)</td><td>Presumptive Income</td><td>\u20B950 lakh</td><td>Digital focus</td></tr>
+        <tr><td>ITR-4 (Sugam)</td><td>Presumptive Income</td><td>₹50 lakh</td><td>Digital focus</td></tr>
       </table>
 
       <h3>Key Structural Changes</h3>
@@ -616,7 +616,7 @@ export const blogPosts = [
 
       <h3>ITR-1 (Sahaj) - Major Updates</h3>
       <ul>
-        <li><strong>Eligibility Expanded:</strong> Income limit increased to \u20B950 lakh</li>
+        <li><strong>Eligibility Expanded:</strong> Income limit increased to ₹50 lakh</li>
         <li><strong>New Fields:</strong>
           <ul>
             <li>Standard deduction auto-calculated</li>
@@ -640,7 +640,7 @@ export const blogPosts = [
         <li><strong>New Schedules Added:</strong>
           <ul>
             <li>Schedule FA: Foreign Assets enhanced</li>
-            <li>Schedule AL: Assets & Liabilities (\u20B950L+ income)</li>
+            <li>Schedule AL: Assets & Liabilities (₹50L+ income)</li>
             <li>Schedule VDA: Virtual Digital Assets</li>
           </ul>
         </li>
@@ -671,8 +671,8 @@ export const blogPosts = [
         <li><strong>Mandatory Cases:</strong>
           <ul>
             <li>Companies and firms (all cases)</li>
-            <li>Tax audit required (\u20B91 crore+ business)</li>
-            <li>Claiming refund above \u20B95 lakh</li>
+            <li>Tax audit required (₹1 crore+ business)</li>
+            <li>Claiming refund above ₹5 lakh</li>
           </ul>
         </li>
         <li><strong>Optional:</strong> All other individual taxpayers</li>
@@ -682,7 +682,7 @@ export const blogPosts = [
       <h3>New Reporting Requirements</h3>
       <ol>
         <li><strong>High-Value Transactions:</strong> Auto-populated from SFT</li>
-        <li><strong>Cash Deposits:</strong> Aggregate above \u20B910 lakh</li>
+        <li><strong>Cash Deposits:</strong> Aggregate above ₹10 lakh</li>
         <li><strong>Foreign Remittances:</strong> Under LRS reporting</li>
         <li><strong>Dividend Income:</strong> Company-wise breakup required</li>
         <li><strong>Interest Income:</strong> Bank-wise details with account numbers</li>
@@ -737,7 +737,7 @@ export const blogPosts = [
       <ul>
         <li><strong>LTCG Rate Increased:</strong> From 10% to 12.5% for listed securities</li>
         <li><strong>STCG Rate Increased:</strong> From 15% to 20% for equity</li>
-        <li><strong>Exemption Limit:</strong> \u20B91.25 lakh annually for LTCG</li>
+        <li><strong>Exemption Limit:</strong> ₹1.25 lakh annually for LTCG</li>
         <li><strong>Indexation Removed:</strong> No indexation benefit for any asset</li>
         <li><strong>Uniform Holding Period:</strong> 12 months for listed, 24 for others</li>
       </ul>
@@ -748,26 +748,26 @@ export const blogPosts = [
       <div style="background-color: #f8f8f8; padding: 15px; border-radius: 5px; margin: 10px 0;">
         <ul>
           <li>Purchase Date: January 1, 2024</li>
-          <li>Purchase Price: \u20B95,00,000</li>
+          <li>Purchase Price: ₹5,00,000</li>
           <li>Sale Date: February 1, 2025</li>
-          <li>Sale Price: \u20B97,50,000</li>
-          <li>Capital Gain: \u20B92,50,000</li>
+          <li>Sale Price: ₹7,50,000</li>
+          <li>Capital Gain: ₹2,50,000</li>
           <li>Type: LTCG (held > 12 months)</li>
-          <li>Exemption: \u20B91,25,000</li>
-          <li>Taxable Gain: \u20B91,25,000</li>
-          <li><strong>Tax Payable: \u20B915,625 (12.5%)</strong></li>
+          <li>Exemption: ₹1,25,000</li>
+          <li>Taxable Gain: ₹1,25,000</li>
+          <li><strong>Tax Payable: ₹15,625 (12.5%)</strong></li>
         </ul>
       </div>
 
       <h4>Example 2: Real Estate Property</h4>
       <div style="background-color: #f8f8f8; padding: 15px; border-radius: 5px; margin: 10px 0;">
         <ul>
-          <li>Purchase Price (2020): \u20B950,00,000</li>
-          <li>Sale Price (2025): \u20B980,00,000</li>
-          <li>Capital Gain: \u20B930,00,000</li>
+          <li>Purchase Price (2020): ₹50,00,000</li>
+          <li>Sale Price (2025): ₹80,00,000</li>
+          <li>Capital Gain: ₹30,00,000</li>
           <li>Type: LTCG (held > 24 months)</li>
           <li>No Indexation Available</li>
-          <li><strong>Tax Payable: \u20B93,75,000 (12.5%)</strong></li>
+          <li><strong>Tax Payable: ₹3,75,000 (12.5%)</strong></li>
         </ul>
       </div>
 
@@ -777,8 +777,8 @@ export const blogPosts = [
       <ul>
         <li>Invest LTCG in residential property</li>
         <li>Time Limit: 2 years for purchase, 3 years for construction</li>
-        <li>Maximum Exemption: \u20B910 crore</li>
-        <li>Can invest in 2 properties if gain ≤ \u20B92 crore</li>
+        <li>Maximum Exemption: ₹10 crore</li>
+        <li>Can invest in 2 properties if gain ≤ ₹2 crore</li>
       </ul>
 
       <h4>2. Section 54F - Other Assets</h4>
@@ -792,7 +792,7 @@ export const blogPosts = [
       <h4>3. Section 54EC - Capital Gain Bonds</h4>
       <ul>
         <li>Invest in specified bonds (NHAI, REC, PFC, IRFC)</li>
-        <li>Maximum Investment: \u20B950 lakh per financial year</li>
+        <li>Maximum Investment: ₹50 lakh per financial year</li>
         <li>Lock-in Period: 5 years</li>
         <li>Interest Rate: ~5-5.25% (taxable)</li>
       </ul>
@@ -804,7 +804,7 @@ export const blogPosts = [
         <li>Flat 30% tax on gains</li>
         <li>No deduction except cost of acquisition</li>
         <li>No set-off against other income</li>
-        <li>1% TDS on transfer above \u20B950,000</li>
+        <li>1% TDS on transfer above ₹50,000</li>
       </ul>
 
       <h4>Gifts and Inheritance</h4>
@@ -848,6 +848,107 @@ export const blogPosts = [
     tags: ["Capital Gains", "LTCG", "STCG", "Tax Planning", "Budget 2025"],
     image: "📈",
     slug: "capital-gains-tax-complete-guide-2025"
+  },
+  {
+    id: 11,
+    title: "Startup India Registration: Full Guide to Benefits and Eligibility",
+    excerpt: "Learn how to get your startup recognized under the Startup India initiative and unlock 3 years of tax holidays and other benefits.",
+    content: `
+      <h2>Why Register with Startup India?</h2>
+      <p>The Startup India initiative by the Govt. of India offers significant tax exemptions, patent filing benefits, and access to funding for eligible companies.</p>
+      
+      <h3>Eligibility Criteria</h3>
+      <ul>
+        <li>Date of Incorporation: Not older than 10 years</li>
+        <li>Type of Entity: Private Limited, LLP, or Partnership Firm</li>
+        <li>Annual Turnover: Should not exceed ₹100 Crore in any financial year</li>
+        <li>Nature of Work: Innovation, development, or improvement of products or services</li>
+      </ul>
+
+      <h3>Top 5 Benefits of Startup India Recognition</h3>
+      <ol>
+        <li><strong>Tax Holiday:</strong> 100% tax exemption for 3 consecutive years under Section 80-IAC</li>
+        <li><strong>Capital Gains Exemption:</strong> Under Section 54EE and 54GB</li>
+        <li><strong>Faster Exit:</strong> 90-day wind-up process under Insolvency and Bankruptcy Code</li>
+        <li><strong>Patent Rebate:</strong> Up to 80% discount on patent filing costs</li>
+      </ol>
+
+      <h3>Step-by-Step Registration Process</h3>
+      <p>1. Incorporate your business as a Pvt Ltd or LLP first.</p>
+      <p>2. Register on the Startup India Portal.</p>
+      <p>3. Apply for DPIIT recognition with essential documents (COI, brief on innovation).</p>
+      <p>4. Get your Recognition Certificate.</p>
+
+      <h3>MyeCA.in Helps Startups Grow</h3>
+      <p>We provide end-to-end support for Startup India registration, from documentation to applying for tax exemptions. Talk to our experts today to unlock your startup benefits.</p>
+    `,
+    author: "CA Vikram Singh",
+    date: "January 22, 2025",
+    readTime: "9 min read",
+    category: "Startup",
+    tags: ["Startup India", "Tax Benefits", "DPIIT", "Entrepreneurship"],
+    image: "🚀",
+    slug: "startup-india-registration-guide"
+  },
+  {
+    id: 12,
+    title: "Company Registration in India: Choosing Between Pvt Ltd, LLP, and OPC",
+    excerpt: "A comparison of different business structures to help you choose the right legal entity for your business in 2025.",
+    content: `
+      <h2>Choosing the Right Business Structure</h2>
+      <p>Choosing between a Private Limited Company, LLP, or One Person Company (OPC) is one of the most critical decisions for a founder. Each has its own compliance requirements and benefits.</p>
+
+      <h3>1. Private Limited Company (Pvt Ltd)</h3>
+      <ul>
+        <li><strong>Best For:</strong> High growth startups looking for VC funding</li>
+        <li><strong>Compliance Level:</strong> High (Audit, board meetings, ROC filings)</li>
+        <li><strong>Control:</strong> Directors and Shareholders</li>
+        <li><strong>Capital Requirement:</strong> Nil (Minimum authorized capital)</li>
+      </ul>
+
+      <h3>2. Limited Liability Partnership (LLP)</h3>
+      <ul>
+        <li><strong>Best For:</strong> Professionals and service-oriented businesses</li>
+        <li><strong>Compliance Level:</strong> Moderate</li>
+        <li><strong>Taxation:</strong> Partnership tax rates apply</li>
+        <li><strong>Advantage:</strong> No Dividend Distribution Tax</li>
+      </ul>
+
+      <h3>3. One Person Company (OPC)</h3>
+      <ul>
+        <li><strong>Best For:</strong> Solopreneurs who want limited liability</li>
+        <li><strong>Compliance Level:</strong> Moderate</li>
+        <li><strong>Requirement:</strong> One Director and One Nominee</li>
+        <li><strong>Flexibility:</strong> Easy to convert to Pvt Ltd later</li>
+      </ul>
+
+      <h3>Comparison Table</h3>
+      <table>
+        <tr><th>Feature</th><th>Pvt Ltd</th><th>LLP</th><th>OPC</th></tr>
+        <tr><td>Liability</td><td>Limited</td><td>Limited</td><td>Limited</td></tr>
+        <tr><td>Compliance</td><td>High</td><td>Moderate</td><td>Moderate</td></tr>
+        <tr><td>Taxation</td><td>25% + Cess</td><td>30% + Cess</td><td>25% + Cess</td></tr>
+        <tr><td>Funding</td><td>Easy</td><td>Difficult</td><td>Difficult</td></tr>
+      </table>
+
+      <h3>Documents Required for Registration</h3>
+      <ol>
+        <li>PAN and Aadhaar of all Directors/Partners</li>
+        <li>Passport size photos</li>
+        <li>Proof of Registered Office (Electricity bill/Rent agreement)</li>
+        <li>NOC from the owner of the premises</li>
+      </ol>
+
+      <h3>How MyeCA.in Can Help</h3>
+      <p>We handle the entire incorporation process from DIN/DSC application to Name Approval and SPICe+ filing. Get your company registered in as little as 10 days with MyeCA.in.</p>
+    `,
+    author: "CA Amit Verma",
+    date: "January 20, 2025",
+    readTime: "11 min read",
+    category: "Business Setup",
+    tags: ["Business Setup", "Pvt Ltd", "LLP", "OPC", "Registration"],
+    image: "🏢",
+    slug: "company-registration-comparison-guide"
   }
 ];
 

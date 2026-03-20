@@ -3,7 +3,7 @@
 import * as React from "react"
 import * as LabelPrimitive from "@radix-ui/react-label"
 import { Slot } from "@radix-ui/react-slot"
-import { motion, AnimatePresence } from "framer-motion"
+import { m, AnimatePresence } from "framer-motion"
 import { AlertCircle, CheckCircle } from "lucide-react"
 import {
   Controller,
@@ -157,7 +157,7 @@ const FormMessage = React.forwardRef<
 
   return (
     <AnimatePresence mode="wait">
-      <motion.p
+      <m.p
         key={body}
         ref={ref}
         id={formMessageId}
@@ -178,7 +178,7 @@ const FormMessage = React.forwardRef<
           <CheckCircle className="h-4 w-4 flex-shrink-0" />
         )}
         <span>{body}</span>
-      </motion.p>
+      </m.p>
     </AnimatePresence>
   )
 })

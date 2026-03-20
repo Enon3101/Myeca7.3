@@ -46,12 +46,12 @@ export function Layout({ children, title = 'Admin Panel' }: LayoutProps) {
         <div className="flex flex-col h-full">
           {/* Header */}
           <div className="flex items-center justify-between p-8 border-b border-slate-100/50">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-200 font-bold text-white text-xl">
+            <Link href="/" className="flex items-center gap-3 group">
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-200 font-bold text-white text-xl transition-transform group-hover:scale-110">
                 M
               </div>
-              <h2 className="text-xl font-extrabold tracking-tight text-slate-800 uppercase">MyEca</h2>
-            </div>
+              <h2 className="text-xl font-extrabold tracking-tight text-slate-800 uppercase group-hover:text-blue-600 transition-colors">MyeCA.in</h2>
+            </Link>
             <Button
               variant="ghost"
               size="icon"
@@ -143,7 +143,11 @@ export function Layout({ children, title = 'Admin Panel' }: LayoutProps) {
             
             <div className="flex items-center gap-4">
                <div className="h-10 w-10 rounded-xl bg-slate-100 flex items-center justify-center border border-slate-200 cursor-pointer hover:bg-slate-200 transition-colors">
-                  <span className="text-sm font-bold text-slate-600">JD</span>
+                  <span className="text-sm font-bold text-slate-600">
+                    {user?.email === 'cajsuthar@gmail.com' ? 'JS' : 
+                     (user?.firstName && user?.lastName ? `${user.firstName[0]}${user.lastName[0]}` : 
+                      user?.firstName ? user.firstName[0] : 'U').toUpperCase()}
+                  </span>
                </div>
             </div>
           </div>

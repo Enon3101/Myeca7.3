@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -160,7 +160,7 @@ export default function WorkflowsPage() {
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -174,7 +174,7 @@ export default function WorkflowsPage() {
             <Plus className="h-4 w-4 mr-2" />
             Create Workflow
           </Button>
-        </motion.div>
+        </m.div>
 
         <Tabs defaultValue="active" className="space-y-6">
           <TabsList>
@@ -203,7 +203,7 @@ export default function WorkflowsPage() {
                   const TriggerIcon = triggerIcons[workflow.trigger.type] || Zap;
                   
                   return (
-                    <motion.div
+                    <m.div
                       key={workflow.id}
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
@@ -283,7 +283,7 @@ export default function WorkflowsPage() {
                           </div>
                         </CardContent>
                       </Card>
-                    </motion.div>
+                    </m.div>
                   );
                 })}
               </div>
@@ -296,7 +296,7 @@ export default function WorkflowsPage() {
                 const TriggerIcon = triggerIcons[template.trigger.type] || Zap;
                 
                 return (
-                  <motion.div
+                  <m.div
                     key={template.id}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
@@ -337,7 +337,7 @@ export default function WorkflowsPage() {
                         </div>
                       </CardContent>
                     </Card>
-                  </motion.div>
+                  </m.div>
                 );
               })}
             </div>

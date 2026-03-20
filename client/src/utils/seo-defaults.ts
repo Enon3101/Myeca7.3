@@ -3,7 +3,7 @@ export const SEO_DEFAULTS = {
   siteName: 'MyeCA.in',
   siteTitle: 'Expert Income Tax Filing & ITR e-Filing Services India',
   titleTemplate: '%s | MyeCA.in',
-  defaultDescription: 'File ITR online with MyeCA.in. Expert CA assistance, maximum refund guarantee, 15L+ happy customers. ITR filing starts at \u20B9499. File AY 2025-26 returns now!',
+  defaultDescription: 'File ITR online with MyeCA.in. Expert CA assistance, maximum refund guarantee, 15L+ happy customers. ITR filing starts at ₹499. File AY 2025-26 returns now!',
   siteUrl: 'https://myeca.in',
   defaultImage: '/og-image.png',
   twitterHandle: '@myecain',

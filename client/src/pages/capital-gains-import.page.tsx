@@ -38,7 +38,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import {
   ParsedCapitalGains,
   parseCapitalGainsStatement,
@@ -113,7 +113,7 @@ export default function CapitalGainsImportPage() {
   // Format currency
   const formatCurrency = (amount: number) => {
     const isNegative = amount < 0;
-    return `${isNegative ? '-' : ''}\u20B9${Math.abs(amount).toLocaleString('en-IN')}`;
+    return `${isNegative ? '-' : ''}₹${Math.abs(amount).toLocaleString('en-IN')}`;
   };
 
   // Prepare chart data
@@ -274,7 +274,7 @@ export default function CapitalGainsImportPage() {
 
         {/* Results */}
         {parsedData && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="space-y-6"
@@ -414,7 +414,7 @@ export default function CapitalGainsImportPage() {
                           <span>{formatCurrency(parsedData.summary.totalLTCG)}</span>
                         </div>
                         <div className="flex justify-between text-sm text-green-700">
-                          <span>Exemption (\u20B91.25L)</span>
+                          <span>Exemption (₹1.25L)</span>
                           <span>- {formatCurrency(Math.min(parsedData.summary.totalLTCG, parsedData.summary.ltcgExemption))}</span>
                         </div>
                         <div className="flex justify-between text-sm">
@@ -510,7 +510,7 @@ export default function CapitalGainsImportPage() {
                           <BarChart data={gainTypeData}>
                             <CartesianGrid strokeDasharray="3 3" />
                             <XAxis dataKey="name" />
-                            <YAxis tickFormatter={(v) => `\u20B9${(v/1000).toFixed(0)}K`} />
+                            <YAxis tickFormatter={(v) => `₹${(v/1000).toFixed(0)}K`} />
                             <Tooltip formatter={(value: number) => formatCurrency(value)} />
                             <Bar dataKey="gain" fill="#8b5cf6" radius={[4, 4, 0, 0]}>
                               {gainTypeData.map((entry, index) => (
@@ -647,7 +647,7 @@ export default function CapitalGainsImportPage() {
                 </Card>
               </TabsContent>
             </Tabs>
-          </motion.div>
+          </m.div>
         )}
       </div>
     </div>

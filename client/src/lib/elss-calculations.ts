@@ -30,7 +30,7 @@ export interface TaxSavingsBreakdown {
 }
 
 // Tax constants
-const LTCG_EXEMPTION = 125000; // \u20B91.25 lakh exemption
+const LTCG_EXEMPTION = 125000; // ₹1.25 lakh exemption
 const LTCG_TAX_RATE = 0.125; // 12.5%
 const MAX_80C_DEDUCTION = 150000;
 const LOCK_IN_YEARS = 3;
@@ -86,7 +86,7 @@ export function calculateSIPReturns(
   
   const gains = totalValue - totalInvested;
   
-  // Calculate LTCG tax (only on gains above \u20B91.25L)
+  // Calculate LTCG tax (only on gains above ₹1.25L)
   const taxableGains = Math.max(0, gains - LTCG_EXEMPTION);
   const ltcgTax = taxableGains * LTCG_TAX_RATE;
   

@@ -31,8 +31,9 @@ export default defineConfig({
       output: {
         manualChunks: {
           vendor: ["react", "react-dom", "wouter", "@tanstack/react-query"],
-          ui: ["lucide-react", "@radix-ui/react-tooltip"],
           motion: ["framer-motion"],
+          icons: ["lucide-react"],
+          ui: ["@radix-ui/react-tooltip", "@radix-ui/react-dropdown-menu", "@radix-ui/react-navigation-menu", "@radix-ui/react-dialog"],
           charts: ["recharts"],
         },
       },

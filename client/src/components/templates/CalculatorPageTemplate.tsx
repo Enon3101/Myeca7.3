@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import EnhancedSEO from '@/components/EnhancedSEO';
@@ -62,7 +62,7 @@ export function CalculatorPageTemplate({
       <div className={cn('min-h-screen bg-background', className)}>
         <div className={cn('container mx-auto px-4 py-6 md:py-8', fullWidth ? 'max-w-7xl' : 'max-w-6xl')}>
           {/* Header with breadcrumbs */}
-          <motion.div {...fadeInUp} className="mb-6">
+          <m.div {...fadeInUp} className="mb-6">
             {showBackButton && (
               <Link href={backButtonHref}>
                 <Button variant="ghost" size="sm" className="mb-4 gap-2" data-testid="button-back">
@@ -102,13 +102,13 @@ export function CalculatorPageTemplate({
                 <p className="text-muted-foreground mt-1">{description}</p>
               </div>
             </div>
-          </motion.div>
+          </m.div>
 
           {/* Main content layout */}
           <div className={cn('grid gap-6', sidebarContent ? 'lg:grid-cols-3' : 'lg:grid-cols-1')}>
             {/* Calculator section */}
             <div className={cn(sidebarContent ? 'lg:col-span-2' : '')}>
-              <motion.div {...fadeInUp} transition={{ delay: 0.1 }}>
+              <m.div {...fadeInUp} transition={{ delay: 0.1 }}>
                 <Card>
                   <CardHeader>
                     <CardTitle className="text-lg">Enter Details</CardTitle>
@@ -120,36 +120,36 @@ export function CalculatorPageTemplate({
                     {inputSection}
                   </CardContent>
                 </Card>
-              </motion.div>
+              </m.div>
 
               {/* Results section */}
               {resultSection && (
-                <motion.div {...fadeInUp} transition={{ delay: 0.2 }} className="mt-6">
+                <m.div {...fadeInUp} transition={{ delay: 0.2 }} className="mt-6">
                   {resultSection}
-                </motion.div>
+                </m.div>
               )}
 
               {/* Additional info below results */}
               {additionalInfo && (
-                <motion.div {...fadeInUp} transition={{ delay: 0.3 }} className="mt-6">
+                <m.div {...fadeInUp} transition={{ delay: 0.3 }} className="mt-6">
                   {additionalInfo}
-                </motion.div>
+                </m.div>
               )}
             </div>
 
             {/* Sidebar */}
             {sidebarContent && (
-              <motion.aside {...fadeInUp} transition={{ delay: 0.2 }} className="space-y-6">
+              <m.aside {...fadeInUp} transition={{ delay: 0.2 }} className="space-y-6">
                 {sidebarContent}
-              </motion.aside>
+              </m.aside>
             )}
           </div>
 
           {/* Footer content */}
           {footerContent && (
-            <motion.div {...fadeInUp} transition={{ delay: 0.4 }} className="mt-8">
+            <m.div {...fadeInUp} transition={{ delay: 0.4 }} className="mt-8">
               {footerContent}
-            </motion.div>
+            </m.div>
           )}
         </div>
       </div>

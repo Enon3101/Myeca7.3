@@ -92,14 +92,8 @@ export const VisuallyHidden: React.FC<VisuallyHiddenProps> = ({
   } as const;
 
   const focusableStyles = focusable ? {
-    ':focus': {
-      position: 'static',
-      width: 'auto',
-      height: 'auto',
-      overflow: 'visible',
-      clip: 'auto',
-      whiteSpace: 'normal'
-    }
+    // Note: pseudo-classes like :focus cannot be applied via inline styles in React.
+    // Consider adding a CSS class for these effects.
   } : {};
 
   return (
@@ -145,9 +139,6 @@ export const SkipLink: React.FC<SkipLinkProps> = ({
         fontWeight: 'bold',
         zIndex: 1000,
         transition: 'top 0.3s ease',
-        ':focus': {
-          top: '6px'
-        }
       }}
     >
       {children}

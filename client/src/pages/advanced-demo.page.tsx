@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -181,7 +181,7 @@ export default function AdvancedDemoPage() {
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -192,7 +192,7 @@ export default function AdvancedDemoPage() {
             <h1 className="text-4xl font-bold text-gray-900">Advanced Features API Demo</h1>
           </div>
           <p className="text-xl text-gray-600">Test the backend API integration for advanced features</p>
-        </motion.div>
+        </m.div>
 
         <div className="grid md:grid-cols-2 gap-6 mb-12">
           {apiTests.map((api, index) => {
@@ -201,7 +201,7 @@ export default function AdvancedDemoPage() {
             const hasResult = results[api.id];
             
             return (
-              <motion.div
+              <m.div
                 key={api.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -252,7 +252,7 @@ export default function AdvancedDemoPage() {
                     )}
                   </CardContent>
                 </Card>
-              </motion.div>
+              </m.div>
             );
           })}
         </div>

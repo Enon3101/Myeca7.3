@@ -248,7 +248,7 @@ export function RevenueByServiceChart({ data, isLoading }: AnalyticsChartsProps)
             </Pie>
             <Tooltip
               formatter={(value: number, name: string, props: any) => [
-                `\u20B9${props.payload.amount.toLocaleString()}`,
+                `₹${props.payload.amount.toLocaleString()}`,
                 name,
               ]}
             />

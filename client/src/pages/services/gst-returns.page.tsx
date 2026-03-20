@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Link } from "wouter";
 import { 
   Receipt, 
@@ -52,7 +52,7 @@ export default function GSTReturnsPage() {
       dueDate: "11th of following month",
       description: "Outward supplies of taxable goods and/or services",
       applicability: "All registered taxpayers",
-      penalty: "\u20B9200 per day (max \u20B95,000)",
+      penalty: "₹200 per day (max ₹5,000)",
       changes2025: "3-year filing limit introduced, auto-locking after deadline",
       icon: Receipt,
       color: "blue"
@@ -63,7 +63,7 @@ export default function GSTReturnsPage() {
       dueDate: "20th of following month", 
       description: "Summary return with tax liability and input tax credit",
       applicability: "All registered taxpayers",
-      penalty: "\u20B950 per day per return",
+      penalty: "₹50 per day per return",
       changes2025: "Hard locking implemented, no filing after 3 years",
       icon: FileText,
       color: "green"
@@ -84,8 +84,8 @@ export default function GSTReturnsPage() {
       frequency: "Annual",
       dueDate: "31st December (for previous FY)",
       description: "Annual return consolidating all monthly/quarterly returns",
-      applicability: "Turnover > \u20B92 crores",
-      penalty: "0.25% of turnover (min \u20B925,000)",
+      applicability: "Turnover > ₹2 crores",
+      penalty: "0.25% of turnover (min ₹25,000)",
       changes2025: "Simplified format with auto-population from monthly returns",
       icon: BookOpen,
       color: "orange"
@@ -224,19 +224,19 @@ export default function GSTReturnsPage() {
     {
       violation: "Late filing of GSTR-1",
       timeLimit: "Beyond due date",
-      penalty: "\u20B9200 per day (max \u20B95,000)",
+      penalty: "₹200 per day (max ₹5,000)",
       additionalConsequences: "Restriction on filing GSTR-3B"
     },
     {
       violation: "Late filing of GSTR-3B",
       timeLimit: "Beyond 20th",
-      penalty: "\u20B950 per day per return",
+      penalty: "₹50 per day per return",
       additionalConsequences: "Interest @18% on outstanding tax"
     },
     {
       violation: "Non-filing of Annual Return",
       timeLimit: "Beyond 31st December",
-      penalty: "0.25% of turnover (min \u20B925,000)",
+      penalty: "0.25% of turnover (min ₹25,000)",
       additionalConsequences: "Cancellation of registration"
     },
     {
@@ -340,7 +340,7 @@ export default function GSTReturnsPage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* GST Returns Types */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -402,10 +402,10 @@ export default function GSTReturnsPage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* GST Rates 2025 */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
@@ -446,10 +446,10 @@ export default function GSTReturnsPage() {
               </tbody>
             </table>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Monthly Compliance Calendar */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
@@ -480,10 +480,10 @@ export default function GSTReturnsPage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Document Requirements */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
@@ -520,10 +520,10 @@ export default function GSTReturnsPage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* New Features 2025 */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.8 }}
@@ -554,10 +554,10 @@ export default function GSTReturnsPage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Common Mistakes */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.0 }}
@@ -605,10 +605,10 @@ export default function GSTReturnsPage() {
               );
             })}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Penalty Structure */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.2 }}
@@ -645,10 +645,10 @@ export default function GSTReturnsPage() {
               </tbody>
             </table>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* FAQ Section */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.4 }}
@@ -668,7 +668,7 @@ export default function GSTReturnsPage() {
               {
                 id: 1,
                 question: "What is GST and who needs to file GST returns?",
-                answer: "GST (Goods and Services Tax) is an indirect tax levied on the supply of goods and services in India. Businesses with annual turnover exceeding \u20B920 lakh (\u20B910 lakh for special category states) must register for GST and file monthly/quarterly returns. Even voluntary registrations require regular filing."
+                answer: "GST (Goods and Services Tax) is an indirect tax levied on the supply of goods and services in India. Businesses with annual turnover exceeding ₹20 lakh (₹10 lakh for special category states) must register for GST and file monthly/quarterly returns. Even voluntary registrations require regular filing."
               },
               {
                 id: 2,
@@ -678,7 +678,7 @@ export default function GSTReturnsPage() {
               {
                 id: 3,
                 question: "What happens if I file GSTR-1 or GSTR-3B late?",
-                answer: "GSTR-1 late filing: \u20B9200 per day penalty (maximum \u20B95,000) plus restriction on filing GSTR-3B. GSTR-3B late filing: \u20B950 per day penalty plus 18% interest on outstanding tax liability. With the new hard locking system, late filing becomes impossible after the 3-year limit."
+                answer: "GSTR-1 late filing: ₹200 per day penalty (maximum ₹5,000) plus restriction on filing GSTR-3B. GSTR-3B late filing: ₹50 per day penalty plus 18% interest on outstanding tax liability. With the new hard locking system, late filing becomes impossible after the 3-year limit."
               },
               {
                 id: 4,
@@ -708,7 +708,7 @@ export default function GSTReturnsPage() {
               {
                 id: 9,
                 question: "Can I file nil returns if I have no business transactions?",
-                answer: "Yes, nil returns must be filed even with zero turnover. File GSTR-1 and GSTR-3B with nil values by their respective due dates. This maintains GST registration validity and avoids cancellation. Our nil return filing service costs \u20B9590 for both returns with compliance support."
+                answer: "Yes, nil returns must be filed even with zero turnover. File GSTR-1 and GSTR-3B with nil values by their respective due dates. This maintains GST registration validity and avoids cancellation. Our nil return filing service costs ₹590 for both returns with compliance support."
               },
               {
                 id: 10,
@@ -722,10 +722,10 @@ export default function GSTReturnsPage() {
             allowMultiple={false}
             defaultOpenIndex={0}
           />
-        </motion.div>
+        </m.div>
 
         {/* Expert Assistance CTA */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.6 }}
@@ -743,7 +743,7 @@ export default function GSTReturnsPage() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 shadow-lg">
                   <Receipt className="w-5 h-5 mr-2" />
-                  File GST Returns \u20B9590/month
+                  File GST Returns ₹590/month
                 </Button>
                 <Link href="/expert-consultation?service=gst-returns">
                   <Button size="lg" className="bg-blue-700 hover:bg-blue-800 text-white border-0 px-8 shadow-lg font-semibold">
@@ -769,7 +769,7 @@ export default function GSTReturnsPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
       </div>
     </div>
   );

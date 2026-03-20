@@ -15,8 +15,8 @@ export default function UsersPage() {
   const [search, setSearch] = useState('');
   const { data: usersResponse, isLoading } = useUsers({ page, limit: 10, search });
 
-  const users = (usersResponse?.data?.users as User[]) || [];
-  const pagination = usersResponse?.data?.pagination;
+  const users = usersResponse?.users || [];
+  const pagination = usersResponse?.pagination;
 
   const columns = [
     {
@@ -25,13 +25,13 @@ export default function UsersPage() {
       render: (user: User) => (
         <div className="flex items-center gap-3">
           <div className="h-10 w-10 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-semibold">
-            {user.username.charAt(0).toUpperCase()}
+            {(user.username || user.email || 'U').charAt(0).toUpperCase()}
           </div>
           <div>
-            <div className="font-medium text-gray-900">{user.username}</div>
+            <div className="font-medium text-gray-900">{user.username || 'System User'}</div>
             <div className="text-xs text-gray-500 flex items-center gap-1">
               <Mail className="h-3 w-3" />
-              {user.email}
+              {user.email || 'no-email@myeca.in'}
             </div>
           </div>
         </div>
@@ -42,31 +42,31 @@ export default function UsersPage() {
       header: 'Name',
       render: (user: User) => (
         <div>
-          {user.first_name} {user.last_name}
+          {user.firstName} {user.lastName}
         </div>
       ),
     },
     {
-      key: 'is_active',
+      key: 'status',
       header: 'Status',
       render: (user: User) => (
-        <Badge className={user.is_active ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}>
-          {user.is_active ? 'Active' : 'Inactive'}
+        <Badge className={user.status === 'active' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}>
+          {user.status === 'active' ? 'Active' : 'Inactive'}
         </Badge>
       ),
     },
     {
-      key: 'is_admin',
+      key: 'role',
       header: 'Role',
       render: (user: User) => (
-        <Badge variant="outline">{user.is_admin ? 'Admin' : 'User'}</Badge>
+        <Badge variant="outline">{user.role}</Badge>
       ),
     },
     {
       key: 'created_at',
       header: 'Joined',
       render: (user: User) => (
-        <div className="text-sm text-gray-500">{formatTimeAgo(user.created_at)}</div>
+        <div className="text-sm text-gray-500">{formatTimeAgo(user.createdAt)}</div>
       ),
     },
   ];
@@ -102,7 +102,7 @@ export default function UsersPage() {
               <div>
                 <p className="text-sm text-gray-600">Active Users</p>
                 <p className="text-2xl font-bold text-gray-900">
-                  {users.filter((u) => u.is_active).length}
+                  {users.filter((u) => u.status === 'active').length}
                 </p>
               </div>
             </CardContent>
@@ -112,7 +112,7 @@ export default function UsersPage() {
               <div>
                 <p className="text-sm text-gray-600">Admins</p>
                 <p className="text-2xl font-bold text-gray-900">
-                  {users.filter((u) => u.is_admin).length}
+                  {users.filter((u) => u.role === 'admin').length}
                 </p>
               </div>
             </CardContent>

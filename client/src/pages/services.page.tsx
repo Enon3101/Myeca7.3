@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from "wouter";
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import MetaSEO from "@/components/seo/MetaSEO";
 import Breadcrumb from "@/components/Breadcrumb";
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -40,7 +40,9 @@ import {
   TrendingUp,
   MapPin,
   Zap,
-  AlertTriangle
+  AlertTriangle,
+  FileImage,
+  Loader2 as Spinner
 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -54,6 +56,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { compressImage, getFilePreview, formatFileSize } from '@/lib/file_utils';
 
 // Enhanced service data structure with documents
 const serviceCategories = [
@@ -69,8 +72,8 @@ const serviceCategories = [
       {
         id: 'gst-registration',
         title: 'GST Registration',
-        price: '\u20B92,999',
-        originalPrice: '\u20B94,999',
+        price: '₹2,999',
+        originalPrice: '₹4,999',
         tat: '3-5 Days',
         description: 'Complete GST registration with expert guidance and compliance support',
         features: ['Expert Consultation', 'Document Verification', 'Fast Processing', '24/7 Support'],
@@ -91,8 +94,8 @@ const serviceCategories = [
       {
         id: 'itr-filing',
         title: 'ITR Filing (Salaried)',
-        price: '\u20B9499',
-        originalPrice: '\u20B9999',
+        price: '₹499',
+        originalPrice: '₹999',
         tat: '24 Hours',
         description: 'Quick and accurate income tax return filing for salaried professionals',
         features: ['Form 16 Upload', 'Auto Calculations', 'E-Verification', 'Refund Tracking'],
@@ -113,8 +116,8 @@ const serviceCategories = [
       {
         id: 'gst-filing',
         title: 'GST Returns Filing',
-        price: '\u20B9590',
-        originalPrice: '\u20B9999',
+        price: '₹590',
+        originalPrice: '₹999',
         tat: '48 Hours',
         description: 'Monthly/Quarterly GST return filing with accuracy guarantee (Up to 50 bills)',
         features: ['GSTR-1/3B Filing', 'Input Credit Reconciliation', 'Compliance Check', 'Expert Review'],
@@ -136,8 +139,8 @@ const serviceCategories = [
       {
         id: 'tds-filing',
         title: 'TDS Filing Service',
-        price: '\u20B9999',
-        originalPrice: '\u20B91,499',
+        price: '₹999',
+        originalPrice: '₹1,499',
         tat: '24 Hours',
         description: 'Complete TDS/TCS return filing with current FY 2024-25 requirements',
         features: ['24Q/26Q/27Q/27EQ Filing', 'TDS Certificate Generation', 'Compliance Check', 'Expert Review'],
@@ -157,8 +160,8 @@ const serviceCategories = [
       {
         id: 'gst-nil-filing',
         title: 'GST Nil Returns Filing',
-        price: '\u20B9590',
-        originalPrice: '\u20B9999',
+        price: '₹590',
+        originalPrice: '₹999',
         tat: '48 Hours',
         description: 'Nil GST return filing for businesses with no transactions',
         features: ['GSTR-1 Nil Filing', 'GSTR-3B Nil Filing', 'Compliance Support', 'Quick Processing'],
@@ -175,8 +178,8 @@ const serviceCategories = [
       {
         id: 'notice-compliance',
         title: 'Income Tax Notice Handling',
-        price: '\u20B91,999',
-        originalPrice: '\u20B92,999',
+        price: '₹1,999',
+        originalPrice: '₹2,999',
         tat: '24 Hours',
         description: 'Expert assistance for all types of income tax notices with 95% success rate',
         features: ['24-Hour Response', 'Expert CA Team', 'Comprehensive Response', 'Follow-up Support'],
@@ -198,8 +201,8 @@ const serviceCategories = [
       {
         id: 'itr-1-with-bs',
         title: 'ITR-1 Filing (With Balance Sheet)',
-        price: '\u20B9588',
-        originalPrice: '\u20B9999',
+        price: '₹588',
+        originalPrice: '₹999',
         tat: '24 Hours',
         description: 'ITR-1 filing for salaried individuals with balance sheet preparation',
         features: ['CA Certified Balance Sheet', 'Form 16 Processing', 'Tax Optimization', 'E-Verification'],
@@ -217,8 +220,8 @@ const serviceCategories = [
       {
         id: 'itr-2-with-bs',
         title: 'ITR-2 Filing (With Balance Sheet)',
-        price: '\u20B9825',
-        originalPrice: '\u20B91,299',
+        price: '₹825',
+        originalPrice: '₹1,299',
         tat: '24 Hours',
         description: 'ITR-2 filing for individuals with capital gains and balance sheet',
         features: ['Capital Gains Calculation', 'Balance Sheet', 'Multiple Income Sources', 'Tax Planning'],
@@ -235,8 +238,8 @@ const serviceCategories = [
       {
         id: 'itr-3-with-bs',
         title: 'ITR-3 Filing (With Balance Sheet)',
-        price: '\u20B9825',
-        originalPrice: '\u20B91,299',
+        price: '₹825',
+        originalPrice: '₹1,299',
         tat: '24 Hours',
         description: 'ITR-3 filing for business income with balance sheet preparation',
         features: ['Business Income', 'Balance Sheet & P&L', 'Depreciation Calculation', 'Tax Audit Support'],
@@ -253,8 +256,8 @@ const serviceCategories = [
       {
         id: 'firm-itr',
         title: 'Partnership Firm ITR',
-        price: '\u20B92,360',
-        originalPrice: '\u20B93,999',
+        price: '₹2,360',
+        originalPrice: '₹3,999',
         tat: '3 Working Days',
         description: 'Income tax return filing for partnership firms with complete documentation',
         features: ['Firm ITR Filing', 'Partner Schedule', 'Book Profit Calculation', 'Tax Audit'],
@@ -282,8 +285,8 @@ const serviceCategories = [
       {
         id: 'pvt-ltd',
         title: 'Private Limited Company',
-        price: '\u20B98,999',
-        originalPrice: '\u20B915,999',
+        price: '₹8,999',
+        originalPrice: '₹15,999',
         tat: '15-20 Days',
         description: 'Complete company incorporation with digital signature and compliance',
         features: ['Name Approval', 'DIN & DSC', 'MOA & AOA', 'Certificate of Incorporation'],
@@ -306,8 +309,8 @@ const serviceCategories = [
       {
         id: 'llp-reg',
         title: 'LLP Registration',
-        price: '\u20B92,124',
-        originalPrice: '\u20B93,499',
+        price: '₹2,124',
+        originalPrice: '₹3,499',
         tat: '4 Working Days',
         description: 'Limited Liability Partnership registration with complete documentation',
         features: ['Name Reservation', 'LLP Agreement', 'Certificate', 'DPIN'],
@@ -326,8 +329,8 @@ const serviceCategories = [
       {
         id: 'proprietorship-reg',
         title: 'Proprietorship Registration',
-        price: '\u20B91,770',
-        originalPrice: '\u20B92,999',
+        price: '₹1,770',
+        originalPrice: '₹2,999',
         tat: '2 Working Days',
         description: 'Complete proprietorship business registration with trade license',
         features: ['Business Registration', 'Trade License', 'MSME Support', 'Bank Account Opening'],
@@ -346,8 +349,8 @@ const serviceCategories = [
       {
         id: 'partnership-reg',
         title: 'Partnership Registration',
-        price: '\u20B92,950',
-        originalPrice: '\u20B94,999',
+        price: '₹2,950',
+        originalPrice: '₹4,999',
         tat: '4 Working Days',
         description: 'Partnership firm registration with partnership deed and compliance',
         features: ['Partnership Deed', 'Registration Certificate', 'PAN Application', 'Bank Account Support'],
@@ -365,8 +368,8 @@ const serviceCategories = [
       {
         id: 'section-8-company',
         title: 'Section 8 Company (NGO)',
-        price: '\u20B94,720',
-        originalPrice: '\u20B97,999',
+        price: '₹4,720',
+        originalPrice: '₹7,999',
         tat: '4 Working Days',
         description: 'Non-profit company registration under Section 8 of Companies Act',
         features: ['Section 8 License', 'Certificate of Incorporation', '12A & 80G Support', 'Compliance Guide'],
@@ -384,8 +387,8 @@ const serviceCategories = [
       {
         id: 'name-reservation',
         title: 'Company Name Reservation',
-        price: '\u20B91,770',
-        originalPrice: '\u20B92,499',
+        price: '₹1,770',
+        originalPrice: '₹2,499',
         tat: '48 Hours',
         description: 'Reserve your preferred company name with ROC approval',
         features: ['Name Availability Check', 'ROC Application', 'Name Approval Certificate', 'Validity Extension'],
@@ -412,8 +415,8 @@ const serviceCategories = [
       {
         id: 'trademark-reg',
         title: 'Trademark Registration',
-        price: '\u20B96,999',
-        originalPrice: '\u20B912,999',
+        price: '₹6,999',
+        originalPrice: '₹12,999',
         tat: '12-18 Months',
         description: 'Complete trademark registration with search and filing',
         features: ['Trademark Search', 'Application Filing', 'Response to Objections', 'Registration Certificate'],
@@ -435,8 +438,8 @@ const serviceCategories = [
       {
         id: 'copyright-reg',
         title: 'Copyright Registration',
-        price: '\u20B93,999',
-        originalPrice: '\u20B97,999',
+        price: '₹3,999',
+        originalPrice: '₹7,999',
         tat: '30-45 Days',
         description: 'Protect your creative works with copyright registration',
         features: ['Application Drafting', 'Filing & Tracking', 'Certificate', 'Legal Protection'],
@@ -465,8 +468,8 @@ const serviceCategories = [
       {
         id: 'fssai-basic',
         title: 'FSSAI Basic License',
-        price: '\u20B9590',
-        originalPrice: '\u20B9999',
+        price: '₹590',
+        originalPrice: '₹999',
         tat: '48 Hours',
         description: 'Basic food safety license for small food businesses (One Year)',
         features: ['One Year Validity', 'Document Verification', 'Fast Processing', 'Digital Certificate'],
@@ -485,8 +488,8 @@ const serviceCategories = [
       {
         id: 'fssai-state',
         title: 'FSSAI State License',
-        price: '\u20B91,180',
-        originalPrice: '\u20B91,999',
+        price: '₹1,180',
+        originalPrice: '₹1,999',
         tat: '3 Working Days',
         description: 'State level FSSAI license for manufacturing and trading businesses',
         features: ['State Level License', 'Manufacturing Permission', 'Trading Permission', 'Expert Support'],
@@ -504,8 +507,8 @@ const serviceCategories = [
       {
         id: 'fssai-central',
         title: 'FSSAI Central License',
-        price: '\u20B92,950',
-        originalPrice: '\u20B94,999',
+        price: '₹2,950',
+        originalPrice: '₹4,999',
         tat: '3 Working Days',
         description: 'Central FSSAI license for large scale food businesses and importers',
         features: ['Central Level License', 'Import/Export Permission', 'Multi-state Operations', 'Premium Support'],
@@ -523,8 +526,8 @@ const serviceCategories = [
       {
         id: 'trade-license',
         title: 'Trade License',
-        price: '\u20B91,180',
-        originalPrice: '\u20B91,999',
+        price: '₹1,180',
+        originalPrice: '₹1,999',
         tat: '48 Hours',
         description: 'Municipal trade license for business operations',
         features: ['Municipal Approval', 'Business Legalization', 'Renewal Support', 'Expert Guidance'],
@@ -542,8 +545,8 @@ const serviceCategories = [
       {
         id: 'shop-act',
         title: 'Shop & Establishment License',
-        price: '\u20B92,360',
-        originalPrice: '\u20B93,999',
+        price: '₹2,360',
+        originalPrice: '₹3,999',
         tat: '3 Working Days',
         description: 'Mandatory license for all commercial establishments',
         features: ['Legal Recognition', 'Employee Protection', 'Compliance Certificate', 'Renewal Reminder'],
@@ -561,8 +564,8 @@ const serviceCategories = [
       {
         id: 'msme-registration',
         title: 'MSME Registration',
-        price: '\u20B9590',
-        originalPrice: '\u20B9999',
+        price: '₹590',
+        originalPrice: '₹999',
         tat: '24 Hours',
         description: 'Udyam registration for Micro, Small & Medium Enterprises',
         features: ['Udyam Certificate', 'Government Benefits', 'Loan Eligibility', 'Subsidy Access'],
@@ -580,8 +583,8 @@ const serviceCategories = [
       {
         id: 'iec-registration',
         title: 'Import Export Code (IEC)',
-        price: '\u20B91,416',
-        originalPrice: '\u20B92,499',
+        price: '₹1,416',
+        originalPrice: '₹2,499',
         tat: '24 Hours',
         description: 'Essential code for import/export business activities',
         features: ['10-Digit IEC Code', 'DGFT Registration', 'Export Benefits', 'Import Facility'],
@@ -598,8 +601,8 @@ const serviceCategories = [
       {
         id: 'startup-india',
         title: 'Startup India Certificate',
-        price: '\u20B93,186',
-        originalPrice: '\u20B94,999',
+        price: '₹3,186',
+        originalPrice: '₹4,999',
         tat: '3 Working Days',
         description: 'Official recognition as a startup with government benefits',
         features: ['DIPP Recognition', 'Tax Benefits', 'IPR Support', 'Funding Access'],
@@ -627,8 +630,8 @@ const serviceCategories = [
       {
         id: 'iso-certification',
         title: 'ISO Certification Services',
-        price: '\u20B925,000',
-        originalPrice: '\u20B950,000',
+        price: '₹25,000',
+        originalPrice: '₹50,000',
         tat: '3-6 Months',
         description: 'Complete ISO 9001, 14001, 45001, 27001 certification with documentation',
         features: ['Gap Analysis', 'Documentation Support', 'Implementation Guidance', 'Audit Support'],
@@ -660,8 +663,8 @@ const serviceCategories = [
       {
         id: 'labour-law-compliance',
         title: 'Labour Law Compliance',
-        price: '\u20B92,999',
-        originalPrice: '\u20B94,999',
+        price: '₹2,999',
+        originalPrice: '₹4,999',
         tat: 'Monthly',
         description: 'Complete PF, ESI, Contract Labour Act, and Factory Act compliance with 2025 updates',
         features: ['PF/ESI Management', 'Forms A-D Compliance', 'Digital Platform Integration', 'Zero Penalty Guarantee'],
@@ -693,8 +696,8 @@ const serviceCategories = [
       {
         id: 'aoc-04',
         title: 'AOC-04 Filing',
-        price: '\u20B91,770',
-        originalPrice: '\u20B92,999',
+        price: '₹1,770',
+        originalPrice: '₹2,999',
         tat: '3 Working Days',
         description: 'Annual filing of financial statements with ROC',
         features: ['Balance Sheet Filing', 'P&L Statement', 'ROC Compliance', 'Penalty Avoidance'],
@@ -712,8 +715,8 @@ const serviceCategories = [
       {
         id: 'mgt-07',
         title: 'MGT-07 Filing',
-        price: '\u20B91,770',
-        originalPrice: '\u20B92,999',
+        price: '₹1,770',
+        originalPrice: '₹2,999',
         tat: '3 Working Days',
         description: 'Annual return filing for companies',
         features: ['Annual Return', 'Shareholding Details', 'ROC Filing', 'Compliance Certificate'],
@@ -730,8 +733,8 @@ const serviceCategories = [
       {
         id: 'dir-03-kyc',
         title: 'DIR-03 KYC',
-        price: '\u20B91,180',
-        originalPrice: '\u20B91,999',
+        price: '₹1,180',
+        originalPrice: '₹1,999',
         tat: '3 Working Days',
         description: 'Annual KYC filing for company directors',
         features: ['Director KYC', 'Compliance Update', 'Penalty Avoidance', 'Digital Filing'],
@@ -748,8 +751,8 @@ const serviceCategories = [
       {
         id: 'llp-form-8',
         title: 'LLP Form-8 Filing',
-        price: '\u20B93,540',
-        originalPrice: '\u20B94,999',
+        price: '₹3,540',
+        originalPrice: '₹4,999',
         tat: '48 Hours',
         description: 'Annual statement of accounts and solvency for LLP',
         features: ['Account Statement', 'Solvency Certificate', 'ROC Filing', 'Compliance Support'],
@@ -766,8 +769,8 @@ const serviceCategories = [
       {
         id: 'llp-form-11',
         title: 'LLP Form-11 Filing',
-        price: '\u20B93,540',
-        originalPrice: '\u20B94,999',
+        price: '₹3,540',
+        originalPrice: '₹4,999',
         tat: '48 Hours',
         description: 'Annual return filing for Limited Liability Partnership',
         features: ['Annual Return', 'Partner Details', 'ROC Compliance', 'Expert Support'],
@@ -795,8 +798,8 @@ const serviceCategories = [
       {
         id: 'iso-9001',
         title: 'ISO 9001:2015 (IAF)',
-        price: '\u20B95,900',
-        originalPrice: '\u20B99,999',
+        price: '₹5,900',
+        originalPrice: '₹9,999',
         tat: '10 Working Days',
         description: 'Quality Management System certification with international accreditation',
         features: ['IAF Accredited', 'Quality Management', 'International Recognition', 'Audit Support'],
@@ -814,8 +817,8 @@ const serviceCategories = [
       {
         id: 'iso-45001',
         title: 'ISO 45001:2018 (IAF)',
-        price: '\u20B98,260',
-        originalPrice: '\u20B912,999',
+        price: '₹8,260',
+        originalPrice: '₹12,999',
         tat: '10 Working Days',
         description: 'Occupational Health & Safety Management System certification',
         features: ['Safety Management', 'Worker Protection', 'Risk Assessment', 'Compliance Certificate'],
@@ -832,8 +835,8 @@ const serviceCategories = [
       {
         id: 'iso-14001',
         title: 'ISO 14001:2015 (IAF)',
-        price: '\u20B96,490',
-        originalPrice: '\u20B99,999',
+        price: '₹6,490',
+        originalPrice: '₹9,999',
         tat: '10 Working Days',
         description: 'Environmental Management System certification',
         features: ['Environmental Management', 'Sustainability', 'Compliance Support', 'Green Certification'],
@@ -850,8 +853,8 @@ const serviceCategories = [
       {
         id: 'iso-27001',
         title: 'ISO 27001:2022 (IAF)',
-        price: '\u20B95,900',
-        originalPrice: '\u20B98,999',
+        price: '₹5,900',
+        originalPrice: '₹8,999',
         tat: '10 Working Days',
         description: 'Information Security Management System certification',
         features: ['Data Security', 'Cyber Protection', 'Risk Management', 'Compliance Assurance'],
@@ -879,8 +882,8 @@ const serviceCategories = [
       {
         id: 'consulting-services',
         title: 'Business Consulting',
-        price: '\u20B9590',
-        originalPrice: '\u20B91,199',
+        price: '₹590',
+        originalPrice: '₹1,199',
         tat: 'As per Appointment',
         description: 'Expert business consultation for strategic planning and compliance',
         features: ['Strategic Planning', 'Compliance Guidance', 'Business Advisory', 'Custom Solutions'],
@@ -898,8 +901,8 @@ const serviceCategories = [
       {
         id: 'gem-certification',
         title: 'GEM Registration',
-        price: '\u20B92,360',
-        originalPrice: '\u20B93,999',
+        price: '₹2,360',
+        originalPrice: '₹3,999',
         tat: '3 Working Days',
         description: 'Government e-Marketplace registration for government tenders',
         features: ['Government Portal Access', 'Tender Participation', 'OEM Authorization', 'Bid Management'],
@@ -917,8 +920,8 @@ const serviceCategories = [
       {
         id: 'ngo-darpan',
         title: 'NGO Darpan Registration',
-        price: '\u20B92,360',
-        originalPrice: '\u20B93,999',
+        price: '₹2,360',
+        originalPrice: '₹3,999',
         tat: '4 Working Days',
         description: 'Registration on government portal for NGOs and voluntary organizations',
         features: ['Government Recognition', 'Funding Access', 'CSR Eligibility', 'Compliance Support'],
@@ -935,8 +938,8 @@ const serviceCategories = [
       {
         id: 'company-conversion',
         title: 'Company Conversion',
-        price: '\u20B911,800',
-        originalPrice: '\u20B919,999',
+        price: '₹11,800',
+        originalPrice: '₹19,999',
         tat: '30 Days',
         description: 'Convert your business structure (Partnership to Company, etc.)',
         features: ['Structure Change', 'Legal Compliance', 'Asset Transfer', 'ROC Filing'],
@@ -1032,6 +1035,10 @@ const ServiceActivationWizard: React.FC<{
   const [currentStep, setCurrentStep] = useState(0);
   const [uploadedDocs, setUploadedDocs] = useState<string[]>([]);
   const [isUploading, setIsUploading] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   const documents = service.documents || [];
   const totalSteps = documents.length + 2; // Welcome + Docs + Success
@@ -1045,19 +1052,79 @@ const ServiceActivationWizard: React.FC<{
     }
   };
 
-  const handleUpload = (docName: string) => {
-    setIsUploading(true);
-    // Simulate upload delay
-    setTimeout(() => {
-      setUploadedDocs(prev => [...prev, docName]);
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 10 * 1024 * 1024) {
+      alert("File is too large. Max size is 10MB.");
+      return;
+    }
+
+    try {
+      setIsUploading(true);
+      const compressed = await compressImage(file);
+      setSelectedFile(compressed);
+      
+      const preview = getFilePreview(compressed);
+      setPreviewUrl(preview);
+    } catch (err) {
+      console.error("Compression failed:", err);
+      setSelectedFile(file);
+    } finally {
       setIsUploading(false);
-      handleNext();
-    }, 1500);
+    }
+  };
+
+  const handleUpload = async (docName: string) => {
+    if (!selectedFile) return;
+
+    setIsUploading(true);
+    setUploadProgress(10);
+
+    try {
+      const formData = new FormData();
+      formData.append("file", selectedFile);
+      formData.append("name", docName);
+      formData.append("category", category.id || "other");
+      
+      const response = await fetch("/api/documents/upload", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("auth_token")}`
+        },
+        body: formData
+      });
+
+      if (!response.ok) throw new Error("Upload failed");
+      
+      setUploadProgress(100);
+      setUploadedDocs(prev => [...prev, docName]);
+      
+      // Cleanup preview
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+      setPreviewUrl(null);
+      setSelectedFile(null);
+      setUploadProgress(0);
+      
+      setTimeout(() => {
+        setIsUploading(false);
+        handleNext();
+      }, 500);
+    } catch (err) {
+      console.error("Upload error:", err);
+      alert("Failed to upload document. Please try again.");
+      setIsUploading(false);
+      setUploadProgress(0);
+    }
   };
 
   const resetWizard = () => {
     setCurrentStep(0);
     setUploadedDocs([]);
+    setSelectedFile(null);
+    if (previewUrl) URL.revokeObjectURL(previewUrl);
+    setPreviewUrl(null);
   };
 
   return (
@@ -1069,7 +1136,7 @@ const ServiceActivationWizard: React.FC<{
         <div className="relative">
           {/* Progress Bar */}
           <div className="absolute top-0 left-0 w-full h-1.5 bg-gray-100">
-            <motion.div 
+            <m.div 
               className="h-full bg-blue-600"
               initial={{ width: 0 }}
               animate={{ width: `${(currentStep / (totalSteps - 1)) * 100}%` }}
@@ -1080,7 +1147,7 @@ const ServiceActivationWizard: React.FC<{
           <div className="p-8 pt-10">
             <AnimatePresence mode="wait">
               {currentStep === 0 && (
-                <motion.div
+                <m.div
                   key="welcome"
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -1108,11 +1175,11 @@ const ServiceActivationWizard: React.FC<{
                     Start Activation
                     <ArrowRight className="ml-2 w-5 h-5" />
                   </Button>
-                </motion.div>
+                </m.div>
               )}
 
               {currentStep > 0 && currentStep <= documents.length && (
-                <motion.div
+                <m.div
                   key={`doc-${currentStep}`}
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -1142,30 +1209,72 @@ const ServiceActivationWizard: React.FC<{
                     </div>
                   </div>
 
-                  <div className="pt-4">
-                    <Button 
-                      onClick={() => handleUpload(documents[currentStep - 1])}
-                      disabled={isUploading}
-                      className="w-full h-14 bg-white hover:bg-slate-50 text-slate-900 border-2 border-dashed border-slate-300 hover:border-blue-500 rounded-2xl text-lg font-bold transition-all group"
-                    >
-                      {isUploading ? (
-                        <>
-                          <div className="w-5 h-5 border-2 border-blue-600 border-t-transparent rounded-full animate-spin mr-3" />
-                          Uploading Document...
-                        </>
-                      ) : (
-                        <>
-                          <Upload className="mr-3 w-5 h-5 text-slate-400 group-hover:text-blue-600" />
-                          Upload {documents[currentStep - 1]}
-                        </>
-                      )}
-                    </Button>
+                  <div className="pt-4 space-y-4">
+                    {previewUrl && (
+                      <div className="relative group rounded-2xl overflow-hidden border border-slate-200 bg-slate-50 aspect-video flex items-center justify-center">
+                        {selectedFile?.type.startsWith('image/') ? (
+                          <img src={previewUrl} alt="Preview" className="max-h-full object-contain" />
+                        ) : (
+                          <div className="flex flex-col items-center gap-2">
+                            <FileText className="w-12 h-12 text-blue-500" />
+                            <span className="text-sm font-medium text-slate-600">{selectedFile?.name}</span>
+                          </div>
+                        )}
+                        <Button
+                          variant="destructive"
+                          size="icon"
+                          className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity rounded-full h-8 w-8"
+                          onClick={() => {
+                            setPreviewUrl(null);
+                            setSelectedFile(null);
+                          }}
+                        >
+                          <X className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    )}
+
+                    {!selectedFile ? (
+                      <Button 
+                        onClick={() => fileInputRef.current?.click()}
+                        disabled={isUploading}
+                        className="w-full h-14 bg-white hover:bg-slate-50 text-slate-900 border-2 border-dashed border-slate-300 hover:border-blue-500 rounded-2xl text-lg font-bold transition-all group"
+                      >
+                        <input
+                          type="file"
+                          ref={fileInputRef}
+                          className="hidden"
+                          onChange={handleFileChange}
+                          accept=".pdf,.jpg,.jpeg,.png"
+                        />
+                        <Upload className="mr-3 w-5 h-5 text-slate-400 group-hover:text-blue-600" />
+                        Select {documents[currentStep - 1]}
+                      </Button>
+                    ) : (
+                      <Button 
+                        onClick={() => handleUpload(documents[currentStep - 1])}
+                        disabled={isUploading}
+                        className="w-full h-14 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl text-lg font-bold shadow-lg shadow-blue-500/20"
+                      >
+                        {isUploading ? (
+                          <>
+                            <Spinner className="mr-2 h-5 w-5 animate-spin" />
+                            Uploading...
+                          </>
+                        ) : (
+                          <>
+                            <CheckCircle className="mr-2 h-5 w-5" />
+                            Confirm & Upload ({formatFileSize(selectedFile.size)})
+                          </>
+                        )}
+                      </Button>
+                    )}
                   </div>
-                </motion.div>
+                </m.div>
               )}
 
               {currentStep === totalSteps - 1 && (
-                <motion.div
+                <m.div
                   key="success"
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -1189,7 +1298,7 @@ const ServiceActivationWizard: React.FC<{
                       <ArrowRight className="ml-2 w-5 h-5" />
                     </Button>
                   </div>
-                </motion.div>
+                </m.div>
               )}
             </AnimatePresence>
           </div>
@@ -1214,7 +1323,7 @@ const ServiceCard: React.FC<{ service: any, category: any }> = ({ service, categ
     return (
       <span className={`inline-flex items-center ${className || ""}`}>
         <IndianRupee className="w-4 h-4 mr-0.5" />
-        {p.replace(/\\u20B9|₹|â‚¹/g, "")}
+        {p.replace(/\₹|₹|â‚¹/g, "")}
       </span>
     );
   };
@@ -1222,8 +1331,8 @@ const ServiceCard: React.FC<{ service: any, category: any }> = ({ service, categ
   // Purchase mutation
   const purchaseMutation = useMutation({
     mutationFn: async () => {
-      // Parse price from string like "\u20B92,999" to number
-      const priceNum = parseInt(service.price.replace(/[\u20B9,]/g, ''));
+      // Parse price from string like "₹2,999" to number
+      const priceNum = parseInt(service.price.replace(/[₹,]/g, ''));
 
       const response = await apiRequest('/api/user-services', {
         method: 'POST',
@@ -1240,7 +1349,7 @@ const ServiceCard: React.FC<{ service: any, category: any }> = ({ service, categ
     },
     onSuccess: () => {
       // Track successful purchase
-      const priceValue = parseInt(service.price.replace(/[\u20B9,]/g, ''));
+      const priceValue = parseInt(service.price.replace(/[₹,]/g, ''));
       trackServicePurchase(service.title, service.id, priceValue);
       toast({
         title: "Service Purchased!",
@@ -1305,7 +1414,7 @@ const ServiceCard: React.FC<{ service: any, category: any }> = ({ service, categ
       });
       return;
     }
-    setIsWizardOpen(true);
+    window.location.href = `/services/activate/${service.id}`;
   };
 
   return (
@@ -1447,12 +1556,12 @@ export default function ServicesPage() {
   return (
     <>
       <MetaSEO
-        title="Professional Tax, GST & Business Services India | MyeCA.in"
-        description="Explore MyeCA.in's comprehensive range of professional CA-assisted services including ITR filing, GST registration, company incorporation, and trademark services."
+        title="Comprehensive CA & Financial Services India | ITR, GST, Company Incorporation"
+        description="Explore 100+ professional CA services including ITR filing, GST registration, Trademark filing, and Section 8 company registration. Expert assisted, zero-error guarantee."
         keywords={[
-          "tax services India", "GST registration online", "income tax filing", 
-          "company registration", "trademark registration", "CA services", 
-          "tax audit", "PF ESI compliance"
+          "tax services India", "GST registration online", "company incorporation CA", 
+          "trademark filing", "MSME registration", "ITR filing experts",
+          "startup compliance", "internal audit services", "financial consultancy"
         ]}
         type="service"
         serviceData={{
@@ -1472,7 +1581,7 @@ export default function ServicesPage() {
       {selectedCategory === null && (
         <section className="py-12 bg-gradient-to-br from-blue-50 to-indigo-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div 
+            <m.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
@@ -1494,7 +1603,7 @@ export default function ServicesPage() {
                   Schedule Consultation
                 </Button>
               </div>
-            </motion.div>
+            </m.div>
           </div>
         </section>
       )}
@@ -1504,7 +1613,7 @@ export default function ServicesPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Selected Category Title - Show when category is selected */}
           {selectedCategory !== null && (
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
@@ -1527,7 +1636,7 @@ export default function ServicesPage() {
                 }
                 return null;
               })()}
-            </motion.div>
+            </m.div>
           )}
 
           <div className="flex flex-wrap justify-center gap-4">
@@ -1571,7 +1680,7 @@ export default function ServicesPage() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-hidden">
               {/* Only show category header when showing all categories */}
               {selectedCategory === null && (
-                <motion.div
+                <m.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -1589,13 +1698,13 @@ export default function ServicesPage() {
                       {category.description}
                     </p>
                   </div>
-                </motion.div>
+                </m.div>
               )}
 
               {/* Services Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
                 {category.services.map((service, serviceIndex) => (
-                  <motion.div
+                  <m.div
                     key={service.id}
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -1603,7 +1712,7 @@ export default function ServicesPage() {
                     transition={{ duration: 0.6, delay: serviceIndex * 0.1 }}
                   >
                     <ServiceCard service={service} category={category} />
-                  </motion.div>
+                  </m.div>
                 ))}
               </div>
             </div>
@@ -1614,7 +1723,7 @@ export default function ServicesPage() {
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-blue-600 to-blue-700 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -1638,7 +1747,7 @@ export default function ServicesPage() {
                 </Button>
               </Link>
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </section>
     </div>

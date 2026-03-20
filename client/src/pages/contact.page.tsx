@@ -1,19 +1,20 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Mail, Phone, MapPin, Clock, Send, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import SEO from "@/components/SEO";
+import MetaSEO from "@/components/seo/MetaSEO";
 import Breadcrumb from "@/components/Breadcrumb";
 
 export default function ContactPage() {
   return (
     <>
-      <SEO 
+      <MetaSEO 
         title="Contact Us - MyeCA.in | Expert Tax Support"
         description="Get in touch with MyeCA's expert CA team. 24/7 support for tax filing, business registration, and financial queries. Call or email us today."
+        breadcrumbs={[{ name: "Home", url: "/" }, { name: "Contact Us", url: "/contact" }]}
       />
       <div className="min-h-screen bg-white">
         <Breadcrumb items={[{ name: 'Contact Us' }]} />
@@ -21,28 +22,28 @@ export default function ContactPage() {
         {/* Header */}
         <section className="py-16 bg-white border-b soft-border">
           <div className="max-w-4xl mx-auto px-4 text-center">
-            <motion.h1 
+            <m.h1 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className="text-4xl md:text-5xl font-bold text-gray-900 mb-6"
             >
               Get in Touch
-            </motion.h1>
-            <motion.p 
+            </m.h1>
+            <m.p 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
               className="text-xl text-gray-600"
             >
               Have questions about tax filing or business services? Our team of experts is here to help you.
-            </motion.p>
+            </m.p>
           </div>
         </section>
 
         <div className="max-w-7xl mx-auto px-4 py-16">
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Contact Info */}
-            <motion.div 
+            <m.div 
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 }}
@@ -121,10 +122,10 @@ export default function ContactPage() {
                   </details>
                 </div>
               </div>
-            </motion.div>
+            </m.div>
 
             {/* Contact Form */}
-            <motion.div 
+            <m.div 
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 }}
@@ -170,7 +171,7 @@ export default function ContactPage() {
                   </form>
                 </CardContent>
               </Card>
-            </motion.div>
+            </m.div>
           </div>
         </div>
       </div>

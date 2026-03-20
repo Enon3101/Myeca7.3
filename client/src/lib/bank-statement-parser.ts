@@ -275,7 +275,7 @@ function parseDate(dateStr: string): Date {
 function parseAmount(amountStr: string): number {
   if (!amountStr || amountStr.trim() === '' || amountStr === '-') return 0;
   // Remove currency symbols, commas, and whitespace
-  const cleaned = amountStr.replace(/[\u20B9$,\s]/g, '').trim();
+  const cleaned = amountStr.replace(/[₹$,\s]/g, '').trim();
   const amount = parseFloat(cleaned);
   return isNaN(amount) ? 0 : Math.abs(amount);
 }
@@ -450,24 +450,24 @@ export function exportForITR(parsedData: ParsedStatement): string {
   output += `# Generated on ${new Date().toLocaleDateString()}\n\n`;
   
   output += `## Income Summary\n`;
-  output += `- Salary Income: \u20B9${taxRelevantSummary.salaryIncome.toLocaleString('en-IN')}\n`;
-  output += `- Interest Income: \u20B9${taxRelevantSummary.interestIncome.toLocaleString('en-IN')}\n`;
-  output += `- Rental Income: \u20B9${taxRelevantSummary.rentReceived.toLocaleString('en-IN')}\n`;
-  output += `- Total Income: \u20B9${taxRelevantSummary.totalIncome.toLocaleString('en-IN')}\n\n`;
+  output += `- Salary Income: ₹${taxRelevantSummary.salaryIncome.toLocaleString('en-IN')}\n`;
+  output += `- Interest Income: ₹${taxRelevantSummary.interestIncome.toLocaleString('en-IN')}\n`;
+  output += `- Rental Income: ₹${taxRelevantSummary.rentReceived.toLocaleString('en-IN')}\n`;
+  output += `- Total Income: ₹${taxRelevantSummary.totalIncome.toLocaleString('en-IN')}\n\n`;
   
   output += `## Deduction-Eligible Expenses\n`;
-  output += `- Rent Paid: \u20B9${taxRelevantSummary.rentPaid.toLocaleString('en-IN')} (for HRA calculation)\n`;
-  output += `- Insurance Premiums: \u20B9${taxRelevantSummary.insurancePremiums.toLocaleString('en-IN')} (80C/80D)\n`;
-  output += `- Medical Expenses: \u20B9${taxRelevantSummary.medicalExpenses.toLocaleString('en-IN')} (80D)\n`;
-  output += `- Donations: \u20B9${taxRelevantSummary.donations.toLocaleString('en-IN')} (80G)\n`;
-  output += `- Investments: \u20B9${taxRelevantSummary.investmentAmount.toLocaleString('en-IN')} (80C/80CCD)\n\n`;
+  output += `- Rent Paid: ₹${taxRelevantSummary.rentPaid.toLocaleString('en-IN')} (for HRA calculation)\n`;
+  output += `- Insurance Premiums: ₹${taxRelevantSummary.insurancePremiums.toLocaleString('en-IN')} (80C/80D)\n`;
+  output += `- Medical Expenses: ₹${taxRelevantSummary.medicalExpenses.toLocaleString('en-IN')} (80D)\n`;
+  output += `- Donations: ₹${taxRelevantSummary.donations.toLocaleString('en-IN')} (80G)\n`;
+  output += `- Investments: ₹${taxRelevantSummary.investmentAmount.toLocaleString('en-IN')} (80C/80CCD)\n\n`;
   
   output += `## Detailed Tax-Relevant Transactions\n\n`;
   
   const taxTransactions = transactions.filter(t => t.taxRelevance !== 'none');
   taxTransactions.forEach(t => {
     output += `- ${t.date.toLocaleDateString()}: ${t.description.substring(0, 50)}\n`;
-    output += `  ${t.credit > 0 ? `Credit: \u20B9${t.credit.toLocaleString('en-IN')}` : `Debit: \u20B9${t.debit.toLocaleString('en-IN')}`}\n`;
+    output += `  ${t.credit > 0 ? `Credit: ₹${t.credit.toLocaleString('en-IN')}` : `Debit: ₹${t.debit.toLocaleString('en-IN')}`}\n`;
     output += `  Category: ${CATEGORY_INFO[t.category].label} | Tax Relevance: ${t.taxRelevance}\n\n`;
   });
   

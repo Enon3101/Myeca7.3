@@ -1,7 +1,7 @@
 import * as React from "react"
 import * as SelectPrimitive from "@radix-ui/react-select"
 import { Check, ChevronDown } from "lucide-react"
-import { motion, AnimatePresence } from "framer-motion"
+import { m, AnimatePresence } from "framer-motion"
 
 import { cn } from "@/lib/utils"
 
@@ -19,7 +19,7 @@ const AnimatedSelectTrigger = React.forwardRef<
   const [isOpen, setIsOpen] = React.useState(false)
 
   return (
-    <motion.div
+    <m.div
       whileHover={{ scale: 1.01 }}
       whileFocus={{ scale: 1.02 }}
       transition={{ type: "spring", stiffness: 400, damping: 17 }}
@@ -42,15 +42,15 @@ const AnimatedSelectTrigger = React.forwardRef<
       >
         {children}
         <SelectPrimitive.Icon asChild>
-          <motion.div
+          <m.div
             animate={{ rotate: isOpen ? 180 : 0 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
           >
             <ChevronDown className="h-4 w-4 opacity-50" />
-          </motion.div>
+          </m.div>
         </SelectPrimitive.Icon>
       </SelectPrimitive.Trigger>
-    </motion.div>
+    </m.div>
   )
 })
 AnimatedSelectTrigger.displayName = SelectPrimitive.Trigger.displayName
@@ -94,7 +94,7 @@ const AnimatedSelectItem = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Item>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item>
 >(({ className, children, ...props }, ref) => (
-  <motion.div
+  <m.div
     whileHover={{ x: 4, backgroundColor: "#f3f4f6" }}
     transition={{ type: "spring", stiffness: 300, damping: 20 }}
   >
@@ -110,19 +110,19 @@ const AnimatedSelectItem = React.forwardRef<
     >
       <span className="absolute left-3 flex h-4 w-4 items-center justify-center">
         <SelectPrimitive.ItemIndicator>
-          <motion.div
+          <m.div
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ type: "spring", stiffness: 500, damping: 15 }}
           >
             <Check className="h-4 w-4 text-blue-600" />
-          </motion.div>
+          </m.div>
         </SelectPrimitive.ItemIndicator>
       </span>
 
       <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
     </SelectPrimitive.Item>
-  </motion.div>
+  </m.div>
 ))
 AnimatedSelectItem.displayName = SelectPrimitive.Item.displayName
 

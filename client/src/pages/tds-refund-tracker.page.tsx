@@ -24,7 +24,7 @@ import {
   XCircle,
   AlertTriangle
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Progress } from "@/components/ui/progress";
 import EnhancedSEO from "@/components/EnhancedSEO";
 
@@ -228,7 +228,7 @@ export default function TDSRefundTrackerPage() {
 
           {/* Results */}
           {refunds && (
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className="space-y-6"
@@ -281,7 +281,7 @@ export default function TDSRefundTrackerPage() {
                 <CardContent>
                   <div className="space-y-4">
                     {refunds.map((refund, index) => (
-                      <motion.div
+                      <m.div
                         key={refund.assessmentYear}
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
@@ -354,7 +354,7 @@ export default function TDSRefundTrackerPage() {
                             />
                           </div>
                         )}
-                      </motion.div>
+                      </m.div>
                     ))}
                   </div>
                 </CardContent>
@@ -377,7 +377,7 @@ export default function TDSRefundTrackerPage() {
                   </div>
                 </CardContent>
               </Card>
-            </motion.div>
+            </m.div>
           )}
 
           {/* Common Issues Section */}

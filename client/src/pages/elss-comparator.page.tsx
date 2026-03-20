@@ -70,7 +70,7 @@ export default function ELSSComparatorPage() {
   const [selectedFunds, setSelectedFunds] = useState<string[]>([]);
   
   // Calculator inputs
-  const [monthlyInvestment, setMonthlyInvestment] = useState(12500); // \u20B91.5L/year
+  const [monthlyInvestment, setMonthlyInvestment] = useState(12500); // ₹1.5L/year
   const [investmentYears, setInvestmentYears] = useState(10);
   const [annualIncome, setAnnualIncome] = useState(1200000);
 
@@ -153,11 +153,11 @@ export default function ELSSComparatorPage() {
   // Format currency
   const formatCurrency = (amount: number) => {
     if (amount >= 10000000) {
-      return `\u20B9${(amount / 10000000).toFixed(2)} Cr`;
+      return `₹${(amount / 10000000).toFixed(2)} Cr`;
     } else if (amount >= 100000) {
-      return `\u20B9${(amount / 100000).toFixed(2)} L`;
+      return `₹${(amount / 100000).toFixed(2)} L`;
     }
-    return `\u20B9${amount.toLocaleString('en-IN')}`;
+    return `₹${amount.toLocaleString('en-IN')}`;
   };
 
   // Render stars
@@ -232,7 +232,7 @@ export default function ELSSComparatorPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
             <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
               <p className="text-sm text-green-200">Tax Benefit (80C)</p>
-              <p className="text-2xl font-bold">\u20B91.5 Lakh</p>
+              <p className="text-2xl font-bold">₹1.5 Lakh</p>
             </div>
             <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
               <p className="text-sm text-green-200">Lock-in Period</p>
@@ -410,7 +410,7 @@ export default function ELSSComparatorPage() {
                         <BarChart data={comparisonChartData}>
                           <CartesianGrid strokeDasharray="3 3" />
                           <XAxis dataKey="name" />
-                          <YAxis tickFormatter={(v) => `\u20B9${(v/100000).toFixed(0)}L`} />
+                          <YAxis tickFormatter={(v) => `₹${(v/100000).toFixed(0)}L`} />
                           <Tooltip formatter={(value: number) => formatCurrency(value)} />
                           <Legend />
                           <Bar dataKey="invested" fill="#94a3b8" name="Invested" stackId="a" />
@@ -494,7 +494,7 @@ export default function ELSSComparatorPage() {
                               <div className="flex items-center gap-2 mt-1">
                                 <Badge variant="outline">{fund.category}</Badge>
                                 <Badge variant="outline" className="text-xs">
-                                  Min SIP: \u20B9{fund.minSIP}
+                                  Min SIP: ₹{fund.minSIP}
                                 </Badge>
                               </div>
                             </div>
@@ -698,7 +698,7 @@ export default function ELSSComparatorPage() {
                     ]}>
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="name" />
-                      <YAxis tickFormatter={(v) => `\u20B9${(v/100000).toFixed(0)}L`} />
+                      <YAxis tickFormatter={(v) => `₹${(v/100000).toFixed(0)}L`} />
                       <Tooltip formatter={(value: number) => formatCurrency(value)} />
                       <Legend />
                       <Bar dataKey="value" fill="#22c55e" name="Corpus Value" radius={[4, 4, 0, 0]} />

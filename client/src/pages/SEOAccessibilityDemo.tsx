@@ -132,7 +132,7 @@ const SEOAccessibilityDemo: React.FC = () => {
       email: 'support@tax-calculator.com',
       url: 'https://tax-calculator.com',
       openingHours: ['Mo-Fr 09:00-18:00', 'Sa 09:00-13:00'],
-      priceRange: '\u20B9',
+      priceRange: '₹',
       rating: {
         ratingValue: 4.8,
         reviewCount: 1250

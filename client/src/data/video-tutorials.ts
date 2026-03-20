@@ -111,8 +111,8 @@ export const VIDEO_TUTORIALS: VideoTutorial[] = [
   // Tax Saving Videos
   {
     id: 'tax-saving-80c',
-    title: "Section 80C Deductions Explained - Save Up to \u20B946,800",
-    description: "Complete guide to Section 80C deductions including PPF, ELSS, LIC, EPF, home loan principal, and more. Learn how to maximize your \u20B91.5 lakh limit.",
+    title: "Section 80C Deductions Explained - Save Up to ₹46,800",
+    description: "Complete guide to Section 80C deductions including PPF, ELSS, LIC, EPF, home loan principal, and more. Learn how to maximize your ₹1.5 lakh limit.",
     duration: '18:45',
     category: 'tax-saving',
     tags: ['80C', 'deductions', 'tax saving', 'PPF', 'ELSS'],
@@ -128,7 +128,7 @@ export const VIDEO_TUTORIALS: VideoTutorial[] = [
   },
   {
     id: 'nps-benefits',
-    title: "NPS Tax Benefits - Extra \u20B950,000 Deduction Under 80CCD(1B)",
+    title: "NPS Tax Benefits - Extra ₹50,000 Deduction Under 80CCD(1B)",
     description: 'Discover the exclusive tax benefits of National Pension System. Learn about 80CCD(1), 80CCD(1B), and 80CCD(2) deductions.',
     duration: '14:30',
     category: 'tax-saving',

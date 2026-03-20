@@ -185,7 +185,7 @@ const FormComponent = ({ register, errors, control, watch }: any) => {
                   />
                 </div>
                 <div className="col-span-2">
-                  <Label>Rate (\u20B9)</Label>
+                  <Label>Rate (₹)</Label>
                   <Input
                     type="number"
                     step="0.01"
@@ -201,7 +201,7 @@ const FormComponent = ({ register, errors, control, watch }: any) => {
                   />
                 </div>
                 <div className="col-span-1 pt-8 text-right font-medium text-gray-700">
-                  \u20B9{amt.toFixed(2)}
+                  ₹{amt.toFixed(2)}
                 </div>
               </div>
               <Button
@@ -273,9 +273,9 @@ const generateHTML = (data: any) => {
         <td style="padding: 10px; border-bottom: 1px solid #ddd;">${item.description}</td>
         <td style="padding: 10px; border-bottom: 1px solid #ddd; text-align: center;">${item.hsnCode || '-'}</td>
         <td style="padding: 10px; border-bottom: 1px solid #ddd; text-align: center;">${item.quantity}</td>
-        <td style="padding: 10px; border-bottom: 1px solid #ddd; text-align: right;">\u20B9${parseFloat(item.rate || 0).toFixed(2)}</td>
+        <td style="padding: 10px; border-bottom: 1px solid #ddd; text-align: right;">₹${parseFloat(item.rate || 0).toFixed(2)}</td>
         <td style="padding: 10px; border-bottom: 1px solid #ddd; text-align: center;">${item.taxRate}%</td>
-        <td style="padding: 10px; border-bottom: 1px solid #ddd; text-align: right;">\u20B9${amount.toFixed(2)}</td>
+        <td style="padding: 10px; border-bottom: 1px solid #ddd; text-align: right;">₹${amount.toFixed(2)}</td>
       </tr>
     `;
     })
@@ -294,18 +294,18 @@ const generateHTML = (data: any) => {
     taxRows = `
       <tr>
         <td colspan="5" style="text-align: right; padding: 10px; font-weight: bold;">IGST:</td>
-        <td style="text-align: right; padding: 10px;">\u20B9${totalTax.toFixed(2)}</td>
+        <td style="text-align: right; padding: 10px;">₹${totalTax.toFixed(2)}</td>
       </tr>
     `;
   } else {
     taxRows = `
       <tr>
         <td colspan="5" style="text-align: right; padding: 10px; font-weight: bold;">CGST:</td>
-        <td style="text-align: right; padding: 10px;">\u20B9${(totalTax / 2).toFixed(2)}</td>
+        <td style="text-align: right; padding: 10px;">₹${(totalTax / 2).toFixed(2)}</td>
       </tr>
       <tr>
         <td colspan="5" style="text-align: right; padding: 10px; font-weight: bold;">SGST:</td>
-        <td style="text-align: right; padding: 10px;">\u20B9${(totalTax / 2).toFixed(2)}</td>
+        <td style="text-align: right; padding: 10px;">₹${(totalTax / 2).toFixed(2)}</td>
       </tr>
     `;
   }
@@ -358,12 +358,12 @@ const generateHTML = (data: any) => {
           ${itemRows}
           <tr>
             <td colspan="5" style="text-align: right; padding: 10px; font-weight: bold;">Subtotal:</td>
-            <td style="text-align: right; padding: 10px;">\u20B9${subtotal.toFixed(2)}</td>
+            <td style="text-align: right; padding: 10px;">₹${subtotal.toFixed(2)}</td>
           </tr>
           ${taxRows}
           <tr style="background-color: #f1f5f9;">
             <td colspan="5" style="text-align: right; padding: 15px; font-weight: bold; font-size: 18px;">Total:</td>
-            <td style="text-align: right; padding: 15px; font-weight: bold; font-size: 18px; color: #2563eb;">\u20B9${totalAmount.toFixed(2)}</td>
+            <td style="text-align: right; padding: 15px; font-weight: bold; font-size: 18px; color: #2563eb;">₹${totalAmount.toFixed(2)}</td>
           </tr>
         </tbody>
       </table>

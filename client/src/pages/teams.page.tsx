@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -175,7 +175,7 @@ export default function TeamsPage() {
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -189,7 +189,7 @@ export default function TeamsPage() {
             <Plus className="h-4 w-4 mr-2" />
             Create Team
           </Button>
-        </motion.div>
+        </m.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {/* Teams List */}
@@ -208,7 +208,7 @@ export default function TeamsPage() {
                   <p className="text-center text-gray-500 py-4">No teams yet</p>
                 ) : (
                   teams.map((team: Team) => (
-                    <motion.div
+                    <m.div
                       key={team.id}
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
@@ -231,7 +231,7 @@ export default function TeamsPage() {
                           </div>
                         </CardContent>
                       </Card>
-                    </motion.div>
+                    </m.div>
                   ))
                 )}
               </CardContent>

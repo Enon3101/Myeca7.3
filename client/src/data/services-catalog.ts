@@ -48,7 +48,7 @@ export const SERVICES: Service[] = [
   {
     id: 'itr-1-filing',
     name: 'ITR-1 Filing (Sahaj)',
-    shortDescription: 'For salaried individuals with income up to \u20B950 lakhs',
+    shortDescription: 'For salaried individuals with income up to ₹50 lakhs',
     description: 'Complete ITR-1 filing service for salaried employees. Includes Form 16 analysis, deduction optimization, and e-verification assistance.',
     category: 'individual',
     subCategory: 'ITR Filing',
@@ -462,7 +462,7 @@ export const SERVICES: Service[] = [
     shortDescription: 'Monthly salary processing and compliance',
     description: 'Complete payroll management including salary computation, TDS, PF/ESI compliance, and payslip generation.',
     category: 'payroll',
-    pricing: { type: 'monthly', amount: 49, unit: 'per employee (min \u20B92,999)' },
+    pricing: { type: 'monthly', amount: 49, unit: 'per employee (min ₹2,999)' },
     features: [
       'Salary computation',
       'TDS calculation',
@@ -500,7 +500,7 @@ export function searchServices(query: string): Service[] {
 }
 
 export function formatPrice(pricing: Service['pricing']): string {
-  const amount = `\u20B9${pricing.amount.toLocaleString('en-IN')}`;
+  const amount = `₹${pricing.amount.toLocaleString('en-IN')}`;
   switch (pricing.type) {
     case 'fixed':
       return amount;

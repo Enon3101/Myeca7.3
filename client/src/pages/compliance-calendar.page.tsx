@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Calendar, FileText, Download, Bell, Filter, Search, ChevronRight, Clock, AlertCircle, CalendarDays, CheckCircle2, Info, AlertTriangle, IndianRupee, Users, Building2, Shield } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";

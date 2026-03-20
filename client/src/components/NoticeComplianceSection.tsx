@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { AlertTriangle, Shield, Clock, CheckCircle, Phone, FileText, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -59,7 +59,7 @@ export default function NoticeComplianceSection() {
     <section id="notices" className="py-12 bg-gradient-to-br from-red-50 to-orange-50 scroll-mt-20">
       <div className="container mx-auto px-6">
         {/* Header */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -77,10 +77,10 @@ export default function NoticeComplianceSection() {
             Expert CA assistance for all types of income tax notices. Professional response 
             preparation for quick notice resolution.
           </p>
-        </motion.div>
+        </m.div>
 
         {/* Stats */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
@@ -99,10 +99,10 @@ export default function NoticeComplianceSection() {
             <div className="text-3xl font-bold text-red-600">Expert</div>
             <div className="text-sm text-gray-600">CA Support</div>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Notice Types */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
@@ -129,10 +129,10 @@ export default function NoticeComplianceSection() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Process */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
@@ -153,10 +153,10 @@ export default function NoticeComplianceSection() {
               </div>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* CTA Section */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.8 }}
@@ -211,7 +211,7 @@ export default function NoticeComplianceSection() {
               </div>
             </div>
           </div>
-        </motion.div>
+        </m.div>
       </div>
     </section>
   );

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Link } from "wouter";
 import { 
   Users, 
@@ -52,7 +52,7 @@ export default function LabourLawCompliancePage() {
       area: "PF (Provident Fund)",
       coverage: "20+ employees",
       contribution: "12% employer + 12% employee",
-      ceiling: "\u20B915,000 per month (max \u20B91,800)",
+      ceiling: "₹15,000 per month (max ₹1,800)",
       dueDate: "15th of following month",
       color: "blue",
       icon: IndianRupee,
@@ -63,7 +63,7 @@ export default function LabourLawCompliancePage() {
       area: "ESI (Employee State Insurance)",
       coverage: "10+ employees",
       contribution: "4.75% employer + 1.75% employee",
-      ceiling: "\u20B925,000 per month (increased from \u20B921,000)",
+      ceiling: "₹25,000 per month (increased from ₹21,000)",
       dueDate: "21st of following month",
       color: "green",
       icon: Shield,
@@ -230,13 +230,13 @@ export default function LabourLawCompliancePage() {
     },
     {
       violation: "Contract Labour Violations",
-      penalty: "\u20B910,000 - \u20B91,00,000 fine",
+      penalty: "₹10,000 - ₹1,00,000 fine",
       criminalLiability: "3-12 months imprisonment",
       additionalConsequences: "License cancellation, contractor debarment"
     },
     {
       violation: "Factory Act Violations",
-      penalty: "\u20B925,000 - \u20B91,00,000 fine",
+      penalty: "₹25,000 - ₹1,00,000 fine",
       criminalLiability: "6 months - 2 years",
       additionalConsequences: "Factory closure, safety certificate suspension"
     }
@@ -358,7 +358,7 @@ export default function LabourLawCompliancePage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Key Compliance Areas 2025 */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -430,10 +430,10 @@ export default function LabourLawCompliancePage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Monthly Compliance Calendar */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
@@ -467,10 +467,10 @@ export default function LabourLawCompliancePage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Essential Documents */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
@@ -507,10 +507,10 @@ export default function LabourLawCompliancePage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* New Simplified Forms 2025 */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
@@ -551,10 +551,10 @@ export default function LabourLawCompliancePage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Digital Compliance Platforms */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.8 }}
@@ -597,10 +597,10 @@ export default function LabourLawCompliancePage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Penalties Structure */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.0 }}
@@ -637,10 +637,10 @@ export default function LabourLawCompliancePage() {
               </tbody>
             </table>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Best Practices 2025 */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.2 }}
@@ -677,10 +677,10 @@ export default function LabourLawCompliancePage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Expert Assistance CTA */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.4 }}
@@ -698,7 +698,7 @@ export default function LabourLawCompliancePage() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button size="lg" className="bg-white text-orange-600 hover:bg-orange-50 px-8 shadow-lg">
                   <Users className="w-5 h-5 mr-2" />
-                  Complete Compliance {"\u20B9"}2,999/month
+                  Complete Compliance {"₹"}2,999/month
                 </Button>
                 <Link href="/expert-consultation?service=labour-law-compliance">
                   <Button size="lg" className="bg-orange-700 hover:bg-orange-800 text-white border-0 px-8 shadow-lg font-semibold">
@@ -724,7 +724,7 @@ export default function LabourLawCompliancePage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
       </div>
     </div>
   );

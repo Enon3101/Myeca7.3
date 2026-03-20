@@ -1,5 +1,5 @@
 import React from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Link } from "wouter";
 import { 
   ShieldCheck, 
@@ -33,8 +33,8 @@ const services = [
   {
     title: "Advance Tax Planning",
     description: "Expert tax saving strategies for high net-worth individuals & professionals.",
-    price: "\u20B91,999",
-    originalPrice: "\u20B94,999",
+    price: "₹1,999",
+    originalPrice: "₹4,999",
     features: ["Customized Investment Plan", "Tax Projection Reports", "One-on-One CA Session"],
     longDescription: "Our Advance Tax Planning service is designed for those who want to maximize their wealth while remaining fully compliant with the latest tax laws. We analyze your income streams, ongoing investments, and future financial goals to create a robust tax-efficiency roadmap.",
     benefits: [
@@ -51,8 +51,8 @@ const services = [
   {
     title: "Tax Notice Management",
     description: "Professional assistance in responding to Income Tax notices & scrutiny.",
-    price: "\u20B92,499",
-    originalPrice: "\u20B95,000",
+    price: "₹2,499",
+    originalPrice: "₹5,000",
     features: ["Notice Analysis", "Drafting Responses", "Expert Representation"],
     longDescription: "Receiving a tax notice can be stressful. Our team of experienced Chartered Accountants specializes in handling scrutiny cases and complex inquiries from the Income Tax department. we provide end-to-end support from drafting the reply to representing you before tax authorities.",
     benefits: [
@@ -69,8 +69,8 @@ const services = [
   {
     title: "HUF Tax Filing",
     description: "Complete tax filing and compliance for Hindu Undivided Families (HUF).",
-    price: "\u20B93,499",
-    originalPrice: "\u20B96,999",
+    price: "₹3,499",
+    originalPrice: "₹6,999",
     features: ["HUF Deed Creation", "ITR-2/3 Filing", "Investment Advisory"],
     longDescription: "A Hindu Undivided Family (HUF) is a separate legal entity for tax purposes, offering significant tax-saving opportunities. We assist in the creation, registration, and ongoing tax compliance (ITR-2, ITR-3) for your family unit.",
     benefits: [
@@ -87,8 +87,8 @@ const services = [
   {
     title: "Business GST Filing",
     description: "Simplified GST registration, monthly filing & reconciliation for SMEs.",
-    price: "\u20B9999",
-    originalPrice: "\u20B92,499",
+    price: "₹999",
+    originalPrice: "₹2,499",
     features: ["GSTR-1 & 3B Filing", "ITC Reconciliation", "GST Consultation"],
     longDescription: "Managing GST can be complex with changing rules and filing requirements. Our Business GST service takes the burden off your shoulders, ensuring your monthly and quarterly returns (GSTR-1, GSTR-3B) are filed accurately and on time.",
     benefits: [
@@ -133,7 +133,7 @@ export default function OtherServicesSection() {
           {services.map((service, index) => {
             const colors = colorVariants[service.color];
             return (
-              <motion.div
+              <m.div
                 key={service.title}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -263,7 +263,7 @@ export default function OtherServicesSection() {
                     </div>
                   </CardContent>
                 </Card>
-              </motion.div>
+              </m.div>
             );
           })}
         </div>

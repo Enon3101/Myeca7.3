@@ -154,11 +154,11 @@ const FormComponent = ({ register, errors }: any) => {
         </div>
         <div className="grid grid-cols-3 gap-4">
           <div>
-            <Label>Monthly Rent (\u20B9)</Label>
+            <Label>Monthly Rent (₹)</Label>
             <Input type="number" {...register('terms.monthlyRent', { valueAsNumber: true })} />
           </div>
           <div>
-            <Label>Security Deposit (\u20B9)</Label>
+            <Label>Security Deposit (₹)</Label>
             <Input type="number" {...register('terms.securityDeposit', { valueAsNumber: true })} />
           </div>
           <div>
@@ -221,9 +221,9 @@ const generateHTML = (data: any) => {
         <h3 style="text-decoration: underline;">NOW THIS AGREEMENT WITNESSETH AS UNDER:</h3>
         <ol style="margin-left: 20px;">
           <li style="margin-bottom: 10px;">That the tenancy shall be for a period of <strong>${data.terms?.durationMonths} months</strong> commencing from <strong>${data.terms?.startDate}</strong>.</li>
-          <li style="margin-bottom: 10px;">That the Tenant shall pay a monthly rent of <strong>\u20B9${data.terms?.monthlyRent}</strong> (${numToWords(data.terms?.monthlyRent || 0)} Only) excluding electricity and water charges, which shall be paid separately according to consumption.</li>
+          <li style="margin-bottom: 10px;">That the Tenant shall pay a monthly rent of <strong>₹${data.terms?.monthlyRent}</strong> (${numToWords(data.terms?.monthlyRent || 0)} Only) excluding electricity and water charges, which shall be paid separately according to consumption.</li>
           <li style="margin-bottom: 10px;">That the rent shall be paid in advance on or before the 5th day of every English calendar month.</li>
-          <li style="margin-bottom: 10px;">That the Tenant has paid an interest-free security deposit of <strong>\u20B9${data.terms?.securityDeposit}</strong> (${numToWords(data.terms?.securityDeposit || 0)} Only) to the Landlord at the time of execution of this agreement. The said security deposit shall be refunded upon vacating the premises, after adjusting any pending dues or damages caused to the property.</li>
+          <li style="margin-bottom: 10px;">That the Tenant has paid an interest-free security deposit of <strong>₹${data.terms?.securityDeposit}</strong> (${numToWords(data.terms?.securityDeposit || 0)} Only) to the Landlord at the time of execution of this agreement. The said security deposit shall be refunded upon vacating the premises, after adjusting any pending dues or damages caused to the property.</li>
           <li style="margin-bottom: 10px;">That in case the Tenant wishes to vacate the premises before the expiry of the agreement period, or the Landlord wishes to have the premises vacated, either party must serve a <strong>${data.terms?.noticePeriodDays}-day notice</strong> in writing.</li>
           <li style="margin-bottom: 10px;">That the Tenant shall use the premises solely for residential purposes and shall not sublet or part with the possession of the premises to any third party.</li>
           <li style="margin-bottom: 10px;">That the Tenant shall not make any structural additions or alterations to the premises without the prior written consent of the Landlord.</li>

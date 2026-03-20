@@ -4,7 +4,6 @@ import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { AuthProvider } from "@/components/AuthProvider";
 import { HelmetProvider } from 'react-helmet-async';
 import { useAnalyticsInitialization, usePageTracking } from '@/hooks/use-analytics';
 import { LanguageProvider } from "@/contexts/LanguageContext";
@@ -12,10 +11,13 @@ import { AccessibilityProvider } from "@/components/accessibility/AccessibilityP
 import { Suspense, lazy } from 'react';
 import { useRoutePreload } from '@/hooks/use-route-preload';
 import { PageSkeleton } from '@/components/ui/page-skeleton';
-import { ClerkProvider } from '@/lib/clerk';
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import { AuthProvider, useAuth } from "@/components/AuthProvider";
 import Routes from "./Routes";
+import { useSessionTimeout } from "@/hooks/useSessionTimeout";
+import { SessionWarningModal } from "@/components/auth/SessionWarningModal";
+import { LazyMotion, domMax } from "framer-motion";
 
 const UnifiedFAB = lazy(() => import("@/components/UnifiedFAB").then(m => ({ default: m.UnifiedFAB })));
 const GlobalSearch = lazy(() => import("@/components/search/GlobalSearch"));
@@ -25,21 +27,39 @@ const ProdOnlyComponents = lazy(() => import("@/components/ProdOnlyComponents"))
 
 const AppLoading = () => <PageSkeleton />;
 
+function ScrollToTop() {
+  const [location] = useLocation();
+  
+  useEffect(() => {
+    // Scroll to top on location change, unless there's a hash (anchor link)
+    if (!window.location.hash) {
+      const scroll = () => {
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
+        // Fallback for document.documentElement just in case
+        document.documentElement.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
+      };
+
+      // Execute immediately and then after a small delay to handle content popping in
+      scroll();
+      const timer = setTimeout(scroll, 50);
+      return () => clearTimeout(timer);
+    }
+  }, [location]);
+
+  return null;
+}
+
 function Router() {
   const currentPath = window.location.pathname;
   const showLayoutComponents = !currentPath.startsWith('/auth/') && !currentPath.startsWith('/admin');
-  const [location] = useLocation();
   
   useRoutePreload();
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [location]);
-
   return (
     <div className="min-h-screen flex flex-col bg-white">
+      <ScrollToTop />
       {showLayoutComponents && <Header />}
-      {showLayoutComponents && <div className="h-16 lg:h-[56px]"></div>}
+      {showLayoutComponents && <div className="h-[74px]"></div>}
       <main className="flex-1 bg-white">
         <Routes />
       </main>
@@ -48,10 +68,16 @@ function Router() {
   );
 }
 
-function App() {
+function AppContent() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isShortcutsOpen, setIsShortcutsOpen] = useState(false);
   const [isChatbotOpen, setIsChatbotOpen] = useState(false);
+
+  const { logout, isAuthenticated } = useAuth();
+  const { showWarning, timeLeft, resetSession, handleLogout } = useSessionTimeout({
+    onLogout: logout,
+    isAuthenticated
+  });
 
   useEffect(() => {
     const timer = setTimeout(async () => {
@@ -121,46 +147,59 @@ function App() {
   }, []);
 
   return (
+    <LazyMotion features={domMax} strict={false}>
+      <Toaster />
+      <Router />
+      {import.meta.env.PROD && (
+        <Suspense fallback={null}>
+          <ProdOnlyComponents />
+        </Suspense>
+      )}
+      <Suspense fallback={null}>
+        <GlobalSearch isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
+      </Suspense>
+
+      <Suspense fallback={null}>
+        <UnifiedFAB
+          onChatbotOpen={() => setIsChatbotOpen(true)}
+          isChatbotOpen={isChatbotOpen}
+        />
+      </Suspense>
+
+      {isChatbotOpen && (
+        <Suspense fallback={null}>
+          <TaxChatbotWidget isOpen={isChatbotOpen} onClose={() => setIsChatbotOpen(false)} />
+        </Suspense>
+      )}
+
+      <Suspense fallback={null}>
+        <KeyboardShortcutsModal isOpen={isShortcutsOpen} onClose={() => setIsShortcutsOpen(false)} />
+      </Suspense>
+
+      <SessionWarningModal
+        isOpen={showWarning}
+        timeLeft={timeLeft}
+        onContinue={resetSession}
+        onLogout={handleLogout}
+      />
+    </LazyMotion>
+  );
+}
+
+function App() {
+  return (
     <HelmetProvider>
       <LanguageProvider>
-          <AccessibilityProvider>
-            <ClerkProvider>
-              <QueryClientProvider client={queryClient}>
-              <AuthProvider>
-                <TooltipProvider>
-                  <Toaster />
-                  <Router />
-                  {import.meta.env.PROD && (
-                    <Suspense fallback={null}>
-                      <ProdOnlyComponents />
-                    </Suspense>
-                  )}
-                  <Suspense fallback={null}>
-                    <GlobalSearch isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
-                  </Suspense>
-
-                  <Suspense fallback={null}>
-                    <UnifiedFAB
-                      onChatbotOpen={() => setIsChatbotOpen(true)}
-                      isChatbotOpen={isChatbotOpen}
-                    />
-                  </Suspense>
-
-                  {isChatbotOpen && (
-                    <Suspense fallback={null}>
-                      <TaxChatbotWidget isOpen={isChatbotOpen} onClose={() => setIsChatbotOpen(false)} />
-                    </Suspense>
-                  )}
-
-                  <Suspense fallback={null}>
-                    <KeyboardShortcutsModal isOpen={isShortcutsOpen} onClose={() => setIsShortcutsOpen(false)} />
-                  </Suspense>
-                </TooltipProvider>
-              </AuthProvider>
-            </QueryClientProvider>
-            </ClerkProvider>
-          </AccessibilityProvider>
-        </LanguageProvider>
+        <AccessibilityProvider>
+          <QueryClientProvider client={queryClient}>
+            <AuthProvider>
+              <TooltipProvider>
+                <AppContent />
+              </TooltipProvider>
+            </AuthProvider>
+          </QueryClientProvider>
+        </AccessibilityProvider>
+      </LanguageProvider>
     </HelmetProvider>
   );
 }

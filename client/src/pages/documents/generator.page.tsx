@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
+import MetaSEO from "@/components/seo/MetaSEO";
 import { useRoute, useLocation } from 'wouter';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/components/AuthProvider';
 import { Button } from '@/components/ui/button';
 import {
   Select,
@@ -28,6 +29,19 @@ import {
   AlertCircle,
   CheckCircle,
 } from 'lucide-react';
+import { db } from '@/lib/firebase';
+import { 
+  collection, 
+  doc, 
+  setDoc, 
+  getDoc, 
+  serverTimestamp,
+  query,
+  where,
+  getDocs,
+  limit,
+  orderBy
+} from 'firebase/firestore';
 
 // Import modular configurations
 import { DOCUMENT_GENERATORS } from './generators';
@@ -66,6 +80,54 @@ export default function DocumentGenerator() {
 
   const formData = watch();
 
+  // Load existing draft on mount
+  useEffect(() => {
+    const loadDraft = async () => {
+      if (!user || !config) return;
+      
+      try {
+        setSaveStatus('saving'); // Show loading state
+        
+        // 1. Try Firestore first
+        const draftsRef = collection(db, "document_drafts");
+        const q = query(
+          draftsRef, 
+          where("userId", "==", user.id), 
+          where("type", "==", documentType),
+          orderBy("updatedAt", "desc"),
+          limit(1)
+        );
+        
+        const querySnapshot = await getDocs(q);
+        
+        if (!querySnapshot.empty) {
+          const draftDoc = querySnapshot.docs[0];
+          const draftData = draftDoc.data();
+          setDocumentId(draftDoc.id);
+          reset(draftData.content);
+          setLastSaved(draftData.updatedAt?.toDate() || new Date());
+          setSaveStatus('idle');
+          return;
+        }
+        
+        // 2. Fallback to LocalStorage
+        const localData = localStorage.getItem(`myeca_doc_latest_${documentType}`);
+        if (localData) {
+          const parsed = JSON.parse(localData);
+          reset(parsed);
+          setSaveStatus('idle');
+        }
+      } catch (error) {
+        console.error("Error loading draft from Firebase:", error);
+        setSaveStatus('error');
+      } finally {
+        setSaveStatus('idle');
+      }
+    };
+
+    loadDraft();
+  }, [user, documentType, config, reset]);
+
   useEffect(() => {
     if (!autoSaveEnabled || !user || !config) return;
 
@@ -77,15 +139,34 @@ export default function DocumentGenerator() {
   }, [formData, autoSaveEnabled, user]);
 
   const handleAutoSave = async () => {
-    if (!documentId) return;
+    if (!user || !config) return;
 
     try {
       setSaveStatus('saving');
-      // Save locally as a fallback until the backend schema supports generated documents
-      localStorage.setItem(`myeca_doc_${documentType}_${documentId}`, JSON.stringify(getValues()));
+      const content = getValues();
+      
+      // Save to LocalStorage always
+      localStorage.setItem(`myeca_doc_latest_${documentType}`, JSON.stringify(content));
+
+      // Save to Firebase Firestore
+      const draftData = {
+        userId: user.id,
+        type: documentType,
+        title: config.title,
+        content: content,
+        updatedAt: serverTimestamp(),
+      };
+
+      if (documentId) {
+        await setDoc(doc(db, "document_drafts", documentId), draftData, { merge: true });
+      } else {
+        const docRef = doc(collection(db, "document_drafts"));
+        await setDoc(docRef, draftData);
+        setDocumentId(docRef.id);
+      }
+
       setSaveStatus('saved');
       setLastSaved(new Date());
-
       setTimeout(() => setSaveStatus('idle'), 2000);
     } catch (error) {
       console.error('Auto-save failed:', error);
@@ -95,24 +176,37 @@ export default function DocumentGenerator() {
   };
 
   const onSubmit = async (data: any) => {
+    if (!user) {
+      alert("Please login to save your drafts securely in the cloud.");
+      // Still save to local storage for guest
+      localStorage.setItem(`myeca_doc_latest_${documentType}`, JSON.stringify(data));
+      setSaveStatus('saved');
+      return;
+    }
+
     setIsSaving(true);
     try {
-      const generatedTitle = `${config?.title || 'Untitled'} - ${new Date().toLocaleDateString()}`;
+      const draftData = {
+        userId: user.id,
+        type: documentType,
+        title: config?.title || "Untitled Document",
+        content: data,
+        updatedAt: serverTimestamp(),
+        isCertified: false // Future flag
+      };
 
-      // Backend documents table is currently structured for uploaded files (profileId, fileName, etc)
-      // We will fallback to local storage for generated forms in this version
       if (documentId) {
-        localStorage.setItem(`myeca_doc_${documentType}_${documentId}`, JSON.stringify(data));
+        await setDoc(doc(db, "document_drafts", documentId), draftData, { merge: true });
       } else {
-        const newId = `temp_${Date.now()}`;
-        setDocumentId(newId);
-        localStorage.setItem(`myeca_doc_${documentType}_${newId}`, JSON.stringify(data));
+        const docRef = doc(collection(db, "document_drafts"));
+        await setDoc(docRef, draftData);
+        setDocumentId(docRef.id);
       }
 
       setSaveStatus('saved');
       setLastSaved(new Date());
     } catch (error) {
-      console.error('Failed to save document:', error);
+      console.error('Failed to save document to Firebase:', error);
       alert('Failed to save document. Please try again.');
     } finally {
       setIsSaving(false);
@@ -209,9 +303,19 @@ export default function DocumentGenerator() {
   }
 
   const FormComponent = config.FormComponent;
+  const currentTitle = `${config.title} Generator | MyeCA.in`;
 
   return (
     <div className="h-screen flex flex-col bg-slate-50 overflow-hidden font-sans">
+      <MetaSEO 
+        title={currentTitle}
+        description={`Create and download your ${config.title} online. Professional ${config.category} document draft with expert-approved clauses for the Indian legal system.`}
+        breadcrumbs={[
+          { name: "Home", url: "/" }, 
+          { name: "Registry", url: "/documents/generator" },
+          { name: config.title, url: `/documents/generator/${documentType}` }
+        ]}
+      />
       {/* Premium Header Pipeline */}
       <div className="bg-white/90 backdrop-blur-xl border-b border-slate-200/80 px-4 md:px-6 py-3 shrink-0 shadow-sm z-20 relative">
         <div className="flex items-center justify-between max-w-[1600px] mx-auto">

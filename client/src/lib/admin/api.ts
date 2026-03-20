@@ -1,6 +1,6 @@
 // Admin API Client - Simple and Clean
 
-import type { ApiResponse, DashboardStats } from './types';
+import type { ApiResponse, DashboardStats, User } from './types';
 
 const API_BASE = '/api/admin';
 
@@ -50,7 +50,9 @@ class AdminApi {
     if (params?.limit) query.append('limit', params.limit.toString());
     if (params?.search) query.append('search', params.search);
     
-    return this.request(`/users${query.toString() ? `?${query}` : ''}`);
+    return this.request<{ users: User[]; pagination: { total: number; page: number; limit: number; totalPages: number } }>(
+      `/users${query.toString() ? `?${query}` : ''}`
+    );
   }
 }
 

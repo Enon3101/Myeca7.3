@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ChevronLeft, ChevronRight, X, ZoomIn, ZoomOut } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import OptimizedImage from './OptimizedImage';
 import { cn } from '@/lib/utils';
 
@@ -125,7 +125,7 @@ export default function ImageGallery({
       {/* Lightbox */}
       <AnimatePresence>
         {isLightboxOpen && lightbox && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -168,7 +168,7 @@ export default function ImageGallery({
             </div>
 
             {/* Lightbox Image */}
-            <motion.div
+            <m.div
               className="relative max-w-[90vw] max-h-[90vh]"
               onClick={(e) => e.stopPropagation()}
               style={{ transform: `scale(${zoom})` }}
@@ -180,7 +180,7 @@ export default function ImageGallery({
                 className="max-w-full max-h-[90vh] object-contain"
                 priority
               />
-            </motion.div>
+            </m.div>
 
             {/* Lightbox Navigation */}
             {images.length > 1 && (
@@ -214,7 +214,7 @@ export default function ImageGallery({
                 {images[selectedIndex].caption}
               </div>
             )}
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </>

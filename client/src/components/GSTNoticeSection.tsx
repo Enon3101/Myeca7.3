@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { FileText, AlertCircle, Building, Calendar, TrendingUp, Shield, CheckCircle, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -59,7 +59,7 @@ export default function GSTNoticeSection() {
     <section id="gst-notices" className="py-12 bg-gradient-to-br from-purple-50 to-indigo-50 scroll-mt-20">
       <div className="container mx-auto px-6">
         {/* Header */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -76,10 +76,10 @@ export default function GSTNoticeSection() {
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Complete GST solutions - from registration to returns filing and notice handling by expert CAs
           </p>
-        </motion.div>
+        </m.div>
 
         {/* Stats */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
@@ -102,10 +102,10 @@ export default function GSTNoticeSection() {
             <div className="text-3xl font-bold text-purple-600">24/7</div>
             <div className="text-sm text-gray-600">Expert Support</div>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* GST Services Grid */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
@@ -132,10 +132,10 @@ export default function GSTNoticeSection() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* CTA Section */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.8 }}
@@ -190,7 +190,7 @@ export default function GSTNoticeSection() {
               </div>
             </div>
           </div>
-        </motion.div>
+        </m.div>
       </div>
     </section>
   );

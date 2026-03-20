@@ -1,143 +1,245 @@
-import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
-import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
-import { sql } from "drizzle-orm";
 
-export const users = sqliteTable("users", {
-  id: text("id").primaryKey(), // Clerk ID
-  email: text("email").unique(),
-  phoneNumber: text("phone_number").unique(),
-  firstName: text("first_name").notNull(),
-  lastName: text("last_name").notNull(),
-  role: text("role").notNull().default("user"), // admin | team_member | ca | user
-  assignedCaId: text("assigned_ca_id"), // References users.id (CA assigned to this user)
-  assignedCaName: text("assigned_ca_name"),
-  assignedCaEmail: text("assigned_ca_email"),
-  status: text("status").notNull().default("active"),
-  isVerified: integer("is_verified", { mode: 'boolean' }).default(false),
-  approvedBy: text("approved_by"),
-  approvedAt: integer("approved_at", { mode: 'timestamp' }),
-  rejectedReason: text("rejected_reason"),
-  createdAt: integer("created_at", { mode: 'timestamp' }).notNull().default(sql`CURRENT_TIMESTAMP`),
-  updatedAt: integer("updated_at", { mode: 'timestamp' }).notNull().default(sql`CURRENT_TIMESTAMP`),
+// --- Base Schemas ---
+
+export const userSchema = z.object({
+  id: z.string(), // Firebase UID
+  username: z.string().optional().nullable(),
+  email: z.string().email().optional().nullable(),
+  phoneNumber: z.string().optional().nullable(),
+  firstName: z.string(),
+  lastName: z.string(),
+  role: z.enum(['admin', 'team_member', 'ca', 'user']).default('user'),
+  assignedCaId: z.string().optional().nullable(),
+  assignedCaName: z.string().optional().nullable(),
+  assignedCaEmail: z.string().optional().nullable(),
+  status: z.string().default('active'),
+  isVerified: z.boolean().default(false),
+  approvedBy: z.string().optional().nullable(),
+  approvedAt: z.date().optional().nullable(),
+  rejectedReason: z.string().optional().nullable(),
+  createdAt: z.date().default(() => new Date()),
+  updatedAt: z.date().default(() => new Date()),
 });
 
-export const profiles = sqliteTable("profiles", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
-  userId: text("user_id").references(() => users.id).notNull(),
-  name: text("name").notNull(),
-  relation: text("relation").notNull().default("self"),
-  pan: text("pan"),
-  aadhaar: text("aadhaar"),
-  dateOfBirth: text("date_of_birth"),
-  address: text("address"),
-  isActive: integer("is_active", { mode: 'boolean' }).default(true),
-  createdAt: integer("created_at", { mode: 'timestamp' }).notNull().default(sql`CURRENT_TIMESTAMP`),
+export type User = z.infer<typeof userSchema>;
+export type InsertUser = User;
+
+export const profileSchema = z.object({
+  id: z.number().optional(),
+  userId: z.string(),
+  name: z.string(),
+  relation: z.string().default('self'),
+  pan: z.string().optional().nullable(),
+  aadhaar: z.string().optional().nullable(),
+  dateOfBirth: z.string().optional().nullable(),
+  address: z.string().optional().nullable(),
+  isActive: z.boolean().default(true),
+  createdAt: z.date().default(() => new Date()),
 });
 
-export const taxReturns = sqliteTable("tax_returns", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
-  profileId: integer("profile_id").references(() => profiles.id).notNull(),
-  assessmentYear: text("assessment_year").notNull(),
-  itrType: text("itr_type").notNull().default("ITR1"),
-  status: text("status").notNull().default("draft"),
-  formData: text("form_data"),
-  calculatedTax: integer("calculated_tax"),
-  refundAmount: integer("refund_amount"),
-  acknowledgmentNumber: text("acknowledgment_number"),
-  filedAt: integer("filed_at", { mode: 'timestamp' }),
-  createdAt: integer("created_at", { mode: 'timestamp' }).notNull().default(sql`CURRENT_TIMESTAMP`),
-  updatedAt: integer("updated_at", { mode: 'timestamp' }).notNull().default(sql`CURRENT_TIMESTAMP`),
+export type Profile = z.infer<typeof profileSchema>;
+export type InsertProfile = Profile;
+
+export const taxReturnSchema = z.object({
+  id: z.number().optional(),
+  profileId: z.number(),
+  assessmentYear: z.string(),
+  itrType: z.string().default('ITR1'),
+  status: z.string().default('draft'),
+  formData: z.string().optional().nullable(),
+  calculatedTax: z.number().optional().nullable(),
+  refundAmount: z.number().optional().nullable(),
+  acknowledgmentNumber: z.string().optional().nullable(),
+  filedAt: z.date().optional().nullable(),
+  createdAt: z.date().default(() => new Date()),
+  updatedAt: z.date().default(() => new Date()),
 });
 
-export const documents = sqliteTable("documents", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
-  userId: text("user_id").references(() => users.id).notNull(),
-  profileId: integer("profile_id").references(() => profiles.id),
-  fileName: text("file_name").notNull(),
-  originalName: text("original_name").notNull(),
-  name: text("name").notNull(),
-  mimeType: text("mime_type").notNull(),
-  size: integer("size").notNull(),
-  category: text("category").notNull(),
-  uploadPath: text("upload_path").notNull(),
-  tags: text("tags"),
-  description: text("description"),
-  year: text("year"),
-  status: text("status").notNull().default("active"),
-  version: integer("version").notNull().default(1),
-  createdAt: integer("created_at", { mode: 'timestamp' }).notNull().default(sql`CURRENT_TIMESTAMP`),
-  updatedAt: integer("updated_at", { mode: 'timestamp' }).notNull().default(sql`CURRENT_TIMESTAMP`),
-  deletedAt: integer("deleted_at", { mode: 'timestamp' }),
+export type TaxReturn = z.infer<typeof taxReturnSchema>;
+
+export const documentSchema = z.object({
+  id: z.number().optional(),
+  userId: z.string(),
+  profileId: z.number().optional().nullable(),
+  fileName: z.string(),
+  originalName: z.string(),
+  name: z.string(),
+  mimeType: z.string(),
+  size: z.number(),
+  category: z.string(),
+  uploadPath: z.string(),
+  tags: z.string().optional().nullable(),
+  description: z.string().optional().nullable(),
+  year: z.string().optional().nullable(),
+  status: z.string().default('active'),
+  version: z.number().default(1),
+  createdAt: z.date().default(() => new Date()),
+  updatedAt: z.date().default(() => new Date()),
+  deletedAt: z.date().optional().nullable(),
 });
 
-export const blogPosts = sqliteTable("blog_posts", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
-  title: text("title").notNull(),
-  slug: text("slug").unique().notNull(),
-  content: text("content").notNull(),
-  excerpt: text("excerpt"),
-  authorId: text("author_id").references(() => users.id).notNull(),
-  categoryId: integer("category_id").references(() => categories.id),
-  status: text("status").notNull().default("draft"),
-  tags: text("tags"),
-  featuredImage: text("featured_image"),
-  publishedAt: integer("published_at", { mode: 'timestamp' }),
-  createdAt: integer("created_at", { mode: 'timestamp' }).notNull().default(sql`CURRENT_TIMESTAMP`),
-  updatedAt: integer("updated_at", { mode: 'timestamp' }).notNull().default(sql`CURRENT_TIMESTAMP`),
+export type Document = z.infer<typeof documentSchema>;
+
+export const blogPostSchema = z.object({
+  id: z.number().optional(),
+  title: z.string(),
+  slug: z.string(),
+  content: z.string(),
+  excerpt: z.string().optional().nullable(),
+  authorId: z.string(),
+  categoryId: z.number().optional().nullable(),
+  status: z.string().default('draft'),
+  tags: z.string().optional().nullable(),
+  featuredImage: z.string().optional().nullable(),
+  publishedAt: z.date().optional().nullable(),
+  createdAt: z.date().default(() => new Date()),
+  updatedAt: z.date().default(() => new Date()),
 });
 
-export const categories = sqliteTable("categories", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
-  name: text("name").notNull(),
-  slug: text("slug").unique().notNull(),
+export type BlogPost = z.infer<typeof blogPostSchema>;
+
+export const blogCategorySchema = z.object({
+  id: z.number().optional(),
+  name: z.string(),
+  slug: z.string(),
+  description: z.string().optional().nullable(),
 });
 
-export const dailyUpdates = sqliteTable("daily_updates", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
-  title: text("title").notNull(),
-  description: text("description").notNull(),
-  priority: text("priority").notNull().default("MEDIUM"),
-  isActive: integer("is_active", { mode: 'boolean' }).default(true),
-  expiresAt: integer("expires_at", { mode: 'timestamp' }),
-  createdAt: integer("created_at", { mode: 'timestamp' }).notNull().default(sql`CURRENT_TIMESTAMP`),
+export type BlogCategory = z.infer<typeof blogCategorySchema>;
+export const blogCategories = blogCategorySchema; // For drizzle compatibility alias if needed
+
+export const blogTagSchema = z.object({
+  id: z.number().optional(),
+  name: z.string(),
+  slug: z.string(),
+  description: z.string().optional().nullable(),
 });
 
-export const userServices = sqliteTable("user_services", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
-  userId: text("user_id").references(() => users.id).notNull(),
-  serviceType: text("service_type").notNull(), // e.g. "ITR", "GST_REGISTRATION", "COMPANY_REG"
-  status: text("status").notNull().default("active"), // "active", "completed", "cancelled"
-  metadata: text("metadata"), // JSON string for extra config
-  createdAt: integer("created_at", { mode: 'timestamp' }).notNull().default(sql`CURRENT_TIMESTAMP`),
-  updatedAt: integer("updated_at", { mode: 'timestamp' }).notNull().default(sql`CURRENT_TIMESTAMP`),
+export type BlogTag = z.infer<typeof blogTagSchema>;
+export const blogTags = blogTagSchema;
+
+export const chatSessionSchema = z.object({
+  id: z.number().optional(),
+  userId: z.string(),
+  title: z.string(),
+  status: z.string().default('active'),
+  createdAt: z.date().default(() => new Date()),
+  updatedAt: z.date().default(() => new Date()),
 });
 
-export type User = typeof users.$inferSelect;
-export type InsertUser = typeof users.$inferInsert;
-export type Profile = typeof profiles.$inferSelect;
-export type InsertProfile = typeof profiles.$inferInsert;
-export type TaxReturn = typeof taxReturns.$inferSelect;
-export type InsertTaxReturn = typeof taxReturns.$inferInsert;
-export type Document = typeof documents.$inferSelect;
-export type InsertDocument = typeof documents.$inferInsert;
-export type BlogPost = typeof blogPosts.$inferSelect;
-export type InsertBlogPost = typeof blogPosts.$inferInsert;
-export type Category = typeof categories.$inferSelect;
-export type InsertCategory = typeof categories.$inferInsert;
-export type DailyUpdate = typeof dailyUpdates.$inferSelect;
-export type InsertDailyUpdate = typeof dailyUpdates.$inferInsert;
-export type UserService = typeof userServices.$inferSelect;
-export type InsertUserService = typeof userServices.$inferInsert;
+export type ChatSession = z.infer<typeof chatSessionSchema>;
+export const chatSessions = chatSessionSchema;
 
-export const insertUserSchema = createInsertSchema(users);
-export const insertProfileSchema = createInsertSchema(profiles);
-export const insertTaxReturnSchema = createInsertSchema(taxReturns);
-export const insertDocumentSchema = createInsertSchema(documents);
-export const insertBlogPostSchema = createInsertSchema(blogPosts);
-export const insertCategorySchema = createInsertSchema(categories);
-export const insertDailyUpdateSchema = createInsertSchema(dailyUpdates);
-export const insertUserServiceSchema = createInsertSchema(userServices);
+export const chatMessageSchema = z.object({
+  id: z.number().optional(),
+  sessionId: z.number(),
+  role: z.enum(['user', 'assistant', 'system']),
+  content: z.string(),
+  createdAt: z.date().default(() => new Date()),
+});
+
+export type ChatMessage = z.infer<typeof chatMessageSchema>;
+export const chatMessages = chatMessageSchema;
+
+export const webhookSchema = z.object({
+  id: z.number().optional(),
+  url: z.string().url(),
+  secret: z.string(),
+  events: z.array(z.string()).default(['*']),
+  headers: z.record(z.string()).optional().nullable(),
+  isActive: z.boolean().default(true),
+  failureCount: z.number().default(0),
+  lastTriggeredAt: z.date().optional().nullable(),
+  createdAt: z.date().default(() => new Date()),
+  updatedAt: z.date().default(() => new Date()),
+});
+
+export type Webhook = z.infer<typeof webhookSchema>;
+export const webhooks = webhookSchema;
+
+export const siteSettingSchema = z.object({
+  id: z.number().optional(),
+  key: z.string(),
+  value: z.string(),
+  category: z.string().default('general'),
+  createdAt: z.date().default(() => new Date()),
+  updatedAt: z.date().default(() => new Date()),
+});
+
+export type SiteSetting = z.infer<typeof siteSettingSchema>;
+export const siteSettings = siteSettingSchema;
+
+export const emailTemplateSchema = z.object({
+  id: z.number().optional(),
+  name: z.string(),
+  slug: z.string(),
+  subject: z.string(),
+  htmlContent: z.string(),
+  textContent: z.string().optional().nullable(),
+  variables: z.string(), // JSON string of variable names
+  category: z.string().default('transactional'),
+  createdAt: z.date().default(() => new Date()),
+  updatedAt: z.date().default(() => new Date()),
+});
+
+export type EmailTemplate = z.infer<typeof emailTemplateSchema>;
+export const emailTemplates = emailTemplateSchema;
+
+export const pageSchema = z.object({
+  id: z.number().optional(),
+  title: z.string(),
+  slug: z.string(),
+  content: z.string(),
+  metaTitle: z.string().optional().nullable(),
+  metaDescription: z.string().optional().nullable(),
+  status: z.string().default('draft'),
+  authorId: z.string(),
+  publishedAt: z.date().optional().nullable(),
+  createdAt: z.date().default(() => new Date()),
+  updatedAt: z.date().default(() => new Date()),
+});
+
+export type Page = z.infer<typeof pageSchema>;
+export const pages = pageSchema;
+
+export const taxSlabSchema = z.object({
+  min: z.number(),
+  max: z.number().optional().nullable(),
+  rate: z.number(),
+});
+
+export type TaxSlab = z.infer<typeof taxSlabSchema>;
+
+export const userServiceSchema = z.object({
+  id: z.number().optional(),
+  userId: z.string(),
+  serviceType: z.string(),
+  status: z.string().default('active'),
+  metadata: z.string().optional().nullable(),
+  createdAt: z.date().default(() => new Date()),
+  updatedAt: z.date().default(() => new Date()),
+});
+
+export type UserService = z.infer<typeof userServiceSchema>;
+
+// --- Insert Schemas ---
+export const insertUserSchema = userSchema;
+export const insertProfileSchema = profileSchema;
+export const insertTaxReturnSchema = taxReturnSchema;
+export const insertDocumentSchema = documentSchema;
+export const insertBlogPostSchema = blogPostSchema;
+export const insertBlogCategorySchema = blogCategorySchema;
+export const insertBlogTagSchema = blogTagSchema;
+export const insertChatSessionSchema = chatSessionSchema;
+export const insertChatMessageSchema = chatMessageSchema;
+export const insertWebhookSchema = webhookSchema;
+export const insertSiteSettingSchema = siteSettingSchema;
+export const insertEmailTemplateSchema = emailTemplateSchema;
+export const insertPageSchema = pageSchema;
+export const insertUserServiceSchema = userServiceSchema;
+
+// --- Auth Related Schemas ---
 export const loginSchema = z.object({
   identifier: z.string().min(1, 'Email or Phone number is required').max(255),
   password: z.string().min(8, 'Password must be at least 8 characters'),

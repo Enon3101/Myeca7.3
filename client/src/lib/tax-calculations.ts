@@ -101,7 +101,7 @@ export function calculateIncomeTax(inputs: IncomeTaxInputs & { age?: number; ass
     } else {
        // Marginal Relief:
        // Ensure tax payable does not exceed the income earned above the threshold.
-       // This prevents the "cliff effect" where earning \u20B91 extra costs \u20B960,000 in tax.
+       // This prevents the "cliff effect" where earning ₹1 extra costs ₹60,000 in tax.
        const excessIncome = taxableIncome - threshold;
        if (tax > excessIncome) {
           tax = excessIncome;
@@ -413,14 +413,14 @@ export function calculateCapitalGains(
   
   // Determine gain type and tax rate based on asset type and holding period
   // As per Budget 2024:
-  // - Equity: 12 months for LTCG, STCG @ 20%, LTCG @ 12.5% (\u20B91.25L exemption)
+  // - Equity: 12 months for LTCG, STCG @ 20%, LTCG @ 12.5% (₹1.25L exemption)
   // - Property/Gold/Bonds: 24 months for LTCG, STCG as per slab, LTCG @ 12.5%
   switch (assetType) {
     case 'equity':
       // Equity: LTCG if held > 12 months (365 days)
       gainType = holdingPeriodDays >= 365 ? 'LTCG' : 'STCG';
       taxRate = gainType === 'LTCG' ? 12.5 : 20; // LTCG: 12.5%, STCG: 20%
-      // LTCG exemption of \u20B91.25 lakh for equity
+      // LTCG exemption of ₹1.25 lakh for equity
       if (gainType === 'LTCG' && capitalGain > 0) {
         ltcgExemption = Math.min(capitalGain, 125000);
       }

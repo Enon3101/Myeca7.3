@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,9 +12,19 @@ import { apiRequest } from "@/lib/queryClient";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { 
   FileText, Upload, Download, Trash2, Edit, Search,
-  Calendar, Tag, Folder, FileCheck, AlertCircle, Loader2, Eye
+  Calendar, Tag, Folder, FileCheck, AlertCircle, Loader2, Eye, X
 } from "lucide-react";
 import SEO from "@/components/SEO";
+import { logAuditEvent, logDocumentAccess } from "@/lib/audit";
+import { ALLOWED_FILE_TYPES, MAX_FILE_SIZE_BYTES, sanitizeFilename, formatFileSize } from "@/lib/file_utils";
+import { storage, auth } from "@/lib/firebase";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { 
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 interface Document {
   id: number;
@@ -56,6 +66,7 @@ export default function DocumentsPage() {
     year: new Date().getFullYear().toString(),
     description: ""
   });
+  const [selectedDocForPreview, setSelectedDocForPreview] = useState<Document | null>(null);
 
   // Fetch documents
   const { data, isLoading } = useQuery({
@@ -77,25 +88,66 @@ export default function DocumentsPage() {
   // Upload mutation
   const uploadMutation = useMutation({
     mutationFn: async (file: File) => {
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("name", uploadData.name || file.name);
-      formData.append("category", uploadData.category);
-      formData.append("year", uploadData.year);
-      formData.append("description", uploadData.description);
+      if (!auth.currentUser) throw new Error("Not authenticated");
+
+      // Security check
+      if (file.size > MAX_FILE_SIZE_BYTES) {
+        logAuditEvent({
+          action: 'file_size_violation',
+          category: 'security',
+          metadata: { fileName: file.name, fileSize: file.size, context: 'documents_page' },
+          status: 'warning'
+        });
+        throw new Error(`File too large. Max limit is ${formatFileSize(MAX_FILE_SIZE_BYTES)}.`);
+      }
+
+      if (!ALLOWED_FILE_TYPES.includes(file.type)) {
+        logAuditEvent({
+          action: 'file_type_violation',
+          category: 'security',
+          metadata: { fileName: file.name, fileType: file.type, context: 'documents_page' },
+          status: 'warning'
+        });
+        throw new Error("Invalid file type.");
+      }
+
+      const sanitizedName = sanitizeFilename(`${Date.now()}-${file.name}`);
+      const storageRef = ref(storage, `user_documents/${auth.currentUser.uid}/${sanitizedName}`);
       
-      const response = await fetch("/api/documents/upload", {
+      const uploadResult = await uploadBytes(storageRef, file, {
+        contentType: file.type,
+        customMetadata: {
+          originalName: file.name,
+          category: uploadData.category,
+          year: uploadData.year
+        }
+      });
+      
+      const downloadUrl = await getDownloadURL(uploadResult.ref);
+      
+      const response = await fetch("/api/documents/register", {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("auth_token")}`
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`
         },
-        body: formData
+        body: JSON.stringify({
+          name: uploadData.name || file.name,
+          url: downloadUrl,
+          category: uploadData.category,
+          year: uploadData.year,
+          description: uploadData.description,
+          storagePath: uploadResult.ref.fullPath,
+          size: file.size,
+          mimeType: file.type
+        })
       });
       
       if (!response.ok) {
-        throw new Error("Upload failed");
+        throw new Error("Failed to register document on server");
       }
-      
+
+      await logDocumentAccess(file.name, 'uploaded_document');
       return response.json();
     },
     onSuccess: () => {
@@ -162,7 +214,7 @@ export default function DocumentsPage() {
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -170,7 +222,7 @@ export default function DocumentsPage() {
         >
           <h1 className="text-4xl font-bold text-gray-900 mb-4">Document Management</h1>
           <p className="text-xl text-gray-600">Securely store and organize your tax documents</p>
-        </motion.div>
+        </m.div>
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
@@ -292,7 +344,7 @@ export default function DocumentsPage() {
                   const category = categoryLabels[doc.category] || categoryLabels.other;
                   
                   return (
-                    <motion.div
+                    <m.div
                       key={doc.id}
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
@@ -330,6 +382,14 @@ export default function DocumentsPage() {
                             </div>
                             
                             <div className="flex items-center gap-2">
+                              <Button 
+                                variant="ghost" 
+                                size="icon" 
+                                title="Preview"
+                                onClick={() => setSelectedDocForPreview(doc)}
+                              >
+                                <Eye className="h-4 w-4" />
+                              </Button>
                               <Button variant="ghost" size="icon" title="Download">
                                 <Download className="h-4 w-4" />
                               </Button>
@@ -349,7 +409,7 @@ export default function DocumentsPage() {
                           </div>
                         </CardContent>
                       </Card>
-                    </motion.div>
+                    </m.div>
                   );
                 })}
               </div>
@@ -439,7 +499,7 @@ export default function DocumentsPage() {
                     accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx"
                   />
                   <p className="text-xs text-gray-500 mt-4">
-                    Supported formats: PDF, JPG, PNG, DOC, DOCX, XLS, XLSX (Max 10MB)
+                    Supported formats: PDF, JPG, PNG, WebP, Word, Excel (Max {formatFileSize(MAX_FILE_SIZE_BYTES)})
                   </p>
                 </div>
 

@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { Star } from "lucide-react";
 import { companyTestimonials } from "@/data/testimonials";
@@ -54,7 +54,7 @@ export default function TrustedBySection() {
   return (
     <section id="trusted-by" className="py-20 bg-white border-y border-gray-100 scroll-mt-20 overflow-visible">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-visible">
-        <motion.div
+        <m.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -67,10 +67,10 @@ export default function TrustedBySection() {
           <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
             Building trust through 100% CA-reviewed filings. Accurate. Secure. Seamless.
           </p>
-        </motion.div>
+        </m.div>
 
         {/* Statistics - Enhanced Aesthetics */}
-        <motion.div
+        <m.div
           className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 mb-20"
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
@@ -89,7 +89,7 @@ export default function TrustedBySection() {
               <div className="text-gray-400 text-[11px] font-medium mt-1">{stat.sub}</div>
             </div>
           ))}
-        </motion.div>
+        </m.div>
 
         {/* Company Logos - Compact Infinite Carousel */}
         <div className="relative py-6 overflow-visible">
@@ -98,7 +98,7 @@ export default function TrustedBySection() {
           <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-white to-transparent z-20 pointer-events-none" />
           
           <div className="overflow-hidden">
-            <motion.div
+            <m.div
               className="flex items-center"
               animate={{ x: [0, "-50%"] }}
               transition={{
@@ -114,7 +114,7 @@ export default function TrustedBySection() {
               {[0, 1].map((setIndex) => (
                 <div key={`set-${setIndex}`} className="flex items-center">
                   {companyLogos.map((company, index) => (
-                    <motion.div
+                    <m.div
                       key={`${company.name}-${setIndex}-${index}`}
                       className="flex items-center justify-center w-72 h-28 flex-shrink-0 group relative mx-10"
                       whileHover={{ scale: 1.1 }}
@@ -129,11 +129,11 @@ export default function TrustedBySection() {
                           imgClassName="max-w-full max-h-20 object-contain transition-all duration-500 opacity-70 group-hover:opacity-100 filter brightness-110 contrast-[1.05]"
                         />
                       </div>
-                    </motion.div>
+                    </m.div>
                   ))}
                 </div>
               ))}
-            </motion.div>
+            </m.div>
           </div>
         </div>
       </div>

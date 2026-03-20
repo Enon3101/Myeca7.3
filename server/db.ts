@@ -1,21 +1,14 @@
-import "dotenv/config";
-import { drizzle as drizzlePg } from "drizzle-orm/node-postgres";
-import { drizzle as drizzleSqlite } from "drizzle-orm/better-sqlite3";
-import pg from "pg";
-import Database from "better-sqlite3";
-import * as schema from "@shared/schema";
+// --- Legacy Database Mock ---
+// This file is kept for backward compatibility during the Firebase migration.
+// New code should use adminDb from ./firebase-admin.ts
 
-const { Pool } = pg;
+export const db: any = new Proxy({}, {
+  get: () => {
+    return () => {
+      console.warn("⚠️ Attempted to access legacy Drizzle 'db'. This operation is not supported in the current Firebase-centric architecture.");
+      throw new Error("Legacy database access is disabled. Please refactor this component to use Firestore.");
+    };
+  }
+});
 
-if (!process.env.DATABASE_URL) {
-  throw new Error(
-    "DATABASE_URL must be set. Did you forget to provision a database?",
-  );
-}
-
-const isSqlite = process.env.DATABASE_URL.startsWith("file:");
-
-export const pool = !isSqlite ? new Pool({ connectionString: process.env.DATABASE_URL }) : null;
-export const db = isSqlite 
-  ? drizzleSqlite(new Database(process.env.DATABASE_URL.replace("file:", "")), { schema })
-  : drizzlePg(pool!, { schema });
+export const pool: any = null;

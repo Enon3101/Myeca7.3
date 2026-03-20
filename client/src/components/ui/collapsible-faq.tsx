@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { ChevronDown, ChevronUp, HelpCircle } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -83,7 +83,7 @@ export function CollapsibleFAQ({
   const colors = colorClasses[accentColor as keyof typeof colorClasses] || colorClasses.blue;
 
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
@@ -107,7 +107,7 @@ export function CollapsibleFAQ({
           const isOpen = openItems.has(item.id);
           
           return (
-            <motion.div
+            <m.div
               key={item.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -145,7 +145,7 @@ export function CollapsibleFAQ({
                       {item.question}
                     </h3>
                   </div>
-                  <motion.div
+                  <m.div
                     animate={{ rotate: isOpen ? 180 : 0 }}
                     transition={{ duration: 0.2 }}
                     className="flex-shrink-0"
@@ -154,12 +154,12 @@ export function CollapsibleFAQ({
                       "w-5 h-5",
                       isOpen ? colors.icon : "text-gray-400"
                     )} />
-                  </motion.div>
+                  </m.div>
                 </button>
                 
                 <AnimatePresence>
                   {isOpen && (
-                    <motion.div
+                    <m.div
                       id={`faq-answer-${item.id}`}
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
@@ -180,11 +180,11 @@ export function CollapsibleFAQ({
                           </span>
                         )}
                       </CardContent>
-                    </motion.div>
+                    </m.div>
                   )}
                 </AnimatePresence>
               </Card>
-            </motion.div>
+            </m.div>
           );
         })}
       </div>
@@ -204,6 +204,6 @@ export function CollapsibleFAQ({
           </p>
         </div>
       )}
-    </motion.div>
+    </m.div>
   );
 }

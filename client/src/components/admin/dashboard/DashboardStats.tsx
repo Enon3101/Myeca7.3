@@ -79,21 +79,21 @@ export function DashboardStats({ stats, isLoading = false }: DashboardStatsProps
       <StatCard
         title="Total Revenue"
         value={formatCurrency(stats.revenue.total)}
-        subtitle={`This month: ${formatCurrency(stats.revenue.this_month)}`}
-        change={stats.revenue.growth_percent}
+        subtitle={`This month: ${formatCurrency(stats.revenue.thisMonth)}`}
+        change={stats.revenue.growthPercent}
         icon={Coins}
         iconBg="bg-gradient-to-br from-blue-100 to-indigo-100"
-        trend={stats.revenue.growth_percent >= 0 ? 'up' : 'down'}
+        trend={stats.revenue.growthPercent >= 0 ? 'up' : 'down'}
       />
       
       <StatCard
         title="Total Users"
         value={formatNumber(stats.users.total)}
         subtitle={`Active: ${formatNumber(stats.users.active)}`}
-        change={stats.users.growth_percent}
+        change={stats.users.growthPercent}
         icon={Users}
         iconBg="bg-gradient-to-br from-green-100 to-emerald-100"
-        trend={stats.users.growth_percent >= 0 ? 'up' : 'down'}
+        trend={stats.users.growthPercent >= 0 ? 'up' : 'down'}
       />
       
       <StatCard
@@ -106,11 +106,11 @@ export function DashboardStats({ stats, isLoading = false }: DashboardStatsProps
       
       <StatCard
         title="System Health"
-        value={stats.system_health.status === 'healthy' ? '99.9%' : 'Warning'}
-        subtitle={`Uptime: ${stats.system_health.uptime}%`}
+        value={stats.systemHealth.status === 'healthy' ? '99.9%' : 'Warning'}
+        subtitle={`Uptime: ${stats.systemHealth.uptime}%`}
         icon={Activity}
         iconBg={cn(
-          stats.system_health.status === 'healthy' 
+          stats.systemHealth.status === 'healthy' 
             ? 'bg-gradient-to-br from-green-100 to-emerald-100'
             : 'bg-gradient-to-br from-yellow-100 to-orange-100'
         )}

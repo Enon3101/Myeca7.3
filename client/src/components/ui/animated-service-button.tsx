@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { LucideIcon } from "lucide-react";
 import { ReactNode } from "react";
@@ -48,7 +48,7 @@ export default function AnimatedServiceButton({
   const buttonClasses = `${colorClasses[color][variant]} px-8 py-4 text-lg font-semibold transition-all duration-300 ${className}`;
 
   return (
-    <motion.div
+    <m.div
       whileHover={{ 
         scale: 1.05,
         y: -2,
@@ -68,7 +68,7 @@ export default function AnimatedServiceButton({
         className={buttonClasses}
         onClick={onClick}
       >
-        <motion.div 
+        <m.div 
           className="flex items-center"
           initial={{ opacity: 1 }}
           whileHover={{ 
@@ -77,7 +77,7 @@ export default function AnimatedServiceButton({
           transition={{ duration: 0.2 }}
         >
           {Icon && (
-            <motion.div
+            <m.div
               whileHover={{ 
                 rotate: variant === "primary" ? 5 : -5,
                 scale: 1.1
@@ -85,14 +85,14 @@ export default function AnimatedServiceButton({
               transition={{ duration: 0.2 }}
             >
               <Icon className="w-5 h-5 mr-2" />
-            </motion.div>
+            </m.div>
           )}
           <span>{children}</span>
-        </motion.div>
+        </m.div>
         
         {/* Booking animation - subtle pulse for booking-related buttons */}
         {variant === "primary" && (
-          <motion.div
+          <m.div
             className="absolute inset-0 rounded-md"
             style={{
               background: `linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.3) 50%, transparent 70%)`,
@@ -110,6 +110,6 @@ export default function AnimatedServiceButton({
           />
         )}
       </Button>
-    </motion.div>
+    </m.div>
   );
 }

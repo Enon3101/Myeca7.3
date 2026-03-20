@@ -33,6 +33,8 @@ const NoticeComplianceSection = lazy(() => import("@/components/NoticeCompliance
 const GSTNoticeSection = lazy(() => import("@/components/GSTNoticeSection"));
 const ProfessionalServicesSection = lazy(() => import("@/components/ProfessionalServicesSection"));
 const OtherServicesSection = lazy(() => import("@/components/OtherServicesSection"));
+const FinancialGlossary = lazy(() => import("@/components/seo/FinancialGlossary"));
+const FeaturedResources = lazy(() => import("@/components/seo/FeaturedResources"));
 
 const SectionFallback = () => (
   <div className="py-12">
@@ -90,6 +92,24 @@ const HomePage = () => {
             "reviewCount": "150000"
           }
         }}
+        faqPageData={[
+          {
+            question: "What is the fastest way to file ITR in India?",
+            answer: "MyeCA.in offers a 4-step ITR filing process where you can auto-import data from Form 16 and get it reviewed by a certified CA within 24 hours."
+          },
+          {
+            question: "Is CA review mandatory for all tax filings on MyeCA.in?",
+            answer: "Yes, every return filed through MyeCA.in is manually reviewed by a named Chartered Accountant to ensure zero errors and maximum tax savings."
+          },
+          {
+            question: "How much does it cost to file ITR online?",
+            answer: "ITR filing starts at just ₹499 on MyeCA.in. We offer transparent pricing with no hidden charges, and you only pay after your return is reviewed by a CA."
+          },
+          {
+            question: "Can I get a refund for my income tax through MyeCA.in?",
+            answer: "Our expert CAs optimize your return to ensure you claim all eligible deductions under Section 80C, 80D, and others, maximizing your chance of a refund."
+          }
+        ]}
       />
 
       <div className="bg-white min-h-screen">
@@ -107,9 +127,9 @@ const HomePage = () => {
 
               {/* Headline */}
               <h1 className="text-3xl lg:text-5xl font-bold text-[var(--color-primary-900)] leading-tight">
-                Your <span className="text-[var(--color-accent-600)]">Personal CA</span> is{" "}
+                Get Your <span className="text-[var(--color-accent-600)]">Maximum Tax Refund</span> — 
                 <br className="hidden sm:block" />
-                one click away
+                Expert CA Filing from ₹999
               </h1>
 
               <p className="text-lg text-gray-600 max-w-2xl mx-auto">
@@ -120,13 +140,13 @@ const HomePage = () => {
               {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
                 <Link href="/auth/login">
-                  <Button size="lg" className="w-full sm:w-auto px-8 rounded-xl h-12 text-[15px] font-semibold bg-[var(--color-accent-600)] hover:bg-[var(--color-accent-700)] shadow-sm shadow-[var(--color-accent-600)]/20 transition-all">
+                  <Button variant="brand" size="lg" className="w-full sm:w-auto px-8 shadow-sm shadow-brand-600/20 transition-all">
                     <Rocket className="w-4 h-4 mr-2" />
                     Start Filing Now
                   </Button>
                 </Link>
                 <Link href="/calculators/income-tax">
-                  <Button variant="outline" size="lg" className="w-full sm:w-auto px-8 rounded-xl h-12 text-[15px] font-semibold border-slate-200 hover:bg-slate-50 text-slate-700 transition-all">
+                  <Button variant="outline" size="lg" className="w-full sm:w-auto px-8 border-slate-200 hover:bg-slate-50 text-slate-700 transition-all">
                     <Calculator className="w-4 h-4 mr-2" />
                     Free Tax Calculator
                   </Button>
@@ -152,73 +172,119 @@ const HomePage = () => {
           </div>
         </section>
 
-        {/* How It Works - Simplified */}
-        <section className="py-12 bg-white border-y">
+        {/* Core Features - Redesigned for Premium Look */}
+        <section className="py-20 bg-white relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent"></div>
           <div className="container mx-auto px-4">
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto mb-16 mt-8">
-              <div className="p-8 rounded-[24px] bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.05)] border border-slate-200/60 hover:shadow-[0_15px_35px_-5px_rgba(0,0,0,0.1)] hover:-translate-y-1 transition-all duration-300 group">
-                <div className="flex flex-col items-start gap-5">
-                  <div className="p-4 rounded-2xl bg-[#eef2ff] text-[#4f46e5] group-hover:scale-110 transition-transform duration-500">
-                    <FastITRFilingLogo className="w-8 h-8" />
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+              {[
+                {
+                  title: "Fastest ITR Filing",
+                  description: "File your ITR in just 4 simple steps with CA review. Get done efficiently with our AI-powered platform.",
+                  icon: FastITRFilingLogo,
+                  bgColor: "bg-indigo-50",
+                  textColor: "text-indigo-600",
+                  borderColor: "border-indigo-100/50",
+                  shadowColor: "shadow-indigo-500/10"
+                },
+                {
+                  title: "Accurate Tax Calculator",
+                  description: "Get precise tax calculations instantly. Compare old vs new regime and maximize your savings.",
+                  icon: AccurateTaxCalculatorLogo,
+                  bgColor: "bg-emerald-50",
+                  textColor: "text-emerald-600",
+                  borderColor: "border-emerald-100/50",
+                  shadowColor: "shadow-emerald-500/10"
+                },
+                {
+                  title: "Smart Document Scanner",
+                  description: "Auto-extract data from Form 16, bank statements, and certificates. No manual typing needed.",
+                  icon: SmartDocumentScannerLogo,
+                  bgColor: "bg-purple-50",
+                  textColor: "text-purple-600",
+                  borderColor: "border-purple-100/50",
+                  shadowColor: "shadow-purple-500/10"
+                },
+                {
+                  title: "Expert Tax Review",
+                  description: "Every return reviewed by certified CAs. Get maximum refund with zero errors guarantee.",
+                  icon: ExpertTaxReviewLogo,
+                  bgColor: "bg-orange-50",
+                  textColor: "text-orange-600",
+                  borderColor: "border-orange-100/50",
+                  shadowColor: "shadow-orange-500/10"
+                }
+              ].map((feature, idx) => (
+                <div 
+                  key={idx} 
+                  className={cn(
+                    "relative p-8 rounded-card bg-white border h-full transition-all duration-500 group cursor-default",
+                    "hover:shadow-[0_20px_50px_-20px_rgba(0,0,0,0.12)] hover:-translate-y-2",
+                    feature.borderColor
+                  )}
+                >
+                  <div className="flex flex-col h-full">
+                    <div className={cn(
+                      "w-16 h-16 rounded-2xl flex items-center justify-center mb-8 transition-all duration-500 group-hover:scale-110 group-hover:rotate-3",
+                      feature.bgColor,
+                      feature.shadowColor,
+                      "shadow-lg"
+                    )}>
+                      <feature.icon className={cn("w-8 h-8", feature.textColor)} />
+                    </div>
+                    
+                    <h3 className="text-[22px] font-bold text-slate-900 tracking-tight leading-snug mb-4 transition-colors group-hover:text-[var(--color-primary-600)]">
+                      {feature.title}
+                    </h3>
+                    
+                    <p className="text-[15px] text-slate-500 leading-relaxed font-medium">
+                      {feature.description}
+                    </p>
+                    
+                    <div className="mt-auto pt-8 flex items-center text-sm font-bold text-slate-400 group-hover:text-[var(--color-primary-600)] transition-colors">
+                      Learn More
+                      <ArrowRight className="w-4 h-4 ml-2 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="text-[20px] font-bold text-slate-900 tracking-tight">Fastest ITR Filing</h3>
-                    <p className="text-[15px] text-slate-500 mt-2 leading-relaxed">File your ITR in just 4 simple steps with CA review. Get done efficiently with our AI-powered platform.</p>
-                  </div>
+                  
+                  {/* Subtle Background Accent */}
+                  <div className={cn(
+                    "absolute -bottom-2 -right-2 w-24 h-24 blur-3xl opacity-0 group-hover:opacity-20 transition-opacity duration-700 pointer-events-none rounded-full",
+                    feature.bgColor
+                  )}></div>
                 </div>
-              </div>
-              <div className="p-8 rounded-[24px] bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.05)] border border-slate-200/60 hover:shadow-[0_15px_35px_-5px_rgba(0,0,0,0.1)] hover:-translate-y-1 transition-all duration-300 group">
-                <div className="flex flex-col items-start gap-5">
-                  <div className="p-4 rounded-2xl bg-[#dcfce7] text-[#15803d] group-hover:scale-110 transition-transform duration-500">
-                    <AccurateTaxCalculatorLogo className="w-8 h-8" />
-                  </div>
-                  <div>
-                    <h3 className="text-[20px] font-bold text-slate-900 tracking-tight">Accurate Tax Calculator</h3>
-                    <p className="text-[15px] text-slate-500 mt-2 leading-relaxed">Get precise tax calculations instantly. Compare old vs new regime and maximize your savings.</p>
-                  </div>
-                </div>
-              </div>
-              <div className="p-8 rounded-[24px] bg-white shadow-sm border border-[var(--color-primary-100)] hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
-                <div className="flex flex-col items-start gap-5">
-                  <div className="p-4 rounded-2xl bg-purple-50 text-purple-600 group-hover:scale-110 transition-transform duration-500">
-                    <SmartDocumentScannerLogo className="w-8 h-8" />
-                  </div>
-                  <div>
-                    <h3 className="text-[20px] font-bold text-[var(--color-primary-900)] tracking-tight">Smart Document Scanner</h3>
-                    <p className="text-[15px] text-[var(--color-primary-500)] mt-2 leading-relaxed">Auto-extract data from Form 16, bank statements, and certificates. No manual typing needed.</p>
-                  </div>
-                </div>
-              </div>
-              <div className="p-8 rounded-[24px] bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.05)] border border-slate-200/60 hover:shadow-[0_15px_35px_-5px_rgba(0,0,0,0.1)] hover:-translate-y-1 transition-all duration-300 group">
-                <div className="flex flex-col items-start gap-5">
-                  <div className="p-4 rounded-2xl bg-[#ffedd5] text-[#c2410c] group-hover:scale-110 transition-transform duration-500">
-                    <ExpertTaxReviewLogo className="w-8 h-8" />
-                  </div>
-                  <div>
-                    <h3 className="text-[20px] font-bold text-slate-900 tracking-tight">Expert Tax Review</h3>
-                    <p className="text-[15px] text-slate-500 mt-2 leading-relaxed">Every return reviewed by certified CAs. Get maximum refund with zero errors guarantee.</p>
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
-            <div className="text-center mb-8">
-              <h2 className="text-2xl lg:text-3xl font-bold text-gray-900">
-                File ITR in 3 Simple Steps
+          </div>
+        </section>
+        {/* How It Works - 3 Simple Steps */}
+        <section className="py-24 bg-slate-50 border-y border-slate-100">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl lg:text-4xl font-extrabold text-slate-900 tracking-tight">
+                File ITR in <span className="text-blue-600">3 Simple Steps</span>
               </h2>
+              <p className="text-slate-500 mt-4 text-lg">Our streamlined process makes tax filing effortless.</p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto relative">
+              {/* Connector Line (Desktop) */}
+              <div className="hidden lg:block absolute top-1/2 left-0 w-full h-px bg-slate-200 -translate-y-1/2 z-0"></div>
+              
               {[
-                { num: "1", title: "Enter Details", desc: "Add your income & deductions", icon: FileText },
-                { num: "2", title: "CA Review", desc: "Expert verification for accuracy", icon: Users },
-                { num: "3", title: "File ITR", desc: "Submit to Income Tax Dept", icon: CheckCircle },
-              ].map((step) => (
-                <div key={step.num} className="text-center p-8 rounded-[24px] bg-slate-50 border border-slate-100 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.02)]">
-                  <div className="w-14 h-14 bg-[#0f172a] text-white rounded-2xl flex items-center justify-center font-bold text-xl mx-auto mb-5 shadow-lg shadow-slate-900/20">
+                { num: "1", title: "Enter Details", desc: "Add your income & deductions", icon: FileText, color: "bg-blue-600 shadow-blue-500/30" },
+                { num: "2", title: "CA Review", desc: "Expert verification for accuracy", icon: Users, color: "bg-indigo-600 shadow-indigo-500/30" },
+                { num: "3", title: "File ITR", desc: "Submit to Income Tax Dept", icon: CheckCircle, color: "bg-emerald-600 shadow-emerald-500/30" },
+              ].map((step, idx) => (
+                <div key={step.num} className="relative z-10 bg-white p-8 rounded-card border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                  <div className={cn(
+                    "w-12 h-12 text-white rounded-2xl flex items-center justify-center font-bold text-xl mb-6 shadow-lg",
+                    step.color
+                  )}>
                     {step.num}
                   </div>
-                  <h3 className="text-[19px] font-bold text-slate-900 mb-2 tracking-tight">{step.title}</h3>
-                  <p className="text-[15px] text-slate-500 leading-relaxed">{step.desc}</p>
+                  <h3 className="text-xl font-bold text-slate-900 mb-3 tracking-tight">{step.title}</h3>
+                  <p className="text-[15px] text-slate-500 leading-relaxed font-medium">{step.desc}</p>
                 </div>
               ))}
             </div>
@@ -252,7 +318,7 @@ const HomePage = () => {
                           <h3 className="text-[19px] font-bold text-slate-900 group-hover:text-[#2563eb] transition-colors tracking-tight">
                             {calc.title}
                           </h3>
-                          <p className="text-[15px] text-slate-500 mt-1">{calc.desc}</p>
+                          <p className="text-sm text-slate-500 mt-1">{calc.desc}</p>
                         </div>
                       </div>
                       <div className="flex items-center text-[#2563eb] text-[15px] font-semibold">
@@ -276,12 +342,12 @@ const HomePage = () => {
                   <div>
                     <div className="flex flex-col sm:flex-row items-center gap-2 mb-1">
                       <h3 className="font-bold text-[22px] text-[var(--color-primary-900)] tracking-tight">AI Tax Assistant</h3>
-                      <span className="px-2 py-0.5 bg-[var(--color-warning-100)] text-[var(--color-warning-700)] text-[10px] font-bold rounded-full uppercase tracking-tighter">BETA</span>
+                      <span className="px-2 py-0.5 bg-[var(--color-warning-100)] text-[var(--color-warning-700)] text-xs font-bold rounded-full uppercase tracking-tighter">BETA</span>
                     </div>
-                    <p className="text-[var(--color-primary-500)] text-[15px]">Instant tax help, Form 16 parser & bank analyzer</p>
+                    <p className="text-[var(--color-primary-500)] text-sm">Instant tax help, Form 16 parser & bank analyzer</p>
                   </div>
                 </div>
-                <Button className="bg-[var(--color-primary-900)] hover:bg-black text-white rounded-xl h-12 px-8 text-[15px] font-semibold transition-all">
+                <Button variant="brand" className="h-12 px-8 transition-all">
                   Try AI Assistant
                   <Sparkles className="w-4 h-4 ml-2" />
                 </Button>
@@ -291,13 +357,17 @@ const HomePage = () => {
           </div>
         </section>
 
-        <Suspense fallback={<SectionFallback />}>
-          <FeaturesSection />
-        </Suspense>
+        <section style={{ contentVisibility: 'auto', containIntrinsicSize: '0 500px' }}>
+          <Suspense fallback={<SectionFallback />}>
+            <FeaturesSection />
+          </Suspense>
+        </section>
 
-        <Suspense fallback={<SectionFallback />}>
-          <PricingSection />
-        </Suspense>
+        <section style={{ contentVisibility: 'auto', containIntrinsicSize: '0 500px' }}>
+          <Suspense fallback={<SectionFallback />}>
+            <PricingSection />
+          </Suspense>
+        </section>
 
         <Suspense fallback={<SectionFallback />}>
           <OtherServicesSection />
@@ -307,9 +377,11 @@ const HomePage = () => {
           <EverythingSection />
         </Suspense>
 
-        <Suspense fallback={<SectionFallback />}>
-          <ProfessionalServicesSection />
-        </Suspense>
+        <section style={{ contentVisibility: 'auto', containIntrinsicSize: '0 500px' }}>
+          <Suspense fallback={<SectionFallback />}>
+            <ProfessionalServicesSection />
+          </Suspense>
+        </section>
 
         {/* Stats Section - Quality signals, no artificial numbers */}
         <section className="py-12 bg-white border-y">
@@ -317,22 +389,24 @@ const HomePage = () => {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center max-w-4xl mx-auto">
               {[
                 { value: "100%", label: "CA-Reviewed Returns" },
-                { value: "4.8 ★", label: "Average Rating" },
-                { value: "\u20B90", label: "To Get Started" },
+                { value: "₹15L+", label: "Tax Saved for Clients" },
+                { value: "950+", label: "ITRs Verified & Filed" },
                 { value: "24 hrs", label: "CA Turnaround Time" },
               ].map((stat) => (
                 <div key={stat.label} className="p-8 rounded-[24px] bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.03)] border border-slate-100 hover:-translate-y-1 transition-transform duration-300">
                   <div className="text-3xl lg:text-4xl font-extrabold text-slate-900 tracking-tight">{stat.value}</div>
-                  <div className="text-slate-500 text-[15px] mt-2 font-medium">{stat.label}</div>
+                  <div className="text-slate-500 text-sm mt-2 font-medium">{stat.label}</div>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        <Suspense fallback={<SectionFallback />}>
-          <Testimonials />
-        </Suspense>
+        <section style={{ contentVisibility: 'auto', containIntrinsicSize: '0 500px' }}>
+          <Suspense fallback={<SectionFallback />}>
+            <Testimonials />
+          </Suspense>
+        </section>
 
         <Suspense fallback={<SectionFallback />}>
           <TrustedBySection />
@@ -346,15 +420,23 @@ const HomePage = () => {
           <GSTNoticeSection />
         </Suspense>
 
+        <Suspense fallback={<SectionFallback />}>
+          <FinancialGlossary />
+        </Suspense>
+
+        <Suspense fallback={<SectionFallback />}>
+          <FeaturedResources />
+        </Suspense>
+
         {/* Final CTA */}
         <section className="py-16 bg-white border-t border-gray-100">
           <div className="container mx-auto px-4 text-center">
-            <div className="max-w-4xl mx-auto p-12 md:p-16 rounded-[32px] bg-white shadow-[0_15px_40px_-10px_rgba(0,0,0,0.08)] border border-slate-200/60 relative overflow-hidden">
+            <div className="max-w-4xl mx-auto p-12 md:p-16 rounded-card bg-white shadow-[0_15px_40px_-10px_rgba(0,0,0,0.08)] border border-slate-200/60 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
               <div className="absolute bottom-0 left-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-3xl -ml-16 -mb-16 pointer-events-none"></div>
               
               <div className="relative z-10">
-                <div className="inline-flex items-center gap-2 bg-blue-50/50 px-5 py-2 rounded-full text-[14px] font-semibold text-[#2563eb] mb-8 border border-blue-100/50">
+                <div className="inline-flex items-center gap-2 bg-blue-50/50 px-5 py-2 rounded-full text-xs font-semibold text-brand-600 mb-8 border border-blue-100/50">
                   <Award className="w-4 h-4" />
                   ERI Registered · CA Verified · Filed via Official IT Portal
                 </div>
@@ -363,19 +445,19 @@ const HomePage = () => {
                   Ready to file your <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Tax Returns?</span>
                 </h2>
 
-                <p className="text-[19px] text-slate-500 mb-10 max-w-2xl mx-auto leading-relaxed">
+                <p className="text-lg text-slate-500 mb-10 max-w-2xl mx-auto leading-relaxed">
                   Start free. A named CA reviews every return. Pay only when satisfied.
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Link href="/auth/register">
-                    <Button size="lg" className="px-8 w-full sm:w-auto rounded-[14px] h-14 text-[16px] font-semibold bg-[#2563eb] hover:bg-blue-700 shadow-lg shadow-blue-500/25 text-white transition-all hover:-translate-y-0.5">
+                    <Button variant="brand" size="xl" className="px-8 w-full sm:w-auto shadow-lg shadow-brand-500/25 transition-all hover:-translate-y-0.5">
                       <Rocket className="mr-2 h-5 w-5" />
                       Start Filing Now
                     </Button>
                   </Link>
                   <Link href="/expert-consultation">
-                    <Button size="lg" variant="outline" className="px-8 w-full sm:w-auto rounded-[14px] h-14 text-[16px] font-semibold border-slate-200 hover:bg-slate-50 text-slate-700 shadow-sm transition-all hover:-translate-y-0.5">
+                    <Button size="xl" variant="outline" className="px-8 w-full sm:w-auto border-slate-200 hover:bg-slate-50 text-slate-700 shadow-sm transition-all hover:-translate-y-0.5">
                       <Phone className="mr-2 h-5 w-5" />
                       Talk to Expert
                     </Button>

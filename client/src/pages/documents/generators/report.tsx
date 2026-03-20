@@ -42,8 +42,8 @@ const FormComponent = ({ register, errors }: any) => {
       </div>
       <h3 className="text-lg font-bold border-b pb-2 mt-6">Financial Metrics Snapshot</h3>
       <div className="grid grid-cols-2 gap-4">
-        <div><Label>Total Revenue For Period (\u20B9)</Label><Input type="number" {...register('revenueAmount', { valueAsNumber: true })} /></div>
-        <div><Label>Total Expenses For Period (\u20B9)</Label><Input type="number" {...register('expenseAmount', { valueAsNumber: true })} /></div>
+        <div><Label>Total Revenue For Period (₹)</Label><Input type="number" {...register('revenueAmount', { valueAsNumber: true })} /></div>
+        <div><Label>Total Expenses For Period (₹)</Label><Input type="number" {...register('expenseAmount', { valueAsNumber: true })} /></div>
       </div>
       <h3 className="text-lg font-bold border-b pb-2 mt-6">Insights & Summary</h3>
       <div className="grid grid-cols-1 gap-4">
@@ -86,17 +86,17 @@ const generateHTML = (data: any) => `
       
       <div style="flex: 1; background-color: #ecfdf5; padding: 20px; border-radius: 8px; border: 1px solid #d1fae5; text-align: center;">
         <span style="display: block; color: #065f46; font-size: 13px; font-weight: bold; text-transform: uppercase;">Total Revenue</span>
-        <span style="display: block; color: #059669; font-size: 24px; font-weight: 800; margin-top: 10px;">\u20B9 ${Number(data.revenueAmount).toLocaleString('en-IN')}</span>
+        <span style="display: block; color: #059669; font-size: 24px; font-weight: 800; margin-top: 10px;">₹ ${Number(data.revenueAmount).toLocaleString('en-IN')}</span>
       </div>
 
       <div style="flex: 1; background-color: #fef2f2; padding: 20px; border-radius: 8px; border: 1px solid #fee2e2; text-align: center;">
         <span style="display: block; color: #991b1b; font-size: 13px; font-weight: bold; text-transform: uppercase;">Total Expenses</span>
-        <span style="display: block; color: #dc2626; font-size: 24px; font-weight: 800; margin-top: 10px;">\u20B9 ${Number(data.expenseAmount).toLocaleString('en-IN')}</span>
+        <span style="display: block; color: #dc2626; font-size: 24px; font-weight: 800; margin-top: 10px;">₹ ${Number(data.expenseAmount).toLocaleString('en-IN')}</span>
       </div>
       
       <div style="flex: 1; background-color: #eff6ff; padding: 20px; border-radius: 8px; border: 1px solid #dbeafe; text-align: center;">
         <span style="display: block; color: #1e40af; font-size: 13px; font-weight: bold; text-transform: uppercase;">Net Income</span>
-        <span style="display: block; color: #2563eb; font-size: 24px; font-weight: 800; margin-top: 10px;">\u20B9 ${(Number(data.revenueAmount) - Number(data.expenseAmount)).toLocaleString('en-IN')}</span>
+        <span style="display: block; color: #2563eb; font-size: 24px; font-weight: 800; margin-top: 10px;">₹ ${(Number(data.revenueAmount) - Number(data.expenseAmount)).toLocaleString('en-IN')}</span>
       </div>
 
     </div>

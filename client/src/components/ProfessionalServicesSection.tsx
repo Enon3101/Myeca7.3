@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -83,7 +83,7 @@ export default function ProfessionalServicesSection() {
     <section id="professional-services" className="py-24 bg-[#fcfcfd]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Services Grid */}
-        <motion.div 
+        <m.div 
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -93,7 +93,7 @@ export default function ProfessionalServicesSection() {
           {services.map((service) => {
             const colors = colorClasses[service.color];
             return (
-              <motion.div key={service.title} variants={itemVariants} className="h-full">
+              <m.div key={service.title} variants={itemVariants} className="h-full">
                 <Card className="flex flex-col h-full bg-white rounded-[24px] shadow-[0_2px_15px_-3px_rgba(0,0,0,0.05)] border border-slate-200/60 hover:shadow-[0_15px_35px_-5px_rgba(0,0,0,0.1)] hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group">
                   <CardContent className="p-8 flex flex-col flex-grow h-full">
                     
@@ -134,10 +134,10 @@ export default function ProfessionalServicesSection() {
 
                   </CardContent>
                 </Card>
-              </motion.div>
+              </m.div>
             );
           })}
-        </motion.div>
+        </m.div>
       </div>
     </section>
   );

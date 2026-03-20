@@ -31,8 +31,8 @@ export const servicesData: ServiceCategory[] = [
       {
         id: "itr-filing-individual",
         name: "ITR Filing for Individuals",
-        price: "\u20B9999",
-        originalPrice: "\u20B91,499",
+        price: "₹999",
+        originalPrice: "₹1,499",
         duration: "24-48 hours",
         description: "Expert CA-assisted ITR filing for salary and other income sources",
         category: "tax-services",
@@ -56,8 +56,8 @@ export const servicesData: ServiceCategory[] = [
       {
         id: "itr-filing-business",
         name: "ITR Filing for Business",
-        price: "\u20B92,999",
-        originalPrice: "\u20B94,999",
+        price: "₹2,999",
+        originalPrice: "₹4,999",
         duration: "3-5 business days",
         description: "Complete ITR filing for businesses with balance sheet and P&L",
         category: "tax-services",
@@ -80,7 +80,7 @@ export const servicesData: ServiceCategory[] = [
       {
         id: "tds-return-filing",
         name: "TDS Return Filing",
-        price: "\u20B91,499",
+        price: "₹1,499",
         duration: "2-3 business days",
         description: "TDS return filing for all quarters with form correction",
         category: "tax-services",
@@ -111,8 +111,8 @@ export const servicesData: ServiceCategory[] = [
       {
         id: "gst-registration",
         name: "GST Registration",
-        price: "\u20B91,999",
-        originalPrice: "\u20B92,999",
+        price: "₹1,999",
+        originalPrice: "₹2,999",
         duration: "7-10 business days",
         description: "Complete GST registration for new businesses and proprietorships",
         category: "gst-services",
@@ -136,7 +136,7 @@ export const servicesData: ServiceCategory[] = [
       {
         id: "gst-return-filing",
         name: "Monthly GST Return Filing",
-        price: "\u20B9799",
+        price: "₹799",
         duration: "Same day filing",
         description: "Complete monthly GST return filing (GSTR-1, GSTR-3B)",
         category: "gst-services",
@@ -159,7 +159,7 @@ export const servicesData: ServiceCategory[] = [
       {
         id: "gst-annual-return",
         name: "GST Annual Return (GSTR-9)",
-        price: "\u20B92,499",
+        price: "₹2,499",
         duration: "5-7 business days", 
         description: "Annual GST return filing with reconciliation and compliance check",
         category: "gst-services",
@@ -190,8 +190,8 @@ export const servicesData: ServiceCategory[] = [
       {
         id: "company-incorporation",
         name: "Private Limited Company",
-        price: "\u20B96,999",
-        originalPrice: "\u20B912,999",
+        price: "₹6,999",
+        originalPrice: "₹12,999",
         duration: "15-20 business days",
         description: "Complete private limited company incorporation with digital signature",
         category: "company-services",
@@ -216,8 +216,8 @@ export const servicesData: ServiceCategory[] = [
       {
         id: "llp-incorporation",
         name: "LLP Incorporation", 
-        price: "\u20B94,999",
-        originalPrice: "\u20B98,999",
+        price: "₹4,999",
+        originalPrice: "₹8,999",
         duration: "12-15 business days",
         description: "Limited Liability Partnership registration with compliance setup",
         category: "company-services",
@@ -241,7 +241,7 @@ export const servicesData: ServiceCategory[] = [
       {
         id: "proprietorship-registration",
         name: "Proprietorship Registration",
-        price: "\u20B92,499",
+        price: "₹2,499",
         duration: "5-7 business days",
         description: "Complete proprietorship registration with trade license",
         category: "company-services", 
@@ -272,8 +272,8 @@ export const servicesData: ServiceCategory[] = [
       {
         id: "trademark-registration",
         name: "Trademark Registration",
-        price: "\u20B94,999",
-        originalPrice: "\u20B97,999", 
+        price: "₹4,999",
+        originalPrice: "₹7,999", 
         duration: "12-18 months",
         description: "Complete trademark registration with search and filing",
         category: "trademark-services",
@@ -297,7 +297,7 @@ export const servicesData: ServiceCategory[] = [
       {
         id: "copyright-registration",
         name: "Copyright Registration",
-        price: "\u20B92,999",
+        price: "₹2,999",
         duration: "4-6 months",
         description: "Copyright registration for creative works and software",
         category: "trademark-services",
@@ -329,7 +329,7 @@ export const servicesData: ServiceCategory[] = [
       {
         id: "roc-annual-filing",
         name: "ROC Annual Filing",
-        price: "\u20B93,499",
+        price: "₹3,499",
         duration: "7-10 business days",
         description: "Annual ROC compliance filing (AOC-4, MGT-7) for companies",
         category: "compliance-services",
@@ -351,7 +351,7 @@ export const servicesData: ServiceCategory[] = [
       {
         id: "pf-esi-registration",
         name: "PF & ESI Registration",
-        price: "\u20B92,999",
+        price: "₹2,999",
         duration: "10-15 business days", 
         description: "Employee Provident Fund and ESI registration for companies",
         category: "compliance-services",
@@ -382,7 +382,7 @@ export const servicesData: ServiceCategory[] = [
       {
         id: "bookkeeping-monthly",
         name: "Monthly Bookkeeping",
-        price: "\u20B92,999",
+        price: "₹2,999",
         duration: "Monthly service",
         description: "Complete monthly bookkeeping and financial reporting",
         category: "accounting-services",
@@ -406,7 +406,7 @@ export const servicesData: ServiceCategory[] = [
       {
         id: "financial-audit",
         name: "Financial Statement Audit",
-        price: "\u20B915,999",
+        price: "₹15,999",
         duration: "15-20 business days",
         description: "Statutory audit of financial statements by qualified CA",
         category: "accounting-services",
@@ -484,7 +484,7 @@ export const serviceTestimonials: ServiceTestimonial[] = [
     name: "Rajesh Kumar",
     location: "Mumbai, Maharashtra", 
     rating: 5,
-    comment: "MyeCA.in made my ITR filing so simple! Their expert CA guidance saved me \u20B915,000 in taxes through proper deductions. Highly professional service.",
+    comment: "MyeCA.in made my ITR filing so simple! Their expert CA guidance saved me ₹15,000 in taxes through proper deductions. Highly professional service.",
     serviceType: "income-tax"
   },
   {

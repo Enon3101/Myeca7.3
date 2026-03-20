@@ -26,7 +26,7 @@ export function CalculatorChart({ data, type, title, height = 300 }: ChartProps)
             <YAxis 
               stroke="#6B7280"
               fontSize={FONT_SIZES.xs}
-              tickFormatter={(value) => `\u20B9${(value / 100000).toFixed(1)}L`}
+              tickFormatter={(value) => `₹${(value / 100000).toFixed(1)}L`}
             />
             <Tooltip 
               formatter={(value: number, name: string) => [formatCurrency(value), name]}
@@ -69,7 +69,7 @@ export function CalculatorChart({ data, type, title, height = 300 }: ChartProps)
             <YAxis 
               stroke="#6B7280"
               fontSize={FONT_SIZES.xs}
-              tickFormatter={(value) => `\u20B9${(value / 100000).toFixed(1)}L`}
+              tickFormatter={(value) => `₹${(value / 100000).toFixed(1)}L`}
             />
             <Tooltip 
               formatter={(value: number, name: string) => [formatCurrency(value), name]}

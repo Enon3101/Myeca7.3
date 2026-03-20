@@ -29,7 +29,7 @@ const faqCategories = {
       },
       {
         question: 'How much does it cost to use MyeCA.in?',
-        answer: 'We offer multiple pricing plans: FREE DIY plan for self-filers with basic features, CA Assisted plan at \u20B91,499 (including taxes) for expert guidance, and Business plan at \u20B92,999 for comprehensive business tax solutions. All plans include access to our tax calculators and basic support.'
+        answer: 'We offer multiple pricing plans: FREE DIY plan for self-filers with basic features, CA Assisted plan at ₹1,499 (including taxes) for expert guidance, and Business plan at ₹2,999 for comprehensive business tax solutions. All plans include access to our tax calculators and basic support.'
       },
       {
         question: 'What documents do I need to file my ITR?',
@@ -47,7 +47,7 @@ const faqCategories = {
     questions: [
       {
         question: 'Which ITR form should I use?',
-        answer: 'ITR form selection depends on your income sources: ITR-1 (Sahaj) for salary/pension up to \u20B950 lakhs, ITR-2 for capital gains and foreign income, ITR-3 for business income, ITR-4 for presumptive taxation. Our form selector tool automatically recommends the right form based on your profile.'
+        answer: 'ITR form selection depends on your income sources: ITR-1 (Sahaj) for salary/pension up to ₹50 lakhs, ITR-2 for capital gains and foreign income, ITR-3 for business income, ITR-4 for presumptive taxation. Our form selector tool automatically recommends the right form based on your profile.'
       },
       {
         question: 'What is the deadline for filing ITR?',
@@ -77,7 +77,7 @@ const faqCategories = {
       },
       {
         question: 'Which tax regime should I choose - Old or New?',
-        answer: 'It depends on your deductions. New regime offers lower tax rates but no deductions except NPS. Old regime allows deductions under 80C, 80D, HRA, etc. Our Tax Regime Calculator compares both and shows exact savings. Generally, if your deductions exceed \u20B92.5 lakhs, old regime is beneficial.'
+        answer: 'It depends on your deductions. New regime offers lower tax rates but no deductions except NPS. Old regime allows deductions under 80C, 80D, HRA, etc. Our Tax Regime Calculator compares both and shows exact savings. Generally, if your deductions exceed ₹2.5 lakhs, old regime is beneficial.'
       },
       {
         question: 'How is HRA exemption calculated?',
@@ -85,11 +85,11 @@ const faqCategories = {
       },
       {
         question: 'What is advance tax and who needs to pay?',
-        answer: 'Advance tax is paying income tax in installments during the financial year instead of lump sum after year-end. Required if tax liability exceeds \u20B910,000. Due dates: 15% by June 15, 45% by Sept 15, 75% by Dec 15, 100% by March 15. Our calculator helps plan installments.'
+        answer: 'Advance tax is paying income tax in installments during the financial year instead of lump sum after year-end. Required if tax liability exceeds ₹10,000. Due dates: 15% by June 15, 45% by Sept 15, 75% by Dec 15, 100% by March 15. Our calculator helps plan installments.'
       },
       {
         question: 'How do I calculate capital gains tax?',
-        answer: 'Capital gains tax depends on asset type and holding period. Equity: STCG (< 1 year) at 20%, LTCG (> 1 year) at 12.5% above \u20B91.25 lakh. Property/Gold: STCG at slab rate, LTCG at 20% with indexation. Our calculator handles all asset types with current rates.'
+        answer: 'Capital gains tax depends on asset type and holding period. Equity: STCG (< 1 year) at 20%, LTCG (> 1 year) at 12.5% above ₹1.25 lakh. Property/Gold: STCG at slab rate, LTCG at 20% with indexation. Our calculator handles all asset types with current rates.'
       }
     ]
   },
@@ -99,7 +99,7 @@ const faqCategories = {
     questions: [
       {
         question: 'What payment methods do you accept?',
-        answer: 'We accept all major payment methods: Credit/Debit cards (Visa, Mastercard, Rupay), Net Banking (all major banks), UPI (Google Pay, PhonePe, Paytm), Wallets (Paytm, Amazon Pay), and EMI options on credit cards for amounts above \u20B93,000.'
+        answer: 'We accept all major payment methods: Credit/Debit cards (Visa, Mastercard, Rupay), Net Banking (all major banks), UPI (Google Pay, PhonePe, Paytm), Wallets (Paytm, Amazon Pay), and EMI options on credit cards for amounts above ₹3,000.'
       },
       {
         question: 'Is there a refund policy?',
@@ -159,15 +159,15 @@ const faqCategories = {
       },
       {
         question: 'What is GST registration and who needs it?',
-        answer: 'GST registration is mandatory if annual turnover exceeds \u20B940 lakhs (\u20B920 lakhs for special states) or \u20B920 lakhs for services (\u20B910 lakhs special states). Also required for inter-state supply, e-commerce sellers, and certain specified businesses. We handle complete registration in 3-7 days.'
+        answer: 'GST registration is mandatory if annual turnover exceeds ₹40 lakhs (₹20 lakhs for special states) or ₹20 lakhs for services (₹10 lakhs special states). Also required for inter-state supply, e-commerce sellers, and certain specified businesses. We handle complete registration in 3-7 days.'
       },
       {
         question: 'Do you provide ongoing compliance support?',
-        answer: 'Yes, we offer annual compliance packages covering: Monthly GST returns, TDS returns, Annual ROC filings, Labour law compliance, Income tax returns, Audit support, and compliance calendar with reminders. Packages start from \u20B99,999/year with dedicated CA support.'
+        answer: 'Yes, we offer annual compliance packages covering: Monthly GST returns, TDS returns, Annual ROC filings, Labour law compliance, Income tax returns, Audit support, and compliance calendar with reminders. Packages start from ₹9,999/year with dedicated CA support.'
       },
       {
         question: 'How much does trademark registration cost?',
-        answer: 'Government fees: \u20B94,500 (online) per class for startups/individuals, \u20B99,000 for others. Our professional fees: \u20B95,999 including trademark search, application filing, and response to objections. Total process takes 8-12 months with regular status updates.'
+        answer: 'Government fees: ₹4,500 (online) per class for startups/individuals, ₹9,000 for others. Our professional fees: ₹5,999 including trademark search, application filing, and response to objections. Total process takes 8-12 months with regular status updates.'
       }
     ]
   }

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -113,7 +113,7 @@ export default function ReportsPage() {
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -121,7 +121,7 @@ export default function ReportsPage() {
         >
           <h1 className="text-4xl font-bold text-gray-900 mb-4">Reports & Analytics</h1>
           <p className="text-xl text-gray-600">Generate detailed reports for tax, compliance, and business insights</p>
-        </motion.div>
+        </m.div>
 
         <Tabs defaultValue="generate" className="space-y-6">
           <TabsList>
@@ -145,7 +145,7 @@ export default function ReportsPage() {
                     const isSelected = selectedTemplate === template.id;
                     
                     return (
-                      <motion.div
+                      <m.div
                         key={template.id}
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
@@ -170,7 +170,7 @@ export default function ReportsPage() {
                             <CardDescription>{template.description}</CardDescription>
                           </CardHeader>
                         </Card>
-                      </motion.div>
+                      </m.div>
                     );
                   })
                 )}
@@ -312,7 +312,7 @@ export default function ReportsPage() {
                   <div className="flex items-center gap-2">
                     <DollarSign className="h-8 w-8 text-green-600" />
                     <div>
-                      <span className="text-2xl font-bold">\u20B92.5L</span>
+                      <span className="text-2xl font-bold">₹2.5L</span>
                       <p className="text-xs text-gray-500">This year</p>
                     </div>
                   </div>

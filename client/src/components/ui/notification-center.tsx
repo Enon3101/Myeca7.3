@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -47,7 +47,7 @@ const mockNotifications: Notification[] = [
     id: "2",
     type: "info",
     title: "New Tax Regime Benefits",
-    message: "Based on your profile, you could save \u20B912,500 by switching to the new tax regime.",
+    message: "Based on your profile, you could save ₹12,500 by switching to the new tax regime.",
     actionLabel: "Compare",
     actionUrl: "/calculators/tax-regime",
     timestamp: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000), // 1 day ago
@@ -69,7 +69,7 @@ const mockNotifications: Notification[] = [
     id: "4",
     type: "reminder",
     title: "Missing Documents",
-    message: "Upload your investment proofs to claim 80C deductions worth up to \u20B91,50,000.",
+    message: "Upload your investment proofs to claim 80C deductions worth up to ₹1,50,000.",
     actionLabel: "Upload",
     actionUrl: "/documents",
     timestamp: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000), // 3 days ago
@@ -158,13 +158,13 @@ export default function NotificationCenter() {
       >
         <Bell className="h-5 w-5" />
         {unreadCount > 0 && (
-          <motion.div
+          <m.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"
           >
             {unreadCount > 9 ? '9+' : unreadCount}
-          </motion.div>
+          </m.div>
         )}
       </Button>
 
@@ -178,7 +178,7 @@ export default function NotificationCenter() {
             />
             
             {/* Notification Panel */}
-            <motion.div
+            <m.div
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
@@ -246,7 +246,7 @@ export default function NotificationCenter() {
                     ) : (
                       <div className="space-y-0">
                         {filteredNotifications.map((notification) => (
-                          <motion.div
+                          <m.div
                             key={notification.id}
                             initial={{ opacity: 0, x: 20 }}
                             animate={{ opacity: 1, x: 0 }}
@@ -309,7 +309,7 @@ export default function NotificationCenter() {
                                 </div>
                               </div>
                             </div>
-                          </motion.div>
+                          </m.div>
                         ))}
                       </div>
                     )}
@@ -325,7 +325,7 @@ export default function NotificationCenter() {
                   </div>
                 )}
               </Card>
-            </motion.div>
+            </m.div>
           </>
         )}
       </AnimatePresence>

@@ -24,7 +24,7 @@ import {
   ChevronRight,
   Sparkles
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { formatCurrency } from "@/lib/utils";
 
 interface DeductionCategory {
@@ -90,8 +90,8 @@ export function TaxOptimizer() {
       icon: <Heart className="h-5 w-5" />,
       description: "Health insurance for self, family & parents",
       suggestions: [
-        "Buy health insurance for yourself (\u20B925,000)",
-        "Add coverage for parents (+\u20B950,000 if senior)",
+        "Buy health insurance for yourself (₹25,000)",
+        "Add coverage for parents (+₹50,000 if senior)",
         "Include preventive health checkup",
         "Consider super top-up plans"
       ],
@@ -106,7 +106,7 @@ export function TaxOptimizer() {
       icon: <Wallet className="h-5 w-5" />,
       description: "Additional NPS contribution beyond 80C",
       suggestions: [
-        "Get extra \u20B950,000 deduction over 80C",
+        "Get extra ₹50,000 deduction over 80C",
         "Tax-free maturity after retirement",
         "Employer contribution also eligible",
         "Low-cost pension fund option"
@@ -122,8 +122,8 @@ export function TaxOptimizer() {
       icon: <Home className="h-5 w-5" />,
       description: "Interest on housing loan for self-occupied property",
       suggestions: [
-        "Claim up to \u20B92 lakh on home loan interest",
-        "Additional \u20B91.5 lakh under 80EEA for first home",
+        "Claim up to ₹2 lakh on home loan interest",
+        "Additional ₹1.5 lakh under 80EEA for first home",
         "Joint home loan doubles the benefit",
         "Rent income set-off available"
       ],
@@ -273,8 +273,8 @@ export function TaxOptimizer() {
                   className="mt-4"
                 />
                 <div className="flex justify-between text-xs text-gray-500">
-                  <span>\u20B93L</span>
-                  <span>\u20B950L</span>
+                  <span>₹3L</span>
+                  <span>₹50L</span>
                 </div>
               </div>
 
@@ -282,9 +282,9 @@ export function TaxOptimizer() {
                 <Label>Age Category</Label>
                 <div className="grid grid-cols-3 gap-2">
                   {[
-                    { value: "below60", label: "Below 60", limit: "\u20B92.5L" },
-                    { value: "60to80", label: "60-80 yrs", limit: "\u20B93L" },
-                    { value: "above80", label: "Above 80", limit: "\u20B95L" },
+                    { value: "below60", label: "Below 60", limit: "₹2.5L" },
+                    { value: "60to80", label: "60-80 yrs", limit: "₹3L" },
+                    { value: "above80", label: "Above 80", limit: "₹5L" },
                   ].map((option) => (
                     <Button
                       key={option.value}
@@ -421,7 +421,7 @@ export function TaxOptimizer() {
                   const percentUsed = (rec.currentAmount / rec.limit) * 100;
                   
                   return (
-                    <motion.div
+                    <m.div
                       key={rec.id}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -483,7 +483,7 @@ export function TaxOptimizer() {
                           </div>
                         </CardContent>
                       </Card>
-                    </motion.div>
+                    </m.div>
                   );
                 })}
               </AnimatePresence>

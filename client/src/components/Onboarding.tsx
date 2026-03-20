@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
@@ -69,7 +69,7 @@ const ONBOARDING_STEPS: OnboardingStep[] = [
       href: '/itr/form-selector'
     },
     tips: [
-      'ITR-1 filing starts at just \u20B9499',
+      'ITR-1 filing starts at just ₹499',
       'Upload Form 16 and we handle the rest',
       'Track your refund status in real-time'
     ]
@@ -136,7 +136,7 @@ export function OnboardingModal() {
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
       <AnimatePresence mode="wait">
-        <motion.div
+        <m.div
           key={currentStep}
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -220,7 +220,7 @@ export function OnboardingModal() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
       </AnimatePresence>
     </div>
   );
@@ -264,13 +264,13 @@ export function OnboardingTrigger() {
         </Button>
         
         {showTooltip && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0, x: 10 }}
             animate={{ opacity: 1, x: 0 }}
             className="absolute right-full mr-2 top-1/2 -translate-y-1/2 whitespace-nowrap bg-gray-900 text-white text-sm px-3 py-1.5 rounded-lg"
           >
             Take a tour
-          </motion.div>
+          </m.div>
         )}
       </div>
     </div>
@@ -287,7 +287,7 @@ export function WelcomeBanner() {
   }
 
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
@@ -317,7 +317,7 @@ export function WelcomeBanner() {
           </button>
         </div>
       </div>
-    </motion.div>
+    </m.div>
   );
 }
 

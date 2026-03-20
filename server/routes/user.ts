@@ -1,39 +1,47 @@
 // User API Routes - User-facing functionality
-import { Router, Request, Response } from 'express';
-import { db } from '../db';
-import { users, taxReturns, documents, userServices } from '@shared/schema';
-import { eq, count } from 'drizzle-orm';
-import { requireAnyAuth } from '../middleware/auth';
+import { Router, Response } from 'express';
+import { adminDb } from '../firebase-admin';
+import { requireAnyAuth, AuthRequest } from '../middleware/auth';
 
 const router = Router();
 
 // Get user dashboard data
-router.get('/user/dashboard', requireAnyAuth, async (req: Request, res: Response) => {
+router.get('/user/dashboard', requireAnyAuth, async (req: AuthRequest, res: Response) => {
   try {
-    const user = (req as any).user;
-    const dbAny = db as any;
+    const user = req.user;
+    if (!user) {
+      return res.status(401).json({ success: false, message: 'User not found in request' });
+    }
     
     // Fetch statistics
-    const [returnsCount] = await dbAny.select({ value: count() }).from(taxReturns).where(eq(taxReturns.profileId, user.id as any));
-    const [docsCount] = await dbAny.select({ value: count() }).from(documents).where(eq(documents.userId, user.id));
+    const returnsSnapshot = await adminDb.collection("tax_returns")
+      .where("profileId", "==", user.id)
+      .get();
+    
+    const docsSnapshot = await adminDb.collection("documents")
+      .where("userId", "==", user.id)
+      .get();
     
     // Fetch active services for this user
-    const activeServices = await dbAny.select().from(userServices).where(eq(userServices.userId, user.id));
+    const servicesSnapshot = await adminDb.collection("user_services")
+      .where("userId", "==", user.id)
+      .get();
+    const activeServices = servicesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     
-    // Fetch recent activity
+    // Fetch recent activity (Mocked for now as we don't have an activity collection yet)
     const recentActivity = [
       { id: 1, action: "Logged in", timestamp: new Date(), type: "auth" },
       { id: 2, action: "Viewed dashboard", timestamp: new Date(), type: "view" }
     ];
 
     // Fetch tax returns
-    const userReturns = await dbAny.select().from(taxReturns).limit(5);
+    const userReturns = returnsSnapshot.docs.slice(0, 5).map(doc => ({ id: doc.id, ...doc.data() }));
 
     res.json({
       success: true,
       stats: {
-        totalReturns: returnsCount?.value || 0,
-        documentsUploaded: docsCount?.value || 0,
+        totalReturns: returnsSnapshot.size,
+        documentsUploaded: docsSnapshot.size,
         pendingTasks: 1,
         savedAmount: 0,
       },
@@ -52,9 +60,9 @@ router.get('/user/dashboard', requireAnyAuth, async (req: Request, res: Response
 });
 
 // Get current user profile
-router.get('/profile', requireAnyAuth, async (req: Request, res: Response) => {
+router.get('/profile', requireAnyAuth, async (req: AuthRequest, res: Response) => {
   try {
-    const user = (req as any).user;
+    const user = req.user;
     const { password, ...safeUser } = user;
     
     res.json({
@@ -72,25 +80,23 @@ router.get('/profile', requireAnyAuth, async (req: Request, res: Response) => {
 });
 
 // Update user profile
-router.put('/profile', requireAnyAuth, async (req: Request, res: Response) => {
+router.put('/profile', requireAnyAuth, async (req: AuthRequest, res: Response) => {
   try {
-    const authUser = (req as any).user;
+    const authUser = req.user;
+    if (!authUser) {
+      return res.status(401).json({ success: false, message: 'Not authenticated' });
+    }
     const { firstName, lastName } = req.body;
     
-    const [updatedUser] = await db.update(users)
-      .set({
-        firstName,
-        lastName,
-        updatedAt: new Date()
-      })
-      .where(eq(users.id, authUser.id))
-      .returning();
+    const userRef = adminDb.collection("users").doc(authUser.id);
+    await userRef.update({
+      firstName,
+      lastName,
+      updatedAt: new Date()
+    });
     
-    if (!updatedUser) {
-      return res.status(404).json({ success: false, message: 'User not found' });
-    }
-    
-    const { password, ...safeUser } = updatedUser;
+    const updatedDoc = await userRef.get();
+    const { password, ...safeUser } = { id: updatedDoc.id, ...updatedDoc.data() as any };
     
     res.json({
       success: true,
@@ -104,6 +110,56 @@ router.put('/profile', requireAnyAuth, async (req: Request, res: Response) => {
       message: 'Failed to update profile.',
       error: error.message
     });
+  }
+});
+
+// Get all user services
+router.get('/user-services', requireAnyAuth, async (req: AuthRequest, res: Response) => {
+  try {
+    const user = req.user;
+    if (!user) return res.status(401).json({ success: false, message: 'Unauthorized' });
+
+    const snapshot = await adminDb.collection("user_services")
+      .where("userId", "==", user.id)
+      .get();
+    
+    const services = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    res.json(services);
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// Create a new user service (Activation)
+router.post('/user-services', requireAnyAuth, async (req: AuthRequest, res: Response) => {
+  try {
+    const user = req.user;
+    if (!user) return res.status(401).json({ success: false, message: 'Unauthorized' });
+
+    const { serviceId, serviceTitle, serviceCategory, paymentAmount, paymentStatus, status, metadata } = req.body;
+
+    const newService = {
+      userId: user.id,
+      serviceId,
+      serviceTitle,
+      serviceCategory,
+      paymentAmount,
+      paymentStatus,
+      status: status || 'pending',
+      metadata: metadata || {},
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+
+    const docRef = await adminDb.collection("user_services").add(newService);
+    
+    res.json({
+      success: true,
+      message: 'Service activated successfully',
+      id: docRef.id
+    });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
   }
 });
 
