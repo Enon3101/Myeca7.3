@@ -4,6 +4,15 @@ import { adminDb } from "../firebase-admin";
 
 const router = Router();
 
+// Role overrides from environment
+const ROLE_OVERRIDES: Record<string, string> = {};
+(process.env.ADMIN_EMAILS || '').split(',').forEach(e => { if (e.trim()) ROLE_OVERRIDES[e.trim().toLowerCase()] = 'admin'; });
+(process.env.TEAM_MEMBER_EMAILS || '').split(',').forEach(e => { if (e.trim()) ROLE_OVERRIDES[e.trim().toLowerCase()] = 'team_member'; });
+function getRoleOverride(email: string | undefined | null): string | null {
+  if (!email) return null;
+  return ROLE_OVERRIDES[email.toLowerCase().trim()] || null;
+}
+
 // Get the current user's local profile
 router.get("/me", requireAuth, async (req: AuthRequest, res: Response) => {
   try {
@@ -20,13 +29,8 @@ router.get("/me", requireAuth, async (req: AuthRequest, res: Response) => {
       const usersSnapshot = await adminDb.collection("users").limit(1).get();
       const isFirstUser = usersSnapshot.empty;
 
-      // Assign roles based on specific emails provided by the user
-      let role = "user";
-      if (auth.email === "cajsuthar@gmail.com") {
-        role = "admin";
-      } else if (auth.email === "jitender.kingofcage.suthar@gmail.com") {
-        role = "team_member";
-      } else if (isFirstUser) {
+      let role = getRoleOverride(auth.email) || "user";
+      if (role === "user" && isFirstUser) {
         role = "admin";
       }
 
@@ -120,13 +124,10 @@ router.post("/sync", requireAuth, async (req: AuthRequest, res: Response) => {
   }
 });
 
-// Temporary endpoint to set specific user roles (should be removed after use)
+// Sync role overrides from env config to database
 router.post("/setup-roles", async (_req, res) => {
   try {
-    const rolesToSet = [
-      { email: "cajsuthar@gmail.com", role: "admin" },
-      { email: "jitender.kingofcage.suthar@gmail.com", role: "team_member" }
-    ];
+    const rolesToSet = Object.entries(ROLE_OVERRIDES).map(([email, role]) => ({ email, role }));
 
     const results = [];
     for (const item of rolesToSet) {

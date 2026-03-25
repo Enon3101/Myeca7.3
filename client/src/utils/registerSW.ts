@@ -73,10 +73,10 @@ export async function registerServiceWorker(config?: ServiceWorkerConfig) {
       config?.onOnline?.();
     });
 
-    // Check for updates periodically (every hour)
+    // Check for updates every 24 hours (avoid unnecessary network traffic)
     setInterval(() => {
-      registration.update().catch(console.error);
-    }, 60 * 60 * 1000);
+      registration.update().catch(() => {});
+    }, 24 * 60 * 60 * 1000);
 
     return registration;
   } catch (error) {

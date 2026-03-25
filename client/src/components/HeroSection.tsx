@@ -7,11 +7,10 @@ import { Link } from "wouter";
 export default function HeroSection() {
   return (
     <section className="relative gradient-hero py-10 overflow-hidden">
-      {/* Enhanced background elements with blue-to-indigo gradient */}
-      <div className="absolute inset-0">
-        <div className="absolute top-10 left-10 w-72 h-72 bg-gradient-to-r from-blue-500/30 to-indigo-600/30 rounded-full filter blur-3xl animate-float"></div>
-        <div className="absolute top-40 right-10 w-96 h-96 bg-gradient-to-r from-indigo-600/25 to-blue-600/25 rounded-full filter blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute -bottom-8 left-20 w-80 h-80 bg-gradient-to-r from-blue-600/30 to-indigo-500/30 rounded-full filter blur-3xl animate-float" style={{ animationDelay: '4s' }}></div>
+      {/* Background blurs — CSS-only for better perf, will-change for GPU compositing */}
+      <div className="absolute inset-0" aria-hidden="true">
+        <div className="absolute top-10 left-10 w-72 h-72 bg-gradient-to-r from-blue-500/20 to-indigo-600/20 rounded-full blur-2xl will-change-transform animate-float"></div>
+        <div className="absolute top-40 right-10 w-96 h-96 bg-gradient-to-r from-indigo-600/15 to-blue-600/15 rounded-full blur-2xl will-change-transform animate-float" style={{ animationDelay: '2s' }}></div>
       </div>
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
         <div className="grid lg:grid-cols-2 gap-8 items-center">

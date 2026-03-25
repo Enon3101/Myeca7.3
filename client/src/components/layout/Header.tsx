@@ -263,7 +263,7 @@ export default function Header() {
                                  { href: "/services/tds-filing", icon: Receipt, title: "TDS Filing", desc: "Quarterly returns & certificates", color: "blue" },
                                  { href: "/services/gst-returns", icon: Calculator, title: "GST Returns", desc: "GSTR-1, 3B & Annual filing", color: "emerald" },
                                  { href: "/services/notice-compliance", icon: Shield, title: "Notice Management", desc: "Expert reply drafting", color: "orange" },
-                                 { href: "/services/reliable-storage", icon: Lock, title: "Secure Vault", desc: "Bank-grade storage", color: "indigo" }
+                                 { href: "/services/document-vault", icon: Lock, title: "Secure Vault", desc: "Bank-grade storage", color: "indigo" }
                                ].map((item, idx) => {
                                  const Icon = item.icon as any;
                                  return (

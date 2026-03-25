@@ -169,7 +169,7 @@ export default function LoginPage() {
                     <div className="space-y-2">
                       <div className="flex items-center justify-between">
                         <Label htmlFor="password" className="text-xs font-black uppercase tracking-widest text-slate-400">Password</Label>
-                        <Link href="/forgot-password" title="Coming soon!" className="text-xs font-bold text-blue-600 hover:text-blue-500 transition-colors">
+                        <Link href="/forgot-password" className="text-xs font-bold text-blue-600 hover:text-blue-500 transition-colors">
                           Forgot password?
                         </Link>
                       </div>
@@ -291,9 +291,9 @@ export default function LoginPage() {
       <div className="mt-8 text-center px-4">
         <p className="text-xs text-slate-500 font-medium">
           By continuing, you agree to our{" "}
-          <Link href="/terms" className="underline hover:text-slate-700">Terms of Service</Link>
+          <Link href="/legal/terms-of-service" className="underline hover:text-slate-700">Terms of Service</Link>
           {" "}and{" "}
-          <Link href="/privacy" className="underline hover:text-slate-700">Privacy Policy</Link>.
+          <Link href="/legal/privacy-policy" className="underline hover:text-slate-700">Privacy Policy</Link>.
         </p>
       </div>
     </div>

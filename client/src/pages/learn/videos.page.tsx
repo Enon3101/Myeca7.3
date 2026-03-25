@@ -228,7 +228,7 @@ export default function VideoTutorialsPage() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div id="all" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Category Filters */}
         <div className="flex flex-wrap gap-2 mb-8">
           <Button

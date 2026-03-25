@@ -207,9 +207,9 @@ export default function RegisterPage() {
       <div className="mt-8 text-center px-4">
         <p className="text-xs text-slate-500 font-medium">
           By signing up, you agree to our{" "}
-          <Link href="/terms" className="underline hover:text-slate-700">Terms of Service</Link>
+          <Link href="/legal/terms-of-service" className="underline hover:text-slate-700">Terms of Service</Link>
           {" "}and{" "}
-          <Link href="/privacy" className="underline hover:text-slate-700">Privacy Policy</Link>.
+          <Link href="/legal/privacy-policy" className="underline hover:text-slate-700">Privacy Policy</Link>.
         </p>
       </div>
     </div>

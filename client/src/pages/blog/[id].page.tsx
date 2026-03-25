@@ -377,7 +377,7 @@ export default function BlogPostPage() {
             </CardHeader>
             <CardContent>
               <div className="grid md:grid-cols-2 gap-4">
-                <Link href="/blog/2" className="group">
+                <Link href="/blog/step-by-step-guide-filing-itr1-online-2025" className="group">
                   <div className="p-4 border rounded-lg hover:shadow-md transition-shadow">
                     <h4 className="font-semibold text-gray-900 group-hover:text-blue-600 mb-2">
                       Step-by-Step Guide to Filing ITR-1 Online in 2025
@@ -391,7 +391,7 @@ export default function BlogPostPage() {
                     </div>
                   </div>
                 </Link>
-                <Link href="/blog/3" className="group">
+                <Link href="/blog/budget-2025-key-changes-income-tax" className="group">
                   <div className="p-4 border rounded-lg hover:shadow-md transition-shadow">
                     <h4 className="font-semibold text-gray-900 group-hover:text-blue-600 mb-2">
                       Budget 2025: Key Changes in Income Tax

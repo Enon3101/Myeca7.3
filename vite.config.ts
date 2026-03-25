@@ -1,12 +1,10 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
-import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 
 export default defineConfig({
   plugins: [
     react(),
-    // runtimeErrorOverlay(),
   ],
   resolve: {
     alias: {
@@ -17,24 +15,34 @@ export default defineConfig({
   },
   root: path.resolve(process.cwd(), "client"),
   esbuild: {
-    // Keep debuggability in dev; trim noisy constructs in production builds
-    drop: process.env.NODE_ENV === "production" ? ["debugger"] : [],
+    // Strip console.log and debugger in production
+    drop: process.env.NODE_ENV === "production" ? ["console", "debugger"] : [],
   },
   build: {
     outDir: path.resolve(process.cwd(), "dist/public"),
     emptyOutDir: true,
     cssCodeSplit: true,
     sourcemap: false,
-    reportCompressedSize: true,
-    chunkSizeWarningLimit: 1500,
+    reportCompressedSize: false, // Faster CI builds
+    chunkSizeWarningLimit: 500, // Catch bloated chunks early
     rollupOptions: {
       output: {
         manualChunks: {
           vendor: ["react", "react-dom", "wouter", "@tanstack/react-query"],
           motion: ["framer-motion"],
           icons: ["lucide-react"],
-          ui: ["@radix-ui/react-tooltip", "@radix-ui/react-dropdown-menu", "@radix-ui/react-navigation-menu", "@radix-ui/react-dialog"],
+          ui: [
+            "@radix-ui/react-tooltip",
+            "@radix-ui/react-dropdown-menu",
+            "@radix-ui/react-navigation-menu",
+            "@radix-ui/react-dialog",
+            "@radix-ui/react-popover",
+            "@radix-ui/react-select",
+            "@radix-ui/react-tabs",
+          ],
           charts: ["recharts"],
+          firebase: ["firebase/app", "firebase/auth", "firebase/firestore"],
+          forms: ["react-hook-form", "@hookform/resolvers", "zod"],
         },
       },
     },

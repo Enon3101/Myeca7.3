@@ -9,6 +9,16 @@ export interface AuthRequest extends Request {
   };
 }
 
+// Role overrides loaded from environment — no hardcoded emails in source
+const ROLE_OVERRIDES: Record<string, string> = {};
+(process.env.ADMIN_EMAILS || '').split(',').forEach(e => { if (e.trim()) ROLE_OVERRIDES[e.trim().toLowerCase()] = 'admin'; });
+(process.env.TEAM_MEMBER_EMAILS || '').split(',').forEach(e => { if (e.trim()) ROLE_OVERRIDES[e.trim().toLowerCase()] = 'team_member'; });
+
+function getRoleOverride(email: string | undefined | null): string | null {
+  if (!email) return null;
+  return ROLE_OVERRIDES[email.toLowerCase().trim()] || null;
+}
+
 /**
  * Verifies the Firebase ID token in the Authorization header
  */
@@ -62,13 +72,8 @@ export function requireRole(allowedRoles: string[]) {
         const usersSnapshot = await adminDb.collection("users").limit(1).get();
         const isFirstUser = usersSnapshot.empty;
         
-        let role = "user";
-        const userEmail = auth.email?.toLowerCase().trim();
-        if (userEmail === "cajsuthar@gmail.com") {
-          role = "admin";
-        } else if (userEmail === "jitender.kingofcage.suthar@gmail.com") {
-          role = "team_member";
-        } else if (isFirstUser) {
+        let role = getRoleOverride(auth.email) || "user";
+        if (role === "user" && isFirstUser) {
           role = "admin";
         }
 
@@ -93,21 +98,12 @@ export function requireRole(allowedRoles: string[]) {
 
       let localUser = userDoc.exists ? userDoc.data() : null;
       
-      const userEmail = auth.email?.toLowerCase().trim();
-      
-      // Hardcoded overrides for specific users to ensure they always have access
-      if (userEmail === "cajsuthar@gmail.com") {
-        if (!localUser || localUser.role !== 'admin') {
-           const update = { role: 'admin', updatedAt: new Date() };
-           await adminDb.collection("users").doc(auth.userId).set(update, { merge: true });
-           localUser = { ...(localUser || {}), ...update };
-        }
-      } else if (userEmail === "jitender.kingofcage.suthar@gmail.com") {
-        if (!localUser || localUser.role !== 'team_member') {
-           const update = { role: 'team_member', updatedAt: new Date() };
-           await adminDb.collection("users").doc(auth.userId).set(update, { merge: true });
-           localUser = { ...(localUser || {}), ...update };
-        }
+      // Apply role overrides from environment config
+      const roleOverride = getRoleOverride(auth.email);
+      if (roleOverride && (!localUser || localUser.role !== roleOverride)) {
+        const update = { role: roleOverride, updatedAt: new Date() };
+        await adminDb.collection("users").doc(auth.userId).set(update, { merge: true });
+        localUser = { ...(localUser || {}), ...update };
       }
 
       if (!localUser || !allowedRoles.includes(localUser.role)) {

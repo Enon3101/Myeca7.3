@@ -2,6 +2,40 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/components/AuthProvider";
 import { cn } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
+
+interface DashboardStats {
+  totalReturns: number;
+  documentsUploaded: number;
+  pendingTasks: number;
+  savedAmount: number;
+}
+
+interface ActivityItem {
+  id: string;
+  type: string;
+  description: string;
+  date: string;
+}
+
+interface TaxReturnItem {
+  id: string;
+  assessmentYear: string;
+  status: string;
+  itrType: string;
+}
+
+interface ActiveService {
+  id: string;
+  name: string;
+  status: string;
+}
+
+interface DashboardData {
+  stats: DashboardStats;
+  recentActivity: ActivityItem[];
+  taxReturns: TaxReturnItem[];
+  activeServices: ActiveService[];
+}
 import { Link } from "wouter";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -70,16 +104,17 @@ export default function UserDashboard() {
     enabled: isAuthenticated,
   });
 
-  const stats = (dashboardData as any)?.stats || {
+  const typedData = dashboardData as DashboardData | undefined;
+  const stats: DashboardStats = typedData?.stats || {
     totalReturns: 0,
     documentsUploaded: 0,
     pendingTasks: 0,
     savedAmount: 0,
   };
-  const recentActivity = (dashboardData as any)?.recentActivity || [];
-  const taxReturns = (dashboardData as any)?.taxReturns || [];
-  const apiActiveServices = (dashboardData as any)?.activeServices || [];
-  const [mockServices, setMockServices] = useState<any[]>([]);
+  const recentActivity: ActivityItem[] = typedData?.recentActivity || [];
+  const taxReturns: TaxReturnItem[] = typedData?.taxReturns || [];
+  const apiActiveServices: ActiveService[] = typedData?.activeServices || [];
+  const [mockServices, setMockServices] = useState<ActiveService[]>([]);
   const [activeTab, setActiveTab] = useState("overview");
 
   useEffect(() => {

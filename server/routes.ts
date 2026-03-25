@@ -23,9 +23,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
   const httpServer = createServer(app);
 
   // --- Technical & SEO Assets (Top Priority) ---
-  
-  // Dynamic Sitemap Generation
+
+  // Sitemap cache: regenerate at most once per 24 hours
+  let sitemapCache: { xml: string; generatedAt: number } | null = null;
+  const SITEMAP_TTL = 24 * 60 * 60 * 1000; // 24 hours
+
+  // Dynamic Sitemap Generation (cached)
   app.get("/sitemap.xml", async (_req: Request, res: Response) => {
+    // Return cached sitemap if still valid
+    if (sitemapCache && Date.now() - sitemapCache.generatedAt < SITEMAP_TTL) {
+      res.setHeader('Content-Type', 'application/xml');
+      res.setHeader('Cache-Control', 'public, max-age=86400');
+      return res.status(200).send(sitemapCache.xml);
+    }
+
     let posts: any[] = [];
     try {
       if (adminDb) {
@@ -76,8 +87,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   }).join('')}
 </urlset>`;
 
+      const trimmedSitemap = sitemap.trim();
+      sitemapCache = { xml: trimmedSitemap, generatedAt: Date.now() };
       res.setHeader('Content-Type', 'application/xml');
-      res.status(200).send(sitemap.trim());
+      res.setHeader('Cache-Control', 'public, max-age=86400');
+      res.status(200).send(trimmedSitemap);
     } catch (error: any) {
       console.error("[SITEMAP] Final error:", error.message);
       res.status(500).send("Error generating sitemap");

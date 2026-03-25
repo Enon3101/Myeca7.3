@@ -9,6 +9,7 @@ import { useAnalyticsInitialization, usePageTracking } from '@/hooks/use-analyti
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { AccessibilityProvider } from "@/components/accessibility/AccessibilityProvider";
 import { Suspense, lazy } from 'react';
+import ErrorBoundary from '@/components/ErrorBoundary';
 import { useRoutePreload } from '@/hooks/use-route-preload';
 import { PageSkeleton } from '@/components/ui/page-skeleton';
 import Header from "@/components/layout/Header";
@@ -155,26 +156,34 @@ function AppContent() {
           <ProdOnlyComponents />
         </Suspense>
       )}
-      <Suspense fallback={null}>
-        <GlobalSearch isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
-      </Suspense>
+      <ErrorBoundary fallback={null}>
+        <Suspense fallback={null}>
+          <GlobalSearch isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
+        </Suspense>
+      </ErrorBoundary>
 
-      <Suspense fallback={null}>
-        <UnifiedFAB
-          onChatbotOpen={() => setIsChatbotOpen(true)}
-          isChatbotOpen={isChatbotOpen}
-        />
-      </Suspense>
+      <ErrorBoundary fallback={null}>
+        <Suspense fallback={null}>
+          <UnifiedFAB
+            onChatbotOpen={() => setIsChatbotOpen(true)}
+            isChatbotOpen={isChatbotOpen}
+          />
+        </Suspense>
+      </ErrorBoundary>
 
       {isChatbotOpen && (
-        <Suspense fallback={null}>
-          <TaxChatbotWidget isOpen={isChatbotOpen} onClose={() => setIsChatbotOpen(false)} />
-        </Suspense>
+        <ErrorBoundary fallback={null}>
+          <Suspense fallback={null}>
+            <TaxChatbotWidget isOpen={isChatbotOpen} onClose={() => setIsChatbotOpen(false)} />
+          </Suspense>
+        </ErrorBoundary>
       )}
 
-      <Suspense fallback={null}>
-        <KeyboardShortcutsModal isOpen={isShortcutsOpen} onClose={() => setIsShortcutsOpen(false)} />
-      </Suspense>
+      <ErrorBoundary fallback={null}>
+        <Suspense fallback={null}>
+          <KeyboardShortcutsModal isOpen={isShortcutsOpen} onClose={() => setIsShortcutsOpen(false)} />
+        </Suspense>
+      </ErrorBoundary>
 
       <SessionWarningModal
         isOpen={showWarning}

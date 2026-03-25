@@ -49,7 +49,7 @@ export default function HeaderNew() {
         { href: '/itr/form-selector', label: 'My ITR', icon: FileText },
         { href: '/documents', label: 'Documents', icon: FileText },
         { href: '/services', label: 'Services', icon: Briefcase },
-        { href: '/support', label: 'Support', icon: HelpCircle },
+        { href: '/help', label: 'Support', icon: HelpCircle },
       ];
     } else {
       return [

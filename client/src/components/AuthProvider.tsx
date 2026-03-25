@@ -5,6 +5,18 @@ import { auth, db } from "@/lib/firebase";
 import { type User as AppUser } from "@shared/schema";
 import { logLogin, logAuditEvent } from "@/lib/audit";
 
+// Role overrides loaded from env — no hardcoded emails in source
+const ROLE_OVERRIDES: Record<string, string> = {};
+const adminEmails = import.meta.env.VITE_ADMIN_EMAILS?.split(',') || [];
+const teamEmails = import.meta.env.VITE_TEAM_MEMBER_EMAILS?.split(',') || [];
+adminEmails.forEach((e: string) => { if (e.trim()) ROLE_OVERRIDES[e.trim().toLowerCase()] = 'admin'; });
+teamEmails.forEach((e: string) => { if (e.trim()) ROLE_OVERRIDES[e.trim().toLowerCase()] = 'team_member'; });
+
+function getRoleOverride(email: string | null | undefined): string | null {
+  if (!email) return null;
+  return ROLE_OVERRIDES[email.toLowerCase().trim()] || null;
+}
+
 interface AuthContextType {
   user: AppUser | null;
   firebaseUser: FirebaseUser | null;
@@ -28,32 +40,34 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    // Auto-refresh token before expiry using Firebase's onIdTokenChanged
+    const { onIdTokenChanged } = require("firebase/auth");
+    const unsubscribeToken = onIdTokenChanged(auth, async (user: FirebaseUser | null) => {
+      if (user) {
+        const token = await user.getIdToken();
+        sessionStorage.setItem("token", token);
+      } else {
+        sessionStorage.removeItem("token");
+      }
+    });
+
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setFirebaseUser(user);
-      
+
       if (user) {
-        // Save ID token to localStorage for queryClient
+        // Save ID token to sessionStorage (safer than localStorage — cleared on tab close)
         const token = await user.getIdToken();
-        localStorage.setItem("token", token);
+        sessionStorage.setItem("token", token);
         
         try {
           // Fetch additional user data including role from Firestore
           const userDoc = await getDoc(doc(db, "users", user.uid));
           if (userDoc.exists()) {
             const userData = userDoc.data();
-            let role = userData.role || 'user';
-            
-            if (user.email === 'cajsuthar@gmail.com') role = 'admin';
-            if (user.email === 'jitender.kingofcage.suthar@gmail.com') role = 'team_member';
+            let role = getRoleOverride(user.email) || userData.role || 'user';
 
             let firstName = userData.firstName || '';
             let lastName = userData.lastName || '';
-            
-            // Name override for super admin
-            if (user.email === 'cajsuthar@gmail.com' && (!firstName || firstName === 'User')) {
-              firstName = 'Jitender';
-              lastName = 'Suthar';
-            }
 
             setAppUser({
               id: user.uid,
@@ -75,9 +89,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             } as AppUser);
           } else {
             // New user or doc not found, set basic info
-            let role = 'user';
-            if (user.email === 'cajsuthar@gmail.com') role = 'admin';
-            if (user.email === 'jitender.kingofcage.suthar@gmail.com') role = 'team_member';
+            let role = getRoleOverride(user.email) || 'user';
 
             setAppUser({
               id: user.uid,
@@ -97,12 +109,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
       } else {
         setAppUser(null);
-        localStorage.removeItem("token");
+        sessionStorage.removeItem("token");
       }
       setIsLoading(false);
     });
 
-    return () => unsubscribe();
+    return () => {
+      unsubscribe();
+      unsubscribeToken();
+    };
   }, []);
 
   const login = async (email: string, password: string) => {
