@@ -134,21 +134,17 @@ export default function BlogPostPage() {
 
   const post = postData;
 
-  const { data: allPostsData } = useQuery({
-    queryKey: ["public-blogs"],
+  const { data: relatedPostsData } = useQuery({
+    queryKey: ["public-blog-related", slug],
     queryFn: async () => {
-      const res = await fetch("/api/public/blogs");
+      const res = await fetch(`/api/public/blogs/${slug}/related`);
       if (!res.ok) return { posts: [] };
       return await res.json() as { posts: any[] };
     },
     enabled: !!post,
   });
 
-  const relatedPosts = allPostsData?.posts
-    ? allPostsData.posts
-      .filter((p: any) => p.slug !== slug && p.category === post?.category)
-      .slice(0, 3)
-    : [];
+  const relatedPosts = relatedPostsData?.posts || [];
 
   useEffect(() => {
     if (post && contentRef.current) {

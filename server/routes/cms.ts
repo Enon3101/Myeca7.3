@@ -110,16 +110,45 @@ router.get("/posts/:id", requireAuth, requireTeamMember, async (req: AuthRequest
   }
 });
 
+// Helper: resolve denormalized author/category names for blog_posts
+async function resolveDenormalizedFields(authorId?: string, categoryId?: number | null) {
+  let authorName: string | undefined;
+  let categoryName: string | undefined;
+
+  if (authorId) {
+    const authorDoc = await adminDb.collection("users").doc(authorId).get();
+    if (authorDoc.exists) {
+      const d = authorDoc.data()!;
+      authorName = [d.firstName, d.lastName].filter(Boolean).join(" ") || "Team MyeCA";
+    }
+  }
+  if (categoryId != null) {
+    const catSnapshot = await adminDb.collection("categories")
+      .where("id", "==", categoryId)
+      .limit(1)
+      .get();
+    if (!catSnapshot.empty) {
+      categoryName = catSnapshot.docs[0].data().name;
+    }
+  }
+  return { authorName, categoryName };
+}
+
 // Create post
 router.post("/posts", requireAuth, requireTeamMember, sanitize, async (req: AuthRequest, res: Response) => {
   try {
     const payload = createPostSchema.parse(req.body);
     const authUser = req.auth;
 
+    // Denormalize author/category names into the document
+    const { authorName, categoryName } = await resolveDenormalizedFields(authUser?.userId, payload.categoryId);
+
     const postRef = adminDb.collection("blog_posts").doc();
     const newPost = {
       ...payload,
       authorId: authUser?.userId,
+      authorName: authorName || "Team MyeCA",
+      categoryName: categoryName || "General",
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -145,13 +174,23 @@ router.put("/posts/:id", requireAuth, requireTeamMember, sanitize, async (req: A
     const doc = await postRef.get();
     if (!doc.exists) return res.status(404).json({ error: "Post not found" });
 
+    const existingData = doc.data()!;
+
+    // Re-denormalize if category changed
+    const denorm: Record<string, string> = {};
+    if (payload.categoryId !== undefined && payload.categoryId !== existingData.categoryId) {
+      const { categoryName } = await resolveDenormalizedFields(undefined, payload.categoryId);
+      if (categoryName) denorm.categoryName = categoryName;
+    }
+
     const updateData = {
       ...payload,
+      ...denorm,
       updatedAt: new Date(),
     };
 
     await postRef.update(updateData);
-    res.json({ success: true, post: { id, ...doc.data(), ...updateData } });
+    res.json({ success: true, post: { id, ...existingData, ...updateData } });
   } catch (error) {
     if (error instanceof z.ZodError) {
       return res.status(400).json({ error: error.errors[0].message });
