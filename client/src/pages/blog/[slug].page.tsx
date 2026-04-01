@@ -10,6 +10,7 @@ import { Loader2 } from "lucide-react";
 import MetaSEO from "@/components/seo/MetaSEO";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
+import { blogPosts as staticBlogPosts } from "@/data/blogPosts";
 
 interface TocItem {
   id: string;
@@ -123,32 +124,43 @@ export default function BlogPostPage() {
     queryKey: ["public-blog", slug],
     queryFn: async () => {
       const res = await fetch(`/api/public/blogs/${slug}`);
-      if (!res.ok) {
-        if (res.status === 404) return null;
-        throw new Error("Failed to fetch blog post");
+      const contentType = res.headers.get("content-type") || "";
+      if (!res.ok || !contentType.includes("application/json")) {
+        return null;
       }
       const data = await res.json() as { post: any };
       return data.post;
     },
   });
 
-  const post = postData;
+  // Fall back to static blog data if API is unavailable
+  const staticPost = staticBlogPosts.find(p => p.slug === slug);
+  const post = postData || (staticPost ? {
+    ...staticPost,
+    author: typeof staticPost.author === "string"
+      ? { firstName: staticPost.author.split(" ").slice(0, -1).join(" "), lastName: staticPost.author.split(" ").slice(-1)[0] }
+      : staticPost.author,
+    featuredImage: staticPost.image,
+  } : null);
 
   const { data: allPostsData } = useQuery({
     queryKey: ["public-blogs"],
     queryFn: async () => {
       const res = await fetch("/api/public/blogs");
-      if (!res.ok) return { posts: [] };
+      const contentType = res.headers.get("content-type") || "";
+      if (!res.ok || !contentType.includes("application/json")) return { posts: [] };
       return await res.json() as { posts: any[] };
     },
     enabled: !!post,
   });
 
-  const relatedPosts = allPostsData?.posts
-    ? allPostsData.posts
-      .filter((p: any) => p.slug !== slug && p.category === post?.category)
-      .slice(0, 3)
-    : [];
+  const apiRelated = allPostsData?.posts || [];
+  const staticRelated = staticBlogPosts
+    .filter(p => p.slug !== slug && p.category === post?.category)
+    .map(p => ({ ...p, author: typeof p.author === "string" ? { firstName: p.author.split(" ").slice(0, -1).join(" "), lastName: p.author.split(" ").slice(-1)[0] } : p.author, featuredImage: p.image }));
+  const relatedPosts = (apiRelated.length > 0 ? apiRelated : staticRelated)
+    .filter((p: any) => p.slug !== slug && p.category === post?.category)
+    .slice(0, 3);
 
   useEffect(() => {
     if (post && contentRef.current) {

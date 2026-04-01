@@ -11,6 +11,7 @@ import { SectionHeader } from "@/components/ui/section-header";
 import { Loader2 } from "lucide-react";
 import MetaSEO from "@/components/seo/MetaSEO";
 import { cn } from "@/lib/utils";
+import { blogPosts as staticBlogPosts } from "@/data/blogPosts";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -41,7 +42,10 @@ export default function BlogPage() {
     queryKey: ["public-blogs"],
     queryFn: async () => {
       const res = await fetch("/api/public/blogs");
-      if (!res.ok) throw new Error("Failed to fetch blogs");
+      const contentType = res.headers.get("content-type") || "";
+      if (!res.ok || !contentType.includes("application/json")) {
+        return { posts: [] };
+      }
       return await res.json() as { posts: any[] };
     },
   });
@@ -50,12 +54,23 @@ export default function BlogPage() {
     queryKey: ["public-categories"],
     queryFn: async () => {
       const res = await fetch("/api/public/categories");
-      if (!res.ok) throw new Error("Failed to fetch categories");
+      const contentType = res.headers.get("content-type") || "";
+      if (!res.ok || !contentType.includes("application/json")) {
+        return { categories: [] };
+      }
       return await res.json() as { categories: any[] };
     },
   });
 
-  const dbPosts = postsData?.posts || [];
+  // Use API data if available, otherwise fall back to static blog posts
+  const apiPosts = postsData?.posts || [];
+  const dbPosts = apiPosts.length > 0 ? apiPosts : staticBlogPosts.map(post => ({
+    ...post,
+    author: typeof post.author === "string"
+      ? { firstName: post.author.split(" ").slice(0, -1).join(" "), lastName: post.author.split(" ").slice(-1)[0] }
+      : post.author,
+    featuredImage: post.image,
+  }));
   const dbCategories = ["All", "Direct Tax", "GST", "New", "Updates", "Others"];
 
   const filteredPosts = useMemo(() => {
