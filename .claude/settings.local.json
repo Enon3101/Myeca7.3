@@ -7,7 +7,8 @@
       "Bash(curl -s http://localhost:5000/api/health)",
       "Bash(gh pr:*)",
       "Bash(where gh:*)",
-      "Bash(winget list:*)"
+      "Bash(winget list:*)",
+      "mcp__Claude_Preview__preview_start"
     ]
   }
 }
