@@ -1,16 +1,23 @@
 import { Router, Response } from "express";
 import { z } from "zod";
-import { requireAuth, requireAdmin, requireTeamMember, AuthRequest } from "../middleware/auth";
+import { requireAuth, requireTeamMember, AuthRequest } from "../middleware/auth";
 import { adminDb } from "../firebase-admin";
 import { sanitize } from "../middleware/sanitize";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
 import sharp from "sharp";
+import { blogPostEditorSchema, blogPostUpdateSchema, slugifyHeading } from "@shared/blog";
+import {
+  buildBlogPostWriteData,
+  getBlogPostById,
+  getCategoryLookup,
+  listAllBlogPosts,
+} from "../services/blog";
+import { clearPublicBlogCache } from "./public";
 
 const router = Router();
 
-// Configure multer storage
 const multerStorage = multer.diskStorage({
   destination: function (_req, _file, cb) {
     const uploadDir = "public/uploads/blog";
@@ -25,9 +32,9 @@ const multerStorage = multer.diskStorage({
   },
 });
 
-const upload = multer({ 
+const upload = multer({
   storage: multerStorage,
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+  limits: { fileSize: 5 * 1024 * 1024 },
   fileFilter: (_req, file, cb) => {
     const allowedTypes = ["image/jpeg", "image/png", "image/webp", "image/gif"];
     if (allowedTypes.includes(file.mimetype)) {
@@ -35,97 +42,110 @@ const upload = multer({
     } else {
       cb(new Error("Only images are allowed"));
     }
-  }
+  },
 });
 
-// Validation schemas
-const createPostSchema = z.object({
+const createCategorySchema = z.object({
+  name: z.string().min(2).max(100),
+  slug: z.string().min(2).max(100).optional(),
+  description: z.string().optional().nullable(),
+});
+
+const createDailyUpdateSchema = z.object({
   title: z.string().min(3).max(200),
-  slug: z.string().min(3).max(200),
-  content: z.string().min(1),
-  excerpt: z.string().optional(),
-  status: z.enum(["draft", "published"]).default("draft"),
-  tags: z.array(z.string()).optional(),
-  featuredImage: z.string().optional().nullable(),
-  categoryId: z.number().optional().nullable(),
+  description: z.string().min(1),
+  priority: z.enum(["LOW", "MEDIUM", "HIGH", "CRITICAL"]).default("MEDIUM"),
+  isActive: z.boolean().default(true),
+  expiresAt: z.preprocess((arg) => {
+    if (typeof arg === "string" || arg instanceof Date) return new Date(arg);
+  }, z.date()).optional(),
 });
 
-const updatePostSchema = createPostSchema.partial();
+const updateDailyUpdateSchema = createDailyUpdateSchema.partial();
 
-// List posts with filters
 router.get("/posts", requireAuth, requireTeamMember, async (req: AuthRequest, res: Response) => {
   try {
-    const { q, status } = req.query as { q?: string; status?: string };
-    
-    // Fetch all posts to allow in-memory filtering and sorting without composite indexes
-    const snapshot = await adminDb.collection("blog_posts").get();
-    let posts = snapshot.docs.map((doc: any) => {
-      const data = doc.data();
-      return { 
-        id: doc.id, 
-        ...data,
-        createdAt: data.createdAt?.toDate ? data.createdAt.toDate() : (data.createdAt || new Date()),
-        updatedAt: data.updatedAt?.toDate ? data.updatedAt.toDate() : (data.updatedAt || new Date())
-      };
-    });
+    const { q, status, categoryId } = req.query as { q?: string; status?: string; categoryId?: string };
+    let posts = await listAllBlogPosts();
 
-    // Apply status filter
     if (status && (status === "draft" || status === "published")) {
-      posts = posts.filter((p: any) => p.status === status);
+      posts = posts.filter((post) => post.status === status);
     }
 
-    // Apply search filter
+    if (categoryId && categoryId !== "all") {
+      posts = posts.filter((post) => post.categoryId === categoryId);
+    }
+
     if (q) {
-      const qLower = q.toLowerCase();
-      posts = posts.filter((p: any) =>
-        (p.title?.toLowerCase() || "").includes(qLower) ||
-        (p.slug?.toLowerCase() || "").includes(qLower)
+      const query = q.toLowerCase();
+      posts = posts.filter((post) =>
+        [post.title, post.slug, post.excerpt ?? "", post.authorName]
+          .join(" ")
+          .toLowerCase()
+          .includes(query),
       );
     }
 
-    // Sort by createdAt descending
-    posts.sort((a: any, b: any) => {
-      const dateA = a.createdAt?.toDate?.() || new Date(a.createdAt || 0);
-      const dateB = b.createdAt?.toDate?.() || new Date(b.createdAt || 0);
-      return dateB.getTime() - dateA.getTime();
+    posts.sort((left, right) => {
+      const leftUpdated = left.updatedAt ? new Date(left.updatedAt).getTime() : 0;
+      const rightUpdated = right.updatedAt ? new Date(right.updatedAt).getTime() : 0;
+      return rightUpdated - leftUpdated;
     });
 
-    res.json({ success: true, posts });
+    res.json({
+      success: true,
+      posts: posts.map((post) => ({
+        id: post.id,
+        title: post.title,
+        slug: post.slug,
+        excerpt: post.excerpt,
+        status: post.status,
+        categoryId: post.categoryId,
+        category: post.category,
+        coverImage: post.coverImage,
+        authorName: post.authorName,
+        authorRole: post.authorRole,
+        readingTimeMinutes: post.readingTimeMinutes,
+        isFeatured: post.isFeatured,
+        publishedAt: post.publishedAt,
+        updatedAt: post.updatedAt,
+        createdAt: post.createdAt,
+        tags: post.tags,
+      })),
+    });
   } catch (error) {
     console.error("CMS list posts error:", error);
     res.status(500).json({ error: "Failed to fetch posts" });
   }
 });
 
-// Get single post
 router.get("/posts/:id", requireAuth, requireTeamMember, async (req: AuthRequest, res: Response) => {
   try {
-    const { id } = req.params;
-    const doc = await adminDb.collection("blog_posts").doc(id).get();
-    if (!doc.exists) return res.status(404).json({ error: "Post not found" });
-    res.json({ success: true, post: { id: doc.id, ...doc.data() } });
+    const post = await getBlogPostById(req.params.id);
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+
+    res.json({ success: true, post });
   } catch (error) {
     console.error("CMS get post error:", error);
     res.status(500).json({ error: "Failed to fetch post" });
   }
 });
 
-// Create post
 router.post("/posts", requireAuth, requireTeamMember, sanitize, async (req: AuthRequest, res: Response) => {
   try {
-    const payload = createPostSchema.parse(req.body);
-    const authUser = req.auth;
-
+    const payload = blogPostEditorSchema.parse(req.body);
     const postRef = adminDb.collection("blog_posts").doc();
-    const newPost = {
-      ...payload,
-      authorId: authUser?.userId,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
+    const writeData = await buildBlogPostWriteData(payload, {
+      authUserId: req.auth?.userId ?? null,
+    });
 
-    await postRef.set(newPost);
-    res.json({ success: true, post: { id: postRef.id, ...newPost } });
+    await postRef.set(writeData);
+    clearPublicBlogCache();
+
+    const saved = await getBlogPostById(postRef.id);
+    res.json({ success: true, post: saved });
   } catch (error) {
     if (error instanceof z.ZodError) {
       return res.status(400).json({ error: error.errors[0].message });
@@ -135,23 +155,45 @@ router.post("/posts", requireAuth, requireTeamMember, sanitize, async (req: Auth
   }
 });
 
-// Update post
 router.put("/posts/:id", requireAuth, requireTeamMember, sanitize, async (req: AuthRequest, res: Response) => {
   try {
-    const { id } = req.params;
-    const payload = updatePostSchema.parse(req.body);
+    const payload = blogPostUpdateSchema.parse(req.body);
+    const existing = await getBlogPostById(req.params.id);
+    if (!existing) {
+      return res.status(404).json({ error: "Post not found" });
+    }
 
-    const postRef = adminDb.collection("blog_posts").doc(id);
-    const doc = await postRef.get();
-    if (!doc.exists) return res.status(404).json({ error: "Post not found" });
-
-    const updateData = {
+    const mergedPayload = {
+      ...existing,
       ...payload,
-      updatedAt: new Date(),
+      categoryId: payload.categoryId ?? existing.categoryId,
+      tags: payload.tags ?? existing.tags,
+      keyHighlights: payload.keyHighlights ?? existing.keyHighlights,
+      faqItems: payload.faqItems ?? existing.faqItems,
+      relatedPostIds: payload.relatedPostIds ?? existing.relatedPostIds,
+      coverImage: payload.coverImage ?? existing.coverImage,
+      authorId: payload.authorId ?? existing.authorId,
+      authorName: payload.authorName ?? existing.authorName,
+      authorRole: payload.authorRole ?? existing.authorRole,
+      authorBio: payload.authorBio ?? existing.authorBio,
+      seoTitle: payload.seoTitle ?? existing.seoTitle,
+      seoDescription: payload.seoDescription ?? existing.seoDescription,
+      ctaLabel: payload.ctaLabel ?? existing.ctaLabel,
+      ctaHref: payload.ctaHref ?? existing.ctaHref,
+      readingTimeMinutes: payload.readingTimeMinutes ?? existing.readingTimeMinutes,
+      publishedAt: payload.publishedAt ?? existing.publishedAt,
     };
 
-    await postRef.update(updateData);
-    res.json({ success: true, post: { id, ...doc.data(), ...updateData } });
+    const writeData = await buildBlogPostWriteData(blogPostEditorSchema.parse(mergedPayload), {
+      authUserId: req.auth?.userId ?? null,
+      existing,
+    });
+
+    await adminDb.collection("blog_posts").doc(req.params.id).set(writeData, { merge: true });
+    clearPublicBlogCache();
+
+    const saved = await getBlogPostById(req.params.id);
+    res.json({ success: true, post: saved });
   } catch (error) {
     if (error instanceof z.ZodError) {
       return res.status(400).json({ error: error.errors[0].message });
@@ -161,15 +203,15 @@ router.put("/posts/:id", requireAuth, requireTeamMember, sanitize, async (req: A
   }
 });
 
-// Delete post
 router.delete("/posts/:id", requireAuth, requireTeamMember, async (req: AuthRequest, res: Response) => {
   try {
-    const { id } = req.params;
-    const postRef = adminDb.collection("blog_posts").doc(id);
-    const doc = await postRef.get();
-    if (!doc.exists) return res.status(404).json({ error: "Post not found" });
+    const existing = await getBlogPostById(req.params.id);
+    if (!existing) {
+      return res.status(404).json({ error: "Post not found" });
+    }
 
-    await postRef.delete();
+    await adminDb.collection("blog_posts").doc(req.params.id).delete();
+    clearPublicBlogCache();
     res.json({ success: true });
   } catch (error) {
     console.error("CMS delete post error:", error);
@@ -177,11 +219,10 @@ router.delete("/posts/:id", requireAuth, requireTeamMember, async (req: AuthRequ
   }
 });
 
-// --- Upload ---
 router.post("/upload", requireAuth, requireTeamMember, upload.single("image"), async (req: AuthRequest, res: Response) => {
   try {
     if (!req.file) return res.status(400).json({ error: "No file uploaded" });
-    
+
     const filePath = req.file.path;
     const fileName = req.file.filename;
     const uploadDir = path.dirname(filePath);
@@ -192,27 +233,20 @@ router.post("/upload", requireAuth, requireTeamMember, upload.single("image"), a
       fs.mkdirSync(thumbDir, { recursive: true });
     }
 
-    // Process image: Compress original and create thumbnail
-    const image = sharp(filePath);
-    
-    // New filename with WebP extension
-    const webpFileName = fileName.replace(path.extname(fileName), '.webp');
+    const webpFileName = fileName.replace(path.extname(fileName), ".webp");
     const webpPath = path.join(uploadDir, webpFileName);
 
-    // 1. Generate Thumbnail
     await sharp(filePath)
-      .resize(300, 300, { fit: 'inside', withoutEnlargement: true })
+      .resize(300, 300, { fit: "inside", withoutEnlargement: true })
       .webp({ quality: 70 })
-      .toFile(thumbPath.replace(path.extname(thumbPath), '.webp'));
+      .toFile(thumbPath.replace(path.extname(thumbPath), ".webp"));
 
-    // 2. Convert Original to WebP
     await sharp(filePath)
-      .resize(1920, null, { fit: 'inside', withoutEnlargement: true })
+      .resize(1920, null, { fit: "inside", withoutEnlargement: true })
       .webp({ quality: 80, effort: 6 })
       .toFile(webpPath);
 
-    // Clean up original uploaded file if it wasn't already webp
-    if (path.extname(filePath).toLowerCase() !== '.webp') {
+    if (path.extname(filePath).toLowerCase() !== ".webp") {
       try {
         fs.unlinkSync(filePath);
       } catch (err) {
@@ -223,10 +257,10 @@ router.post("/upload", requireAuth, requireTeamMember, upload.single("image"), a
     const publicUrl = `/uploads/blog/${webpFileName}`;
     const thumbUrl = `/uploads/blog/thumbnails/${webpFileName}`;
 
-    res.json({ 
-      success: true, 
+    res.json({
+      success: true,
       url: publicUrl,
-      thumbnailUrl: thumbUrl
+      thumbnailUrl: thumbUrl,
     });
   } catch (error: any) {
     console.error("CMS upload error:", error);
@@ -234,26 +268,25 @@ router.post("/upload", requireAuth, requireTeamMember, upload.single("image"), a
   }
 });
 
-// --- Media ---
 router.get("/media", requireAuth, requireTeamMember, async (_req: AuthRequest, res: Response) => {
   try {
     const uploadDir = "public/uploads/blog";
     if (!fs.existsSync(uploadDir)) {
       return res.json({ success: true, files: [] });
     }
-    
+
     const files = fs.readdirSync(uploadDir)
-      .filter(file => /\.(webp)$/i.test(file)) // Only WebP after refactor
-      .map(file => {
+      .filter((file) => /\.(webp)$/i.test(file))
+      .map((file) => {
         const stats = fs.statSync(path.join(uploadDir, file));
         return {
           name: file,
           url: `/uploads/blog/${file}`,
-          thumbnailUrl: fs.existsSync(path.join(uploadDir, "thumbnails", file)) 
+          thumbnailUrl: fs.existsSync(path.join(uploadDir, "thumbnails", file))
             ? `/uploads/blog/thumbnails/${file}`
             : `/uploads/blog/${file}`,
           size: stats.size,
-          mtime: stats.mtime
+          mtime: stats.mtime,
         };
       })
       .sort((a, b) => b.mtime.getTime() - a.mtime.getTime());
@@ -265,17 +298,13 @@ router.get("/media", requireAuth, requireTeamMember, async (_req: AuthRequest, r
   }
 });
 
-// --- Categories ---
-const createCategorySchema = z.object({
-  name: z.string().min(2).max(100),
-  slug: z.string().min(2).max(100),
-});
-
-router.get("/categories", requireAuth, requireTeamMember, async (req: AuthRequest, res: Response) => {
+router.get("/categories", requireAuth, requireTeamMember, async (_req: AuthRequest, res: Response) => {
   try {
-    const snapshot = await adminDb.collection("categories").orderBy("name").get();
-    const allCategories = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    res.json({ success: true, categories: allCategories });
+    const lookup = await getCategoryLookup();
+    res.json({
+      success: true,
+      categories: Array.from(lookup.byId.values()).sort((left, right) => left.name.localeCompare(right.name)),
+    });
   } catch (error) {
     console.error("CMS list categories error:", error);
     res.status(500).json({ error: "Failed to fetch categories" });
@@ -285,32 +314,32 @@ router.get("/categories", requireAuth, requireTeamMember, async (req: AuthReques
 router.post("/categories", requireAuth, requireTeamMember, sanitize, async (req: AuthRequest, res: Response) => {
   try {
     const payload = createCategorySchema.parse(req.body);
-    const catRef = adminDb.collection("categories").doc();
-    await catRef.set(payload);
-    res.json({ success: true, category: { id: catRef.id, ...payload } });
+    const categoryRef = adminDb.collection("categories").doc();
+    const category = {
+      name: payload.name.trim(),
+      slug: payload.slug?.trim() || slugifyHeading(payload.name),
+      description: payload.description?.trim() || null,
+    };
+
+    await categoryRef.set(category);
+    clearPublicBlogCache();
+    res.json({
+      success: true,
+      category: { id: categoryRef.id, ...category },
+    });
   } catch (error) {
-    if (error instanceof z.ZodError) return res.status(400).json({ error: error.errors[0].message });
+    if (error instanceof z.ZodError) {
+      return res.status(400).json({ error: error.errors[0].message });
+    }
     console.error("CMS create category error:", error);
     res.status(500).json({ error: "Failed to create category" });
   }
 });
 
-// --- Daily Updates ---
-const createDailyUpdateSchema = z.object({
-  title: z.string().min(3).max(200),
-  description: z.string().min(1),
-  priority: z.enum(["LOW", "MEDIUM", "HIGH", "CRITICAL"]).default("MEDIUM"),
-  isActive: z.boolean().default(true),
-  expiresAt: z.preprocess((arg) => {
-    if (typeof arg === "string" || arg instanceof Date) return new Date(arg);
-  }, z.date()).optional(),
-});
-const updateDailyUpdateSchema = createDailyUpdateSchema.partial();
-
-router.get("/updates", requireAuth, requireTeamMember, async (req: AuthRequest, res: Response) => {
+router.get("/updates", requireAuth, requireTeamMember, async (_req: AuthRequest, res: Response) => {
   try {
     const snapshot = await adminDb.collection("daily_updates").orderBy("createdAt", "desc").get();
-    const allUpdates = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    const allUpdates = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     res.json({ success: true, updates: allUpdates });
   } catch (error) {
     console.error("CMS list updates error:", error);
@@ -337,14 +366,13 @@ router.post("/updates", requireAuth, requireTeamMember, sanitize, async (req: Au
 
 router.put("/updates/:id", requireAuth, requireTeamMember, sanitize, async (req: AuthRequest, res: Response) => {
   try {
-    const { id } = req.params;
     const payload = updateDailyUpdateSchema.parse(req.body);
-    const updateRef = adminDb.collection("daily_updates").doc(id);
+    const updateRef = adminDb.collection("daily_updates").doc(req.params.id);
     const doc = await updateRef.get();
     if (!doc.exists) return res.status(404).json({ error: "Update not found" });
 
     await updateRef.update(payload);
-    res.json({ success: true, update: { id, ...doc.data(), ...payload } });
+    res.json({ success: true, update: { id: req.params.id, ...doc.data(), ...payload } });
   } catch (error) {
     if (error instanceof z.ZodError) return res.status(400).json({ error: error.errors[0].message });
     console.error("CMS update update error:", error);
@@ -354,8 +382,7 @@ router.put("/updates/:id", requireAuth, requireTeamMember, sanitize, async (req:
 
 router.delete("/updates/:id", requireAuth, requireTeamMember, async (req: AuthRequest, res: Response) => {
   try {
-    const { id } = req.params;
-    await adminDb.collection("daily_updates").doc(id).delete();
+    await adminDb.collection("daily_updates").doc(req.params.id).delete();
     res.json({ success: true });
   } catch (error) {
     console.error("CMS delete update error:", error);
