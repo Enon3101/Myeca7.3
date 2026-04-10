@@ -14,8 +14,10 @@ export default defineConfig({
       "@shared": path.resolve(process.cwd(), "shared"),
       "@assets": path.resolve(process.cwd(), "attached_assets"),
     },
+    dedupe: ["react", "react-dom"],
   },
   root: path.resolve(process.cwd(), "client"),
+  envDir: path.resolve(process.cwd()),
   esbuild: {
     // Keep debuggability in dev; trim noisy constructs in production builds
     drop: process.env.NODE_ENV === "production" ? ["debugger"] : [],
