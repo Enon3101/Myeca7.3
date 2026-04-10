@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -A 5 \"new Map\\\\|new Set\\\\|WeakMap\\\\|cache\" /c/Users/jitsu/Desktop/Myeca7.3/.claude/worktrees/dazzling-noether/server/services/*)",
+      "Bash(find /c/Users/jitsu/Desktop/Myeca7.3/.claude/worktrees/dazzling-noether -name *.test.* -o -name *.spec.*)",
+      "Bash(node -e \":*)",
+      "Bash(curl -s http://localhost:5000/api/health)",
+      "Bash(gh pr:*)",
+      "Bash(where gh:*)",
+      "Bash(winget list:*)"
+    ]
+  }
+}
