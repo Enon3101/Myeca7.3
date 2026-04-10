@@ -73,23 +73,23 @@ export default function Footer() {
               <div>
                 <h4 className="text-xs font-semibold text-slate-800 mb-3">Connect With Us</h4>
                 <div className="flex gap-2">
-                  <a href="https://facebook.com/myeca" target="_blank" rel="noopener noreferrer" 
+                  <a href="https://facebook.com/myeca" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Facebook"
                      className="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center hover:bg-blue-600 hover:text-white transform hover:scale-105 transition-all duration-200 text-slate-600">
                     <Facebook className="h-4 w-4" />
                   </a>
-                  <a href="https://twitter.com/myeca" target="_blank" rel="noopener noreferrer"
+                  <a href="https://twitter.com/myeca" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Twitter"
                      className="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center hover:bg-sky-500 hover:text-white transform hover:scale-105 transition-all duration-200 text-slate-600">
                     <Twitter className="h-4 w-4" />
                   </a>
-                  <a href="https://linkedin.com/company/myeca" target="_blank" rel="noopener noreferrer"
+                  <a href="https://linkedin.com/company/myeca" target="_blank" rel="noopener noreferrer" aria-label="Follow us on LinkedIn"
                      className="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center hover:bg-blue-700 hover:text-white transform hover:scale-105 transition-all duration-200 text-slate-600">
                     <Linkedin className="h-4 w-4" />
                   </a>
-                  <a href="https://instagram.com/myeca.in" target="_blank" rel="noopener noreferrer"
+                  <a href="https://instagram.com/myeca.in" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Instagram"
                      className="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 hover:text-white transform hover:scale-105 transition-all duration-200 text-slate-600">
                     <Instagram className="h-4 w-4" />
                   </a>
-                  <a href="https://youtube.com/@myeca" target="_blank" rel="noopener noreferrer"
+                  <a href="https://youtube.com/@myeca" target="_blank" rel="noopener noreferrer" aria-label="Subscribe on YouTube"
                      className="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center hover:bg-red-600 hover:text-white transform hover:scale-105 transition-all duration-200 text-slate-600">
                     <Youtube className="h-4 w-4" />
                   </a>

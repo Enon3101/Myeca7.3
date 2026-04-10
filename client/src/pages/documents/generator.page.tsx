@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { sanitizeHTML } from '@/lib/sanitize';
 import MetaSEO from "@/components/seo/MetaSEO";
 import { useRoute, useLocation } from 'wouter';
 import { useForm } from 'react-hook-form';
@@ -486,7 +487,7 @@ export default function DocumentGenerator() {
                 }}
               >
                 <div
-                  dangerouslySetInnerHTML={{ __html: config.generateHTML(formData) }}
+                  dangerouslySetInnerHTML={{ __html: sanitizeHTML(config.generateHTML(formData)) }}
                   className="prose prose-sm max-w-none text-gray-900"
                 />
               </div>

@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { sanitizeHTML } from '@/lib/sanitize';
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient } from "@/lib/queryClient";
 import { apiRequest } from "@/lib/queryClient";
@@ -89,7 +90,7 @@ const RichTextEditor = ({
   // Sync value to editor only if it's different and not active
   useEffect(() => {
     if (editorRef.current && editorRef.current.innerHTML !== value) {
-      editorRef.current.innerHTML = value;
+      editorRef.current.innerHTML = sanitizeHTML(value);
     }
   }, [value]);
 
@@ -101,7 +102,7 @@ const RichTextEditor = ({
   const execCommand = (command: string, value?: string) => {
     document.execCommand(command, false, value);
     if (editorRef.current) {
-      onChange(editorRef.current.innerHTML);
+      onChange(sanitizeHTML(editorRef.current.innerHTML));
     }
   };
 
@@ -165,10 +166,10 @@ const RichTextEditor = ({
 
           {toolbarButtons.map((button, index) => (
             button.separator ? (
-              <div key={index} className="h-4 w-px bg-slate-200 mx-1" />
+              <div key={`sep-${index}`} className="h-4 w-px bg-slate-200 mx-1" />
             ) : (
               <Button
-                key={index}
+                key={button.command || `btn-${index}`}
                 type="button"
                 variant="ghost"
                 size="sm"
@@ -194,7 +195,7 @@ const RichTextEditor = ({
       <div
         ref={editorRef}
         contentEditable
-        onInput={(e) => onChange((e.target as HTMLDivElement).innerHTML)}
+        onInput={(e) => onChange(sanitizeHTML((e.target as HTMLDivElement).innerHTML))}
         placeholder={placeholder}
         className="flex-1 p-0 focus:outline-none prose prose-slate max-w-none 
           prose-p:text-[18px] prose-p:text-slate-800/90 prose-p:leading-[1.8] prose-p:font-medium prose-p:tracking-tight
@@ -440,7 +441,7 @@ const BlogForm = ({ post, categories, onSubmit, onCancel }: { post?: any, catego
                            prose-p:text-[18px] prose-p:text-slate-800/90 prose-p:leading-[1.8] prose-p:font-medium prose-p:tracking-tight
                            prose-headings:font-black prose-headings:text-slate-900
                            prose-strong:text-slate-900 prose-strong:font-black"
-                         dangerouslySetInnerHTML={{ __html: formData.content }} 
+                         dangerouslySetInnerHTML={{ __html: sanitizeHTML(formData.content) }}
                        />
                        
                        <div className="mt-16 pt-12 border-t border-slate-100 flex flex-wrap gap-2 text-[10px] font-black text-slate-300 uppercase tracking-widest">

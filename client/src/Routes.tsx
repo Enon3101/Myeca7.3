@@ -88,6 +88,7 @@ const ContactPage = lazyWithRetry(() => import("@/pages/contact.page"));
 const AboutPage = lazyWithRetry(() => import("@/pages/about.page"));
 const LoginPage = lazyWithRetry(() => import("@/pages/auth/login.page"));
 const RegisterPage = lazyWithRetry(() => import("@/pages/auth/register.page"));
+const ForgotPasswordPage = lazyWithRetry(() => import("@/pages/auth/forgot-password.page"));
 const AdminLoginPage = lazyWithRetry(() => import("@/pages/auth/admin-login.page"));
 const UserDashboard = lazyWithRetry(() => import("@/pages/user-dashboard.page"));
 const AccountSettingsPage = lazyWithRetry(() => import("@/pages/settings/account.page"));
@@ -251,6 +252,7 @@ export default function Routes() {
         <Route path="/auth/admin-login" component={AdminLoginPage} />
         <Route path="/auth/register" component={RegisterPage} />
         <Route path="/register" component={RegisterPage} />
+        <Route path="/forgot-password" component={ForgotPasswordPage} />
         <Route path="/auth/callback" component={RoleBasedRedirect} />
         <Route path="/dashboard" component={() => <RequireAuth><UserDashboard /></RequireAuth>} />
         <Route path="/profile" component={() => <RequireAuth><ProfilePage /></RequireAuth>} />
@@ -339,6 +341,14 @@ export default function Routes() {
             <AdminSettings />
           </RequireAdmin>
         )} />
+        <Route path="/admin/audit-logs" component={() => {
+          const AuditLogsPage = lazyWithRetry(() => import("@/pages/admin/audit-logs.page"));
+          return (
+            <RequireAdmin>
+              <AuditLogsPage />
+            </RequireAdmin>
+          )
+        }} />
         {/* CA Routes */}
         <Route path="/ca/dashboard" component={() => (
           <RequireRole roles={['admin', 'ca']}>

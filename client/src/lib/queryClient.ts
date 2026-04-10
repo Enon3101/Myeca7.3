@@ -14,7 +14,7 @@ export async function apiRequest(
     body?: string;
   }
 ): Promise<Response> {
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
   const mockRole = localStorage.getItem("mock_role") || "user";
   const headers: HeadersInit = {
     "x-mock-role": mockRole
@@ -46,7 +46,7 @@ export const getQueryFn: <T>(options: {
 }) => QueryFunction<T> =
   ({ on401: unauthorizedBehavior }) =>
   async ({ queryKey }) => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     const mockRole = localStorage.getItem("mock_role") || "user";
     const headers: HeadersInit = {
       "x-mock-role": mockRole

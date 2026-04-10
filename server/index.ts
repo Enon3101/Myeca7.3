@@ -1,71 +1,100 @@
 import "dotenv/config";
+import { validateEnv } from "./lib/env-validation";
+validateEnv();
+
 import express from "express";
 import cors from "cors";
-import helmet from "helmet";
 import compress from "compression";
-import fs from "fs";
 import path from "path";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import { customSecurityHeaders, securityHeaders } from "./middleware/security";
+import { globalErrorHandler } from "./middleware/error-handler";
+import { generalRateLimit } from "./middleware/rateLimiting";
 
 const app = express();
-// Triggering server restart for technical asset fixes...
-
-app.use(helmet({
-  contentSecurityPolicy: false,
-  crossOriginEmbedderPolicy: false
-}));
-
-const ALLOWED_ORIGINS = [
+const allowedOrigins: (string | RegExp)[] = [
   "https://myeca.in",
   "https://www.myeca.in",
-  // Allow any localhost port in development
   ...(process.env.NODE_ENV !== "production"
-    ? [/^http:\/\/localhost(:\d+)?$/]
+    ? [/^http:\/\/localhost(:\d+)?$/, /^http:\/\/127\.0\.0\.1(:\d+)?$/]
     : []),
 ];
 
-app.use(cors({
-  origin: (origin, callback) => {
-    // Allow requests with no origin (mobile apps, curl, server-to-server)
-    if (!origin) return callback(null, true);
-    const allowed = ALLOWED_ORIGINS.some(o =>
-      typeof o === "string" ? o === origin : o.test(origin)
-    );
-    if (allowed) return callback(null, true);
-    callback(new Error(`CORS: origin '${origin}' not allowed`));
-  },
-  credentials: true,
-}));
+app.use(compress());
+app.use(securityHeaders);
+app.use(customSecurityHeaders);
 
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true, limit: '10mb' }));
-app.use('/uploads', express.static('public/uploads'));
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin) {
+        return callback(null, true);
+      }
+
+      const allowed = allowedOrigins.some((entry) =>
+        typeof entry === "string" ? entry === origin : entry.test(origin),
+      );
+
+      if (allowed) {
+        return callback(null, true);
+      }
+
+      return callback(new Error(`CORS: origin '${origin}' not allowed`));
+    },
+    credentials: true,
+  }),
+);
+
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ extended: true, limit: "10mb" }));
+app.use("/api", generalRateLimit);
+app.use(
+  "/uploads/blog",
+  express.static(path.join(process.cwd(), "public/uploads/blog"), {
+    maxAge: "7d",
+    etag: true,
+    fallthrough: false,
+  }),
+);
+
+app.use("/api", (req, res, next) => {
+  if (req.method === "GET" && (req.path.startsWith("/public") || req.path.startsWith("/cms"))) {
+    res.set("Cache-Control", "public, max-age=300, stale-while-revalidate=600");
+  } else if (req.method === "GET") {
+    res.set("Cache-Control", "private, no-cache");
+  } else {
+    res.set("Cache-Control", "no-store");
+  }
+  next();
+});
+
+app.use("/api", (req, res, next) => {
+  if (["GET", "HEAD", "OPTIONS"].includes(req.method)) {
+    return next();
+  }
+
+  const origin = req.get("origin");
+  if (process.env.NODE_ENV === "production" && origin) {
+    const allowed = allowedOrigins.some((entry) =>
+      typeof entry === "string" ? entry === origin : entry.test(origin),
+    );
+
+    if (!allowed) {
+      return res.status(403).json({ error: "CSRF validation failed" });
+    }
+  }
+
+  next();
+});
 
 app.use((req, res, next) => {
   const start = Date.now();
-  const path = req.path;
-  let capturedJsonResponse: Record<string, unknown> | undefined = undefined;
-
-  const originalResJson = res.json;
-  res.json = function (bodyJson, ...args) {
-    capturedJsonResponse = bodyJson;
-    return originalResJson.apply(res, [bodyJson, ...args]);
-  };
 
   res.on("finish", () => {
     const duration = Date.now() - start;
-    if (path.startsWith("/api")) {
-      let logLine = `${req.method} ${path} ${res.statusCode} in ${duration}ms`;
-      if (capturedJsonResponse) {
-        logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
-      }
-
-      if (logLine.length > 80) {
-        logLine = logLine.slice(0, 79) + "...";
-      }
-
-      console.log(logLine);
+    if (req.path.startsWith("/api") && (res.statusCode >= 400 || duration > 1000)) {
+      console.log(`${req.method} ${req.path} ${res.statusCode} in ${duration}ms`);
     }
   });
 
@@ -74,14 +103,7 @@ app.use((req, res, next) => {
 
 (async () => {
   const server = await registerRoutes(app);
-
-  app.use((err: unknown, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
-    const status = (err as { status?: number }).status || (err as { statusCode?: number }).statusCode || 500;
-    const message = (err as { message?: string }).message || "Internal Server Error";
-
-    res.status(status).json({ message });
-    console.error(err);
-  });
+  app.use(globalErrorHandler);
 
   if (app.get("env") === "development") {
     await setupVite(app, server);

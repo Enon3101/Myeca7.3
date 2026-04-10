@@ -217,7 +217,7 @@ export default function ExpertProfilePage() {
                     "New GST Compliance Changes for April 2025",
                     "A Founder's Guide to Equity Structuring in India"
                   ].map((article) => (
-                    <Link key={article} href="#">
+                    <Link key={article} href="/blog">
                       <div className="p-6 rounded-2xl border border-slate-200 hover:border-blue-300 hover:shadow-lg transition-all flex justify-between items-center group cursor-pointer bg-white">
                         <span className="font-bold text-slate-700">{article}</span>
                         <ArrowRight className="w-5 h-5 text-blue-500 transform group-hover:translate-x-1 transition-transform" />
